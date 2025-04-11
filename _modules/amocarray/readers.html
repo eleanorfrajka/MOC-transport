@@ -90,6 +90,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ftplib</span><span class="w"> </span><span class="kn">import</span> <span class="n">FTP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
 <span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
@@ -99,24 +102,40 @@
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.download_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Download a file from a URL to a destination folder.</span>
+<span class="sd">    Download a file from HTTP(S) or FTP to the specified destination folder.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    url (str): The URL of the file to download.</span>
-<span class="sd">    dest_folder (str): The folder where the file will be saved.</span>
+<span class="sd">        url (str): The URL of the file to download.</span>
+<span class="sd">        dest_folder (str): Local folder to save the downloaded file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    str: The path to the downloaded file.</span>
+<span class="sd">        str: The full path to the downloaded file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">):</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">)</span>
 
     <span class="n">local_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
-    <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">local_filename</span><span class="p">)</span>
+    <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">):</span>
+        <span class="c1"># HTTP(S) download</span>
+        <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">):</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s2">&quot;ftp&quot;</span><span class="p">:</span>
+        <span class="c1"># FTP download</span>
+        <span class="n">ftp</span> <span class="o">=</span> <span class="n">FTP</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="p">)</span>
+        <span class="n">ftp</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>  <span class="c1"># anonymous login</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">):</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="n">ftp</span><span class="o">.</span><span class="n">retrbinary</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RETR </span><span class="si">{</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
+        <span class="n">ftp</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported URL scheme in </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">local_filename</span></div>
 
@@ -140,6 +159,95 @@
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> not found in the </span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2"> directory.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_ascii_file">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_ascii_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_ascii_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">comment_char</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        file_path (str): Path to the ASCII file.</span>
+<span class="sd">        comment_char (str): Character denoting comment lines. Defaults to &#39;#&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: The loaded data as a pandas DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment_char</span><span class="p">,</span> <span class="n">on_bad_lines</span><span class="o">=</span><span class="s2">&quot;skip&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="download_ftp_file">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.download_ftp_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_ftp_file</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download a file from an FTP URL and save it to the destination folder.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        url (str): The full FTP URL to the file.</span>
+<span class="sd">        dest_folder (str): Local folder to save the downloaded file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Path to the downloaded file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the URL</span>
+    <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">ftp_host</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span>
+    <span class="n">ftp_file_path</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span>
+
+    <span class="c1"># Ensure destination folder exists</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Local filename</span>
+    <span class="n">local_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ftp_file_path</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connecting to FTP host: </span><span class="si">{</span><span class="n">ftp_host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">FTP</span><span class="p">(</span><span class="n">ftp_host</span><span class="p">)</span> <span class="k">as</span> <span class="n">ftp</span><span class="p">:</span>
+        <span class="n">ftp</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>  <span class="c1"># anonymous guest login</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">ftp_file_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">ftp</span><span class="o">.</span><span class="n">retrbinary</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RETR </span><span class="si">{</span><span class="n">ftp_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download complete: </span><span class="si">{</span><span class="n">local_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">local_filename</span></div>
+
+
+<div class="viewcode-block" id="parse_ascii_header">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.parse_ascii_header">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_ascii_header</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">comment_char</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse the header of an ASCII file to extract column names and number of header lines.</span>
+
+<span class="sd">    Header lines are identified by the given comment character (default: &#39;%&#39;).</span>
+<span class="sd">    Columns are defined in lines like:</span>
+<span class="sd">    &#39;&lt;comment_char&gt; Column 1: &lt;column_name&gt;&#39;</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        file_path (str): Path to the ASCII file.</span>
+<span class="sd">        comment_char (str): Character used to identify header lines.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: (list of column names, number of header lines to skip)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">column_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">header_line_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">header_line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">comment_char</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s2">&quot;Column&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="n">parts</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">column_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Stop when first non-header line is found</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">header_line_count</span></div>
 
 
 <div class="viewcode-block" id="read_26N">
@@ -246,7 +354,6 @@
     <span class="k">return</span> <span class="n">ds</span>    </div>
 
 
-
 <div class="viewcode-block" id="read_osnap">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_osnap">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_osnap</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
@@ -305,6 +412,229 @@
 
     <span class="c1"># For now, return the last dataset loaded (to match read_16N behaviour)</span>
     <span class="k">return</span> <span class="n">datasets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">datasets</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="read_34S">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_34S">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_34S</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">file_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">],</span>
+             <span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;../data/&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the 34S transport datasets into a list of xarray Datasets.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        source (str): URL or local path to the first dataset.</span>
+<span class="sd">        file_list (str): Filename or list of filenames for the first dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List containing two xarray Datasets:</span>
+<span class="sd">            [upper_abyssal_transport_anomalies, total_moc_anomalies]</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the source is neither a valid URL nor a local file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Match the file with the filename</span>
+    <span class="n">fileloc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Upper_Abyssal_Transport_Anomalies.txt&#39;</span><span class="p">:</span> <span class="s1">&#39;ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MOC_TotalAnomaly_and_constituents.asc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.aoml.noaa.gov/phod/SAMOC_international/documents/&#39;</span>
+    <span class="p">}</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Ensure file_list is a list</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file_list</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.asc&quot;</span><span class="p">)):</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">fileloc</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">fileloc</span><span class="p">[</span><span class="n">file</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">file</span><span class="o">==</span><span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">read_34S_Kersale2020</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file_list</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
+            <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">file</span><span class="o">==</span><span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">read_34S_Meinen2018</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
+            <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datasets</span></div>
+
+
+<div class="viewcode-block" id="read_34S_Kersale2020">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_34S_Kersale2020">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_34S_Kersale2020</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/&quot;</span><span class="p">,</span> 
+                         <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">,</span> 
+                         <span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;../data/&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the 34S transport datasets into a list of xarray Datasets.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        source (str): URL or local path to the first dataset.</span>
+<span class="sd">        file_list (str): Filename or list of filenames for the first dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List containing two xarray Datasets:</span>
+<span class="sd">            [upper_abyssal_transport_anomalies, total_moc_anomalies]</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the source is neither a valid URL nor a local file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># === First dataset: Upper Abyssal Transport Anomalies ===</span>
+
+    <span class="k">if</span> <span class="n">utilities</span><span class="o">.</span><span class="n">_is_valid_url</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;file_list must be specified when reading from URL.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">utilities</span><span class="o">.</span><span class="n">_is_valid_file</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="ow">or</span> <span class="n">Path</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_list</span><span class="p">:</span>
+            <span class="n">file_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Source must be a valid URL or directory path.&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.txt&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="s2">&quot;ftp://&quot;</span><span class="p">)):</span>
+            <span class="n">file_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">data_path</span><span class="p">:</span>
+                <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.amocarray_data&quot;</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="n">col_names</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parse_ascii_header</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">read_ascii_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;TIME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">,</span> <span class="s2">&quot;Minute&quot;</span><span class="p">]])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">,</span> <span class="s2">&quot;Minute&quot;</span><span class="p">])</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+        <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;UPPER_TRANSPORT&#39;</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span> 
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Upper-cell volume transport anomaly&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+        <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;ABYSSAL_TRANSPORT&#39;</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Abyssal-cell volume transport anomaly&quot;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;34S Upper Abyssal Transport Anomalies dataset&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Dataset accessed and processed via pandas and xarray&quot;</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+
+<div class="viewcode-block" id="read_34S_Meinen2018">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_34S_Meinen2018">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_34S_Meinen2018</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">,</span> <span class="n">dest_folder</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads and processes the 34S Total MOC Anomaly and Constituents dataset </span>
+<span class="sd">    from the given URL, returning it as an xarray Dataset.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    moc_url : str</span>
+<span class="sd">        The URL to the ASCII file containing the MOC dataset.</span>
+<span class="sd">    dest_folder : str, optional</span>
+<span class="sd">        The destination folder where the file will be downloaded. If not </span>
+<span class="sd">        provided, the default folder will be used.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        An xarray Dataset containing the processed MOC data with renamed </span>
+<span class="sd">        variables and attributes. The dataset includes the following variables:</span>
+<span class="sd">        - MOC: Total MOC anomaly (relative to record-length average of 17.3 Sv)</span>
+<span class="sd">        - RELATIVE_MOC: Relative (density gradient) contribution to the MOC anomaly</span>
+<span class="sd">        - BAROTROPIC_MOC: Reference (bottom pressure gradient) contribution to the MOC anomaly</span>
+<span class="sd">        - EKMAN: Ekman (wind) contribution to the MOC anomaly</span>
+<span class="sd">        - WESTERN_DENSITY: Western density contribution to the MOC anomaly</span>
+<span class="sd">        - EASTERN_DENSITY: Eastern density contribution to the MOC anomaly</span>
+<span class="sd">        - WESTERN_BOT_PRESSURE: Western bottom pressure contribution to the MOC anomaly</span>
+<span class="sd">        - EASTERN_BOT_PRESSURE: Eastern bottom pressure contribution to the MOC anomaly</span>
+<span class="sd">    Dataset Attributes:</span>
+<span class="sd">    -------------------</span>
+<span class="sd">    - source_file: Name of the source file.</span>
+<span class="sd">    - source_path: URL of the source file.</span>
+<span class="sd">    - description: Description of the dataset.</span>
+<span class="sd">    - note: Notes about the dataset processing.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - The dataset is accessed and processed using pandas and xarray.</span>
+<span class="sd">    - The time information is parsed and converted to a datetime index.</span>
+<span class="sd">    - Units for all variables are in Sverdrups (Sv).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#dest_folder = os.path.join(os.path.expanduser(&quot;~&quot;), &quot;.amocarray_data&quot;)</span>
+    <span class="n">file_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">moc_file_path</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">)</span>
+    <span class="n">col_names</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parse_ascii_header</span><span class="p">(</span><span class="n">moc_file_path</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">moc_df</span> <span class="o">=</span> <span class="n">read_ascii_file</span><span class="p">(</span><span class="n">moc_file_path</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">moc_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_names</span>
+    <span class="n">moc_df</span><span class="p">[</span><span class="s2">&quot;TIME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">moc_df</span><span class="p">[[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">]])</span>
+    <span class="n">moc_df</span> <span class="o">=</span> <span class="n">moc_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">])</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;MOC&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Total MOC anomaly (relative to record-length average of 14.7 Sv)&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;MOC Total Anomaly (relative to record-length average of 17.3 Sv)&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;MOC Total Anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;RELATIVE_MOC&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;BAROTROPIC_MOC&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;EKMAN&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;WESTERN_DENSITY&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;EASTERN_DENSITY&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;WESTERN_BOT_PRESSURE&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s1">&#39;EASTERN_BOT_PRESSURE&#39;</span>
+    <span class="n">moc_ds</span> <span class="o">=</span> <span class="n">moc_ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="n">newname</span><span class="p">})</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span>
+    <span class="n">moc_ds</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Transport Anomaly&quot;</span>
+
+    <span class="n">moc_ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span>
+    <span class="n">moc_ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="n">moc_ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;34S Total MOC Anomaly and Constituents dataset&quot;</span>
+    <span class="n">moc_ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Dataset accessed and processed via pandas and xarray&quot;</span>
+
+    <span class="k">return</span> <span class="n">moc_ds</span></div>
+
 
 
 <div class="viewcode-block" id="list_files_in_https_server">

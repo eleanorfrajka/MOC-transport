@@ -62,14 +62,21 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-amocarray.readers">readers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.download_ftp_file"><code class="docutils literal notranslate"><span class="pre">download_ftp_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.list_files_in_https_server"><code class="docutils literal notranslate"><span class="pre">list_files_in_https_server()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.load_sample_dataset"><code class="docutils literal notranslate"><span class="pre">load_sample_dataset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.parse_ascii_header"><code class="docutils literal notranslate"><span class="pre">parse_ascii_header()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_16N"><code class="docutils literal notranslate"><span class="pre">read_16N()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_26N"><code class="docutils literal notranslate"><span class="pre">read_26N()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_34S"><code class="docutils literal notranslate"><span class="pre">read_34S()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_34S_Kersale2020"><code class="docutils literal notranslate"><span class="pre">read_34S_Kersale2020()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_34S_Meinen2018"><code class="docutils literal notranslate"><span class="pre">read_34S_Meinen2018()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_ascii_file"><code class="docutils literal notranslate"><span class="pre">read_ascii_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.read_osnap"><code class="docutils literal notranslate"><span class="pre">read_osnap()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-amocarray.plotters">plotters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.plot_monthly_anomalies"><code class="docutils literal notranslate"><span class="pre">plot_monthly_anomalies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_attributes"><code class="docutils literal notranslate"><span class="pre">show_attributes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_contents"><code class="docutils literal notranslate"><span class="pre">show_contents()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_variables"><code class="docutils literal notranslate"><span class="pre">show_variables()</span></code></a></li>
@@ -127,12 +134,41 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.download_file">
 <span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.download_file" title="Link to this definition"></a></dt>
-<dd><p>Download a file from a URL to a destination folder.</p>
-<p>Parameters:
-url (str): The URL of the file to download.
-dest_folder (str): The folder where the file will be saved.</p>
-<p>Returns:
-str: The path to the downloaded file.</p>
+<dd><p>Download a file from HTTP(S) or FTP to the specified destination folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>) – The URL of the file to download.</p></li>
+<li><p><strong>dest_folder</strong> (<em>str</em>) – Local folder to save the downloaded file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The full path to the downloaded file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.download_ftp_file">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">download_ftp_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#download_ftp_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.download_ftp_file" title="Link to this definition"></a></dt>
+<dd><p>Download a file from an FTP URL and save it to the destination folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str</em>) – The full FTP URL to the file.</p></li>
+<li><p><strong>dest_folder</strong> (<em>str</em>) – Local folder to save the downloaded file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the downloaded file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -154,6 +190,29 @@ dataset_name (str): The name of the dataset file.
 data_dir (str): The local directory where the dataset is stored.</p>
 <p>Returns:
 xarray.Dataset: The loaded dataset.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.parse_ascii_header">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">parse_ascii_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#parse_ascii_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.parse_ascii_header" title="Link to this definition"></a></dt>
+<dd><p>Parse the header of an ASCII file to extract column names and number of header lines.</p>
+<p>Header lines are identified by the given comment character (default: ‘%’).
+Columns are defined in lines like:
+‘&lt;comment_char&gt; Column 1: &lt;column_name&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the ASCII file.</p></li>
+<li><p><strong>comment_char</strong> (<em>str</em>) – Character used to identify header lines.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(list of column names, number of header lines to skip)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -187,6 +246,131 @@ A list of xarray.Dataset objects loaded from the filtered NetCDF files.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.read_34S">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_34S</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['Upper_Abyssal_Transport_Anomalies.txt',</span> <span class="pre">'MOC_TotalAnomaly_and_constituents.asc']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../data/'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#read_34S"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_34S" title="Link to this definition"></a></dt>
+<dd><p>Load the 34S transport datasets into a list of xarray Datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – URL or local path to the first dataset.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em>) – Filename or list of filenames for the first dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>List containing two xarray Datasets:</dt><dd><p>[upper_abyssal_transport_anomalies, total_moc_anomalies]</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the source is neither a valid URL nor a local file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.read_34S_Kersale2020">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_34S_Kersale2020</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Upper_Abyssal_Transport_Anomalies.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../data/'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#read_34S_Kersale2020"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_34S_Kersale2020" title="Link to this definition"></a></dt>
+<dd><p>Load the 34S transport datasets into a list of xarray Datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – URL or local path to the first dataset.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em>) – Filename or list of filenames for the first dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>List containing two xarray Datasets:</dt><dd><p>[upper_abyssal_transport_anomalies, total_moc_anomalies]</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the source is neither a valid URL nor a local file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.read_34S_Meinen2018">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_34S_Meinen2018</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MOC_TotalAnomaly_and_constituents.asc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../data'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#read_34S_Meinen2018"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_34S_Meinen2018" title="Link to this definition"></a></dt>
+<dd><p>Reads and processes the 34S Total MOC Anomaly and Constituents dataset
+from the given URL, returning it as an xarray Dataset.
+Parameters:
+———–
+moc_url : str</p>
+<blockquote>
+<div><p>The URL to the ASCII file containing the MOC dataset.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>dest_folder<span class="classifier">str, optional</span></dt><dd><p>The destination folder where the file will be downloaded. If not
+provided, the default folder will be used.</p>
+</dd>
+</dl>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>xarray.Dataset</dt><dd><p>An xarray Dataset containing the processed MOC data with renamed
+variables and attributes. The dataset includes the following variables:
+- MOC: Total MOC anomaly (relative to record-length average of 17.3 Sv)
+- RELATIVE_MOC: Relative (density gradient) contribution to the MOC anomaly
+- BAROTROPIC_MOC: Reference (bottom pressure gradient) contribution to the MOC anomaly
+- EKMAN: Ekman (wind) contribution to the MOC anomaly
+- WESTERN_DENSITY: Western density contribution to the MOC anomaly
+- EASTERN_DENSITY: Eastern density contribution to the MOC anomaly
+- WESTERN_BOT_PRESSURE: Western bottom pressure contribution to the MOC anomaly
+- EASTERN_BOT_PRESSURE: Eastern bottom pressure contribution to the MOC anomaly</p>
+</dd>
+</dl>
+</section>
+<section id="dataset-attributes">
+<h3>Dataset Attributes:<a class="headerlink" href="#dataset-attributes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>source_file: Name of the source file.</p></li>
+<li><p>source_path: URL of the source file.</p></li>
+<li><p>description: Description of the dataset.</p></li>
+<li><p>note: Notes about the dataset processing.</p></li>
+</ul>
+</section>
+<section id="notes">
+<h3>Notes:<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The dataset is accessed and processed using pandas and xarray.</p></li>
+<li><p>The time information is parsed and converted to a datetime index.</p></li>
+<li><p>Units for all variables are in Sverdrups (Sv).</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.read_ascii_file">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_ascii_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#read_ascii_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_ascii_file" title="Link to this definition"></a></dt>
+<dd><p>Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – Path to the ASCII file.</p></li>
+<li><p><strong>comment_char</strong> (<em>str</em>) – Character denoting comment lines. Defaults to ‘#’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded data as a pandas DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.read_osnap">
 <span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_osnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc']</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#read_osnap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_osnap" title="Link to this definition"></a></dt>
 <dd><p>Load the OSNAP transport dataset from a URL or local file path into an xarray.Dataset.</p>
@@ -212,6 +396,26 @@ A list of xarray.Dataset objects loaded from the filtered NetCDF files.</p>
 </section>
 <section id="module-amocarray.plotters">
 <span id="plotters"></span><h2>plotters<a class="headerlink" href="#module-amocarray.plotters" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.plotters.plot_monthly_anomalies">
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
+<dd><p>Plots the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>osnap_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for OSNAP.</p></li>
+<li><p><strong>rapid_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for RAPID.</p></li>
+<li><p><strong>move_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for MOVE.</p></li>
+<li><p><strong>samba_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for SAMBA.</p></li>
+<li><p><strong>osnap_label</strong> (<em>str</em>) – Label for OSNAP plot.</p></li>
+<li><p><strong>rapid_label</strong> (<em>str</em>) – Label for RAPID plot.</p></li>
+<li><p><strong>move_label</strong> (<em>str</em>) – Label for MOVE plot.</p></li>
+<li><p><strong>samba_label</strong> (<em>str</em>) – Label for SAMBA plot.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.show_attributes">
 <span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#show_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_attributes" title="Link to this definition"></a></dt>
