@@ -1,4 +1,5 @@
 netcdf4
+importlib_resources
 pooch
 xarray
 numpy
