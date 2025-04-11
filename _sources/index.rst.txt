@@ -4,12 +4,12 @@
 
 :parser: myst_parser.sphinx_ # this is the markdown parser
 
-Welcome to projectName's documentation!
+Welcome to amocarray's documentation!
 ======================================
 
-`template-project` is a repository to demonstrate the structure of a Python project `template-project`, the use of git via Github for collaborative coding, GitHub Actions for running tests and building documentation, and deploying the documentation on GitHub Pages.
+`amocarray` is a repository to access and work with array data from Atlantic meridional overturning circulation mooring arrays.
 
-For recommendations or bug reports, please visit https://github.com/eleanorfrajka/template-project/issues/new
+For recommendations or bug reports, please visit https://github.com/AMOCcommunity/amocarray/issues/new
 
   
 .. toctree::
@@ -34,7 +34,7 @@ For recommendations or bug reports, please visit https://github.com/eleanorfrajk
    :maxdepth: 3
    :caption: Help and reference
 
-   template-project
+   amocarray
    faq
 
 Indices and tables
