@@ -2,7 +2,7 @@ import xarray as xr
 import os
 from bs4 import BeautifulSoup
 import requests
-
+from amocarray import utilities
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
 
@@ -47,7 +47,7 @@ def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
 
     return xr.open_dataset(file_path)
 
-def read_26N(source):
+def read_26N(source=None, file_list=None):
     """
     Load datasets from either an online source or a local directory.
 
@@ -61,9 +61,11 @@ def read_26N(source):
         source = 'https://rapid.ac.uk/sites/default/files/rapid_data/'
         file_list = ['moc_vertical.nc', 'ts_gridded.nc', 'moc_transports.nc']
     elif source.startswith("http://") or source.startswith("https://"):
-        file_list = list_files_in_https_server(source)
+        if file_list is None:
+            file_list = list_files_in_https_server(source)
     elif os.path.isdir(source):
-        file_list = os.listdir(source)
+        if file_list is None:
+            file_list = os.listdir(source)
     else:
         raise ValueError("Source must be a valid URL or directory path.")
 
@@ -75,12 +77,73 @@ def read_26N(source):
             dest_folder = os.path.join(os.path.expanduser("~"), ".amocarray_data")
             file_path = download_file(file_url, dest_folder)
             ds = xr.open_dataset(file_path)
+            
         else:
             ds = xr.open_dataset(os.path.join(source, file))
-        
+        # Add attributes
+        ds.attrs["source_file"] = file
+        ds.attrs["source_path"] = source
+        ds.attrs["description"] = "RAPID transport estimates"
+        ds.attrs["note"] = "Dataset accessed and processed via xarray"
         datasets.append(ds)
 
     return datasets
+
+def read_16N(source="https://mooring.ucsd.edu/move/nc/", file_list="OS_MOVE_TRANSPORTS.nc") -> xr.Dataset:
+    """
+    Load the MOVE transport dataset from a URL or local file path into an xarray.Dataset.
+    
+    Parameters:
+        source (str): URL or local path to the .nc file. Defaults to the UCSD MOVE dataset URL.
+    
+    Returns:
+        xr.Dataset: The loaded xarray dataset with added attributes.
+    
+    Raises:
+        ValueError: If the source is neither a valid URL nor a local file.
+    """
+    # Determine source type
+    if source is None:
+        source = 'https://mooring.ucsd.edu/move/nc/'
+        file_list = ['OS_MOVE_TRANSPORTS.nc']
+    elif utilities._is_valid_url(source):
+        if file_list is None:
+            file_list = list_files_in_https_server(source)
+    elif utilities._is_valid_file(source):
+        if file_list is None:
+            file_list = os.listdir(source)
+    else:
+        raise ValueError("Source must be a valid URL or directory path.")
+    
+    datasets = []
+
+    if isinstance(file_list, str):
+        file_list = [file_list]
+
+    for file in file_list:
+        print(file)
+        if not file.endswith(".nc"):
+            continue
+        print(file)
+        if source.startswith("http://") or source.startswith("https://"):
+            file_url = f"{source}/{file}"
+            print(file_url)
+            dest_folder = os.path.join(os.path.expanduser("~"), ".amocarray_data")
+            file_path = download_file(file_url, dest_folder)
+            ds = xr.open_dataset(file_path)
+        else:
+            ds = xr.open_dataset(os.path.join(source, file))
+            
+
+        # Add attributes
+        ds.attrs["source_file"] = file
+        ds.attrs["source_path"] = source
+        ds.attrs["description"] = "MOVE transport estimates dataset from UCSD mooring project"
+        ds.attrs["note"] = "Dataset accessed and processed via xarray"
+    
+        datasets.append(ds)
+
+    return ds    
 
 def list_files_in_https_server(url):
     """
