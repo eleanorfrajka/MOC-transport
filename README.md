@@ -1,2 +1,3 @@
-# template-project
-Template for a Python project for oceanography
+# MOC transports
+
+Basic repository for reading AMOC transport data (volume transports only) from transport mooring arrays into a single format.

@@ -1,23 +1,23 @@
-:mod:`template_project API`
+:mod:`MOC_transport API`
 -----------------------
 
-.. automodule:: template_project.readers
+.. automodule:: MOC_transport.readers
    :members:
    :undoc-members:
 
-.. automodule:: template_project.plotters
+.. automodule:: MOC_transport.plotters
    :members:
    :undoc-members:
 
-.. automodule:: template_project.writers
+.. automodule:: MOC_transport.writers
    :members:
    :undoc-members:
 
-.. automodule:: template_project.tools
+.. automodule:: MOC_transport.tools
    :members:
    :undoc-members:
 
-.. automodule:: template_project.utilities
+.. automodule:: MOC_transport.utilities
    :members:
    :undoc-members:
 

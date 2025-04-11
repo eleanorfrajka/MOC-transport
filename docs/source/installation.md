@@ -8,12 +8,12 @@ To copy the repository for your own purposes (e.g., to rename "template-project"
 1. Clone template-project to your local machine: 
     With a command line usage of git, this looks like:
     ```
-    git clone https://github.com/eleanorfrajka/template-project
+    git clone https://github.com/AMOCcommunity/MOC-transport
     ```
 
-    Alternatively, in your web browser, navigate to https://github.com/eleanorfrajka/template-project and click the green button "<> Code" for a dropdown menu of options.  Choose, e.g. "Open with GitHub Desktop".  This requires the application "GitHub Desktop" (https://github.com/apps/desktop).  See instructions [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+    Alternatively, in your web browser, navigate to https://github.com/AMOCcommunity/MOC-transport and click the green button "<> Code" for a dropdown menu of options.  Choose, e.g. "Open with GitHub Desktop".  This requires the application "GitHub Desktop" (https://github.com/apps/desktop).  See instructions [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 2. Change to the parent directory of template-project
 
 ## Option 2: Edit this repository to improve the template
 
-The steps are as above, but instead of saying that you'd like to work on this separately, choose the option to "contribute to the original repository".  In command line, this will be like setting the upstream to be the original repository at https://github.com/eleanorfrajka/template-repository.
+The steps are as above, but instead of saying that you'd like to work on this separately, choose the option to "contribute to the original repository".  In command line, this will be like setting the upstream to be the original repository at https://github.com/AMOCcommunity/MOC-transport.
