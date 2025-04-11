@@ -2,6 +2,8 @@ import xarray as xr
 import os
 from bs4 import BeautifulSoup
 import requests
+from pathlib import Path
+
 from amocarray import utilities
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
@@ -144,6 +146,64 @@ def read_16N(source="https://mooring.ucsd.edu/move/nc/", file_list="OS_MOVE_TRAN
         datasets.append(ds)
 
     return ds    
+
+
+def read_osnap(source=None, file_list=['OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc']) -> xr.Dataset:
+    """
+    Load the OSNAP transport dataset from a URL or local file path into an xarray.Dataset.
+
+    Parameters:
+        source (str): URL or local path to the .nc file.
+        file_list (str or list of str): Filename or list of filenames to process.
+
+    Returns:
+        xr.Dataset: The loaded xarray dataset with added attributes.
+
+    Raises:
+        ValueError: If the source is neither a valid URL nor a local file.
+    """
+    # Match the file with the filename
+    fileloc = {
+        'OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc':'https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download',
+        'OSNAP_Streamfunction_201408_202006_2023.nc': 'https://repository.gatech.edu/bitstreams/5edf4cba-a28f-40a6-a4da-24d7436a42ab/download',
+        'OSNAP_Gridded_TSV_201408_202006_2023.nc': 'https://repository.gatech.edu/bitstreams/598f200a-50ba-4af0-96af-bd29fe692cdc/download'
+        }
+
+    # Ensure file_list is a list
+    if isinstance(file_list, str):
+        file_list = [file_list]
+
+    datasets = []
+
+    for file in file_list:
+        if not file.endswith(".nc"):
+            continue
+
+        if file in fileloc:
+            source = fileloc[file]
+
+        if source.startswith("http://") or source.startswith("https://"):
+            # Download the file
+            file_url = f"{source}"#.rstrip('/')}/{file}"
+            dest_folder = os.path.join(os.path.expanduser("~"), ".amocarray_data")
+            file_path = download_file(file_url, dest_folder)
+        else:
+            # Local file path
+            file_path = os.path.join(source, file)
+
+        # Open dataset
+        ds = xr.open_dataset(file_path)
+
+        # Add attributes
+        ds.attrs["source_file"] = file
+        ds.attrs["source_path"] = source
+        ds.attrs["description"] = "OSNAP transport estimates dataset"
+        ds.attrs["note"] = "Dataset accessed and processed via xarray"
+
+        datasets.append(ds)
+
+    # For now, return the last dataset loaded (to match read_16N behaviour)
+    return datasets[-1] if datasets else None
 
 def list_files_in_https_server(url):
     """
