@@ -1,0 +1,11 @@
+netcdf4
+pooch
+xarray
+numpy
+pandas  
+scipy 
+tqdm
+gsw
+matplotlib
+cartopy
+cmocean 
