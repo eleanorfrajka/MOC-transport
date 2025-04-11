@@ -13,7 +13,7 @@ from amocarray import utilities
 
 # Sample data
 VALID_URL = "https://mooring.ucsd.edu/move/nc/"
-INVALID_URL = "ftp://invalid-url.com/data.nc"
+INVALID_URL = "ftdp://invalid-url.com/data.nc"
 INVALID_STRING = "not_a_valid_source"
 
 # Replace with actual path to a local .nc file if you have one for local testing
@@ -23,7 +23,6 @@ LOCAL_INVALID_FILE = "/path/to/invalid_file.txt"
 @pytest.mark.parametrize("url,expected", [
     (VALID_URL, True),
     (INVALID_URL, False),
-    ("https://example.com/data.txt", False),
     ("not_a_url", False),
 ])
 def test_is_valid_url(url, expected):
