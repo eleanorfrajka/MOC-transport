@@ -55,6 +55,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
 </ul>
@@ -88,6 +89,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
 <span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
 <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0&quot;</span>
@@ -241,6 +244,67 @@
         <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds</span>    </div>
+
+
+
+<div class="viewcode-block" id="read_osnap">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_osnap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_osnap</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the OSNAP transport dataset from a URL or local file path into an xarray.Dataset.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        source (str): URL or local path to the .nc file.</span>
+<span class="sd">        file_list (str or list of str): Filename or list of filenames to process.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        xr.Dataset: The loaded xarray dataset with added attributes.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the source is neither a valid URL nor a local file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Match the file with the filename</span>
+    <span class="n">fileloc</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">:</span><span class="s1">&#39;https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;OSNAP_Streamfunction_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/5edf4cba-a28f-40a6-a4da-24d7436a42ab/download&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;OSNAP_Gridded_TSV_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/598f200a-50ba-4af0-96af-bd29fe692cdc/download&#39;</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Ensure file_list is a list</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file_list</span><span class="p">]</span>
+
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.nc&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">fileloc</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">fileloc</span><span class="p">[</span><span class="n">file</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
+            <span class="c1"># Download the file</span>
+            <span class="n">file_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">&quot;</span><span class="c1">#.rstrip(&#39;/&#39;)}/{file}&quot;</span>
+            <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.amocarray_data&quot;</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Local file path</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="c1"># Open dataset</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="c1"># Add attributes</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;OSNAP transport estimates dataset&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;note&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Dataset accessed and processed via xarray&quot;</span>
+
+        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="c1"># For now, return the last dataset loaded (to match read_16N behaviour)</span>
+    <span class="k">return</span> <span class="n">datasets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">datasets</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="list_files_in_https_server">
