@@ -7,7 +7,7 @@ requires = [
 ]
 
 [project]
-name = "MOC_transport"
+name = "amocarray"
 description = "Python project to read data from arrays measuring the Atlantic meridional overturning circulation"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -27,13 +27,13 @@ dynamic = [
   "dependencies",
   "version",
 ]
-urls.documentation = "https://github.com/AMOCcommunity/MOC-transport"
-urls.homepage = "https://github.com/AMOCcommunity/MOC-transport"
-urls.repository = "https://github.com/AMOCcommunity/MOC-transport"
+urls.documentation = "https://github.com/AMOCcommunity/amocarray"
+urls.homepage = "https://github.com/AMOCcommunity/amocarray"
+urls.repository = "https://github.com/AMOCcommunity/amocarray"
 
 [tool.setuptools]
 packages = [
-  "MOC_transport",
+  "amocarray",
 ]
 include-package-data = true
 
@@ -44,7 +44,7 @@ dependencies = { file = [
 readme = { file = "README.md", content-type = "text/markdown" }
 
 [tool.setuptools_scm]
-write_to = "MOC_transport/_version.py"
+write_to = "amocarray/_version.py"
 write_to_template = "__version__ = '{version}'"
 tag_regex = "^(?P<prefix>v)?(?P<version>[^\\+]+)(?P<suffix>.*)?$"
 local_scheme = "no-local-version"
