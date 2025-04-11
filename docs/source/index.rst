@@ -34,6 +34,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :maxdepth: 3
    :caption: Help and reference
 
+   GitHub Repo <http://github.com/AMOCcommunity/amocarray>
    amocarray
    faq
 
