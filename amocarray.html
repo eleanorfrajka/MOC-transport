@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.list_files_in_https_server"><code class="docutils literal notranslate"><span class="pre">list_files_in_https_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.load_sample_dataset"><code class="docutils literal notranslate"><span class="pre">load_sample_dataset()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.read_16N"><code class="docutils literal notranslate"><span class="pre">read_16N()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.read_26N"><code class="docutils literal notranslate"><span class="pre">read_26N()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.plotters.show_attributes"><code class="docutils literal notranslate"><span class="pre">show_attributes()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.plotters.show_contents"><code class="docutils literal notranslate"><span class="pre">show_contents()</span></code></a></li>
@@ -139,8 +140,28 @@ xarray.Dataset: The loaded dataset.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="amocarray.readers.read_16N">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_16N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://mooring.ucsd.edu/move/nc/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OS_MOVE_TRANSPORTS.nc'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#read_16N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_16N" title="Link to this definition"></a></dt>
+<dd><p>Load the MOVE transport dataset from a URL or local file path into an xarray.Dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source</strong> (<em>str</em>) – URL or local path to the .nc file. Defaults to the UCSD MOVE dataset URL.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded xarray dataset with added attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the source is neither a valid URL nor a local file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.read_26N">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_26N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#read_26N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_26N" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_26N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#read_26N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_26N" title="Link to this definition"></a></dt>
 <dd><p>Load datasets from either an online source or a local directory.</p>
 <p>Parameters:
 source (str): The URL to the directory containing the NetCDF files or the path to the local directory.</p>
