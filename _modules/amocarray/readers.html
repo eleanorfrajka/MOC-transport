@@ -88,95 +88,87 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">importlib_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pooch</span>
 
 <span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
 <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0&quot;</span>
 
-<span class="n">data_source_og</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">path</span><span class="o">=</span><span class="n">pooch</span><span class="o">.</span><span class="n">os_cache</span><span class="p">(</span><span class="s2">&quot;amocarray&quot;</span><span class="p">),</span>
-    <span class="n">base_url</span><span class="o">=</span><span class="n">server</span><span class="p">,</span>
-    <span class="n">registry</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;moc_vertical.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46&#39;</span><span class="p">},</span>
-<span class="p">)</span>
+<div class="viewcode-block" id="download_file">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.download_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Download a file from a URL to a destination folder.</span>
 
-<span class="c1"># readers.py: Will only read files.  Not manipulate them.</span>
-<span class="c1">#</span>
-<span class="c1"># Comment 2024 Oct 30: I needed an initial file list to create the registry</span>
-<span class="c1"># This is impractical for expansion, so may need to move away from pooch.</span>
-<span class="c1"># This was necessary to get an initial file list</span>
-<span class="c1"># mylist = fetchers.list_files_in_https_server(server)</span>
-<span class="c1"># fetchers.create_pooch_registry_from_directory(&quot;/Users/eddifying/Dropbox/data/sg015-ncei-download/&quot;)</span>
-<span class="c1"># Example usage</span>
-<span class="c1">#directory_path = &quot;/Users/eddifying/Dropbox/data/sg015-ncei-snippet&quot;</span>
-<span class="c1">#pooch_registry = create_pooch_registry_from_directory(directory_path)</span>
-<span class="c1">#print(pooch_registry)</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    url (str): The URL of the file to download.</span>
+<span class="sd">    dest_folder (str): The folder where the file will be saved.</span>
 
-<span class="c1"># Information on creating a registry file: https://www.fatiando.org/pooch/latest/registry-files.html</span>
-<span class="c1"># But instead of pkg_resources (https://setuptools.pypa.io/en/latest/pkg_resources.html#)</span>
-<span class="c1"># we should use importlib.resources</span>
-<span class="c1"># Here&#39;s how to use importlib.resources (https://importlib-resources.readthedocs.io/en/latest/using.html)</span>
-<span class="c1">#data_source_og = pooch.create(</span>
-<span class="c1">#    path=pooch.os_cache(&quot;amocarray&quot;),</span>
-<span class="c1">#    base_url=server,</span>
-<span class="c1">#    registry=None,</span>
-<span class="c1">#)</span>
-<span class="c1">#registry_file = files(&#39;amocarray&#39;).joinpath(&#39;amoc_registry.txt&#39;)</span>
-<span class="c1">#data_source_og.load_registry(registry_file)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    str: The path to the downloaded file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">)</span>
+
+    <span class="n">local_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">8192</span><span class="p">):</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">local_filename</span></div>
+
 
 <div class="viewcode-block" id="load_sample_dataset">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.load_sample_dataset">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span><span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;moc_vertical.nc&quot;</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">dataset_name</span> <span class="ow">in</span> <span class="n">data_source_og</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">file_path</span> <span class="o">=</span> <span class="n">data_source_og</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Requested sample dataset </span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> not known. Specify one of the following available datasets: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">data_source_og</span><span class="o">.</span><span class="n">registry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span><span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a sample dataset from the local data directory.</span>
 
+<span class="sd">    Parameters:</span>
+<span class="sd">    dataset_name (str): The name of the dataset file.</span>
+<span class="sd">    data_dir (str): The local directory where the dataset is stored.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    xarray.Dataset: The loaded dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> not found in the </span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2"> directory.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="read_26N">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.read_26N">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_26N</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load datasets from either an online source or a local directory, optionally filtering by profile range.</span>
+<span class="sd">    Load datasets from either an online source or a local directory.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    source (str): The URL to the directory containing the NetCDF files or the path to the local directory.</span>
-<span class="sd">    start_profile (int, optional): The starting profile number to filter files. Defaults to None.</span>
-<span class="sd">    end_profile (int, optional): The ending profile number to filter files. Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    A list of xarray.Dataset objects loaded from the filtered NetCDF files.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">server</span> <span class="o">=</span> <span class="s1">&#39;https://rapid.ac.uk/sites/default/files/rapid_data/&#39;</span>
-        <span class="n">filelist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;moc_vertical.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;ts_gridded.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;moc_transports.nc&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
-        <span class="c1"># Create a Pooch object to manage the remote files</span>
-        <span class="n">data_source_online</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-            <span class="n">path</span><span class="o">=</span><span class="n">pooch</span><span class="o">.</span><span class="n">os_cache</span><span class="p">(</span><span class="s2">&quot;amocarray&quot;</span><span class="p">),</span>
-            <span class="n">base_url</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
-            <span class="n">registry</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">registry_file</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">&#39;amocarray&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;amoc_registry.txt&#39;</span><span class="p">)</span>
-        <span class="n">data_source_og</span><span class="o">.</span><span class="n">load_registry</span><span class="p">(</span><span class="n">registry_file</span><span class="p">)</span>
-
-        <span class="c1"># List all files in the URL directory</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="s1">&#39;https://rapid.ac.uk/sites/default/files/rapid_data/&#39;</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;moc_vertical.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;ts_gridded.nc&#39;</span><span class="p">,</span> <span class="s1">&#39;moc_transports.nc&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
         <span class="n">file_list</span> <span class="o">=</span> <span class="n">list_files_in_https_server</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
         <span class="n">file_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Source must be a valid URL or directory path.&quot;</span><span class="p">)</span>
 
-    <span class="n">filtered_files</span> <span class="o">=</span> <span class="n">filter_files_by_profile</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="n">start_profile</span><span class="p">,</span> <span class="n">end_profile</span><span class="p">)</span>
-    
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">filtered_files</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">):</span>
-            <span class="n">ds</span> <span class="o">=</span> <span class="n">load_sample_dataset</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+            <span class="n">file_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.amocarray_data&quot;</span><span class="p">)</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">)</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
         
@@ -209,31 +201,6 @@
             <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">files</span></div>
-
-
-<div class="viewcode-block" id="create_pooch_registry_from_directory">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.readers.create_pooch_registry_from_directory">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_pooch_registry_from_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a Pooch registry from files in a specified directory.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    directory (str): The path to the directory containing the files.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    dict: A dictionary representing the Pooch registry with filenames as keys and their SHA256 hashes as values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">registry</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.nc&quot;</span><span class="p">):</span>
-            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
-            <span class="n">sha256_hash</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">file_hash</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">alg</span><span class="o">=</span><span class="s2">&quot;sha256&quot;</span><span class="p">)</span>
-            <span class="n">registry</span><span class="p">[</span><span class="n">file</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sha256:</span><span class="si">{</span><span class="n">sha256_hash</span><span class="si">}</span><span class="s2">&quot;</span>
-
-    <span class="k">return</span> <span class="n">registry</span></div>
-
 
 </pre></div>
 

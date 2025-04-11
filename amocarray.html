@@ -59,7 +59,7 @@
 <p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.create_pooch_registry_from_directory"><code class="docutils literal notranslate"><span class="pre">create_pooch_registry_from_directory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.list_files_in_https_server"><code class="docutils literal notranslate"><span class="pre">list_files_in_https_server()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.load_sample_dataset"><code class="docutils literal notranslate"><span class="pre">load_sample_dataset()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#amocarray.readers.read_26N"><code class="docutils literal notranslate"><span class="pre">read_26N()</span></code></a></li>
@@ -107,13 +107,14 @@
   <section id="module-amocarray.readers">
 <span id="amocarray-api"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code><a class="headerlink" href="#module-amocarray.readers" title="Link to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="amocarray.readers.create_pooch_registry_from_directory">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">create_pooch_registry_from_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#create_pooch_registry_from_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.create_pooch_registry_from_directory" title="Link to this definition"></a></dt>
-<dd><p>Create a Pooch registry from files in a specified directory.</p>
+<dt class="sig sig-object py" id="amocarray.readers.download_file">
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.download_file" title="Link to this definition"></a></dt>
+<dd><p>Download a file from a URL to a destination folder.</p>
 <p>Parameters:
-directory (str): The path to the directory containing the files.</p>
+url (str): The URL of the file to download.
+dest_folder (str): The folder where the file will be saved.</p>
 <p>Returns:
-dict: A dictionary representing the Pooch registry with filenames as keys and their SHA256 hashes as values.</p>
+str: The path to the downloaded file.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -128,17 +129,21 @@ list: A list of filenames found in the directory.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.load_sample_dataset">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moc_vertical.nc'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moc_transports.nc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../data'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
+<dd><p>Load a sample dataset from the local data directory.</p>
+<p>Parameters:
+dataset_name (str): The name of the dataset file.
+data_dir (str): The local directory where the dataset is stored.</p>
+<p>Returns:
+xarray.Dataset: The loaded dataset.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.read_26N">
 <span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">read_26N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#read_26N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.read_26N" title="Link to this definition"></a></dt>
-<dd><p>Load datasets from either an online source or a local directory, optionally filtering by profile range.</p>
+<dd><p>Load datasets from either an online source or a local directory.</p>
 <p>Parameters:
-source (str): The URL to the directory containing the NetCDF files or the path to the local directory.
-start_profile (int, optional): The starting profile number to filter files. Defaults to None.
-end_profile (int, optional): The ending profile number to filter files. Defaults to None.</p>
+source (str): The URL to the directory containing the NetCDF files or the path to the local directory.</p>
 <p>Returns:
 A list of xarray.Dataset objects loaded from the filtered NetCDF files.</p>
 </dd></dl>
