@@ -11,9 +11,9 @@ from pathlib import Path
 
 
 def _validate_dims(ds):
-    dim_name = list(ds.dims)[0] # Should be 'N_MEASUREMENTS' for OG1
-    if dim_name != 'N_MEASUREMENTS':
-        raise ValueError(f"Dimension name '{dim_name}' is not 'N_MEASUREMENTS'.")
+    dim_name = list(ds.dims)[0]  # Should be 'N_MEASUREMENTS' for OG1
+    if dim_name not in ['TIME', 'time']:
+        raise ValueError(f"Dimension name '{dim_name}' is not 'TIME' or 'time'.")
     
 # Helper functions
 def _is_valid_url(url: str) -> bool:
