@@ -206,3 +206,69 @@ def show_variables_by_dimension(data, dimension_name='trajectory'):
     return vars
 
 
+def plot_monthly_anomalies(osnap_data, rapid_data, move_data, samba_data, osnap_label, rapid_label, move_label, samba_label):
+    """
+    Plots the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
+
+    Parameters:
+        osnap_data (xarray.DataArray): Monthly anomalies for OSNAP.
+        rapid_data (xarray.DataArray): Monthly anomalies for RAPID.
+        move_data (xarray.DataArray): Monthly anomalies for MOVE.
+        samba_data (xarray.DataArray): Monthly anomalies for SAMBA.
+        osnap_label (str): Label for OSNAP plot.
+        rapid_label (str): Label for RAPID plot.
+        move_label (str): Label for MOVE plot.
+        samba_label (str): Label for SAMBA plot.
+    """
+    # Resample each input dataset to monthly averages
+    osnap_data = osnap_data.resample(TIME='ME').mean()
+    rapid_data = rapid_data.resample(TIME='ME').mean()
+    move_data = move_data.resample(TIME='ME').mean()
+    samba_data = samba_data.resample(TIME='ME').mean()
+    fig, axes = plt.subplots(4, 1, figsize=(6, 8), sharex=True)
+
+    # OSNAP
+    axes[0].plot(osnap_data['TIME'], osnap_data, color='blue', label=osnap_label)
+    axes[0].axhline(0, color='black', linestyle='--', linewidth=0.5)
+    axes[0].set_title(osnap_label)
+    axes[0].set_ylabel('Transport [Sv]')
+    axes[0].legend()
+    axes[0].grid(True, linestyle='--', alpha=0.5)
+
+    # RAPID
+    axes[1].plot(rapid_data['TIME'], rapid_data, color='red', label=rapid_label)
+    axes[1].axhline(0, color='black', linestyle='--', linewidth=0.5)
+    axes[1].set_title(rapid_label)
+    axes[1].set_ylabel('Transport [Sv]')
+    axes[1].legend()
+    axes[1].grid(True, linestyle='--', alpha=0.5)
+
+    # MOVE
+    axes[2].plot(move_data['TIME'], move_data, color='green', label=move_label)
+    axes[2].axhline(0, color='black', linestyle='--', linewidth=0.5)
+    axes[2].set_title(move_label)
+    axes[2].set_ylabel('Transport [Sv]')
+    axes[2].legend()
+    axes[2].grid(True, linestyle='--', alpha=0.5)
+
+    # SAMBA
+    axes[3].plot(samba_data['TIME'], samba_data, color='purple', label=samba_label)
+    axes[3].axhline(0, color='black', linestyle='--', linewidth=0.5)
+    axes[3].set_title(samba_label)
+    axes[3].set_xlabel('Time')
+    axes[3].set_ylabel('Transport [Sv]')
+    axes[3].legend()
+    axes[3].grid(True, linestyle='--', alpha=0.5)
+    for ax in axes:
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_xlim([pd.Timestamp('2000-01-01'), pd.Timestamp('2022-12-31')])
+        ax.set_clip_on(False)
+        ax.set_yticks(range(int(ax.get_ylim()[0])+1, int(ax.get_ylim()[1]) + 1, 5))
+    axes[0].set_ylim([5, 25])  # OSNAP
+    axes[1].set_ylim([5, 25])  # RAPID
+    axes[2].set_ylim([5, 25])  # MOVE
+    axes[3].set_ylim([-10, 10])  # SAMBA
+
+    plt.tight_layout()
+    plt.show()

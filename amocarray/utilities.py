@@ -15,11 +15,14 @@ def _validate_dims(ds):
     if dim_name not in ['TIME', 'time']:
         raise ValueError(f"Dimension name '{dim_name}' is not 'TIME' or 'time'.")
     
-# Helper functions
 def _is_valid_url(url: str) -> bool:
     try:
         result = urlparse(url)
-        return all([result.scheme in ("http", "https"), result.netloc, result.path.endswith("/")])
+        return all([
+            result.scheme in ("http", "https", "ftp"),
+            result.netloc,
+            result.path  # <- just check there's a path, not how it ends
+        ])
     except Exception:
         return False
 
