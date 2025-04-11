@@ -2,90 +2,79 @@ import xarray as xr
 import os
 from bs4 import BeautifulSoup
 import requests
-from importlib_resources import files
-import pooch
 
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
 
-data_source_og = pooch.create(
-    path=pooch.os_cache("amocarray"),
-    base_url=server,
-    registry={'moc_vertical.nc': 'sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46'},
-)
+def download_file(url, dest_folder):
+    """
+    Download a file from a URL to a destination folder.
 
-# readers.py: Will only read files.  Not manipulate them.
-#
-# Comment 2024 Oct 30: I needed an initial file list to create the registry
-# This is impractical for expansion, so may need to move away from pooch.
-# This was necessary to get an initial file list
-# mylist = fetchers.list_files_in_https_server(server)
-# fetchers.create_pooch_registry_from_directory("/Users/eddifying/Dropbox/data/sg015-ncei-download/")
-# Example usage
-#directory_path = "/Users/eddifying/Dropbox/data/sg015-ncei-snippet"
-#pooch_registry = create_pooch_registry_from_directory(directory_path)
-#print(pooch_registry)
+    Parameters:
+    url (str): The URL of the file to download.
+    dest_folder (str): The folder where the file will be saved.
 
-# Information on creating a registry file: https://www.fatiando.org/pooch/latest/registry-files.html
-# But instead of pkg_resources (https://setuptools.pypa.io/en/latest/pkg_resources.html#)
-# we should use importlib.resources
-# Here's how to use importlib.resources (https://importlib-resources.readthedocs.io/en/latest/using.html)
-#data_source_og = pooch.create(
-#    path=pooch.os_cache("amocarray"),
-#    base_url=server,
-#    registry=None,
-#)
-#registry_file = files('amocarray').joinpath('amoc_registry.txt')
-#data_source_og.load_registry(registry_file)
+    Returns:
+    str: The path to the downloaded file.
+    """
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
 
-def load_sample_dataset(dataset_name="moc_vertical.nc"):
-    if dataset_name in data_source_og.registry.keys():
-        file_path = data_source_og.fetch(dataset_name)
-        return xr.open_dataset(file_path)
-    else:
-        msg = f"Requested sample dataset {dataset_name} not known. Specify one of the following available datasets: {list(data_source_og.registry.keys())}"
-        raise ValueError(msg)
+    local_filename = os.path.join(dest_folder, os.path.basename(url))
+    with requests.get(url, stream=True) as response:
+        response.raise_for_status()
+        with open(local_filename, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
 
+    return local_filename
+
+def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
+    """
+    Load a sample dataset from the local data directory.
+
+    Parameters:
+    dataset_name (str): The name of the dataset file.
+    data_dir (str): The local directory where the dataset is stored.
+
+    Returns:
+    xarray.Dataset: The loaded dataset.
+    """
+    file_path = os.path.join(data_dir, dataset_name)
+
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"{dataset_name} not found in the {data_dir} directory.")
+
+    return xr.open_dataset(file_path)
 
 def read_26N(source):
     """
-    Load datasets from either an online source or a local directory, optionally filtering by profile range.
+    Load datasets from either an online source or a local directory.
 
     Parameters:
     source (str): The URL to the directory containing the NetCDF files or the path to the local directory.
-    start_profile (int, optional): The starting profile number to filter files. Defaults to None.
-    end_profile (int, optional): The ending profile number to filter files. Defaults to None.
 
     Returns:
     A list of xarray.Dataset objects loaded from the filtered NetCDF files.
     """
     if source is None:
-        server = 'https://rapid.ac.uk/sites/default/files/rapid_data/'
-        filelist = ['moc_vertical.nc', 'ts_gridded.nc', 'moc_transports.nc']
-    if source.startswith("http://") or source.startswith("https://"):
-        # Create a Pooch object to manage the remote files
-        data_source_online = pooch.create(
-            path=pooch.os_cache("amocarray"),
-            base_url=source,
-            registry=None,
-        )
-        registry_file = files('amocarray').joinpath('amoc_registry.txt')
-        data_source_og.load_registry(registry_file)
-
-        # List all files in the URL directory
+        source = 'https://rapid.ac.uk/sites/default/files/rapid_data/'
+        file_list = ['moc_vertical.nc', 'ts_gridded.nc', 'moc_transports.nc']
+    elif source.startswith("http://") or source.startswith("https://"):
         file_list = list_files_in_https_server(source)
     elif os.path.isdir(source):
         file_list = os.listdir(source)
     else:
         raise ValueError("Source must be a valid URL or directory path.")
 
-    filtered_files = filter_files_by_profile(file_list, start_profile, end_profile)
-    
     datasets = []
 
-    for file in filtered_files:
+    for file in file_list:
         if source.startswith("http://") or source.startswith("https://"):
-            ds = load_sample_dataset(file)
+            file_url = f"{source}/{file}"
+            dest_folder = os.path.join(os.path.expanduser("~"), ".amocarray_data")
+            file_path = download_file(file_url, dest_folder)
+            ds = xr.open_dataset(file_path)
         else:
             ds = xr.open_dataset(os.path.join(source, file))
         
@@ -115,25 +104,3 @@ def list_files_in_https_server(url):
             files.append(href)
 
     return files
-
-def create_pooch_registry_from_directory(directory):
-    """
-    Create a Pooch registry from files in a specified directory.
-
-    Parameters:
-    directory (str): The path to the directory containing the files.
-
-    Returns:
-    dict: A dictionary representing the Pooch registry with filenames as keys and their SHA256 hashes as values.
-    """
-    registry = {}
-    files = os.listdir(directory)
-
-    for file in files:
-        if file.endswith(".nc"):
-            file_path = os.path.join(directory, file)
-            sha256_hash = pooch.file_hash(file_path, alg="sha256")
-            registry[file] = f"sha256:{sha256_hash}"
-
-    return registry
-
