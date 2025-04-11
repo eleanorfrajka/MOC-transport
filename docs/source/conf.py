@@ -16,7 +16,7 @@ year = datetime.datetime.now(tz=datetime.timezone.utc).date().year
 #print(sys.path)
 
 # General information about the project.
-project = 'MOC_transport'
+project = 'amocarray'
 author = 'Eleanor Frajka-Williams, FirstName LastName'
 copyright = f"{year}, {author}"
 release = 'v0.0.0'
