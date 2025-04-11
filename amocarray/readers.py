@@ -5,6 +5,15 @@ import requests
 from importlib_resources import files
 import pooch
 
+# Dropbox location Public/linked_elsewhere/amocarray_data/
+server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
+
+data_source_og = pooch.create(
+    path=pooch.os_cache("amocarray"),
+    base_url=server,
+    registry={'moc_vertical.nc': 'sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46'},
+)
+
 # readers.py: Will only read files.  Not manipulate them.
 #
 # Comment 2024 Oct 30: I needed an initial file list to create the registry
@@ -21,26 +30,24 @@ import pooch
 # But instead of pkg_resources (https://setuptools.pypa.io/en/latest/pkg_resources.html#)
 # we should use importlib.resources
 # Here's how to use importlib.resources (https://importlib-resources.readthedocs.io/en/latest/using.html)
-server = "https://www.dropbox.com/scl/fo/dhinr4hvpk05zcecqyz2x/ADTqIuEpWHCxeZDspCiTN68?rlkey=bt9qheandzbucca5zhf5v9j7a&dl=0"
-server = "https://www.ncei.noaa.gov/data/oceans/glider/seaglider/uw/015/20040924/"
-data_source_og = pooch.create(
-    path=pooch.os_cache("seagliderOG1"),
-    base_url=server,
-    registry=None,
-)
-registry_file = files('seagliderOG1').joinpath('seaglider_registry.txt')
-data_source_og.load_registry(registry_file)
+#data_source_og = pooch.create(
+#    path=pooch.os_cache("amocarray"),
+#    base_url=server,
+#    registry=None,
+#)
+#registry_file = files('amocarray').joinpath('amoc_registry.txt')
+#data_source_og.load_registry(registry_file)
 
-def load_sample_dataset(dataset_name="p0040034_20031007.nc"):
+def load_sample_dataset(dataset_name="moc_vertical.nc"):
     if dataset_name in data_source_og.registry.keys():
         file_path = data_source_og.fetch(dataset_name)
         return xr.open_dataset(file_path)
     else:
-        msg = f"Requested sample dataset {dataset_name} not known"
+        msg = f"Requested sample dataset {dataset_name} not known. Specify one of the following available datasets: {list(data_source_og.registry.keys())}"
         raise ValueError(msg)
 
 
-def read_basestation(source, start_profile=None, end_profile=None):
+def read_26N(source):
     """
     Load datasets from either an online source or a local directory, optionally filtering by profile range.
 
@@ -52,14 +59,17 @@ def read_basestation(source, start_profile=None, end_profile=None):
     Returns:
     A list of xarray.Dataset objects loaded from the filtered NetCDF files.
     """
+    if source is None:
+        server = 'https://rapid.ac.uk/sites/default/files/rapid_data/'
+        filelist = ['moc_vertical.nc', 'ts_gridded.nc', 'moc_transports.nc']
     if source.startswith("http://") or source.startswith("https://"):
         # Create a Pooch object to manage the remote files
         data_source_online = pooch.create(
-            path=pooch.os_cache("seagliderOG1"),
+            path=pooch.os_cache("amocarray"),
             base_url=source,
             registry=None,
         )
-        registry_file = files('seagliderOG1').joinpath('seaglider_registry.txt')
+        registry_file = files('amocarray').joinpath('amoc_registry.txt')
         data_source_og.load_registry(registry_file)
 
         # List all files in the URL directory
