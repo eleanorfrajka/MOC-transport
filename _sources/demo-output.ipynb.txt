@@ -24,10 +24,10 @@
    "id": "6a1920f3",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-11T12:45:13.506092Z",
-     "iopub.status.busy": "2025-04-11T12:45:13.505762Z",
-     "iopub.status.idle": "2025-04-11T12:45:14.398468Z",
-     "shell.execute_reply": "2025-04-11T12:45:14.397942Z"
+     "iopub.execute_input": "2025-04-11T12:50:59.518474Z",
+     "iopub.status.busy": "2025-04-11T12:50:59.518023Z",
+     "iopub.status.idle": "2025-04-11T12:51:00.399490Z",
+     "shell.execute_reply": "2025-04-11T12:51:00.398937Z"
     }
    },
    "outputs": [
@@ -60,16 +60,135 @@
    "id": "1e070d18",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-11T12:45:14.400310Z",
-     "iopub.status.busy": "2025-04-11T12:45:14.400038Z",
-     "iopub.status.idle": "2025-04-11T12:45:14.402723Z",
-     "shell.execute_reply": "2025-04-11T12:45:14.402328Z"
+     "iopub.execute_input": "2025-04-11T12:51:00.401137Z",
+     "iopub.status.busy": "2025-04-11T12:51:00.400878Z",
+     "iopub.status.idle": "2025-04-11T12:51:00.403376Z",
+     "shell.execute_reply": "2025-04-11T12:51:00.403007Z"
     }
    },
    "outputs": [],
    "source": [
     "# Specify the path for writing datafiles\n",
     "data_path = os.path.join(parent_dir, 'data')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "9414445e",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-11T12:51:00.404808Z",
+     "iopub.status.busy": "2025-04-11T12:51:00.404660Z",
+     "iopub.status.idle": "2025-04-11T12:51:01.486123Z",
+     "shell.execute_reply": "2025-04-11T12:51:01.485623Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Downloading file 'moc_vertical.nc' from 'https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0/moc_vertical.nc' to '/home/runner/.cache/amocarray'.\n"
+     ]
+    },
+    {
+     "ename": "ValueError",
+     "evalue": "SHA256 hash of downloaded file (moc_vertical.nc) does not match the known hash: expected sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46 but got 2b9a7e528d5701b17f8647e3738f8ea84e6ef2289e23c52c04cc1361f20e196e. Deleted download for safety. The downloaded file may have been corrupted or the known hash may be outdated.",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[3]\u001b[39m\u001b[32m, line 2\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;66;03m# Load data from data/moc_transports\u001b[39;00m\n\u001b[32m----> \u001b[39m\u001b[32m2\u001b[39m ds = \u001b[43mreaders\u001b[49m\u001b[43m.\u001b[49m\u001b[43mload_sample_dataset\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m      3\u001b[39m \u001b[38;5;28mprint\u001b[39m(ds)\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/work/amocarray/amocarray/amocarray/readers.py:43\u001b[39m, in \u001b[36mload_sample_dataset\u001b[39m\u001b[34m(dataset_name)\u001b[39m\n\u001b[32m     41\u001b[39m \u001b[38;5;28;01mdef\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34mload_sample_dataset\u001b[39m(dataset_name=\u001b[33m\"\u001b[39m\u001b[33mmoc_vertical.nc\u001b[39m\u001b[33m\"\u001b[39m):\n\u001b[32m     42\u001b[39m     \u001b[38;5;28;01mif\u001b[39;00m dataset_name \u001b[38;5;129;01min\u001b[39;00m data_source_og.registry.keys():\n\u001b[32m---> \u001b[39m\u001b[32m43\u001b[39m         file_path = \u001b[43mdata_source_og\u001b[49m\u001b[43m.\u001b[49m\u001b[43mfetch\u001b[49m\u001b[43m(\u001b[49m\u001b[43mdataset_name\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m     44\u001b[39m         \u001b[38;5;28;01mreturn\u001b[39;00m xr.open_dataset(file_path)\n\u001b[32m     45\u001b[39m     \u001b[38;5;28;01melse\u001b[39;00m:\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/core.py:589\u001b[39m, in \u001b[36mPooch.fetch\u001b[39m\u001b[34m(self, fname, processor, downloader, progressbar)\u001b[39m\n\u001b[32m    586\u001b[39m     \u001b[38;5;28;01mif\u001b[39;00m downloader \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[32m    587\u001b[39m         downloader = choose_downloader(url, progressbar=progressbar)\n\u001b[32m--> \u001b[39m\u001b[32m589\u001b[39m     \u001b[43mstream_download\u001b[49m\u001b[43m(\u001b[49m\n\u001b[32m    590\u001b[39m \u001b[43m        \u001b[49m\u001b[43murl\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m    591\u001b[39m \u001b[43m        \u001b[49m\u001b[43mfull_path\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m    592\u001b[39m \u001b[43m        \u001b[49m\u001b[43mknown_hash\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m    593\u001b[39m \u001b[43m        \u001b[49m\u001b[43mdownloader\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m    594\u001b[39m \u001b[43m        \u001b[49m\u001b[43mpooch\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[43m,\u001b[49m\n\u001b[32m    595\u001b[39m \u001b[43m        \u001b[49m\u001b[43mretry_if_failed\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43mself\u001b[39;49m\u001b[43m.\u001b[49m\u001b[43mretry_if_failed\u001b[49m\u001b[43m,\u001b[49m\n\u001b[32m    596\u001b[39m \u001b[43m    \u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    598\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m processor \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[32m    599\u001b[39m     \u001b[38;5;28;01mreturn\u001b[39;00m processor(\u001b[38;5;28mstr\u001b[39m(full_path), action, \u001b[38;5;28mself\u001b[39m)\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/core.py:808\u001b[39m, in \u001b[36mstream_download\u001b[39m\u001b[34m(url, fname, known_hash, downloader, pooch, retry_if_failed)\u001b[39m\n\u001b[32m    806\u001b[39m \u001b[38;5;28;01mwith\u001b[39;00m temporary_file(path=\u001b[38;5;28mstr\u001b[39m(fname.parent)) \u001b[38;5;28;01mas\u001b[39;00m tmp:\n\u001b[32m    807\u001b[39m     downloader(url, tmp, pooch)\n\u001b[32m--> \u001b[39m\u001b[32m808\u001b[39m     \u001b[43mhash_matches\u001b[49m\u001b[43m(\u001b[49m\u001b[43mtmp\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mknown_hash\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mstrict\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43;01mTrue\u001b[39;49;00m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43msource\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43mstr\u001b[39;49m\u001b[43m(\u001b[49m\u001b[43mfname\u001b[49m\u001b[43m.\u001b[49m\u001b[43mname\u001b[49m\u001b[43m)\u001b[49m\u001b[43m)\u001b[49m\n\u001b[32m    809\u001b[39m     shutil.move(tmp, \u001b[38;5;28mstr\u001b[39m(fname))\n\u001b[32m    810\u001b[39m \u001b[38;5;28;01mbreak\u001b[39;00m\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/hashes.py:176\u001b[39m, in \u001b[36mhash_matches\u001b[39m\u001b[34m(fname, known_hash, strict, source)\u001b[39m\n\u001b[32m    174\u001b[39m     \u001b[38;5;28;01mif\u001b[39;00m source \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[32m    175\u001b[39m         source = \u001b[38;5;28mstr\u001b[39m(fname)\n\u001b[32m--> \u001b[39m\u001b[32m176\u001b[39m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\n\u001b[32m    177\u001b[39m         \u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00malgorithm.upper()\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m hash of downloaded file (\u001b[39m\u001b[38;5;132;01m{\u001b[39;00msource\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m) does not match\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m    178\u001b[39m         \u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[33m the known hash: expected \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mknown_hash\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m but got \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mnew_hash\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m. Deleted\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m    179\u001b[39m         \u001b[33m\"\u001b[39m\u001b[33m download for safety. The downloaded file may have been corrupted or\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m    180\u001b[39m         \u001b[33m\"\u001b[39m\u001b[33m the known hash may be outdated.\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m    181\u001b[39m     )\n\u001b[32m    182\u001b[39m \u001b[38;5;28;01mreturn\u001b[39;00m matches\n",
+      "\u001b[31mValueError\u001b[39m: SHA256 hash of downloaded file (moc_vertical.nc) does not match the known hash: expected sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46 but got 2b9a7e528d5701b17f8647e3738f8ea84e6ef2289e23c52c04cc1361f20e196e. Deleted download for safety. The downloaded file may have been corrupted or the known hash may be outdated."
+     ]
+    }
+   ],
+   "source": [
+    "# Load data from data/moc_transports\n",
+    "ds = readers.load_sample_dataset()\n",
+    "print(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "cde6d387",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-11T12:51:01.487953Z",
+     "iopub.status.busy": "2025-04-11T12:51:01.487681Z",
+     "iopub.status.idle": "2025-04-11T12:51:01.503353Z",
+     "shell.execute_reply": "2025-04-11T12:51:01.502964Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'ds' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m                                 Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[4]\u001b[39m\u001b[32m, line 1\u001b[39m\n\u001b[32m----> \u001b[39m\u001b[32m1\u001b[39m plotters.show_contents(\u001b[43mds\u001b[49m)\n",
+      "\u001b[31mNameError\u001b[39m: name 'ds' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "plotters.show_contents(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "c0e74af4",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2025-04-11T12:51:01.504980Z",
+     "iopub.status.busy": "2025-04-11T12:51:01.504595Z",
+     "iopub.status.idle": "2025-04-11T12:51:01.604487Z",
+     "shell.execute_reply": "2025-04-11T12:51:01.604052Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'ds' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m                                 Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[5]\u001b[39m\u001b[32m, line 6\u001b[39m\n\u001b[32m      3\u001b[39m fig, axes = plt.subplots(nrows=\u001b[32m1\u001b[39m, ncols=\u001b[32m1\u001b[39m, figsize=(\u001b[32m12\u001b[39m, \u001b[32m5\u001b[39m))\n\u001b[32m      5\u001b[39m \u001b[38;5;66;03m# Plot stream function\u001b[39;00m\n\u001b[32m----> \u001b[39m\u001b[32m6\u001b[39m \u001b[43mds\u001b[49m[\u001b[33m'\u001b[39m\u001b[33mstream_function_mar\u001b[39m\u001b[33m'\u001b[39m].plot(x=\u001b[33m'\u001b[39m\u001b[33mtime\u001b[39m\u001b[33m'\u001b[39m, y=\u001b[33m'\u001b[39m\u001b[33mdepth\u001b[39m\u001b[33m'\u001b[39m, cmap=\u001b[33m'\u001b[39m\u001b[33mviridis\u001b[39m\u001b[33m'\u001b[39m, ax=axes)\n\u001b[32m      7\u001b[39m axes.set_title(\u001b[33m'\u001b[39m\u001b[33mStream Function (MAR)\u001b[39m\u001b[33m'\u001b[39m)\n\u001b[32m      8\u001b[39m axes.invert_yaxis()\n",
+      "\u001b[31mNameError\u001b[39m: name 'ds' is not defined"
+     ]
+    },
+    {
+     "data": {
+      "image/png": "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",
+      "text/plain": [
+       "<Figure size 1200x500 with 1 Axes>"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 5))\n",
+    "\n",
+    "# Plot stream function\n",
+    "ds['stream_function_mar'].plot(x='time', y='depth', cmap='viridis', ax=axes)\n",
+    "axes.set_title('Stream Function (MAR)')\n",
+    "axes.invert_yaxis()\n",
+    "plt.tight_layout()\n",
+    "plt.show()"
    ]
   }
  ],

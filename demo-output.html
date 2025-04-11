@@ -132,6 +132,140 @@
 </pre></div>
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data from data/moc_transports</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_sample_dataset</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Downloading file &#39;moc_vertical.nc&#39; from &#39;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0/moc_vertical.nc&#39; to &#39;/home/runner/.cache/amocarray&#39;.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[3]</span><span class="ansi-green-fg">, line 2</span>
+<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># Load data from data/moc_transports</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> ds = <span class="ansi-yellow-bg">readers</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">load_sample_dataset</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">      3</span> <span style="color: rgb(0,135,0)">print</span>(ds)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/work/amocarray/amocarray/amocarray/readers.py:43</span>, in <span class="ansi-cyan-fg">load_sample_dataset</span><span class="ansi-blue-fg">(dataset_name)</span>
+<span class="ansi-green-fg">     41</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-fg">load_sample_dataset</span>(dataset_name=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">moc_vertical.nc</span><span class="ansi-yellow-fg">&#34;</span>):
+<span class="ansi-green-fg">     42</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> dataset_name <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> data_source_og.registry.keys():
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">43</span>         file_path = <span class="ansi-yellow-bg">data_source_og</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">fetch</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">dataset_name</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">     44</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> xr.open_dataset(file_path)
+<span class="ansi-green-fg">     45</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/core.py:589</span>, in <span class="ansi-cyan-fg">Pooch.fetch</span><span class="ansi-blue-fg">(self, fname, processor, downloader, progressbar)</span>
+<span class="ansi-green-fg">    586</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> downloader <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    587</span>         downloader = choose_downloader(url, progressbar=progressbar)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">589</span>     <span class="ansi-yellow-bg">stream_download</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    590</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">url</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    591</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">full_path</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    592</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">known_hash</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    593</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">downloader</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    594</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">pooch</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    595</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">retry_if_failed</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">retry_if_failed</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    596</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    598</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> processor <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    599</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> processor(<span style="color: rgb(0,135,0)">str</span>(full_path), action, <span style="color: rgb(0,135,0)">self</span>)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/core.py:808</span>, in <span class="ansi-cyan-fg">stream_download</span><span class="ansi-blue-fg">(url, fname, known_hash, downloader, pooch, retry_if_failed)</span>
+<span class="ansi-green-fg">    806</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> temporary_file(path=<span style="color: rgb(0,135,0)">str</span>(fname.parent)) <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> tmp:
+<span class="ansi-green-fg">    807</span>     downloader(url, tmp, pooch)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">808</span>     <span class="ansi-yellow-bg">hash_matches</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">tmp</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">known_hash</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">strict</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">source</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">str</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">fname</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">name</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    809</span>     shutil.move(tmp, <span style="color: rgb(0,135,0)">str</span>(fname))
+<span class="ansi-green-fg">    810</span> <span class="ansi-bold" style="color: rgb(0,135,0)">break</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/micromamba/envs/TEST/lib/python3.13/site-packages/pooch/hashes.py:176</span>, in <span class="ansi-cyan-fg">hash_matches</span><span class="ansi-blue-fg">(fname, known_hash, strict, source)</span>
+<span class="ansi-green-fg">    174</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> source <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    175</span>         source = <span style="color: rgb(0,135,0)">str</span>(fname)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">176</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(
+<span class="ansi-green-fg">    177</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>algorithm.upper()<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg"> hash of downloaded file (</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>source<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">) does not match</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-green-fg">    178</span>         <span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> the known hash: expected </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>known_hash<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg"> but got </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>new_hash<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">. Deleted</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-green-fg">    179</span>         <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> download for safety. The downloaded file may have been corrupted or</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-green-fg">    180</span>         <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> the known hash may be outdated.</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-green-fg">    181</span>     )
+<span class="ansi-green-fg">    182</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> matches
+
+<span class="ansi-red-fg">ValueError</span>: SHA256 hash of downloaded file (moc_vertical.nc) does not match the known hash: expected sha256:3d3a40fc45102c4dbe32fcbd03d1ec19724495145d014c6d02a44b8413447d46 but got 2b9a7e528d5701b17f8647e3738f8ea84e6ef2289e23c52c04cc1361f20e196e. Deleted download for safety. The downloaded file may have been corrupted or the known hash may be outdated.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotters</span><span class="o">.</span><span class="n">show_contents</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[4]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> plotters.show_contents(<span class="ansi-yellow-bg">ds</span>)
+
+<span class="ansi-red-fg">NameError</span>: name &#39;ds&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot stream function</span>
+<span class="n">ds</span><span class="p">[</span><span class="s1">&#39;stream_function_mar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">)</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Stream Function (MAR)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[5]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-green-fg">      3</span> fig, axes = plt.subplots(nrows=<span class="ansi-green-fg">1</span>, ncols=<span class="ansi-green-fg">1</span>, figsize=(<span class="ansi-green-fg">12</span>, <span class="ansi-green-fg">5</span>))
+<span class="ansi-green-fg">      5</span> <span style="color: rgb(95,135,135)"># Plot stream function</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> <span class="ansi-yellow-bg">ds</span>[<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">stream_function_mar</span><span class="ansi-yellow-fg">&#39;</span>].plot(x=<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">time</span><span class="ansi-yellow-fg">&#39;</span>, y=<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">depth</span><span class="ansi-yellow-fg">&#39;</span>, cmap=<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">viridis</span><span class="ansi-yellow-fg">&#39;</span>, ax=axes)
+<span class="ansi-green-fg">      7</span> axes.set_title(<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Stream Function (MAR)</span><span class="ansi-yellow-fg">&#39;</span>)
+<span class="ansi-green-fg">      8</span> axes.invert_yaxis()
+
+<span class="ansi-red-fg">NameError</span>: name &#39;ds&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/demo-output_5_1.png" src="_images/demo-output_5_1.png" />
+</div>
+</div>
 </section>
 
 
