@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extra GitHub features: Actions &amp; Pages &mdash; template_project v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transferring to an Organisation" href="gitorg.html" />
+    <link rel="prev" title="Collaborating with git: Basic workflow" href="gitcollab.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            template_project
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Extra GitHub features: Actions &amp; Pages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#github-action-to-run-test-code">GitHub Action to run test code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#structure-of-a-workflow-yaml-file">Structure of a workflow yaml file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#viewing-the-executed-action-on-github">Viewing the executed Action on GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#failed-tests-in-a-pull-request">Failed tests in a pull request</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#github-action-to-build-documentation">GitHub Action to build documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-docs-with-sphinx">Creating docs with sphinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#workflows-to-build-documentation">Workflows to build documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-docs-as-a-github-pages">Getting docs as a GitHub Pages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activating-github-io-template-project">Activating `github.io/template-project’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypi-publish.html">Publishing to PyPi</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">template-project demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">template_project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Extra GitHub features: Actions &amp; Pages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/github.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="extra-github-features-actions-pages">
+<h1>Extra GitHub features: Actions &amp; Pages<a class="headerlink" href="#extra-github-features-actions-pages" title="Link to this heading"></a></h1>
+<p>Much of the explanation in <a class="reference internal" href="gitcollab.html"><span class="doc std std-doc">Collaborate with git</span></a> can be done whether your repository lives on GitHub or a GitLab server or elsewhere.  In this template-project, we use GitHub-specific features to perform extra functions that may not look the same on other git servers.</p>
+<p>On GitHub, we are using two main features:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- GitHub Actions (via workflows)
+- GitHub Pages: to display the documentation as a website (here as https://eleanorfrajka.github.io/template-project)
+</pre></div>
+</div>
+<p>GitHub Actions provide a way to</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- automatically run code tests (tests which you have written, normally stored in the `tests/` directory) when you make a pull request.  This can help ensure that a change to the code in one place doesn&#39;t break the code elsewhere.
+
+- automatically build documentation using the latest changes in code.  If you add a function or change its &quot;docstring&quot; (the comment at the top of the function), the html documentation can be automatically updated without you editing it.
+</pre></div>
+</div>
+<p>The steps of the action are stored as yaml files (<code class="docutils literal notranslate"><span class="pre">*.yml</span></code>) within the repository in the directory <code class="docutils literal notranslate"><span class="pre">.github/workflows</span></code>.  Check, e.g. in this repository, the <a class="reference external" href="https://github.com/eleanorfrajka/template-project/blob/main/.github/workflows/tests.yml">tests.yml</a> file.</p>
+<section id="github-action-to-run-test-code">
+<h2>GitHub Action to run test code<a class="headerlink" href="#github-action-to-run-test-code" title="Link to this heading"></a></h2>
+<section id="structure-of-a-workflow-yaml-file">
+<h3>Structure of a workflow yaml file<a class="headerlink" href="#structure-of-a-workflow-yaml-file" title="Link to this heading"></a></h3>
+<p>Note that in the yaml file for GitHub Actions, the indentation matters, and there are expected commands to be parsed.  Here, we start with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="p">:</span> <span class="n">Run</span> <span class="n">tests</span>
+</pre></div>
+</div>
+<p>This specifies the name which will appear in the left hand sidebar on the github repository when you click “Actions” across the top (or navigate directly to the example in this template-project here: https://github.com/eleanorfrajka/template-project/actions).  Generally, the text to the right of the colon space for a name (“name: “) can be free text, but avoid fancy punctuation which may cause problems.</p>
+<p>Note under “All workflows”, a workflow named “Run tests”</p>
+<p>The next lines specify when the action should be “triggered”.  I.e., what git activity in this repository will cause the workflow to run.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">on</span><span class="p">:</span> 
+  <span class="n">pull_request</span><span class="p">:</span>
+    <span class="n">branches</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">main</span>
+    <span class="n">paths</span><span class="p">:</span>
+      <span class="o">-</span> <span class="s1">&#39;**.py&#39;</span>
+      <span class="o">-</span> <span class="s1">&#39;**.ipynb&#39;</span>
+</pre></div>
+</div>
+<p>Here, we’ve specified that when a “pull request” is created, that the tests should be run.  This occurs after step 8 “Compare pull request on Github.com” in <a class="reference internal" href="gitcollab.html"><span class="doc std std-doc">Collaborate with git</span></a>.  It will only trigger when the pull request is made on the “main” branch (note that “main” used to be called “master”) and searches through for files matching the name <code class="docutils literal notranslate"><span class="pre">**.py</span></code> or <code class="docutils literal notranslate"><span class="pre">**.ipynb</span></code> (i.e., python files or notebooks).</p>
+<p>The next part of the workflow lists the various jobs to be run.  We use</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>jobs:
+  job_mytests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [&quot;3.8&quot;, &quot;3.12&quot;]
+      fail-fast: true
+    defaults:
+      run:
+        shell: bash -l {0}
+</pre></div>
+</div>
+<p>where the text “job_mytests” is somewhat arbitrary, but the lines following tell the test to run through a set of different operating systems (e.g., run the test as if it were on linux, windows or mac) and the options for python versions include a couple (so the tests can check whether a specific python version causes a problem).  The <code class="docutils literal notranslate"><span class="pre">fail-fast:</span> <span class="pre">true</span></code> option says that if any one test fails, stop running the rest of the tests.</p>
+<p>Finally, the actual steps to be evaluated come after <code class="docutils literal notranslate"><span class="pre">steps:</span></code> as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    steps:
+    - name: Run a one-line script
+      run: echo &quot;The job was automatically triggered by a ${{ github.event_name }} event.&quot;
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8 pytest
+        if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+    - name: Test with pytest
+      run: |
+        pytest
+</pre></div>
+</div>
+<p>We’ve included a very simple one to print what kind of event triggered the test.</p>
+<p>Then we checkout the repository using an action provided on GitHub <a class="reference external" href="https://github.com/marketplace/actions/checkout">actions/checkout&#64;v4</a>.  Note that you may need to update to later versions.</p>
+<p>Then we set up the version of python to be used, cycling through the options given in <code class="docutils literal notranslate"><span class="pre">matrix.python-version</span></code> using <a class="reference external" href="https://github.com/marketplace/actions/setup-python">actions/checkout&#64;v2</a>.</p>
+<p>The “Install dependencies” step reads from the <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> file, which specifies which python packages are needed for development work.  <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> should include all packages listed in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> but additional packages needed to run these tests or build the documentation.  For example, running these tests requires the package <code class="docutils literal notranslate"><span class="pre">pytest</span></code> which is used in the step “Test with pytest”.</p>
+</section>
+<section id="viewing-the-executed-action-on-github">
+<h3>Viewing the executed Action on GitHub<a class="headerlink" href="#viewing-the-executed-action-on-github" title="Link to this heading"></a></h3>
+<p>To see an example of the executed action, go to <a class="reference external" href="https://github.com/eleanorfrajka/template-project/actions/runs/12084492287">https://github.com/eleanorfrajka/template-project/actions/runs/12084492287</a>, which ran the tests for this repository.</p>
+<p>On the left, you’ll see green ticks next to the tests which ran successfully.  You can also see where it cycled through each combination of operating system and python version.  E.g., the first run used “ubuntu-latest” as the operating system and “3.8” as the python version.</p>
+<p>If you select one on the left, you can then see the steps that were carried out on the right.  Clicking a step, you can see some details about the run and any output generated.</p>
+<p>For an example of a failed test, see <a class="reference external" href="https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161">https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161</a>.  Click one of the tests with a red x, and the steps will appear to the right.  Click the step where there was an error (red x) and the error message appears.</p>
+<p>In this case, the test was unable to run because there was some legacy code that wasn’t applicable here (and also not available), where the <code class="docutils literal notranslate"><span class="pre">tests/test_tools.py</span></code> tried to import a package that didn’t exist (<code class="docutils literal notranslate"><span class="pre">seagliderOG1</span></code>).  The error message reads as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_tools.py _____________________
+ImportError while importing test module &#39;/Users/runner/work/template-project/template-project/tests/test_tools.py&#39;.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+tests/test_tools.py:8: in &lt;module&gt;
+    from seagliderOG1 import tools
+E   ModuleNotFoundError: No module named &#39;seagliderOG1&#39;
+=========================== short test summary info ============================
+ERROR tests/test_tools.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.10s ===============================
+Error: Process completed with exit code 2.
+</pre></div>
+</div>
+<p>These error messages are helpful for understanding why the action failed.</p>
+<p>Additionally or alternatively, you can try to run the steps in order on your computer (without specifying the operating system or python version), by parsing through the commands specified in the steps of the yaml file.</p>
+</section>
+<section id="failed-tests-in-a-pull-request">
+<h3>Failed tests in a pull request<a class="headerlink" href="#failed-tests-in-a-pull-request" title="Link to this heading"></a></h3>
+<p>If your pull request fails a test, <strong>do not merge</strong>.  By working in the same branch, you can try other fixes until the test successfully runs (or you can ask for a review on GitHub by naming a collaborator in the “Assignee” to the right on a pull request).</p>
+<p>See pull request (PR) <a class="reference external" href="https://github.com/eleanorfrajka/template-project/pull/1">#1</a>.  Scrolling down, you can see each commit that was tried, and whether or not the tests ran (red x = failed, green check = success).  In this case, after the tests passed, the pull request was merged which closes the pull request.</p>
+</section>
+</section>
+<section id="github-action-to-build-documentation">
+<h2>GitHub Action to build documentation<a class="headerlink" href="#github-action-to-build-documentation" title="Link to this heading"></a></h2>
+<section id="creating-docs-with-sphinx">
+<h3>Creating docs with sphinx<a class="headerlink" href="#creating-docs-with-sphinx" title="Link to this heading"></a></h3>
+<p>In this template, we are creating documentation using <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> with a “read the docs” theme.  This requires extra packages in your <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span>
+<span class="n">sphinx</span><span class="o">-</span><span class="n">rtd</span><span class="o">-</span><span class="n">theme</span>
+<span class="n">pypandoc</span>
+<span class="n">nbsphinx</span>
+<span class="n">nbconvert</span>
+<span class="n">myst</span><span class="o">-</span><span class="n">nb</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> is the basic machinery, and <code class="docutils literal notranslate"><span class="pre">sphinx-rtd-theme</span></code> is the “read the docs” theme.  <code class="docutils literal notranslate"><span class="pre">pypandoc</span></code> is a pandoc translater which enables translation from markdown, rst, python etc into formats like html, latex, etc.</p>
+<p>The additional <code class="docutils literal notranslate"><span class="pre">nbsphinx</span></code> and <code class="docutils literal notranslate"><span class="pre">nbconvert</span></code> are to handle python notebooks, so that they can be displayed in the sphinx output.  <code class="docutils literal notranslate"><span class="pre">myst_parser</span></code> allows you to include documentation files as <code class="docutils literal notranslate"><span class="pre">.md</span></code> in addition to sphinx’s default, <code class="docutils literal notranslate"><span class="pre">.rst</span></code>.</p>
+<p>The extra structure within the repository, within the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory includes a <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> and <code class="docutils literal notranslate"><span class="pre">source/conf.py</span></code> with some configuration information.  <strong>You should edit <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> to match your repository,</strong> especially the “general information about this project” section.</p>
+<p>When you’d like to test the build of your documentation (prior to submitting pull requests to the repository), navigate to the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory in a terminal window, and run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>template-project/docs $ make html
+</pre></div>
+</div>
+<p>This will generate the website within the directory <code class="docutils literal notranslate"><span class="pre">docs/build/html/</span></code>, which you can open from a browser to verify that everything worked.</p>
+</section>
+<section id="workflows-to-build-documentation">
+<h3>Workflows to build documentation<a class="headerlink" href="#workflows-to-build-documentation" title="Link to this heading"></a></h3>
+<p>In the template-project, we have two workflows for building documentation.</p>
+<p>To test that the documentation can build, there is <code class="docutils literal notranslate"><span class="pre">.github/workflows/docs.yml</span></code> (named “Test documentation build” and viewable on GitHub Actions here: https://github.com/eleanorfrajka/template-project/actions/workflows/docs.yml)</p>
+<p>To deploy the documentation to the branch <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> <em>after</em> a successful pull request is merged, there is <code class="docutils literal notranslate"><span class="pre">.github/workflows/deploy_docs.yml</span></code> (named “Deploy Documentation” and viewable here: https://github.com/eleanorfrajka/template-project/actions/workflows/docs_deploy.yml)</p>
+<p>Both of these use the same set of steps as <code class="docutils literal notranslate"><span class="pre">.github/workflows/tests.yml</span></code> but with a couple notable differences.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code>, we are not bothering with testing on a range of operating systems and so specify only <code class="docutils literal notranslate"><span class="pre">runs-on:</span> <span class="pre">ubuntu-latest</span></code>.  This could be any operating system, but on GitHub, windows appears to be slower.</p>
+<p>We’re also using a different way to set up python and the environment for execution.  In <code class="docutils literal notranslate"><span class="pre">tests.yml</span></code> this was done via the <code class="docutils literal notranslate"><span class="pre">actions/setup-python&#64;v2</span></code> and pip to install based on <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8 pytest
+        if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code>, we are instead using micromamba to manage the environment.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    - name: Setup Micromamba ${{ matrix.python-version }}
+      uses: mamba-org/setup-micromamba@v2.0.1
+      with:
+        environment-name: TEST
+        init-shell: bash
+        create-args: &gt;-
+          python=3 pip
+          --file requirements-dev.txt
+          --channel conda-forge
+</pre></div>
+</div>
+<p>This is due to some errors encountered when GitHub Actions ran <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code> workflow associated with the installation of <code class="docutils literal notranslate"><span class="pre">pandoc</span></code> (required for <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> which is what we’re using to build the documentation).  See some detail about the errors here: https://github.com/eleanorfrajka/template-project/pull/3.  So, while <code class="docutils literal notranslate"><span class="pre">tests.yml</span></code> would work with either method, we are switching to the micromamba method for <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">docs_deploy.yml</span></code>.</p>
+</section>
+<section id="getting-docs-as-a-github-pages">
+<h3>Getting docs as a GitHub Pages<a class="headerlink" href="#getting-docs-as-a-github-pages" title="Link to this heading"></a></h3>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">docs_deploy.yml</span></code> has successfully run (after merging a “pull request” onto main, which triggers the conditions “push on main”) at the top of <code class="docutils literal notranslate"><span class="pre">docs_deploy.yml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">on</span><span class="p">:</span>
+  <span class="c1"># This will run on commits with a pull request</span>
+  <span class="n">push</span><span class="p">:</span>
+    <span class="n">branches</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">main</span>
+</pre></div>
+</div>
+<p>The last step “Deploy” generates or updates the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch: https://github.com/eleanorfrajka/template-project/tree/gh-pages</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/build/html
+</pre></div>
+</div>
+<p>This uses the GitHub Action <code class="docutils literal notranslate"><span class="pre">peaceiris/actions-gh-pages&#64;v4</span></code> (https://github.com/marketplace/actions/github-pages-action).</p>
+</section>
+<section id="activating-github-io-template-project">
+<h3>Activating `github.io/template-project’<a class="headerlink" href="#activating-github-io-template-project" title="Link to this heading"></a></h3>
+<p>You’ll know you’re ready for this step when, from the main Github website for the repository (e.g. https;//github.com/eleanorfrajka/template-project/) if you click the drop-down button in the upper left quadrant that says “main”, you can scroll through and find the branch “gh-pages”.</p>
+<p>Now you’re ready to set up “Github Pages”.</p>
+<ol class="arabic simple">
+<li><p>Navigate to the repository and click the “Settings” across the top bar (to the right of “Insights”), then in the left sidebar, choose “Pages”.</p></li>
+<li><p>Select the “Source” as “Deploy from a branch” and in the next line, “Branch”, choose in the dropdown not “main” but “gh-pages”.  Leave the rest of the settings and click “save”.  This tells GitHub to serve the root level of this branch as the pages.</p></li>
+</ol>
+<p><strong>Note:</strong> If you’re following the steps in this template, you should not edit within your <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch since all of the contents here will be automatically generated from the <code class="docutils literal notranslate"><span class="pre">docs_deploy.yml</span></code> using your <code class="docutils literal notranslate"><span class="pre">notebooks/demo.ipynb</span></code> notebook and contents in the repository found in the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory.</p>
+<ol class="arabic simple" start="3">
+<li><p>Then, to help others find your pages, go back to your repository and click the settings cogwheel in the right side bar next to the “About” header.  For the “Website”, tick the box that says “Use your GitHub Pages website”.  This will auto-populate the URL into the Website box.  Click “save changes”.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gitcollab.html" class="btn btn-neutral float-left" title="Collaborating with git: Basic workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gitorg.html" class="btn btn-neutral float-right" title="Transferring to an Organisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, FirstName LastName, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

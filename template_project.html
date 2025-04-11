@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>template_project API &mdash; template_project v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            template_project
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypi-publish.html">Publishing to PyPi</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">template-project demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">template_project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">template_project</span> <span class="pre">API</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/template_project.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-project-api">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">template_project</span> <span class="pre">API</span></code><a class="headerlink" href="#template-project-api" title="Link to this heading"></a></h1>
+<dl class="py function" id="module-template_project.plotters">
+<dt class="sig sig-object py" id="template_project.plotters.show_attributes">
+<span class="sig-prename descclassname"><span class="pre">template_project.plotters.</span></span><span class="sig-name descname"><span class="pre">show_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/plotters.html#show_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.plotters.show_attributes" title="Link to this definition"></a></dt>
+<dd><p>Processes an xarray Dataset or a netCDF file, extracts attribute information,
+and returns a DataFrame with details about the attributes.</p>
+<p>Parameters:
+data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</p>
+<p>Returns:
+pandas.DataFrame: A DataFrame containing the following columns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Attribute: The name of the attribute.</p></li>
+<li><p>Value: The value of the attribute.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.plotters.show_contents">
+<span class="sig-prename descclassname"><span class="pre">template_project.plotters.</span></span><span class="sig-name descname"><span class="pre">show_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'variables'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/plotters.html#show_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.plotters.show_contents" title="Link to this definition"></a></dt>
+<dd><p>Wrapper function to show contents of an xarray Dataset or a netCDF file.</p>
+<p>Parameters:
+data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
+content_type (str): The type of content to show, either ‘variables’ (or ‘vars’) or ‘attributes’ (or ‘attrs’). Default is ‘variables’.</p>
+<p>Returns:
+pandas.io.formats.style.Styler or pandas.DataFrame: A styled DataFrame with details about the variables or attributes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.plotters.show_variables">
+<span class="sig-prename descclassname"><span class="pre">template_project.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/plotters.html#show_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.plotters.show_variables" title="Link to this definition"></a></dt>
+<dd><p>Processes an xarray Dataset or a netCDF file, extracts variable information,
+and returns a styled DataFrame with details about the variables.</p>
+<p>Parameters:
+data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</p>
+<p>Returns:
+pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>dims: The dimension of the variable (or “string” if it is a string type).</p></li>
+<li><p>name: The name of the variable.</p></li>
+<li><p>units: The units of the variable (if available).</p></li>
+<li><p>comment: Any additional comments about the variable (if available).</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.plotters.show_variables_by_dimension">
+<span class="sig-prename descclassname"><span class="pre">template_project.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables_by_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'trajectory'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/plotters.html#show_variables_by_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.plotters.show_variables_by_dimension" title="Link to this definition"></a></dt>
+<dd><p>Processes an xarray Dataset or a netCDF file, extracts variable information,
+and returns a styled DataFrame with details about the variables filtered by a specific dimension.</p>
+<p>Parameters:
+data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
+dimension_name (str): The name of the dimension to filter variables by.</p>
+<p>Returns:
+pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>dims: The dimension of the variable (or “string” if it is a string type).</p></li>
+<li><p>name: The name of the variable.</p></li>
+<li><p>units: The units of the variable (if available).</p></li>
+<li><p>comment: Any additional comments about the variable (if available).</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function" id="module-template_project.writers">
+<dt class="sig sig-object py" id="template_project.writers.save_dataset">
+<span class="sig-prename descclassname"><span class="pre">template_project.writers.</span></span><span class="sig-name descname"><span class="pre">save_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../test.nc'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/writers.html#save_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.writers.save_dataset" title="Link to this definition"></a></dt>
+<dd><p>Attempts to save the dataset to a NetCDF file. If a TypeError occurs due to invalid attribute values,
+it converts the invalid attributes to strings and retries the save operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
+<li><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>output_file</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>bool</strong> (<em>True if the dataset was saved successfully, False otherwise.</em>)</p></li>
+<li><p><strong>Based on</strong> (<em>https://github.com/pydata/xarray/issues/3743</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-template_project.tools">
+<dt class="sig sig-object py" id="template_project.tools.calc_Z">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">calc_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#calc_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.calc_Z" title="Link to this definition"></a></dt>
+<dd><p>Calculate the depth (Z position) of the glider using the gsw library to convert pressure to depth.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>xarray.Dataset</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dataset with an additional ‘DEPTH’ variable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.convert_qc_flags">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">convert_qc_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#convert_qc_flags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.convert_qc_flags" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.convert_units_var">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">convert_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'Celsius':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'degrees_Celsius'},</span> <span class="pre">'Pa':</span> <span class="pre">{'factor':</span> <span class="pre">0.0001,</span> <span class="pre">'units_name':</span> <span class="pre">'dbar'},</span> <span class="pre">'S</span> <span class="pre">m-1':</span> <span class="pre">{'factor':</span> <span class="pre">0.1,</span> <span class="pre">'units_name':</span> <span class="pre">'mS</span> <span class="pre">cm-1'},</span> <span class="pre">'S/m':</span> <span class="pre">{'factor':</span> <span class="pre">0.1,</span> <span class="pre">'units_name':</span> <span class="pre">'mS/cm'},</span> <span class="pre">'cm':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m'},</span> <span class="pre">'cm</span> <span class="pre">s-1':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m</span> <span class="pre">s-1'},</span> <span class="pre">'cm/s':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m/s'},</span> <span class="pre">'dbar':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'kPa'},</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'Celsius'},</span> <span class="pre">'g</span> <span class="pre">m-3':</span> <span class="pre">{'factor':</span> <span class="pre">0.001,</span> <span class="pre">'units_name':</span> <span class="pre">'kg</span> <span class="pre">m-3'},</span> <span class="pre">'kg</span> <span class="pre">m-3':</span> <span class="pre">{'factor':</span> <span class="pre">1000,</span> <span class="pre">'units_name':</span> <span class="pre">'g</span> <span class="pre">m-3'},</span> <span class="pre">'km':</span> <span class="pre">{'factor':</span> <span class="pre">1000,</span> <span class="pre">'units_name':</span> <span class="pre">'m'},</span> <span class="pre">'m':</span> <span class="pre">{'factor':</span> <span class="pre">0.001,</span> <span class="pre">'units_name':</span> <span class="pre">'km'},</span> <span class="pre">'m</span> <span class="pre">s-1':</span> <span class="pre">{'factor':</span> <span class="pre">100,</span> <span class="pre">'units_name':</span> <span class="pre">'cm</span> <span class="pre">s-1'},</span> <span class="pre">'m/s':</span> <span class="pre">{'factor':</span> <span class="pre">100,</span> <span class="pre">'units_name':</span> <span class="pre">'cm/s'},</span> <span class="pre">'mS</span> <span class="pre">cm-1':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'S</span> <span class="pre">m-1'},</span> <span class="pre">'mS/cm':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'S/m'}}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#convert_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.convert_units_var" title="Link to this definition"></a></dt>
+<dd><p>Convert the units of variables in an xarray Dataset to preferred units.  This is useful, for instance, to convert cm/s to m/s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
+<li><p><strong>(</strong><strong>list</strong><strong>)</strong> (<em>preferred_units</em>)</p></li>
+<li><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>unit_conversion</em>)</p></li>
+<li><p><strong>string</strong> (<em>Each key is a unit</em>) – <ul>
+<li><p>‘factor’: The factor to multiply the variable by to convert it.</p></li>
+<li><p>’units_name’: The new unit name after conversion.</p></li>
+</ul>
+</p></li>
+<li><p><strong>with</strong> (<em>and each value is a dictionary</em>) – <ul>
+<li><p>‘factor’: The factor to multiply the variable by to convert it.</p></li>
+<li><p>’units_name’: The new unit name after conversion.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>xarray.Dataset</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dataset with converted units.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.find_best_dtype">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">find_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">da</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#find_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.find_best_dtype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.reformat_units_var">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">reformat_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'S/m':</span> <span class="pre">'S</span> <span class="pre">m-1',</span> <span class="pre">'cm/s':</span> <span class="pre">'cm</span> <span class="pre">s-1',</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">'Celsius',</span> <span class="pre">'g/m^3':</span> <span class="pre">'g</span> <span class="pre">m-3',</span> <span class="pre">'m/s':</span> <span class="pre">'m</span> <span class="pre">s-1',</span> <span class="pre">'meters':</span> <span class="pre">'m'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#reformat_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.reformat_units_var" title="Link to this definition"></a></dt>
+<dd><p>Renames units in the dataset based on the provided dictionary for OG1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
+<li><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>unit_format</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>xarray.Dataset</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The dataset with renamed units.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.set_best_dtype">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">set_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#set_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.set_best_dtype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.set_fill_value">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">set_fill_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#set_fill_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.set_fill_value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="template_project.tools.split_by_unique_dims">
+<span class="sig-prename descclassname"><span class="pre">template_project.tools.</span></span><span class="sig-name descname"><span class="pre">split_by_unique_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/template_project/tools.html#split_by_unique_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#template_project.tools.split_by_unique_dims" title="Link to this definition"></a></dt>
+<dd><p>Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</p>
+<p>Parameters:
+ds (xarray.Dataset): The input xarray dataset containing various variables.</p>
+<p>Returns:
+tuple: A tuple containing xarray datasets, each with variables sharing the same set of dimensions.</p>
+</dd></dl>
+
+<span class="target" id="module-template_project.utilities"></span></section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, FirstName LastName, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

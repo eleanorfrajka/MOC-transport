@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>template_project.tools &mdash; template_project v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            template_project
+              <img src="../../_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../github.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pypi-publish.html">Publishing to PyPi</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../demo-output.html">template-project demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">template_project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">template_project.tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for template_project.tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gsw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="c1"># Various conversions from the key to units_name with the multiplicative conversion factor</span>
+<span class="n">unit_conversion</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;cm/s&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;m/s&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="s1">&#39;cm s-1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;m s-1&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="s1">&#39;m/s&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;cm/s&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+    <span class="s1">&#39;m s-1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;cm s-1&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+    <span class="s1">&#39;S/m&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;mS/cm&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
+    <span class="s1">&#39;S m-1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;mS cm-1&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
+    <span class="s1">&#39;mS/cm&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;S/m&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">&#39;mS cm-1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;S m-1&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">&#39;dbar&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Pa&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">},</span>
+    <span class="s1">&#39;Pa&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;dbar&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">},</span>
+    <span class="s1">&#39;dbar&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;kPa&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">&#39;degrees_Celsius&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;Celsius&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;Celsius&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;degrees_Celsius&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;cm&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+    <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+    <span class="s1">&#39;cm&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="s1">&#39;km&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span>
+    <span class="s1">&#39;g m-3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;kg m-3&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+    <span class="s1">&#39;kg m-3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;units_name&#39;</span><span class="p">:</span> <span class="s1">&#39;g m-3&#39;</span><span class="p">,</span> <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="c1"># Specify the preferred units, and it will convert if the conversion is available in unit_conversion</span>
+<span class="n">preferred_units</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;m s-1&#39;</span><span class="p">,</span> <span class="s1">&#39;dbar&#39;</span><span class="p">,</span> <span class="s1">&#39;S m-1&#39;</span><span class="p">]</span>
+
+<span class="c1"># String formats for units.  The key is the original, the value is the desired format</span>
+<span class="n">unit_str_format</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;m/s&#39;</span><span class="p">:</span> <span class="s1">&#39;m s-1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cm/s&#39;</span><span class="p">:</span> <span class="s1">&#39;cm s-1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;S/m&#39;</span><span class="p">:</span> <span class="s1">&#39;S m-1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;meters&#39;</span><span class="p">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;degrees_Celsius&#39;</span><span class="p">:</span> <span class="s1">&#39;Celsius&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;g/m^3&#39;</span><span class="p">:</span> <span class="s1">&#39;g m-3&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="c1">##-----------------------------------------------------------------------------------------------------------</span>
+<span class="c1">## Calculations for new variables</span>
+<span class="c1">##-----------------------------------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="calc_Z">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.calc_Z">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_Z</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the depth (Z position) of the glider using the gsw library to convert pressure to depth.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds (xarray.Dataset): The input dataset containing &#39;PRES&#39;, &#39;LATITUDE&#39;, and &#39;LONGITUDE&#39; variables.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset: The dataset with an additional &#39;DEPTH&#39; variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure the required variables are present</span>
+    <span class="k">if</span> <span class="s1">&#39;PRES&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="ow">or</span> <span class="s1">&#39;LATITUDE&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="ow">or</span> <span class="s1">&#39;LONGITUDE&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Dataset must contain &#39;PRES&#39;, &#39;LATITUDE&#39;, and &#39;LONGITUDE&#39; variables.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Initialize the new variable with the same dimensions as dive_num</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;DEPTH_Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="s1">&#39;N_MEASUREMENTS&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s1">&#39;N_MEASUREMENTS&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+
+    <span class="c1"># Calculate depth using gsw</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">gsw</span><span class="o">.</span><span class="n">z_from_p</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;PRES&#39;</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;LATITUDE&#39;</span><span class="p">])</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;DEPTH_Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">depth</span>
+
+    <span class="c1"># Assign the calculated depth to a new variable in the dataset</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;DEPTH_Z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;meters&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;positive&quot;</span><span class="p">:</span> <span class="s2">&quot;up&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;depth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Depth calculated from pressure using gsw library, positive up.&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+
+<div class="viewcode-block" id="split_by_unique_dims">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.split_by_unique_dims">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_by_unique_dims</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ds (xarray.Dataset): The input xarray dataset containing various variables.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    tuple: A tuple containing xarray datasets, each with variables sharing the same set of dimensions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Dictionary to hold datasets with unique dimension sets</span>
+    <span class="n">unique_dims_datasets</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Iterate over the variables in the dataset</span>
+    <span class="k">for</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">var_data</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Get the dimensions of the variable</span>
+        <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">var_data</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+        
+        <span class="c1"># If this dimension set is not in the dictionary, create a new dataset</span>
+        <span class="k">if</span> <span class="n">dims</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_dims_datasets</span><span class="p">:</span>
+            <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+        
+        <span class="c1"># Add the variable to the corresponding dataset</span>
+        <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">][</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data</span>
+
+    <span class="c1"># Convert the dictionary values to a dictionary of datasets</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">dims</span><span class="p">:</span> <span class="n">dataset</span> <span class="k">for</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">unique_dims_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
+
+<div class="viewcode-block" id="reformat_units_var">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.reformat_units_var">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">reformat_units_var</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">unit_format</span><span class="o">=</span><span class="n">unit_str_format</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Renames units in the dataset based on the provided dictionary for OG1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds (xarray.Dataset): The input dataset containing variables with units to be renamed.</span>
+<span class="sd">    unit_format (dict): A dictionary mapping old unit strings to new formatted unit strings.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset: The dataset with renamed units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">old_unit</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">old_unit</span> <span class="ow">in</span> <span class="n">unit_format</span><span class="p">:</span>
+        <span class="n">new_unit</span> <span class="o">=</span> <span class="n">unit_format</span><span class="p">[</span><span class="n">old_unit</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_unit</span> <span class="o">=</span> <span class="n">old_unit</span>
+    <span class="k">return</span> <span class="n">new_unit</span></div>
+
+
+<div class="viewcode-block" id="convert_units_var">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.convert_units_var">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_units_var</span><span class="p">(</span><span class="n">var_values</span><span class="p">,</span> <span class="n">current_unit</span><span class="p">,</span> <span class="n">new_unit</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="n">unit_conversion</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the units of variables in an xarray Dataset to preferred units.  This is useful, for instance, to convert cm/s to m/s.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds (xarray.Dataset): The dataset containing variables to convert.</span>
+<span class="sd">    preferred_units (list): A list of strings representing the preferred units.</span>
+<span class="sd">    unit_conversion (dict): A dictionary mapping current units to conversion information.</span>
+<span class="sd">    Each key is a unit string, and each value is a dictionary with:</span>
+<span class="sd">        - &#39;factor&#39;: The factor to multiply the variable by to convert it.</span>
+<span class="sd">        - &#39;units_name&#39;: The new unit name after conversion.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset: The dataset with converted units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">current_unit</span> <span class="ow">in</span> <span class="n">unit_conversion</span> <span class="ow">and</span> <span class="n">new_unit</span> <span class="ow">in</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="s1">&#39;units_name&#39;</span><span class="p">]:</span>
+        <span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="s1">&#39;factor&#39;</span><span class="p">]</span>
+        <span class="n">new_values</span> <span class="o">=</span> <span class="n">var_values</span> <span class="o">*</span> <span class="n">conversion_factor</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_values</span> <span class="o">=</span> <span class="n">var_values</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No conversion information found for </span><span class="si">{</span><span class="n">current_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#        raise ValueError(f&quot;No conversion information found for {current_unit} to {new_unit}&quot;)</span>
+    <span class="k">return</span> <span class="n">new_values</span></div>
+
+
+<div class="viewcode-block" id="convert_qc_flags">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.convert_qc_flags">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_qc_flags</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">qc_name</span><span class="p">):</span>
+    <span class="c1"># Must be called *after* var_name has OG1 long_name</span>
+    <span class="n">var_name</span> <span class="o">=</span> <span class="n">qc_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="n">qc_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsa</span><span class="p">):</span>
+        <span class="c1"># Seaglider default type was a string.  Convert to int8.</span>
+        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
+        <span class="c1"># Seaglider default flag_meanings were prefixed with &#39;QC_&#39;. Remove this prefix.</span>
+        <span class="k">if</span> <span class="s1">&#39;flag_meaning&#39;</span> <span class="ow">in</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="n">flag_meaning</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;flag_meaning&#39;</span><span class="p">]</span>
+            <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;flag_meaning&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flag_meaning</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;QC_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="c1"># Add a long_name attribute to the QC variable</span>
+        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;long_name&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; quality flag&#39;</span>
+        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;standard_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;status_flag&#39;</span>
+        <span class="c1"># Mention the QC variable in the variable attributes</span>
+        <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;ancillary_variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qc_name</span>
+    <span class="k">return</span> <span class="n">dsa</span></div>
+
+
+<div class="viewcode-block" id="find_best_dtype">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.find_best_dtype">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">da</span><span class="p">):</span>
+    <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
+    <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;longitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">double</span>
+    <span class="k">if</span> <span class="n">var_name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;qc&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int8</span>
+    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">input_dtype</span>
+    <span class="k">if</span> <span class="n">var_name</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;raw&quot;</span> <span class="ow">or</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_dtype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">16</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+    <span class="k">if</span> <span class="n">input_dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="k">return</span> <span class="n">input_dtype</span></div>
+
+
+<div class="viewcode-block" id="set_fill_value">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.set_fill_value">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
+    <span class="n">fill_val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">fill_val</span></div>
+
+
+<div class="viewcode-block" id="set_best_dtype">
+<a class="viewcode-back" href="../../template_project.html#template_project.tools.set_best_dtype">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_best_dtype</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">bytes_in</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
+    <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
+        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
+        <span class="n">new_dtype</span> <span class="o">=</span> <span class="n">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">da</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;valid_min&quot;</span><span class="p">,</span> <span class="s2">&quot;valid_max&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_dtype</span> <span class="o">==</span> <span class="n">input_dtype</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> input dtype </span><span class="si">{</span><span class="n">input_dtype</span><span class="si">}</span><span class="s2"> change to </span><span class="si">{</span><span class="n">new_dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">da_new</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
+            <span class="n">fill_val</span> <span class="o">=</span> <span class="n">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+            <span class="n">da_new</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">da</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fill_val</span>
+            <span class="n">da_new</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_val</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_new</span>
+    <span class="n">bytes_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
+    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Space saved by dtype downgrade: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">bytes_in</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bytes_out</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bytes_in</span><span class="p">)</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, FirstName LastName, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

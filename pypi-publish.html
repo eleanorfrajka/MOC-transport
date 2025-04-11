@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publishing to PyPi &mdash; template_project v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="template-project demo" href="demo-output.html" />
+    <link rel="prev" title="Transferring to an Organisation" href="gitorg.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            template_project
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Publishing to PyPi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-the-package-files">Creating the package files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-a-build-backend">Choosing a build backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-metadata">Configuring metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-distribution-archives">Generating distribution archives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uploading-the-distribution-archives">Uploading the distribution archives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#first-time-test-it-on-testpypi-first">First time: Test it on testpypi first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#going-live-on-pypi">Going live on pypi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#allowing-github-releases-to-update-the-project-on-pypi">Allowing Github releases to update the project on PyPi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">template-project demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">template_project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Publishing to PyPi</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pypi-publish.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="publishing-to-pypi">
+<h1>Publishing to PyPi<a class="headerlink" href="#publishing-to-pypi" title="Link to this heading"></a></h1>
+<p>Publishing your python package to PyPi will mean that other people can install it using e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">projectName</span>
+</pre></div>
+</div>
+<p>And then import the package into their python projects using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">projectName</span>
+</pre></div>
+</div>
+<p>A tutorial for how to do this can be found here:
+<a class="reference external" href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">https://packaging.python.org/en/latest/tutorials/packaging-projects/</a></p>
+<p>Some notes <em>relative</em> to the tutorial are included here.</p>
+<section id="creating-the-package-files">
+<h2>Creating the package files<a class="headerlink" href="#creating-the-package-files" title="Link to this heading"></a></h2>
+<p>If you’re using this template, you already have a <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> and <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file in the root directory of your repository.  You also have the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory and your package files are in <code class="docutils literal notranslate"><span class="pre">template_project/</span></code> rather than <code class="docutils literal notranslate"><span class="pre">src/</span></code>.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>  configures the metadata for your project.</p>
+<section id="choosing-a-build-backend">
+<h3>Choosing a build backend<a class="headerlink" href="#choosing-a-build-backend" title="Link to this heading"></a></h3>
+<p>The default example in the tutorial specifies “Hatchling” to convert your package to a distribution package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">system</span><span class="p">]</span>
+<span class="n">requires</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hatchling &gt;= 1.26&quot;</span><span class="p">]</span>
+<span class="n">build</span><span class="o">-</span><span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;hatchling.build&quot;</span>
+</pre></div>
+</div>
+<p>In template-project, we instead have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">system</span><span class="p">]</span>
+<span class="n">build</span><span class="o">-</span><span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;setuptools.build_meta&quot;</span>
+<span class="n">requires</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;setuptools&gt;=42&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;setuptools-scm[toml]&gt;=3.4&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;wheel&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-metadata">
+<h3>Configuring metadata<a class="headerlink" href="#configuring-metadata" title="Link to this heading"></a></h3>
+<p>As of April 2025, the example from the tutorial shows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;example_package_YOUR_USERNAME_HERE&quot;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;0.0.1&quot;</span>
+<span class="n">authors</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Example Author&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;author@example.com&quot;</span> <span class="p">},</span>
+<span class="p">]</span>
+<span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;A small example package&quot;</span>
+<span class="n">readme</span> <span class="o">=</span> <span class="s2">&quot;README.md&quot;</span>
+<span class="n">requires</span><span class="o">-</span><span class="n">python</span> <span class="o">=</span> <span class="s2">&quot;&gt;=3.8&quot;</span>
+<span class="n">classifiers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Programming Language :: Python :: 3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Operating System :: OS Independent&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">license</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+<span class="n">license</span><span class="o">-</span><span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LICEN[CS]E*&quot;</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">urls</span><span class="p">]</span>
+<span class="n">Homepage</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pypa/sampleproject&quot;</span>
+<span class="n">Issues</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/pypa/sampleproject/issues&quot;</span>
+</pre></div>
+</div>
+<p>where in this template, we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="p">]</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;template-project-efw&quot;</span>
+<span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Example template project for docs, pip install and git&quot;</span>
+<span class="n">readme</span> <span class="o">=</span> <span class="s2">&quot;README.md&quot;</span>
+<span class="n">license</span> <span class="o">=</span> <span class="p">{</span> <span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;LICENSE&quot;</span> <span class="p">}</span>
+<span class="n">maintainers</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eleanor Frajka-Williams&quot;</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;eleanorfrajka@gmail.com&quot;</span> <span class="p">},</span>
+<span class="p">]</span>
+<span class="n">requires</span><span class="o">-</span><span class="n">python</span> <span class="o">=</span> <span class="s2">&quot;&gt;=3.8&quot;</span>
+<span class="n">classifiers</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3 :: Only&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3.8&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3.9&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3.10&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3.11&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;Programming Language :: Python :: 3.12&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">dynamic</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;dependencies&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;version&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">urls</span><span class="o">.</span><span class="n">documentation</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/eleanorfrajka/template-project&quot;</span>
+<span class="n">urls</span><span class="o">.</span><span class="n">homepage</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/eleanorfrajka/template-project&quot;</span>
+<span class="n">urls</span><span class="o">.</span><span class="n">repository</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/eleanorfrajka/template-project&quot;</span>
+</pre></div>
+</div>
+<p>In our case, the “name” (used for the name of the project on PyPi) is “template-project-efw” to make it a unique package, whereas the repository name is “template-project” on github.</p>
+<p>Our version also tries to dynamically assign the version number, which will come out of <code class="docutils literal notranslate"><span class="pre">template_project/_version.py</span></code>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> we have:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">setuptools_scm</span><span class="p">]</span>
+<span class="n">write_to</span> <span class="o">=</span> <span class="s2">&quot;template_project/_version.py&quot;</span>
+<span class="n">write_to_template</span> <span class="o">=</span> <span class="s2">&quot;__version__ = &#39;</span><span class="si">{version}</span><span class="s2">&#39;&quot;</span>
+<span class="n">tag_regex</span> <span class="o">=</span> <span class="s2">&quot;^(?P&lt;prefix&gt;v)?(?P&lt;version&gt;[^</span><span class="se">\\</span><span class="s2">+]+)(?P&lt;suffix&gt;.*)?$&quot;</span>
+<span class="n">local_scheme</span> <span class="o">=</span> <span class="s2">&quot;no-local-version&quot;</span>
+</pre></div>
+</div>
+<p><em>Action:</em>* You should change the name, description, maintainers and urls to match your repository.</p>
+</section>
+<section id="generating-distribution-archives">
+<h3>Generating distribution archives<a class="headerlink" href="#generating-distribution-archives" title="Link to this heading"></a></h3>
+<p>Run the next steps to generate the distribution.</p>
+<p>First, make sure you have the latest version of <code class="docutils literal notranslate"><span class="pre">build</span></code> installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">build</span>
+</pre></div>
+</div>
+<p>Then run this from the directory where <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> is located:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="uploading-the-distribution-archives">
+<h2>Uploading the distribution archives<a class="headerlink" href="#uploading-the-distribution-archives" title="Link to this heading"></a></h2>
+<section id="first-time-test-it-on-testpypi-first">
+<h3>First time: Test it on testpypi first<a class="headerlink" href="#first-time-test-it-on-testpypi-first" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create an account on <a class="reference external" href="https://test.pypi.org/account/register">https://test.pypi.org/account/register</a>.  You’ll need a 2FA app, e.g. on your phone.  If you already have an account, then you can login to your account at <a class="reference external" href="https://test.pypi.org">https://test.pypi.org/</a>, but this isn’t necessary to run the test.</p></li>
+<li><p>To upload your project, you’ll need an API token.  Save this somewhere on your computer (not in your git repository).</p></li>
+<li><p>Install twine (see tutorial instructions) or upgrade:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">twine</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Run twine to upload the archives in <code class="docutils literal notranslate"><span class="pre">dist/</span></code></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">twine</span> <span class="n">upload</span> <span class="o">--</span><span class="n">repository</span> <span class="n">testpypi</span> <span class="n">dist</span><span class="o">/*</span>
+</pre></div>
+</div>
+<p>If you get an error like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ERROR</span>    <span class="n">InvalidDistribution</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">distribution</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">unrecognized</span> <span class="ow">or</span> <span class="n">malformed</span> <span class="n">field</span> <span class="s1">&#39;license-file&#39;</span>
+</pre></div>
+</div>
+<p>this is due to using the newest <code class="docutils literal notranslate"><span class="pre">twine</span></code> with oldish <code class="docutils literal notranslate"><span class="pre">packaging</span></code> and a build backend that produces invalid metadata.  Upgrade your packaging: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">packaging</span> <span class="pre">.</span></code>, and try again.</p>
+<ol class="arabic simple" start="5">
+<li><p>Verify that it works to install your package.  Create a virtual environment and install from testpypi as (CHANGING the package name to whatever yours is called)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">i</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">test</span><span class="o">.</span><span class="n">pypi</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">simple</span><span class="o">/</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">deps</span> <span class="n">template</span><span class="o">-</span><span class="n">project</span><span class="o">-</span><span class="n">efw</span>
+</pre></div>
+</div>
+</section>
+<section id="going-live-on-pypi">
+<h3>Going live on pypi<a class="headerlink" href="#going-live-on-pypi" title="Link to this heading"></a></h3>
+<p>Repeat the steps above but on <a class="reference external" href="https://pypi.org">https://pypi.org</a>.  You’ll need a separate API token (save this on your computer!) and the final upload step will be</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">twine</span> <span class="n">upload</span> <span class="n">dist</span><span class="o">/*</span>
+</pre></div>
+</div>
+</section>
+<section id="allowing-github-releases-to-update-the-project-on-pypi">
+<h3>Allowing Github releases to update the project on PyPi<a class="headerlink" href="#allowing-github-releases-to-update-the-project-on-pypi" title="Link to this heading"></a></h3>
+<p>To automatically generate the new release on PyPi using Github actions, you need (1) the workflow (see <code class="docutils literal notranslate"><span class="pre">.github/workflows/pypi.yml</span></code> in this template) and (2) to setup (on https://pypi.org) GitHub as a “trusted publisher”.</p>
+<p>See <a class="reference external" href="https://github.com/marketplace/actions/pypi-publish#trusted-publishing">https://github.com/marketplace/actions/pypi-publish#trusted-publishing</a> or <a class="reference external" href="https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/">https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/</a> for more information.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gitorg.html" class="btn btn-neutral float-left" title="Transferring to an Organisation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo-output.html" class="btn btn-neutral float-right" title="template-project demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, FirstName LastName, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
