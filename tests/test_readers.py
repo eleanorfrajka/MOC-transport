@@ -13,46 +13,32 @@ parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))
 
 from amocarray import readers, utilities
+def test_load_dataset_move():
+    datasets = readers.load_dataset("move")
+    assert isinstance(datasets, list)
+    assert all(hasattr(ds, "attrs") for ds in datasets)
+    assert len(datasets) > 0
 
-# Sample data
-VALID_URL = "https://mooring.ucsd.edu/move/nc/"
-VALID_FILENAME = "OS_MOVE_TRANSPORTS.nc"
-INVALID_STRING = "not_a_valid_source"
+def test_load_dataset_rapid():
+    datasets = readers.load_dataset("rapid")
+    print(type(datasets))
+    assert isinstance(datasets, list)
+    assert all(hasattr(ds, "attrs") for ds in datasets)
+    assert len(datasets) > 0
 
-# Replace with actual path to a local .nc file if you have one for local testing
-LOCAL_VALID_FILE = "/path/to/your/OS_MOVE_TRANSPORTS.nc"
+def test_load_dataset_osnap():
+    datasets = readers.load_dataset("osnap")
+    assert isinstance(datasets, list)
+    assert all(hasattr(ds, "attrs") for ds in datasets)
+    assert len(datasets) > 0
 
-def test_read_16n_url():
-    ds = readers.read_16N(source=VALID_URL, file_list=VALID_FILENAME)
-    assert isinstance(ds, xr.Dataset)
-    assert "source_file" in ds.attrs
-    assert ds.attrs["source_file"] == VALID_FILENAME
-    assert ds.attrs["source_path"] == VALID_URL
-    assert ds.attrs["description"] == "MOVE transport estimates dataset from UCSD mooring project"
+def test_load_dataset_samba():
+    datasets = readers.load_dataset("samba")
+    assert isinstance(datasets, list)
+    assert all(hasattr(ds, "attrs") for ds in datasets)
+    assert len(datasets) > 0
 
-@pytest.mark.skipif(not Path(LOCAL_VALID_FILE).is_file(), reason="Local test file not found")
-def test_read_16n_local():
-    source = str(Path(LOCAL_VALID_FILE).parent)
-    file_list = Path(LOCAL_VALID_FILE).name
-    ds = readers.read_16N(source=source, file_list=file_list)
-    assert isinstance(ds, xr.Dataset)
-    assert "source_file" in ds.attrs
-    assert ds.attrs["source_file"] == file_list
+def test_load_dataset_invalid_array():
+    with pytest.raises(ValueError, match="No reader found for 'invalid'"):
+        readers.load_dataset("invalid")
 
-def test_read_16n_invalid_source():
-    with pytest.raises(ValueError, match="Source must be a valid URL or directory path."):
-        readers.read_16N(source=INVALID_STRING, file_list=VALID_FILENAME)
-
-def test_validate_dims_valid():
-    ds = readers.read_16N(source=VALID_URL, file_list=VALID_FILENAME)
-    correct_dim = list(ds.dims)[0]
-    ds = ds.rename({correct_dim: "TIME"})
-    utilities._validate_dims(ds)  # Should not raise
-
-def test_validate_dims_invalid():
-    ds = readers.read_16N(source=VALID_URL, file_list=VALID_FILENAME)
-    incorrect_dim = list(ds.dims)[0]
-    if incorrect_dim == "TIME":
-        ds = ds.rename({"TIME": "WRONG_DIM"})
-    with pytest.raises(ValueError, match="Dimension name '.*' is not 'TIME'."):
-        utilities._validate_dims(ds)
