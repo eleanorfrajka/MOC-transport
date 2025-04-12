@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Critical to correctly fetch tags
+          ref: ${{ github.ref }}   # CRITICAL FIX: explicitly checkout tag ref
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,10 +32,10 @@ jobs:
       - name: Build package
         run: python -m build --sdist --wheel . --outdir dist
 
-      - name: List built files (for debug)
+      - name: List built files (debugging)
         run: ls dist
 
-      - name: Check built distributions
+      - name: Check distributions
         run: python -m twine check dist/*
 
       - name: Test wheel install
