@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>amocarray.read_osnap &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            amocarray
+              <img src="../../_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../github.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pypi-publish.html">Publishing to PyPi</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html#module-amocarray.read_rapid">read_rapid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html#module-amocarray.read_osnap">read_osnap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html#module-amocarray.read_move">read_move</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html#module-amocarray.read_samba">read_samba</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">amocarray.read_osnap</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for amocarray.read_osnap</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+
+<span class="c1"># Default file list</span>
+<span class="n">OSNAP_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OSNAP_Streamfunction_201408_202006_2023.nc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OSNAP_Gridded_TSV_201408_202006_2023.nc&#39;</span>
+<span class="p">]</span>
+<span class="n">OSNAP_TRANSPORT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&quot;</span><span class="p">]</span>
+
+<span class="c1"># Mapping of filenames to download URLs</span>
+<span class="n">OSNAP_FILE_URLS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;README_OSNAP-MOC_202306.doc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/930261ff-6cca-4cf9-81c8-d27c51a4ca49/download&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OSNAP_Streamfunction_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/5edf4cba-a28f-40a6-a4da-24d7436a42ab/download&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OSNAP_Gridded_TSV_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="s1">&#39;https://repository.gatech.edu/bitstreams/598f200a-50ba-4af0-96af-bd29fe692cdc/download&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># General metadata (global for OSNAP)</span>
+<span class="n">OSNAP_METADATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;project&quot;</span><span class="p">:</span> <span class="s2">&quot;Overturning in the Subpolar North Atlantic Program (OSNAP)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weblink&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.o-snap.org&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;acknowledgement&quot;</span><span class="p">:</span> <span class="s2">&quot;OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project and all the national programs that contribute to it (www.o-snap.org).&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;doi&quot;</span><span class="p">:</span> <span class="s2">&quot;https://doi.org/10.35090/gatech/70342&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># File-specific metadata (placeholder, ready to extend)</span>
+<span class="n">OSNAP_FILE_METADATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;data_product&quot;</span><span class="p">:</span> <span class="s2">&quot;Time series of MOC, MHT, and MFT&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;OSNAP_Streamfunction_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;data_product&quot;</span><span class="p">:</span> <span class="s2">&quot;Meridional overturning streamfunction&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;OSNAP_Gridded_TSV_201408_202006_2023.nc&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;data_product&quot;</span><span class="p">:</span> <span class="s2">&quot;Gridded temperature, salinity, and velocity&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="read_osnap">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.read_osnap.read_osnap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_osnap</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>  
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source : str, optional</span>
+<span class="sd">        URL or local path to the NetCDF file(s). If None, will use predefined URLs per file.</span>
+<span class="sd">    file_list : str or list of str, optional</span>
+<span class="sd">        Filename or list of filenames to process.</span>
+<span class="sd">        Defaults to OSNAP_DEFAULT_FILES.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of xr.Dataset</span>
+<span class="sd">        List of loaded xarray datasets with basic inline and file-specific metadata.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If no source is provided for a file and no default URL mapping is found.</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If the file cannot be downloaded or does not exist locally.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure file_list has a default</span>
+    <span class="k">if</span> <span class="n">file_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="n">OSNAP_DEFAULT_FILES</span>
+    <span class="k">if</span> <span class="n">transport_only</span><span class="p">:</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="n">OSNAP_TRANSPORT_FILES</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">file_list</span><span class="p">]</span>
+
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.nc&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Determine source: either user-provided or from mapping</span>
+        <span class="n">file_source</span> <span class="o">=</span> <span class="n">source</span> <span class="ow">or</span> <span class="n">OSNAP_FILE_URLS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_source</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No source provided for &#39;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&#39; and no default URL mapping found.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Prepare file path</span>
+        <span class="k">if</span> <span class="n">utilities</span><span class="o">.</span><span class="n">_is_valid_url</span><span class="p">(</span><span class="n">file_source</span><span class="p">):</span>
+            <span class="n">file_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_source</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">dest_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.amocarray_data&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">file_path</span> <span class="o">=</span> <span class="n">utilities</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">file_url</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download </span><span class="si">{</span><span class="n">file_url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">file_source</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Local file not found: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Open dataset</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to open NetCDF file: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Attach metadata</span>
+        <span class="n">file_metadata</span> <span class="o">=</span> <span class="n">OSNAP_FILE_METADATA</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;source_file&quot;</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span>
+                <span class="s2">&quot;source_path&quot;</span><span class="p">:</span> <span class="n">file_source</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">OSNAP_METADATA</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">file_metadata</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">datasets</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No valid NetCDF files found in </span><span class="si">{</span><span class="n">file_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">datasets</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

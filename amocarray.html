@@ -65,6 +65,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.readers.load_sample_dataset"><code class="docutils literal notranslate"><span class="pre">load_sample_dataset()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-amocarray.read_rapid">read_rapid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.read_rapid.read_rapid"><code class="docutils literal notranslate"><span class="pre">read_rapid()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-amocarray.read_osnap">read_osnap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.read_osnap.read_osnap"><code class="docutils literal notranslate"><span class="pre">read_osnap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-amocarray.read_move">read_move</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.read_move.read_move"><code class="docutils literal notranslate"><span class="pre">read_move()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-amocarray.read_samba">read_samba</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#amocarray.read_samba.read_samba"><code class="docutils literal notranslate"><span class="pre">read_samba()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-amocarray.plotters">plotters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.plot_monthly_anomalies"><code class="docutils literal notranslate"><span class="pre">plot_monthly_anomalies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_attributes"><code class="docutils literal notranslate"><span class="pre">show_attributes()</span></code></a></li>
@@ -172,6 +188,128 @@ xarray.Dataset: The loaded dataset.</p>
 </dd></dl>
 
 </section>
+</section>
+<section id="module-amocarray.read_rapid">
+<span id="read-rapid"></span><h1>read_rapid<a class="headerlink" href="#module-amocarray.read_rapid" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.read_rapid.read_rapid">
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_rapid.</span></span><span class="sig-name descname"><span class="pre">read_rapid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_rapid.html#read_rapid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_rapid.read_rapid" title="Link to this definition"></a></dt>
+<dd><p>Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the NetCDF file(s).
+Defaults to the RAPID data repository URL.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
+If None, will attempt to list files in the source directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded xarray dataset with basic inline metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the source is neither a valid URL nor a directory path.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If no valid NetCDF files are found in the provided file list.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-amocarray.read_osnap">
+<span id="read-osnap"></span><h1>read_osnap<a class="headerlink" href="#module-amocarray.read_osnap" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.read_osnap.read_osnap">
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_osnap.</span></span><span class="sig-name descname"><span class="pre">read_osnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_osnap.html#read_osnap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_osnap.read_osnap" title="Link to this definition"></a></dt>
+<dd><p>Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the NetCDF file(s). If None, will use predefined URLs per file.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
+Defaults to OSNAP_DEFAULT_FILES.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of loaded xarray datasets with basic inline and file-specific metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If no source is provided for a file and no default URL mapping is found.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If the file cannot be downloaded or does not exist locally.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-amocarray.read_move">
+<span id="read-move"></span><h1>read_move<a class="headerlink" href="#module-amocarray.read_move" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.read_move.read_move">
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_move.</span></span><span class="sig-name descname"><span class="pre">read_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_move.html#read_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_move.read_move" title="Link to this definition"></a></dt>
+<dd><p>Load the MOVE transport dataset from a URL or local file path into xarray Datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the NetCDF file(s).
+Defaults to the MOVE data repository URL.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
+Defaults to MOVE_DEFAULT_FILES.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of loaded xarray datasets with basic inline and file-specific metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the source is neither a valid URL nor a directory path.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If the file cannot be downloaded or does not exist locally.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-amocarray.read_samba">
+<span id="read-samba"></span><h1>read_samba<a class="headerlink" href="#module-amocarray.read_samba" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.read_samba.read_samba">
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_samba.</span></span><span class="sig-name descname"><span class="pre">read_samba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_samba.html#read_samba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_samba.read_samba" title="Link to this definition"></a></dt>
+<dd><p>Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the dataset directory. If None, will use predefined URLs per file.</p></li>
+<li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
+Defaults to SAMBA_DEFAULT_FILES.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of loaded xarray datasets with basic inline and file-specific metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If no source is provided for a file and no default URL mapping found.</p></li>
+<li><p><strong>FileNotFoundError</strong> – If the file cannot be downloaded or does not exist locally.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <section id="module-amocarray.plotters">
 <span id="plotters"></span><h2>plotters<a class="headerlink" href="#module-amocarray.plotters" title="Link to this heading"></a></h2>
 <dl class="py function">
