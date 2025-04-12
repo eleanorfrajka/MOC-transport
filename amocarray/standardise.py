@@ -15,6 +15,38 @@ from amocarray import utilities
 from typing import Union
 
 
+def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
+    """
+    Standardise RAPID dataset:
+    - Rename time dimension and variable from 'time' to 'TIME'.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        Raw RAPID dataset loaded from read_rapid().
+
+    Returns
+    -------
+    xr.Dataset
+        Standardised RAPID dataset.
+    """
+    # Rename dimension
+    if 'time' in ds.dims:
+        ds = ds.rename_dims({'time': 'TIME'})
+
+    # Rename variable
+    if 'time' in ds.variables:
+        ds = ds.rename({'time': 'TIME'})
+
+    # Swap dimension to ensure 'TIME' is the index coordinate
+    if 'TIME' in ds.coords:
+        ds = ds.swap_dims({'TIME': 'TIME'})
+
+    # Optional: global metadata updates (future)
+    # utilities.safe_update_attrs(ds, {"weblink": "..."})
+
+    return ds    
+
 def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     """
     Standardise SAMBA dataset:
