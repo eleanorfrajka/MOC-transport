@@ -26,10 +26,12 @@ unit_conversion = {
     'km': {'units_name': 'm', 'factor': 1000},
     'g m-3': {'units_name': 'kg m-3', 'factor': 0.001},
     'kg m-3': {'units_name': 'g m-3', 'factor': 1000},
+    'Sverdrup': {'units_name': 'Sv', 'factor': 1},
+    'Sv': {'units_name': 'Sverdrup', 'factor': 1},
 }
 
 # Specify the preferred units, and it will convert if the conversion is available in unit_conversion
-preferred_units = ['m s-1', 'dbar', 'S m-1']
+preferred_units = ['m s-1', 'dbar', 'S m-1', 'Sv']
 
 # String formats for units.  The key is the original, the value is the desired format
 unit_str_format = {
