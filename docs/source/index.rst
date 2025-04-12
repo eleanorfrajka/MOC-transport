@@ -18,10 +18,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
    installation.md
    gitcollab.md
-   github.md
-   gitorg.md
-   pypi-publish.md
-
+   actions.md
 
 .. toctree::
    :maxdepth: 3
