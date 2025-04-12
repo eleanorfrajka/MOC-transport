@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: Frajka-Williams
+  given-names: Eleanor
+  orcid: https://orcid.org/0000-0001-8773-7838
+  affiliation: University of Hamburg, Bundesstraße 53, 20146 Hamburg, Germany
+title: amocarray
+version: 0.0.2
+date-released: 2025-04-12
+url: https://github.com/AMOCcommunity/amocarray
