@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; amocarray v0.0.0 documentation</title>
+  <title>&lt;no title&gt; &mdash; amocarray v0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,9 +19,7 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Collaborating with git: Basic workflow" href="gitcollab.html" />
-    <link rel="prev" title="Welcome to amocarray’s documentation!" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,11 +43,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#install-for-contributing">Install for contributing</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
 </ul>
@@ -78,9 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Installation</li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/installation.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/conventions.md.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -88,42 +83,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<p>To install the latest released version of this package from PyPI, use</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>amocarray
-</pre></div>
-</div>
-<p>This allows you to import the package into a python file or notebook with:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">amocarray</span>
-</pre></div>
-</div>
-<section id="install-for-contributing">
-<h2>Install for contributing<a class="headerlink" href="#install-for-contributing" title="Link to this heading"></a></h2>
-<p>Or, to install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AMOCcommunity/amocarray.git
-<span class="nb">cd</span><span class="w"> </span>amocarray
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</pre></div>
-</div>
-<p>This installs amocarray locally.  The <code class="docutils literal notranslate"><span class="pre">-e</span></code> ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.</p>
-<p>You can run the example jupyter notebook by launching jupyterlab with <code class="docutils literal notranslate"><span class="pre">jupyter-lab</span></code> and navigating to the <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> directory, or in VS Code or another python GUI.</p>
-<p>All new functions should include tests.  You can run tests locally and generate a coverage reporrt with:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>--cov<span class="o">=</span>amocarray<span class="w"> </span>--cov-report<span class="w"> </span>term-missing<span class="w"> </span>tests/
-</pre></div>
-</div>
-<p>Try to ensure that all the lines of your contribution are covered in the tests.</p>
-</section>
-</section>
-
+  
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to amocarray’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="gitcollab.html" class="btn btn-neutral float-right" title="Collaborating with git: Basic workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

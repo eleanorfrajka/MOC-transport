@@ -1,19 +1,30 @@
 # Installation
 
-Since the project in this template isn't really designed to be installed, instead these instructions describe how to get started: first, with a copy (clone) of this repository, and second (after renaming the repository to suit your purposes), how to work with the new repository in a collaborative way (i.e., enabling other people to contribute to your repository).
+To install the latest released version of this package from PyPI, use
+```sh
+python -m pip install amocarray
+```
+This allows you to import the package into a python file or notebook with:
+```python
+import amocarray
+```
+### Install for contributing
 
-## Option 1: Copy this repository as a template for your project
-To copy the repository for your own purposes (e.g., to rename "template-project" to your project) rather than to suggest edits to this template, follow these steps:
+Or, to install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:
 
-1. Clone template-project to your local machine: 
-    With a command line usage of git, this looks like:
-    ```
-    git clone https://github.com/AMOCcommunity/amocarray
-    ```
+```sh 
+git clone https://github.com/AMOCcommunity/amocarray.git
+cd amocarray
+pip install -r requirements-dev.txt
+pip install -e .
+```
+This installs amocarray locally.  The `-e` ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.
 
-    Alternatively, in your web browser, navigate to https://github.com/AMOCcommunity/amocarray and click the green button "<> Code" for a dropdown menu of options.  Choose, e.g. "Open with GitHub Desktop".  This requires the application "GitHub Desktop" (https://github.com/apps/desktop).  See instructions [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
-2. Change to the parent directory of template-project
+You can run the example jupyter notebook by launching jupyterlab with `jupyter-lab` and navigating to the `notebooks` directory, or in VS Code or another python GUI.
 
-## Option 2: Edit this repository to improve the template
+All new functions should include tests.  You can run tests locally and generate a coverage reporrt with:
+```sh
+pytest --cov=amocarray --cov-report term-missing tests/
+```
 
-The steps are as above, but instead of saying that you'd like to work on this separately, choose the option to "contribute to the original repository".  In command line, this will be like setting the upstream to be the original repository at https://github.com/AMOCcommunity/amocarray.
+Try to ensure that all the lines of your contribution are covered in the tests.
