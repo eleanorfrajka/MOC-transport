@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>amocarray.standardise &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            amocarray
+              <img src="../../_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../github.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitorg.html">Transferring to an Organisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pypi-publish.html">Publishing to PyPi</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">amocarray.standardise</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for amocarray.standardise</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Standardisation functions for AMOC observing array datasets.</span>
+
+<span class="sd">These functions take raw loaded datasets and:</span>
+<span class="sd">- Rename variables to standard names</span>
+<span class="sd">- Add variable-level metadata</span>
+<span class="sd">- Add or update global attributes</span>
+<span class="sd">- Prepare datasets for downstream analysis</span>
+
+<span class="sd">Currently implemented:</span>
+<span class="sd">- SAMBA</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+
+<div class="viewcode-block" id="standardise_rapid">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_rapid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_rapid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standardise RAPID dataset:</span>
+<span class="sd">    - Rename time dimension and variable from &#39;time&#39; to &#39;TIME&#39;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xr.Dataset</span>
+<span class="sd">        Raw RAPID dataset loaded from read_rapid().</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        Standardised RAPID dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Rename dimension</span>
+    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+
+    <span class="c1"># Rename variable</span>
+    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+
+    <span class="c1"># Swap dimension to ensure &#39;TIME&#39; is the index coordinate</span>
+    <span class="k">if</span> <span class="s1">&#39;TIME&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s1">&#39;TIME&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+
+    <span class="c1"># Optional: global metadata updates (future)</span>
+    <span class="c1"># utilities.safe_update_attrs(ds, {&quot;weblink&quot;: &quot;...&quot;})</span>
+
+    <span class="k">return</span> <span class="n">ds</span>    </div>
+
+
+<div class="viewcode-block" id="standardise_samba">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_samba">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_samba</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standardise SAMBA dataset:</span>
+<span class="sd">    - Rename variables to standard names.</span>
+<span class="sd">    - Add variable-level metadata (units, description, etc.).</span>
+<span class="sd">    - Update global attributes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xr.Dataset</span>
+<span class="sd">        Raw SAMBA dataset loaded from read_samba().</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        Original source file name, used to determine mapping and metadata.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        Standardised SAMBA dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Variable renaming and attributes</span>
+    <span class="n">variable_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;UPPER_TRANSPORT&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;ABYSSAL_TRANSPORT&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Total MOC anomaly (relative to record-length average of 14.7 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;MOC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;RELATIVE_MOC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;BAROTROPIC_MOC&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EKMAN&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;WESTERN_DENSITY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EASTERN_DENSITY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;WESTERN_BOT_PRESSURE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EASTERN_BOT_PRESSURE&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">variable_attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;UPPER_TRANSPORT&quot;</span><span class="p">:</span> <span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ABYSSAL_TRANSPORT&quot;</span><span class="p">:</span> <span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;MOC Total Anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RELATIVE_MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BAROTROPIC_MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EKMAN&quot;</span><span class="p">:</span> <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;WESTERN_DENSITY&quot;</span><span class="p">:</span> <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EASTERN_DENSITY&quot;</span><span class="p">:</span> <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;WESTERN_BOT_PRESSURE&quot;</span><span class="p">:</span> <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EASTERN_BOT_PRESSURE&quot;</span><span class="p">:</span> <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
+
+    <span class="c1"># Rename variables if mapping exists</span>
+    <span class="k">if</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">variable_mapping</span><span class="p">:</span>
+        <span class="n">rename_dict</span> <span class="o">=</span> <span class="n">variable_mapping</span><span class="p">[</span><span class="n">file_name</span><span class="p">]</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">rename_dict</span><span class="p">)</span>
+
+        <span class="c1"># Attach attributes to variables</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">rename_dict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+                    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Transport Anomaly&quot;</span><span class="p">,</span>
+                <span class="p">})</span>
+
+    <span class="c1"># Global attributes clean-up</span>
+    <span class="n">global_attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;South Atlantic Meridional Overturning Circulation (SAMBA) standardised dataset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;weblink&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.aoml.noaa.gov/phod/samoc&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;acknowledgement&quot;</span><span class="p">:</span> <span class="s2">&quot;SAMBA data were collected and made freely available by the SAMOC international project and contributing national programs.&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Safe update of attributes</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+    <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">global_attrs</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
