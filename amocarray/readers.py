@@ -44,7 +44,7 @@ def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
     return xr.open_dataset(file_path)
 
 def load_dataset(array_name: str, source: str = None, file_list: str | list[str] = None,
-             transport_only: bool = True):
+             transport_only: bool = True, data_dir=None, redownload=False) -> list[xr.Dataset]:
     """
     Load raw datasets from a selected AMOC observing array.
 
@@ -74,7 +74,7 @@ def load_dataset(array_name: str, source: str = None, file_list: str | list[str]
         If an unknown array name is provided.
     """
     reader = _get_reader(array_name)
-    return reader(source=source, file_list=file_list, transport_only=transport_only)
+    return reader(source=source, file_list=file_list, transport_only=transport_only, data_dir=data_dir, redownload=redownload)
 
 
 def _get_reader(array_name: str):

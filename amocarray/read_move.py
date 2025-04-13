@@ -29,7 +29,8 @@ MOVE_FILE_METADATA = {
 
 
 @apply_defaults(MOVE_DEFAULT_SOURCE, MOVE_DEFAULT_FILES)
-def read_move(source: str, file_list: str | list[str], transport_only: bool = True) -> list[xr.Dataset]:    
+def read_move(source: str, file_list: str | list[str], transport_only: bool = True,
+              data_dir=None, redownload=False) -> list[xr.Dataset]:    
     """
     Load the MOVE transport dataset from a URL or local file path into xarray Datasets.
 
@@ -54,6 +55,7 @@ def read_move(source: str, file_list: str | list[str], transport_only: bool = Tr
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
     """
+    source = utilities.get_local_file(source, data_dir, redownload)
     if transport_only:
         file_list = MOVE_TRANSPORT_FILES
     if isinstance(file_list, str):
