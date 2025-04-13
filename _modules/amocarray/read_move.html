@@ -116,7 +116,8 @@
 <div class="viewcode-block" id="read_move">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_move.read_move">[docs]</a>
 <span class="nd">@apply_defaults</span><span class="p">(</span><span class="n">MOVE_DEFAULT_SOURCE</span><span class="p">,</span> <span class="n">MOVE_DEFAULT_FILES</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_move</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>    
+<span class="k">def</span><span class="w"> </span><span class="nf">read_move</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+              <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>    
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the MOVE transport dataset from a URL or local file path into xarray Datasets.</span>
 
@@ -141,6 +142,7 @@
 <span class="sd">    FileNotFoundError</span>
 <span class="sd">        If the file cannot be downloaded or does not exist locally.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">utilities</span><span class="o">.</span><span class="n">get_local_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">redownload</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">transport_only</span><span class="p">:</span>
         <span class="n">file_list</span> <span class="o">=</span> <span class="n">MOVE_TRANSPORT_FILES</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>

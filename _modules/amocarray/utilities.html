@@ -97,8 +97,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">ftplib</span><span class="w"> </span><span class="kn">import</span> <span class="n">FTP</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NullHandler</span><span class="p">())</span>
 
 <div class="viewcode-block" id="apply_defaults">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.apply_defaults">[docs]</a>
@@ -128,6 +132,48 @@
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">file_list</span><span class="o">=</span><span class="n">file_list</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">wrapper</span>
     <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+
+<div class="viewcode-block" id="get_local_file">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.get_local_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_local_file</span><span class="p">(</span><span class="n">source_url</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the file exists locally in `data_dir`. If not, download it.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source_url : str</span>
+<span class="sd">        Remote URL of the file.</span>
+<span class="sd">    data_dir : str or Path, optional</span>
+<span class="sd">        Local directory to save/load the data file.</span>
+<span class="sd">    redownload : bool, default=False</span>
+<span class="sd">        If True, force re-download even if the file exists locally.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path or str</span>
+<span class="sd">        Path to the local file if data_dir is provided, else the original source URL.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>  <span class="c1"># make sure you have this in utilities.py</span>
+
+    <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># No local directory provided; return URL (download will happen elsewhere)</span>
+        <span class="k">return</span> <span class="n">source_url</span>
+
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+    <span class="n">data_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">local_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">source_url</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">if</span> <span class="n">local_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">redownload</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using local file: </span><span class="si">{</span><span class="n">local_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">local_file</span>
+
+    <span class="c1"># Download and save to local_file</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading file from </span><span class="si">{</span><span class="n">source_url</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">download_file</span><span class="p">(</span><span class="n">source_url</span><span class="p">,</span> <span class="n">local_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">local_file</span></div>
 
 
 <div class="viewcode-block" id="safe_update_attrs">

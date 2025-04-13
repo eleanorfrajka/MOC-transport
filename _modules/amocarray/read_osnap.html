@@ -129,7 +129,8 @@
 
 <div class="viewcode-block" id="read_osnap">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_osnap.read_osnap">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_osnap</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>  
+<span class="k">def</span><span class="w"> </span><span class="nf">read_osnap</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+               <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>  
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.</span>
 
@@ -153,6 +154,7 @@
 <span class="sd">    FileNotFoundError</span>
 <span class="sd">        If the file cannot be downloaded or does not exist locally.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">utilities</span><span class="o">.</span><span class="n">get_local_file</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">redownload</span><span class="p">)</span>
     <span class="c1"># Ensure file_list has a default</span>
     <span class="k">if</span> <span class="n">file_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">file_list</span> <span class="o">=</span> <span class="n">OSNAP_DEFAULT_FILES</span>
