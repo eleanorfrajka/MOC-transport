@@ -14,7 +14,7 @@ This is a work in progress, all contributions welcome!
 
 ### Install
 
-Install from PyPI with
+Install from PyPI ([https://pypi.org/project/amocarray/](https://pypi.org/project/amocarray/)) with
 ```sh
 python -m pip install amocarray
 ```
