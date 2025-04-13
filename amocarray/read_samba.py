@@ -44,8 +44,8 @@ SAMBA_FILE_METADATA = {
 
 
 
-def read_samba(source: str = None,
-               file_list: str | list[str] = None, transport_only: bool = True) -> list[xr.Dataset]:
+def read_samba(source: str = None, file_list: str | list[str] = None, transport_only: bool = True,
+               data_dir=None, redownload=False) -> list[xr.Dataset]:
     """
     Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.
 
@@ -69,6 +69,7 @@ def read_samba(source: str = None,
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
     """
+    source = utilities.get_local_file(source, data_dir, redownload)
     # Ensure file_list has a default
     if file_list is None:
         file_list = SAMBA_DEFAULT_FILES

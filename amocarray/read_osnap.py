@@ -42,7 +42,8 @@ OSNAP_FILE_METADATA = {
 }
 
 
-def read_osnap(source: str, file_list: str | list[str], transport_only: bool = True) -> list[xr.Dataset]:  
+def read_osnap(source: str, file_list: str | list[str], transport_only: bool = True,
+               data_dir=None, redownload=False) -> list[xr.Dataset]:  
     """
     Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.
 
@@ -66,6 +67,7 @@ def read_osnap(source: str, file_list: str | list[str], transport_only: bool = T
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
     """
+    source = utilities.get_local_file(source, data_dir, redownload)
     # Ensure file_list has a default
     if file_list is None:
         file_list = OSNAP_DEFAULT_FILES

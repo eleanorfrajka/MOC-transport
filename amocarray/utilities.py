@@ -12,8 +12,12 @@ from pathlib import Path
 from ftplib import FTP
 from bs4 import BeautifulSoup
 import warnings
+import shutil
 
 from functools import wraps
+
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 def apply_defaults(default_source, default_files):
     """
@@ -41,6 +45,45 @@ def apply_defaults(default_source, default_files):
             return func(source=source, file_list=file_list, *args, **kwargs)
         return wrapper
     return decorator
+
+
+def get_local_file(source_url, data_dir=None, redownload=False):
+    """
+    Check if the file exists locally in `data_dir`. If not, download it.
+
+    Parameters
+    ----------
+    source_url : str
+        Remote URL of the file.
+    data_dir : str or Path, optional
+        Local directory to save/load the data file.
+    redownload : bool, default=False
+        If True, force re-download even if the file exists locally.
+
+    Returns
+    -------
+    Path or str
+        Path to the local file if data_dir is provided, else the original source URL.
+    """
+    from .utilities import download_file  # make sure you have this in utilities.py
+
+    if data_dir is None:
+        # No local directory provided; return URL (download will happen elsewhere)
+        return source_url
+
+    data_dir = Path(data_dir)
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    local_file = data_dir / Path(source_url).name
+
+    if local_file.exists() and not redownload:
+        logger.info(f"Using local file: {local_file}")
+        return local_file
+
+    # Download and save to local_file
+    logger.info(f"Downloading file from {source_url} to {local_file}")
+    download_file(source_url, local_file)
+    return local_file
 
 def safe_update_attrs(ds, new_attrs, overwrite=False, verbose=True):
     """

@@ -1,7 +1,9 @@
 import os
 import xarray as xr
 
+# Import the modules used
 from amocarray import utilities
+# Import the apply_defaults decorator function directly
 from amocarray.utilities import apply_defaults
 
 # Inline metadata dictionary
@@ -25,7 +27,7 @@ RAPID_DEFAULT_FILES = [
 #https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc
 #https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc
 @apply_defaults(RAPID_DEFAULT_SOURCE, RAPID_DEFAULT_FILES)
-def read_rapid(source: str, file_list: str | list[str], transport_only: bool = True) -> list[xr.Dataset]:    
+def read_rapid(source: str, file_list: str | list[str], transport_only: bool = True, data_dir=None, redownload=False) -> list[xr.Dataset]:    
     """
     Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.
 
@@ -50,6 +52,7 @@ def read_rapid(source: str, file_list: str | list[str], transport_only: bool = T
     FileNotFoundError
         If no valid NetCDF files are found in the provided file list.
     """
+    source = utilities.get_local_file(source, data_dir, redownload)
     if file_list is None:
         file_list = RAPID_DEFAULT_FILES
     if transport_only:

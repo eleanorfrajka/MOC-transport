@@ -2,6 +2,7 @@ import pathlib
 import sys
 import pytest
 import xarray as xr
+import tempfile
 from pathlib import Path
 from urllib.parse import urlparse
 script_dir = pathlib.Path(__file__).parent.absolute()
@@ -53,3 +54,34 @@ def test_safe_update_attrs_existing_key_with_overwrite():
     new_attrs = {"project": "OSNAP"}
     ds = utilities.safe_update_attrs(ds, new_attrs, overwrite=True)
     assert ds.attrs["project"] == "OSNAP"
+
+def test_get_local_file(mock_download_file):
+    """
+    Test get_local_file to ensure it correctly handles local caching and redownloading.
+
+    Parameters
+    ----------
+    mock_download_file : fixture
+        Pytest fixture that mocks the download_file function to avoid real network calls.
+    """
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmpdir = Path(tmpdir)
+        fake_url = "https://example.com/data.txt"
+        expected_local_file = tmpdir / "data.txt"
+
+        # Case 1: No local file, expect download
+        result = utilities.get_local_file(fake_url, data_dir=tmpdir)
+        assert result == expected_local_file
+        assert expected_local_file.exists()
+        assert expected_local_file.read_text() == "fake data"
+
+        # Case 2: Local file exists, expect no download
+        expected_local_file.write_text("existing data")
+        result = utilities.get_local_file(fake_url, data_dir=tmpdir)
+        assert result == expected_local_file
+        assert expected_local_file.read_text() == "existing data"
+
+        # Case 3: Redownload forces overwrite
+        result = utilities.get_local_file(fake_url, data_dir=tmpdir, redownload=True)
+        assert result == expected_local_file
+        assert expected_local_file.read_text() == "fake data"
