@@ -5,7 +5,7 @@ from ftplib import FTP
 from functools import wraps
 from pathlib import Path
 from urllib.parse import urlparse
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import pandas as pd
 import requests
