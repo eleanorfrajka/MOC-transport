@@ -44,8 +44,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -55,7 +60,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -84,6 +88,8 @@
              
   <h1>Source code for amocarray.readers</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
@@ -106,16 +112,28 @@
 
 <div class="viewcode-block" id="load_sample_dataset">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.load_sample_dataset">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span><span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span>
+    <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;../data&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a sample dataset from the local data directory.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    dataset_name (str): The name of the dataset file.</span>
-<span class="sd">    data_dir (str): The local directory where the dataset is stored.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset_name : str, optional</span>
+<span class="sd">        The name of the dataset file. Default is &quot;moc_transports.nc&quot;.</span>
+<span class="sd">    data_dir : str, optional</span>
+<span class="sd">        The local directory where the dataset is stored. Default is &quot;../data&quot;.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    xarray.Dataset: The loaded dataset.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        The loaded dataset.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If the specified dataset file does not exist in the given directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">)</span>
 
@@ -133,10 +151,10 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">load_dataset</span><span class="p">(</span>
     <span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load raw datasets from a selected AMOC observing array.</span>
@@ -177,9 +195,9 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Internal helper to retrieve the reader function for a given array.</span>
+<span class="sd">    Retrieve the reader function for a given observing array.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -188,7 +206,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    function</span>
+<span class="sd">    callable</span>
 <span class="sd">        The reader function corresponding to the requested array.</span>
 
 <span class="sd">    Raises</span>

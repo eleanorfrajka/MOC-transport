@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; amocarray v0.0.0 documentation</title>
+  <title>Project Coding Conventions &mdash; amocarray v0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Project Housekeeping Checklist" href="housekeeping.html" />
+    <link rel="prev" title="Extra GitHub features: Actions &amp; Pages" href="actions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,8 +47,37 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Coding Conventions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#python-style">Python Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#function-definitions">Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#function-naming">Function Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docstrings">Docstrings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#line-length">Line Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-formatter">Code Formatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#xarray-dataset-style">Xarray Dataset Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variables-dimensions-coordinates">Variables, Dimensions, Coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-commit-workflow">Pre-commit Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-handling">Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#future-considerations">Future Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -56,7 +87,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -73,7 +103,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">Project Coding Conventions</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/conventions.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -83,11 +113,179 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
+  <section id="project-coding-conventions">
+<h1>Project Coding Conventions<a class="headerlink" href="#project-coding-conventions" title="Link to this heading"></a></h1>
+<p>This document captures the coding conventions used consistently across the project. It serves as a style guide for future development, keeping the codebase clean, maintainable, and predictable.</p>
+<hr class="docutils" />
+<section id="python-style">
+<h2>Python Style<a class="headerlink" href="#python-style" title="Link to this heading"></a></h2>
+<section id="function-definitions">
+<h3>Function Definitions<a class="headerlink" href="#function-definitions" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Type-Annotated Signatures</strong>: Functions are written with explicit type hints for all parameters and return types.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_dataset</span><span class="p">(</span>
+    <span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+</pre></div>
+</div>
+</li>
+<li><p>Preferred for all public functions and internal functions that aren’t trivial.</p></li>
+</ul>
+</section>
+<section id="function-naming">
+<h3>Function Naming<a class="headerlink" href="#function-naming" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Snake case</strong>, all lowercase, words separated by underscores.
+Example: <code class="docutils literal notranslate"><span class="pre">load_sample_dataset()</span></code>, <code class="docutils literal notranslate"><span class="pre">convert_units_var()</span></code>.</p></li>
+</ul>
+</section>
+<section id="docstrings">
+<h3>Docstrings<a class="headerlink" href="#docstrings" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>NumPy-style docstrings</strong> for all functions.</p></li>
+<li><p>Structured sections: <code class="docutils literal notranslate"><span class="pre">Parameters</span></code>, <code class="docutils literal notranslate"><span class="pre">Returns</span></code>, and optional <code class="docutils literal notranslate"><span class="pre">Notes</span></code>.</p></li>
+<li><p>Keeps in-project and external documentation tools (like Sphinx) clean and uniform.</p></li>
+<li><p>Reference: <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html">NumPy Documentation Style Guide</a></p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_units_var</span><span class="p">(</span>
+    <span class="n">var_values</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">current_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">new_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">unit_conversion</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert variable values from one unit to another.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var_values : xr.DataArray</span>
+<span class="sd">        The numerical values to convert.</span>
+<span class="sd">    current_unit : str</span>
+<span class="sd">        Unit of the original values.</span>
+<span class="sd">    new_unit : str</span>
+<span class="sd">        Desired unit for the output values.</span>
+<span class="sd">    unit_conversion : dict, optional</span>
+<span class="sd">        Dictionary containing conversion factors between units.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.DataArray</span>
+<span class="sd">        Converted values in the desired unit.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If no valid conversion is found, the original values are returned unchanged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The dashes under section headers (e.g., <code class="docutils literal notranslate"><span class="pre">----------</span></code>) are part of the style.</p></li>
+<li><p>Optional sections include <code class="docutils literal notranslate"><span class="pre">Examples</span></code>, <code class="docutils literal notranslate"><span class="pre">See</span> <span class="pre">Also</span></code>, and <code class="docutils literal notranslate"><span class="pre">References</span></code>.</p></li>
+</ul>
+</section>
+<section id="line-length">
+<h3>Line Length<a class="headerlink" href="#line-length" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>88 characters</strong> line length, following Black defaults.</p></li>
+<li><p>Line breaks follow Black’s opinionated style: when breaking arguments, use vertical alignment (one per line).</p></li>
+<li><p>Reference: <a class="reference external" href="https://black.readthedocs.io/en/stable/">Black: The Uncompromising Code Formatter</a></p></li>
+</ul>
+</section>
+<section id="code-formatter">
+<h3>Code Formatter<a class="headerlink" href="#code-formatter" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Black</strong> is used for automatic formatting.</p></li>
+<li><p>Pre-commit hooks enforce formatting on commit.</p></li>
+</ul>
+</section>
+<section id="imports">
+<h3>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Ruff</strong> is used for import sorting and linting.</p></li>
+<li><p>Imports are automatically ordered and cleaned, with standard library imports first, followed by third-party libraries, and then local imports.</p></li>
+<li><p>Reference: <a class="reference external" href="https://docs.astral.sh/ruff/">Ruff Documentation</a></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="xarray-dataset-style">
+<h2>Xarray Dataset Style<a class="headerlink" href="#xarray-dataset-style" title="Link to this heading"></a></h2>
+<section id="variables-dimensions-coordinates">
+<h3>Variables, Dimensions, Coordinates<a class="headerlink" href="#variables-dimensions-coordinates" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>ALL CAPITALS</strong> for clarity and consistency.</p></li>
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>.</p></li>
+</ul>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Follow the <a class="reference external" href="https://oceangliderscommunity.github.io/OG-format-user-manual/OG_Format.html">OceanGlidersCommunity OG1 Format</a>.</p></li>
+<li><p>Use <strong>lowercase with underscores</strong> or <strong>camelCase</strong>, depending on context (OG1 style guide is mixed).</p></li>
+<li><p>Avoid all capitals and avoid spaces.</p></li>
+</ul>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Avoid including units in variable names; units are handled via attributes.</p></li>
+<li><p>Variables (with the exception of time) should have the <code class="docutils literal notranslate"><span class="pre">units</span></code> attribute.</p></li>
+<li><p>Consistent units and metadata are enforced through helper functions and utilities.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Link to this heading"></a></h2>
+<section id="pre-commit-workflow">
+<h3>Pre-commit Workflow<a class="headerlink" href="#pre-commit-workflow" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Pre-commit hooks are used for Black formatting, Ruff linting, and pytest.</p></li>
+<li><p>Ruff handles both import sorting and code linting.</p></li>
+<li><p>Pytest is configured to run only when files in <code class="docutils literal notranslate"><span class="pre">amocarray/</span></code>, <code class="docutils literal notranslate"><span class="pre">notebooks/</span></code>, or <code class="docutils literal notranslate"><span class="pre">tests/</span></code> are modified.</p></li>
+</ul>
+</section>
+<section id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>(Planned) Switch from <code class="docutils literal notranslate"><span class="pre">print()</span></code> to proper <code class="docutils literal notranslate"><span class="pre">logging</span></code> for warnings and information.</p></li>
+</ul>
+</section>
+<section id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Current philosophy is to fail clearly or log warnings, especially in utility functions like unit conversion.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="future-considerations">
+<h2>Future Considerations<a class="headerlink" href="#future-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">mypy</span></code> for static type checking.</p></li>
+<li><p>Expand logging configuration for debug and info levels.</p></li>
+<li><p>Consistent metadata handling across all data readers.</p></li>
+<li><p>Optional doc generation with Sphinx + Read the Docs.</p></li>
+</ul>
+<hr class="docutils" />
+<p><em>This document was drafted with the help of ChatGPT, in collaboration with the project developer.</em></p>
+</section>
+</section>
+
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="actions.html" class="btn btn-neutral float-left" title="Extra GitHub features: Actions &amp; Pages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="housekeeping.html" class="btn btn-neutral float-right" title="Project Housekeeping Checklist" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

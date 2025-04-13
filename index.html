@@ -46,8 +46,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -57,7 +62,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -95,6 +99,11 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-for-contributing">Install for contributing</a></li>
 </ul>
 </li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gitcollab.html#forking-branching-someone-else-s-repository">Forking &amp; branching someone else’s repository</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="gitcollab.html#fork-a-repository">1. Fork a repository</a></li>
@@ -125,6 +134,40 @@
 <li class="toctree-l3"><a class="reference internal" href="actions.html#publishing-a-release">Publishing a release</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conventions.html#python-style">Python Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#function-definitions">Function Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#function-naming">Function Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#docstrings">Docstrings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#line-length">Line Length</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#code-formatter">Code Formatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="conventions.html#xarray-dataset-style">Xarray Dataset Style</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#variables-dimensions-coordinates">Variables, Dimensions, Coordinates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="conventions.html#miscellaneous">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#pre-commit-workflow">Pre-commit Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#logging">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="conventions.html#error-handling">Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="conventions.html#future-considerations">Future Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#adding-a-new-package">Adding a New Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#updating-dependencies">Updating Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#cleaning-or-recreating-the-environment">Cleaning or Recreating the Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#pre-commit-and-tests">Pre-commit and Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="housekeeping.html#before-merging-a-branch">Before Merging a Branch</a></li>
 </ul>
 </li>
 </ul>
@@ -173,6 +216,7 @@
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.convert_qc_flags"><code class="docutils literal notranslate"><span class="pre">convert_qc_flags()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.convert_units_var"><code class="docutils literal notranslate"><span class="pre">convert_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.find_best_dtype"><code class="docutils literal notranslate"><span class="pre">find_best_dtype()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.generate_reverse_conversions"><code class="docutils literal notranslate"><span class="pre">generate_reverse_conversions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.reformat_units_var"><code class="docutils literal notranslate"><span class="pre">reformat_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.set_best_dtype"><code class="docutils literal notranslate"><span class="pre">set_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.set_fill_value"><code class="docutils literal notranslate"><span class="pre">set_fill_value()</span></code></a></li>
@@ -190,12 +234,6 @@
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.utilities.safe_update_attrs"><code class="docutils literal notranslate"><span class="pre">safe_update_attrs()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#i-get-an-error-when-doing-from-template-project-import-plotters">I get an error when doing <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">template_project</span> <span class="pre">import</span> <span class="pre">plotters</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#failing-to-install-the-package-in-a-github-action">Failing to install the package in a Github Action</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#what-s-the-difference-between-template-project-and-template-project">What’s the difference between <code class="docutils literal notranslate"><span class="pre">template-project</span></code> and <code class="docutils literal notranslate"><span class="pre">template_project</span></code>??</a></li>
 </ul>
 </li>
 </ul>

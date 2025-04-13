@@ -44,8 +44,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -55,7 +60,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -107,10 +111,11 @@
 <span class="c1"># Default list of RAPID data files</span>
 <span class="n">RAPID_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moc_vertical.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;ts_gridded.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">]</span>
 
-
 <span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc</span>
 <span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc</span>
 <span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc</span>
+
+
 <div class="viewcode-block" id="read_rapid">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_rapid.read_rapid">[docs]</a>
 <span class="nd">@apply_defaults</span><span class="p">(</span><span class="n">RAPID_DEFAULT_SOURCE</span><span class="p">,</span> <span class="n">RAPID_DEFAULT_FILES</span><span class="p">)</span>

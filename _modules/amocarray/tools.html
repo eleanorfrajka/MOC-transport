@@ -44,8 +44,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -55,7 +60,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -92,30 +96,62 @@
 <span class="c1"># Set up logging</span>
 <span class="n">_log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+
+<div class="viewcode-block" id="generate_reverse_conversions">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.tools.generate_reverse_conversions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_reverse_conversions</span><span class="p">(</span>
+    <span class="n">forward_conversions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a unit conversion dictionary with both forward and reverse conversions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    forward_conversions : dict of {str: dict of {str: float}}</span>
+<span class="sd">        Mapping of source units to target units and conversion factors.</span>
+<span class="sd">        Example: {&quot;m&quot;: {&quot;cm&quot;: 100, &quot;km&quot;: 0.001}}</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of {str: dict of {str: float}}</span>
+<span class="sd">        Complete mapping of units including reverse conversions.</span>
+<span class="sd">        Example: {&quot;cm&quot;: {&quot;m&quot;: 0.01}, &quot;km&quot;: {&quot;m&quot;: 1000}}</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If a conversion factor is zero, a warning is printed, and the reverse conversion is skipped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">complete_conversions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">from_unit</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">forward_conversions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">complete_conversions</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">from_unit</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">for</span> <span class="n">to_unit</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">targets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">complete_conversions</span><span class="p">[</span><span class="n">from_unit</span><span class="p">][</span><span class="n">to_unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">factor</span>
+            <span class="n">complete_conversions</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">to_unit</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Warning: zero factor in conversion from </span><span class="si">{</span><span class="n">from_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">complete_conversions</span><span class="p">[</span><span class="n">to_unit</span><span class="p">][</span><span class="n">from_unit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">factor</span>
+
+    <span class="k">return</span> <span class="n">complete_conversions</span></div>
+
+
+
 <span class="c1"># Various conversions from the key to units_name with the multiplicative conversion factor</span>
-<span class="n">unit_conversion</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;cm/s&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
-    <span class="s2">&quot;cm s-1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
-    <span class="s2">&quot;m/s&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cm/s&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
-    <span class="s2">&quot;m s-1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cm s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
-    <span class="s2">&quot;S/m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mS/cm&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
-    <span class="s2">&quot;S m-1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;mS cm-1&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
-    <span class="s2">&quot;mS/cm&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;S/m&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
-    <span class="s2">&quot;mS cm-1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;S m-1&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
-    <span class="s2">&quot;dbar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">},</span>
-    <span class="s2">&quot;Pa&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;dbar&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">},</span>
-    <span class="s2">&quot;dbar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;kPa&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
-    <span class="s2">&quot;degrees_Celsius&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Celsius&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="s2">&quot;Celsius&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;degrees_Celsius&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;cm&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
-    <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;km&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
-    <span class="s2">&quot;cm&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
-    <span class="s2">&quot;km&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span>
-    <span class="s2">&quot;g m-3&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;kg m-3&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
-    <span class="s2">&quot;kg m-3&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;g m-3&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span>
-    <span class="s2">&quot;Sverdrup&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sv&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="s2">&quot;Sv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sverdrup&quot;</span><span class="p">,</span> <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+<span class="n">base_unit_conversion</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;cm/s&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;m/s&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="s2">&quot;cm s-1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;m s-1&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">},</span>
+    <span class="s2">&quot;S/m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;mS/cm&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
+    <span class="s2">&quot;dbar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Pa&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span> <span class="s2">&quot;kPa&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s2">&quot;degrees_Celsius&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Celsius&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;cm&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;km&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+    <span class="s2">&quot;g m-3&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;kg m-3&quot;</span><span class="p">:</span> <span class="mf">0.001</span><span class="p">},</span>
+    <span class="s2">&quot;Sverdrup&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Sv&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
 <span class="p">}</span>
+
+<span class="n">unit_conversion</span> <span class="o">=</span> <span class="n">generate_reverse_conversions</span><span class="p">(</span><span class="n">base_unit_conversion</span><span class="p">)</span>
 
 <span class="c1"># Specify the preferred units, and it will convert if the conversion is available in unit_conversion</span>
 <span class="n">preferred_units</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;m s-1&quot;</span><span class="p">,</span> <span class="s2">&quot;dbar&quot;</span><span class="p">,</span> <span class="s2">&quot;S m-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Sv&quot;</span><span class="p">]</span>
@@ -138,56 +174,90 @@
 
 <div class="viewcode-block" id="split_by_unique_dims">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.split_by_unique_dims">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">split_by_unique_dims</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_by_unique_dims</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    ds (xarray.Dataset): The input xarray dataset containing various variables.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">        The input xarray dataset containing various variables.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    tuple: A tuple containing xarray datasets, each with variables sharing the same set of dimensions.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of tuple of str to xarray.Dataset</span>
+<span class="sd">        A dictionary where keys are tuples of unique dimensions, and values are xarray datasets</span>
+<span class="sd">        containing variables that share the same set of dimensions.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import xarray as xr</span>
+<span class="sd">    &gt;&gt;&gt; data = xr.Dataset({</span>
+<span class="sd">    ...     &#39;var1&#39;: ((&#39;x&#39;, &#39;y&#39;), [[1, 2], [3, 4]]),</span>
+<span class="sd">    ...     &#39;var2&#39;: ((&#39;x&#39;,), [5, 6]),</span>
+<span class="sd">    ...     &#39;var3&#39;: ((&#39;y&#39;,), [7, 8])</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; split_datasets = split_by_unique_dims(data)</span>
+<span class="sd">    &gt;&gt;&gt; for dims, ds in split_datasets.items():</span>
+<span class="sd">    ...     print(f&quot;Dimensions: {dims}&quot;)</span>
+<span class="sd">    ...     print(ds)</span>
+<span class="sd">    Dimensions: (&#39;x&#39;, &#39;y&#39;)</span>
+<span class="sd">    &lt;xarray.Dataset&gt;</span>
+<span class="sd">    Dimensions:  (x: 2, y: 2)</span>
+<span class="sd">    Dimensions without coordinates: x, y</span>
+<span class="sd">    Data variables:</span>
+<span class="sd">        var1     (x, y) int64 1 2 3 4</span>
+<span class="sd">    Dimensions: (&#39;x&#39;,)</span>
+<span class="sd">    &lt;xarray.Dataset&gt;</span>
+<span class="sd">    Dimensions:  (x: 2)</span>
+<span class="sd">    Dimensions without coordinates: x</span>
+<span class="sd">    Data variables:</span>
+<span class="sd">        var2     (x) int64 5 6</span>
+<span class="sd">    Dimensions: (&#39;y&#39;,)</span>
+<span class="sd">    &lt;xarray.Dataset&gt;</span>
+<span class="sd">    Dimensions:  (y: 2)</span>
+<span class="sd">    Dimensions without coordinates: y</span>
+<span class="sd">    Data variables:</span>
+<span class="sd">        var3     (y) int64 7 8</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Dictionary to hold datasets with unique dimension sets</span>
-    <span class="n">unique_dims_datasets</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">unique_dims_datasets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># Iterate over the variables in the dataset</span>
     <span class="k">for</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">var_data</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="c1"># Get the dimensions of the variable</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">var_data</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
-
-        <span class="c1"># If this dimension set is not in the dictionary, create a new dataset</span>
         <span class="k">if</span> <span class="n">dims</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_dims_datasets</span><span class="p">:</span>
             <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-
-        <span class="c1"># Add the variable to the corresponding dataset</span>
         <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">][</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data</span>
 
-    <span class="c1"># Convert the dictionary values to a dictionary of datasets</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">dims</span><span class="p">:</span> <span class="n">dataset</span> <span class="k">for</span> <span class="n">dims</span><span class="p">,</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">unique_dims_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+    <span class="k">return</span> <span class="n">unique_dims_datasets</span></div>
 
 
 
 <div class="viewcode-block" id="reformat_units_var">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.reformat_units_var">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">reformat_units_var</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">unit_format</span><span class="o">=</span><span class="n">unit_str_format</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reformat_units_var</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit_format</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">unit_str_format</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Renames units in the dataset based on the provided dictionary for OG1.</span>
+<span class="sd">    Reformat the units of a variable in the dataset based on a provided mapping.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ds (xarray.Dataset): The input dataset containing variables with units to be renamed.</span>
-<span class="sd">    unit_format (dict): A dictionary mapping old unit strings to new formatted unit strings.</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">        The input dataset containing variables with units to be reformatted.</span>
+<span class="sd">    var_name : str</span>
+<span class="sd">        The name of the variable whose units need to be reformatted.</span>
+<span class="sd">    unit_format : dict of {str: str}, optional</span>
+<span class="sd">        A dictionary mapping old unit strings to new formatted unit strings.</span>
+<span class="sd">        Defaults to `unit_str_format`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    xarray.Dataset: The dataset with renamed units.</span>
+<span class="sd">    str</span>
+<span class="sd">        The reformatted unit string. If the old unit is not found in `unit_format`,</span>
+<span class="sd">        the original unit string is returned.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">old_unit</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">old_unit</span> <span class="ow">in</span> <span class="n">unit_format</span><span class="p">:</span>
-        <span class="n">new_unit</span> <span class="o">=</span> <span class="n">unit_format</span><span class="p">[</span><span class="n">old_unit</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">new_unit</span> <span class="o">=</span> <span class="n">old_unit</span>
+    <span class="n">new_unit</span> <span class="o">=</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">old_unit</span><span class="p">,</span> <span class="n">old_unit</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">new_unit</span></div>
 
 
@@ -195,56 +265,112 @@
 <div class="viewcode-block" id="convert_units_var">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.convert_units_var">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_units_var</span><span class="p">(</span>
-    <span class="n">var_values</span><span class="p">,</span> <span class="n">current_unit</span><span class="p">,</span> <span class="n">new_unit</span><span class="p">,</span> <span class="n">unit_conversion</span><span class="o">=</span><span class="n">unit_conversion</span>
-<span class="p">):</span>
+    <span class="n">var_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">current_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">new_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">unit_conversion</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert the units of variables in an xarray Dataset to preferred units.  This is useful, for instance, to convert cm/s to m/s.</span>
+<span class="sd">    Converts variable values from one unit to another using a predefined conversion factor.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ds (xarray.Dataset): The dataset containing variables to convert.</span>
-<span class="sd">    preferred_units (list): A list of strings representing the preferred units.</span>
-<span class="sd">    unit_conversion (dict): A dictionary mapping current units to conversion information.</span>
-<span class="sd">    Each key is a unit string, and each value is a dictionary with:</span>
-<span class="sd">        - &#39;factor&#39;: The factor to multiply the variable by to convert it.</span>
-<span class="sd">        - &#39;units_name&#39;: The new unit name after conversion.</span>
+<span class="sd">    var_values : numpy.ndarray or float</span>
+<span class="sd">        The values to be converted.</span>
+<span class="sd">    current_unit : str</span>
+<span class="sd">        The current unit of the variable values.</span>
+<span class="sd">    new_unit : str</span>
+<span class="sd">        The target unit to which the variable values should be converted.</span>
+<span class="sd">    unit_conversion : dict of {str: dict of {str: float}}, optional</span>
+<span class="sd">        A dictionary containing conversion factors between units. The default is `unit_conversion`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    xarray.Dataset: The dataset with converted units.</span>
+<span class="sd">    numpy.ndarray or float</span>
+<span class="sd">        The converted variable values. If no conversion factor is found, the original values are returned.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    KeyError</span>
+<span class="sd">        If the conversion factor for the specified units is not found in the `unit_conversion` dictionary.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If the conversion factor for the specified units is not available, a message is printed, and the original</span>
+<span class="sd">    values are returned without any conversion.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="n">current_unit</span> <span class="ow">in</span> <span class="n">unit_conversion</span>
-        <span class="ow">and</span> <span class="n">new_unit</span> <span class="ow">in</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="s2">&quot;units_name&quot;</span><span class="p">]</span>
-    <span class="p">):</span>
-        <span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="s2">&quot;factor&quot;</span><span class="p">]</span>
-        <span class="n">new_values</span> <span class="o">=</span> <span class="n">var_values</span> <span class="o">*</span> <span class="n">conversion_factor</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">new_values</span> <span class="o">=</span> <span class="n">var_values</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="n">new_unit</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">var_values</span> <span class="o">*</span> <span class="n">conversion_factor</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No conversion information found for </span><span class="si">{</span><span class="n">current_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="c1">#        raise ValueError(f&quot;No conversion information found for {current_unit} to {new_unit}&quot;)</span>
-    <span class="k">return</span> <span class="n">new_values</span></div>
+        <span class="k">return</span> <span class="n">var_values</span></div>
 
 
 
 <div class="viewcode-block" id="convert_qc_flags">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.convert_qc_flags">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">convert_qc_flags</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">qc_name</span><span class="p">):</span>
-    <span class="c1"># Must be called *after* var_name has OG1 long_name</span>
-    <span class="n">var_name</span> <span class="o">=</span> <span class="n">qc_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_qc_flags</span><span class="p">(</span><span class="n">dsa</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">qc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert and update quality control (QC) flags in a dataset.</span>
+
+<span class="sd">    This function processes a QC variable in the given dataset by converting its</span>
+<span class="sd">    data type, updating its attributes, and linking it to the associated variable.</span>
+<span class="sd">    It assumes that the QC variable name ends with &#39;_qc&#39; and that the associated</span>
+<span class="sd">    variable has a `long_name` attribute.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsa : xarray.Dataset</span>
+<span class="sd">        The dataset containing the QC variable and the associated variable.</span>
+<span class="sd">    qc_name : str</span>
+<span class="sd">        The name of the QC variable to process.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        The updated dataset with modified QC variable attributes and a link</span>
+<span class="sd">        between the QC variable and the associated variable.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The QC variable&#39;s data type is converted to `int8`.</span>
+<span class="sd">    - The `flag_meaning` attribute of the QC variable is updated to remove the</span>
+<span class="sd">      &#39;QC_&#39; prefix, if present.</span>
+<span class="sd">    - A `long_name` attribute is added to the QC variable, describing it as a</span>
+<span class="sd">      quality flag for the associated variable.</span>
+<span class="sd">    - The `standard_name` attribute of the QC variable is set to &#39;status_flag&#39;.</span>
+<span class="sd">    - The `ancillary_variables` attribute of the associated variable is updated</span>
+<span class="sd">      to reference the QC variable.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import xarray as xr</span>
+<span class="sd">    &gt;&gt;&gt; data = xr.Dataset({</span>
+<span class="sd">    ...     &#39;temperature&#39;: ([&#39;time&#39;], [15.0, 16.0, 14.5]),</span>
+<span class="sd">    ...     &#39;temperature_qc&#39;: ([&#39;time&#39;], [&#39;1&#39;, &#39;2&#39;, &#39;1&#39;], {&#39;flag_meaning&#39;: &#39;QC_good QC_bad&#39;})</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; data[&#39;temperature&#39;].attrs[&#39;long_name&#39;] = &#39;Sea temperature&#39;</span>
+<span class="sd">    &gt;&gt;&gt; updated_data = convert_qc_flags(data, &#39;temperature_qc&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; updated_data[&#39;temperature_qc&#39;].attrs</span>
+<span class="sd">    {&#39;flag_meaning&#39;: &#39;good bad&#39;, &#39;long_name&#39;: &#39;Sea temperature quality flag&#39;, &#39;standard_name&#39;: &#39;status_flag&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; updated_data[&#39;temperature&#39;].attrs</span>
+<span class="sd">    {&#39;long_name&#39;: &#39;Sea temperature&#39;, &#39;ancillary_variables&#39;: &#39;temperature_qc&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">qc_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">qc_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsa</span><span class="p">):</span>
-        <span class="c1"># Seaglider default type was a string.  Convert to int8.</span>
+        <span class="c1"># Convert QC variable to int8</span>
         <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
-        <span class="c1"># Seaglider default flag_meanings were prefixed with &#39;QC_&#39;. Remove this prefix.</span>
+        <span class="c1"># Remove &#39;QC_&#39; prefix from flag_meaning attribute</span>
         <span class="k">if</span> <span class="s2">&quot;flag_meaning&quot;</span> <span class="ow">in</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="n">flag_meaning</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;flag_meaning&quot;</span><span class="p">]</span>
+            <span class="n">flag_meaning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;flag_meaning&quot;</span><span class="p">]</span>
             <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;flag_meaning&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flag_meaning</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;QC_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="c1"># Add a long_name attribute to the QC variable</span>
         <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; quality flag&quot;</span>
         <span class="p">)</span>
         <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;status_flag&quot;</span>
-        <span class="c1"># Mention the QC variable in the variable attributes</span>
+        <span class="c1"># Update ancillary_variables attribute of the associated variable</span>
         <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;ancillary_variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qc_name</span>
     <span class="k">return</span> <span class="n">dsa</span></div>
 
@@ -252,7 +378,22 @@
 
 <div class="viewcode-block" id="find_best_dtype">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.find_best_dtype">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">da</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines the most suitable data type for a given variable.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var_name : str</span>
+<span class="sd">        The name of the variable.</span>
+<span class="sd">    da : xarray.DataArray</span>
+<span class="sd">        The data array containing the variable&#39;s values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.dtype</span>
+<span class="sd">        The optimal data type for the variable based on its name and values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
     <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;longitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">double</span>
@@ -273,34 +414,67 @@
 
 <div class="viewcode-block" id="set_fill_value">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.set_fill_value">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
-    <span class="n">fill_val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the fill value for a given data type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    new_dtype : numpy.dtype</span>
+<span class="sd">        The data type for which the fill value is to be calculated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        The calculated fill value based on the bit-width of the data type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fill_val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">fill_val</span></div>
 
 
 
 <div class="viewcode-block" id="set_best_dtype">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.set_best_dtype">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_best_dtype</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-    <span class="n">bytes_in</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_best_dtype</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adjust the data types of variables in a dataset to optimize memory usage.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xarray.Dataset</span>
+<span class="sd">        The input dataset whose variables&#39; data types will be adjusted.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        The dataset with updated data types for its variables, potentially saving memory.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The function determines the best data type for each variable using `find_best_dtype`.</span>
+<span class="sd">    - Attributes like `valid_min` and `valid_max` are updated to match the new data type.</span>
+<span class="sd">    - If the new data type is integer-based, NaN values are replaced with a fill value.</span>
+<span class="sd">    - Logs the percentage of memory saved after the data type adjustments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bytes_in</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
     <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
-        <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
-        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
-        <span class="n">new_dtype</span> <span class="o">=</span> <span class="n">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">da</span><span class="p">)</span>
+        <span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
+        <span class="n">input_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
+        <span class="n">new_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">da</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;valid_min&quot;</span><span class="p">,</span> <span class="s2">&quot;valid_max&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">att</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_dtype</span> <span class="o">==</span> <span class="n">input_dtype</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> input dtype </span><span class="si">{</span><span class="n">input_dtype</span><span class="si">}</span><span class="s2"> change to </span><span class="si">{</span><span class="n">new_dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">da_new</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+        <span class="n">da_new</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
-            <span class="n">fill_val</span> <span class="o">=</span> <span class="n">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+            <span class="n">fill_val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
             <span class="n">da_new</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">da</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fill_val</span>
             <span class="n">da_new</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_val</span>
         <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_new</span>
-    <span class="n">bytes_out</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
+    <span class="n">bytes_out</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
     <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Space saved by dtype downgrade: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">bytes_in</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bytes_out</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bytes_in</span><span class="p">)</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">,</span>
     <span class="p">)</span>

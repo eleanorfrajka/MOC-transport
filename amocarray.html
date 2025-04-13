@@ -20,7 +20,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="FAQ / Troubleshooting" href="faq.html" />
     <link rel="prev" title="AMOCarray demo" href="demo-output.html" /> 
 </head>
 
@@ -47,8 +46,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -91,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.convert_qc_flags"><code class="docutils literal notranslate"><span class="pre">convert_qc_flags()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.convert_units_var"><code class="docutils literal notranslate"><span class="pre">convert_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.find_best_dtype"><code class="docutils literal notranslate"><span class="pre">find_best_dtype()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.generate_reverse_conversions"><code class="docutils literal notranslate"><span class="pre">generate_reverse_conversions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.reformat_units_var"><code class="docutils literal notranslate"><span class="pre">reformat_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.set_best_dtype"><code class="docutils literal notranslate"><span class="pre">set_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.set_fill_value"><code class="docutils literal notranslate"><span class="pre">set_fill_value()</span></code></a></li>
@@ -110,7 +115,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -147,7 +151,7 @@
 <p>Shared utilities and base classes for AMOC readers.</p>
 <dl class="py function" id="module-amocarray.readers">
 <dt class="sig sig-object py" id="amocarray.readers.load_dataset">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_dataset" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_dataset" title="Link to this definition"></a></dt>
 <dd><p>Load raw datasets from a selected AMOC observing array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -177,13 +181,25 @@ If None, the reader-specific default files will be used.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.load_sample_dataset">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moc_transports.nc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../data'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'moc_transports.nc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'../data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
 <dd><p>Load a sample dataset from the local data directory.</p>
-<p>Parameters:
-dataset_name (str): The name of the dataset file.
-data_dir (str): The local directory where the dataset is stored.</p>
-<p>Returns:
-xarray.Dataset: The loaded dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the dataset file. Default is “moc_transports.nc”.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – The local directory where the dataset is stored. Default is “../data”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the specified dataset file does not exist in the given directory.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <section id="submodules">
@@ -374,8 +390,8 @@ Defaults to SAMBA_DEFAULT_FILES.</p></li>
 <p>Tools for visualising AMOC time series and transport data.</p>
 <dl class="py function" id="module-amocarray.plotters">
 <dt class="sig sig-object py" id="amocarray.plotters.plot_monthly_anomalies">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
-<dd><p>Plots the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</p>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
+<dd><p>Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -389,74 +405,119 @@ Defaults to SAMBA_DEFAULT_FILES.</p></li>
 <li><p><strong>samba_label</strong> (<em>str</em>) – Label for SAMBA plot.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The figure and axes objects of the generated plot.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.show_attributes">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#show_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_attributes" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dataset</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#show_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_attributes" title="Link to this definition"></a></dt>
 <dd><p>Processes an xarray Dataset or a netCDF file, extracts attribute information,
 and returns a DataFrame with details about the attributes.</p>
-<p>Parameters:
-data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</p>
-<p>Returns:
-pandas.DataFrame: A DataFrame containing the following columns:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Attribute: The name of the attribute.</p></li>
-<li><p>Value: The value of the attribute.</p></li>
-</ul>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em><em> or </em><em>xr.Dataset</em>) – The input data, either a file path to a netCDF file or an xarray Dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the following columns:
+- Attribute: The name of the attribute.
+- Value: The value of the attribute.
+- DType: The data type of the attribute.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input data is not a file path (str) or an xarray Dataset.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.show_contents">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'variables'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#show_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_contents" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_contents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'variables'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Styler</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#show_contents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_contents" title="Link to this definition"></a></dt>
 <dd><p>Wrapper function to show contents of an xarray Dataset or a netCDF file.</p>
-<p>Parameters:
-data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
-content_type (str): The type of content to show, either ‘variables’ (or ‘vars’) or ‘attributes’ (or ‘attrs’). Default is ‘variables’.</p>
-<p>Returns:
-pandas.io.formats.style.Styler or pandas.DataFrame: A styled DataFrame with details about the variables or attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em><em> or </em><em>xr.Dataset</em>) – The input data, either a file path to a netCDF file or an xarray Dataset.</p></li>
+<li><p><strong>content_type</strong> (<em>str</em><em>, </em><em>optional</em>) – The type of content to show, either ‘variables’ (or ‘vars’) or ‘attributes’ (or ‘attrs’).
+Default is ‘variables’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A styled DataFrame with details about the variables or attributes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.io.formats.style.Styler or pandas.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input data is not a file path (str) or an xarray Dataset.</p></li>
+<li><p><strong>ValueError</strong> – If the content_type is not ‘variables’ (or ‘vars’) or ‘attributes’ (or ‘attrs’).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.show_variables">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#show_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_variables" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dataset</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Styler</span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#show_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_variables" title="Link to this definition"></a></dt>
 <dd><p>Processes an xarray Dataset or a netCDF file, extracts variable information,
 and returns a styled DataFrame with details about the variables.</p>
-<p>Parameters:
-data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</p>
-<p>Returns:
-pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>dims: The dimension of the variable (or “string” if it is a string type).</p></li>
-<li><p>name: The name of the variable.</p></li>
-<li><p>units: The units of the variable (if available).</p></li>
-<li><p>comment: Any additional comments about the variable (if available).</p></li>
-</ul>
-</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em><em> or </em><em>xr.Dataset</em>) – The input data, either a file path to a netCDF file or an xarray Dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A styled DataFrame containing the following columns:
+- dims: The dimension of the variable (or “string” if it is a string type).
+- name: The name of the variable.
+- units: The units of the variable (if available).
+- comment: Any additional comments about the variable (if available).
+- standard_name: The standard name of the variable (if available).
+- dtype: The data type of the variable.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.io.formats.style.Styler</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input data is not a file path (str) or an xarray Dataset.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.show_variables_by_dimension">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables_by_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'trajectory'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#show_variables_by_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_variables_by_dimension" title="Link to this definition"></a></dt>
-<dd><p>Processes an xarray Dataset or a netCDF file, extracts variable information,
-and returns a styled DataFrame with details about the variables filtered by a specific dimension.</p>
-<p>Parameters:
-data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
-dimension_name (str): The name of the dimension to filter variables by.</p>
-<p>Returns:
-pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>dims: The dimension of the variable (or “string” if it is a string type).</p></li>
-<li><p>name: The name of the variable.</p></li>
-<li><p>units: The units of the variable (if available).</p></li>
-<li><p>comment: Any additional comments about the variable (if available).</p></li>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">show_variables_by_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'trajectory'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Styler</span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#show_variables_by_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.show_variables_by_dimension" title="Link to this definition"></a></dt>
+<dd><p>Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame
+with details about the variables filtered by a specific dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em><em> or </em><em>xr.Dataset</em>) – The input data, either a file path to a netCDF file or an xarray Dataset.</p></li>
+<li><p><strong>dimension_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the dimension to filter variables by, by default “trajectory”.</p></li>
 </ul>
-</div></blockquote>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A styled DataFrame containing the following columns:
+- dims: The dimension of the variable (or “string” if it is a string type).
+- name: The name of the variable.
+- units: The units of the variable (if available).
+- comment: Any additional comments about the variable (if available).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.io.formats.style.Styler</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input data is not a file path (str) or an xarray Dataset.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -464,24 +525,26 @@ pandas.io.formats.style.Styler: A styled DataFrame containing the following colu
 <span id="writers"></span><h2>writers<a class="headerlink" href="#module-amocarray.writers" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.writers.save_dataset">
-<span class="sig-prename descclassname"><span class="pre">amocarray.writers.</span></span><span class="sig-name descname"><span class="pre">save_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'../test.nc'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/writers.html#save_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.writers.save_dataset" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.writers.</span></span><span class="sig-name descname"><span class="pre">save_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'../test.nc'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/amocarray/writers.html#save_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.writers.save_dataset" title="Link to this definition"></a></dt>
 <dd><p>Attempts to save the dataset to a NetCDF file. If a TypeError occurs due to invalid attribute values,
 it converts the invalid attributes to strings and retries the save operation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
-<li><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>output_file</em>)</p></li>
+<li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The dataset to be saved.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the output NetCDF file. Defaults to ‘../test.nc’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>bool</strong> (<em>True if the dataset was saved successfully, False otherwise.</em>)</p></li>
-<li><p><strong>Based on</strong> (<em>https://github.com/pydata/xarray/issues/3743</em>)</p></li>
-</ul>
-</p>
+<dd class="field-even"><p>True if the dataset was saved successfully, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>This function is based on a workaround for issues with saving datasets containing
+attributes of unsupported types. See: <a class="reference external" href="https://github.com/pydata/xarray/issues/3743">https://github.com/pydata/xarray/issues/3743</a></p>
 </dd></dl>
 
 </section>
@@ -490,83 +553,234 @@ it converts the invalid attributes to strings and retries the save operation.</p
 <p>Helper functions for data manipulation, unit conversion, and clean-up.</p>
 <dl class="py function" id="module-amocarray.tools">
 <dt class="sig sig-object py" id="amocarray.tools.convert_qc_flags">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_qc_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#convert_qc_flags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_qc_flags" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="amocarray.tools.convert_units_var">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'Celsius':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'degrees_Celsius'},</span> <span class="pre">'Pa':</span> <span class="pre">{'factor':</span> <span class="pre">0.0001,</span> <span class="pre">'units_name':</span> <span class="pre">'dbar'},</span> <span class="pre">'S</span> <span class="pre">m-1':</span> <span class="pre">{'factor':</span> <span class="pre">0.1,</span> <span class="pre">'units_name':</span> <span class="pre">'mS</span> <span class="pre">cm-1'},</span> <span class="pre">'S/m':</span> <span class="pre">{'factor':</span> <span class="pre">0.1,</span> <span class="pre">'units_name':</span> <span class="pre">'mS/cm'},</span> <span class="pre">'Sv':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'Sverdrup'},</span> <span class="pre">'Sverdrup':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'Sv'},</span> <span class="pre">'cm':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m'},</span> <span class="pre">'cm</span> <span class="pre">s-1':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m</span> <span class="pre">s-1'},</span> <span class="pre">'cm/s':</span> <span class="pre">{'factor':</span> <span class="pre">0.01,</span> <span class="pre">'units_name':</span> <span class="pre">'m/s'},</span> <span class="pre">'dbar':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'kPa'},</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">{'factor':</span> <span class="pre">1,</span> <span class="pre">'units_name':</span> <span class="pre">'Celsius'},</span> <span class="pre">'g</span> <span class="pre">m-3':</span> <span class="pre">{'factor':</span> <span class="pre">0.001,</span> <span class="pre">'units_name':</span> <span class="pre">'kg</span> <span class="pre">m-3'},</span> <span class="pre">'kg</span> <span class="pre">m-3':</span> <span class="pre">{'factor':</span> <span class="pre">1000,</span> <span class="pre">'units_name':</span> <span class="pre">'g</span> <span class="pre">m-3'},</span> <span class="pre">'km':</span> <span class="pre">{'factor':</span> <span class="pre">1000,</span> <span class="pre">'units_name':</span> <span class="pre">'m'},</span> <span class="pre">'m':</span> <span class="pre">{'factor':</span> <span class="pre">0.001,</span> <span class="pre">'units_name':</span> <span class="pre">'km'},</span> <span class="pre">'m</span> <span class="pre">s-1':</span> <span class="pre">{'factor':</span> <span class="pre">100,</span> <span class="pre">'units_name':</span> <span class="pre">'cm</span> <span class="pre">s-1'},</span> <span class="pre">'m/s':</span> <span class="pre">{'factor':</span> <span class="pre">100,</span> <span class="pre">'units_name':</span> <span class="pre">'cm/s'},</span> <span class="pre">'mS</span> <span class="pre">cm-1':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'S</span> <span class="pre">m-1'},</span> <span class="pre">'mS/cm':</span> <span class="pre">{'factor':</span> <span class="pre">10,</span> <span class="pre">'units_name':</span> <span class="pre">'S/m'}}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#convert_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_units_var" title="Link to this definition"></a></dt>
-<dd><p>Convert the units of variables in an xarray Dataset to preferred units.  This is useful, for instance, to convert cm/s to m/s.</p>
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_qc_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#convert_qc_flags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_qc_flags" title="Link to this definition"></a></dt>
+<dd><p>Convert and update quality control (QC) flags in a dataset.</p>
+<p>This function processes a QC variable in the given dataset by converting its
+data type, updating its attributes, and linking it to the associated variable.
+It assumes that the QC variable name ends with ‘_qc’ and that the associated
+variable has a <cite>long_name</cite> attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
-<li><p><strong>(</strong><strong>list</strong><strong>)</strong> (<em>preferred_units</em>)</p></li>
-<li><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>unit_conversion</em>)</p></li>
-<li><p><strong>string</strong> (<em>Each key is a unit</em>) – <ul>
-<li><p>‘factor’: The factor to multiply the variable by to convert it.</p></li>
-<li><p>’units_name’: The new unit name after conversion.</p></li>
-</ul>
-</p></li>
-<li><p><strong>with</strong> (<em>and each value is a dictionary</em>) – <ul>
-<li><p>‘factor’: The factor to multiply the variable by to convert it.</p></li>
-<li><p>’units_name’: The new unit name after conversion.</p></li>
-</ul>
-</p></li>
+<li><p><strong>dsa</strong> (<em>xarray.Dataset</em>) – The dataset containing the QC variable and the associated variable.</p></li>
+<li><p><strong>qc_name</strong> (<em>str</em>) – The name of the QC variable to process.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>xarray.Dataset</strong></p>
+<dd class="field-even"><p>The updated dataset with modified QC variable attributes and a link
+between the QC variable and the associated variable.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The dataset with converted units.</p>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The QC variable’s data type is converted to <cite>int8</cite>.</p></li>
+<li><p>The <cite>flag_meaning</cite> attribute of the QC variable is updated to remove the
+‘<a href="#id1"><span class="problematic" id="id2">QC_</span></a>’ prefix, if present.</p></li>
+<li><p>A <cite>long_name</cite> attribute is added to the QC variable, describing it as a
+quality flag for the associated variable.</p></li>
+<li><p>The <cite>standard_name</cite> attribute of the QC variable is set to ‘status_flag’.</p></li>
+<li><p>The <cite>ancillary_variables</cite> attribute of the associated variable is updated
+to reference the QC variable.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">,</span> <span class="mf">14.5</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="s1">&#39;temperature_qc&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;flag_meaning&#39;</span><span class="p">:</span> <span class="s1">&#39;QC_good QC_bad&#39;</span><span class="p">})</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Sea temperature&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span> <span class="o">=</span> <span class="n">convert_qc_flags</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;temperature_qc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span><span class="p">[</span><span class="s1">&#39;temperature_qc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+<span class="go">{&#39;flag_meaning&#39;: &#39;good bad&#39;, &#39;long_name&#39;: &#39;Sea temperature quality flag&#39;, &#39;standard_name&#39;: &#39;status_flag&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+<span class="go">{&#39;long_name&#39;: &#39;Sea temperature&#39;, &#39;ancillary_variables&#39;: &#39;temperature_qc&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.tools.convert_units_var">
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'Celsius':</span> <span class="pre">{'degrees_Celsius':</span> <span class="pre">1.0},</span> <span class="pre">'Pa':</span> <span class="pre">{'dbar':</span> <span class="pre">0.0001},</span> <span class="pre">'S/m':</span> <span class="pre">{'mS/cm':</span> <span class="pre">0.1},</span> <span class="pre">'Sv':</span> <span class="pre">{'Sverdrup':</span> <span class="pre">1.0},</span> <span class="pre">'Sverdrup':</span> <span class="pre">{'Sv':</span> <span class="pre">1},</span> <span class="pre">'cm':</span> <span class="pre">{'m':</span> <span class="pre">0.01},</span> <span class="pre">'cm</span> <span class="pre">s-1':</span> <span class="pre">{'m</span> <span class="pre">s-1':</span> <span class="pre">0.01},</span> <span class="pre">'cm/s':</span> <span class="pre">{'m/s':</span> <span class="pre">0.01},</span> <span class="pre">'dbar':</span> <span class="pre">{'Pa':</span> <span class="pre">10000,</span> <span class="pre">'kPa':</span> <span class="pre">10},</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">{'Celsius':</span> <span class="pre">1},</span> <span class="pre">'g</span> <span class="pre">m-3':</span> <span class="pre">{'kg</span> <span class="pre">m-3':</span> <span class="pre">0.001},</span> <span class="pre">'kPa':</span> <span class="pre">{'dbar':</span> <span class="pre">0.1},</span> <span class="pre">'kg</span> <span class="pre">m-3':</span> <span class="pre">{'g</span> <span class="pre">m-3':</span> <span class="pre">1000.0},</span> <span class="pre">'km':</span> <span class="pre">{'m':</span> <span class="pre">1000.0},</span> <span class="pre">'m':</span> <span class="pre">{'cm':</span> <span class="pre">100,</span> <span class="pre">'km':</span> <span class="pre">0.001},</span> <span class="pre">'m</span> <span class="pre">s-1':</span> <span class="pre">{'cm</span> <span class="pre">s-1':</span> <span class="pre">100.0},</span> <span class="pre">'m/s':</span> <span class="pre">{'cm/s':</span> <span class="pre">100.0},</span> <span class="pre">'mS/cm':</span> <span class="pre">{'S/m':</span> <span class="pre">10.0}}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#convert_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_units_var" title="Link to this definition"></a></dt>
+<dd><p>Converts variable values from one unit to another using a predefined conversion factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_values</strong> (<em>numpy.ndarray</em><em> or </em><em>float</em>) – The values to be converted.</p></li>
+<li><p><strong>current_unit</strong> (<em>str</em>) – The current unit of the variable values.</p></li>
+<li><p><strong>new_unit</strong> (<em>str</em>) – The target unit to which the variable values should be converted.</p></li>
+<li><p><strong>unit_conversion</strong> (<em>dict</em><em> of </em><em>{str: dict</em><em> of </em><em>{str: float}}</em><em>, </em><em>optional</em>) – A dictionary containing conversion factors between units. The default is <cite>unit_conversion</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted variable values. If no conversion factor is found, the original values are returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray or float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If the conversion factor for the specified units is not found in the <cite>unit_conversion</cite> dictionary.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If the conversion factor for the specified units is not available, a message is printed, and the original
+values are returned without any conversion.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.tools.find_best_dtype">
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">find_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dtype</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#find_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.find_best_dtype" title="Link to this definition"></a></dt>
+<dd><p>Determines the most suitable data type for a given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_name</strong> (<em>str</em>) – The name of the variable.</p></li>
+<li><p><strong>da</strong> (<em>xarray.DataArray</em>) – The data array containing the variable’s values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The optimal data type for the variable based on its name and values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.dtype</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="amocarray.tools.find_best_dtype">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">find_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">da</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#find_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.find_best_dtype" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="amocarray.tools.generate_reverse_conversions">
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">generate_reverse_conversions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forward_conversions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#generate_reverse_conversions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.generate_reverse_conversions" title="Link to this definition"></a></dt>
+<dd><p>Create a unit conversion dictionary with both forward and reverse conversions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>forward_conversions</strong> (<em>dict</em><em> of </em><em>{str: dict</em><em> of </em><em>{str: float}}</em>) – Mapping of source units to target units and conversion factors.
+Example: {“m”: {“cm”: 100, “km”: 0.001}}</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dict of {str</strong> – Complete mapping of units including reverse conversions.
+Example: {“cm”: {“m”: 0.01}, “km”: {“m”: 1000}}</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict of {str: float}}</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If a conversion factor is zero, a warning is printed, and the reverse conversion is skipped.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.tools.reformat_units_var">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">reformat_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'S/m':</span> <span class="pre">'S</span> <span class="pre">m-1',</span> <span class="pre">'cm/s':</span> <span class="pre">'cm</span> <span class="pre">s-1',</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">'Celsius',</span> <span class="pre">'g/m^3':</span> <span class="pre">'g</span> <span class="pre">m-3',</span> <span class="pre">'m/s':</span> <span class="pre">'m</span> <span class="pre">s-1',</span> <span class="pre">'meters':</span> <span class="pre">'m'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#reformat_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.reformat_units_var" title="Link to this definition"></a></dt>
-<dd><p>Renames units in the dataset based on the provided dictionary for OG1.</p>
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">reformat_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'S/m':</span> <span class="pre">'S</span> <span class="pre">m-1',</span> <span class="pre">'cm/s':</span> <span class="pre">'cm</span> <span class="pre">s-1',</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">'Celsius',</span> <span class="pre">'g/m^3':</span> <span class="pre">'g</span> <span class="pre">m-3',</span> <span class="pre">'m/s':</span> <span class="pre">'m</span> <span class="pre">s-1',</span> <span class="pre">'meters':</span> <span class="pre">'m'}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#reformat_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.reformat_units_var" title="Link to this definition"></a></dt>
+<dd><p>Reformat the units of a variable in the dataset based on a provided mapping.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>xarray.Dataset</strong><strong>)</strong> (<em>ds</em>)</p></li>
-<li><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>unit_format</em>)</p></li>
+<li><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The input dataset containing variables with units to be reformatted.</p></li>
+<li><p><strong>var_name</strong> (<em>str</em>) – The name of the variable whose units need to be reformatted.</p></li>
+<li><p><strong>unit_format</strong> (<em>dict</em><em> of </em><em>{str: str}</em><em>, </em><em>optional</em>) – A dictionary mapping old unit strings to new formatted unit strings.
+Defaults to <cite>unit_str_format</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>xarray.Dataset</strong></p>
+<dd class="field-even"><p>The reformatted unit string. If the old unit is not found in <cite>unit_format</cite>,
+the original unit string is returned.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The dataset with renamed units.</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.tools.set_best_dtype">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">set_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#set_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.set_best_dtype" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">set_best_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#set_best_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.set_best_dtype" title="Link to this definition"></a></dt>
+<dd><p>Adjust the data types of variables in a dataset to optimize memory usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The input dataset whose variables’ data types will be adjusted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dataset with updated data types for its variables, potentially saving memory.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The function determines the best data type for each variable using <cite>find_best_dtype</cite>.</p></li>
+<li><p>Attributes like <cite>valid_min</cite> and <cite>valid_max</cite> are updated to match the new data type.</p></li>
+<li><p>If the new data type is integer-based, NaN values are replaced with a fill value.</p></li>
+<li><p>Logs the percentage of memory saved after the data type adjustments.</p></li>
+</ul>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.tools.set_fill_value">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">set_fill_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#set_fill_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.set_fill_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">set_fill_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#set_fill_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.set_fill_value" title="Link to this definition"></a></dt>
+<dd><p>Calculate the fill value for a given data type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_dtype</strong> (<em>numpy.dtype</em>) – The data type for which the fill value is to be calculated.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated fill value based on the bit-width of the data type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.tools.split_by_unique_dims">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">split_by_unique_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/tools.html#split_by_unique_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.split_by_unique_dims" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">split_by_unique_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#split_by_unique_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.split_by_unique_dims" title="Link to this definition"></a></dt>
 <dd><p>Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</p>
-<p>Parameters:
-ds (xarray.Dataset): The input xarray dataset containing various variables.</p>
-<p>Returns:
-tuple: A tuple containing xarray datasets, each with variables sharing the same set of dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The input xarray dataset containing various variables.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary where keys are tuples of unique dimensions, and values are xarray datasets
+containing variables that share the same set of dimensions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict of tuple of str to xarray.Dataset</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;var1&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">),</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span>
+<span class="gp">... </span>    <span class="s1">&#39;var2&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,),</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="s1">&#39;var3&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;y&#39;</span><span class="p">,),</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split_datasets</span> <span class="o">=</span> <span class="n">split_by_unique_dims</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">dims</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">split_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensions: </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="go">Dimensions: (&#39;x&#39;, &#39;y&#39;)</span>
+<span class="go">&lt;xarray.Dataset&gt;</span>
+<span class="go">Dimensions:  (x: 2, y: 2)</span>
+<span class="go">Dimensions without coordinates: x, y</span>
+<span class="go">Data variables:</span>
+<span class="go">    var1     (x, y) int64 1 2 3 4</span>
+<span class="go">Dimensions: (&#39;x&#39;,)</span>
+<span class="go">&lt;xarray.Dataset&gt;</span>
+<span class="go">Dimensions:  (x: 2)</span>
+<span class="go">Dimensions without coordinates: x</span>
+<span class="go">Data variables:</span>
+<span class="go">    var2     (x) int64 5 6</span>
+<span class="go">Dimensions: (&#39;y&#39;,)</span>
+<span class="go">&lt;xarray.Dataset&gt;</span>
+<span class="go">Dimensions:  (y: 2)</span>
+<span class="go">Dimensions without coordinates: y</span>
+<span class="go">Data variables:</span>
+<span class="go">    var3     (y) int64 7 8</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -575,7 +789,7 @@ tuple: A tuple containing xarray datasets, each with variables sharing the same 
 <p>Shared utilities for downloading, reading, and parsing data files.</p>
 <dl class="py function" id="module-amocarray.utilities">
 <dt class="sig sig-object py" id="amocarray.utilities.apply_defaults">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">apply_defaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#apply_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.apply_defaults" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">apply_defaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#apply_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.apply_defaults" title="Link to this definition"></a></dt>
 <dd><p>Decorator to apply default values for ‘source’ and ‘file_list’ parameters if they are None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -585,17 +799,17 @@ tuple: A tuple containing xarray datasets, each with variables sharing the same 
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Wrapped function with defaults applied.</p>
+<dd class="field-even"><p>A wrapped function with defaults applied.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>function</p>
+<dd class="field-odd"><p>Callable</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.download_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_file" title="Link to this definition"></a></dt>
 <dd><p>Download a file from HTTP(S) or FTP to the specified destination folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -610,18 +824,21 @@ tuple: A tuple containing xarray datasets, each with variables sharing the same 
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the URL scheme is unsupported.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.download_ftp_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_ftp_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#download_ftp_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_ftp_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_ftp_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#download_ftp_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_ftp_file" title="Link to this definition"></a></dt>
 <dd><p>Download a file from an FTP URL and save it to the destination folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>url</strong> (<em>str</em>) – The full FTP URL to the file.</p></li>
-<li><p><strong>dest_folder</strong> (<em>str</em>) – Local folder to save the downloaded file.</p></li>
+<li><p><strong>dest_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Local folder to save the downloaded file. Defaults to “data”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -630,23 +847,26 @@ tuple: A tuple containing xarray datasets, each with variables sharing the same 
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the URL scheme is not ‘ftp’.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.get_local_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">get_local_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#get_local_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.get_local_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">get_local_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#get_local_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.get_local_file" title="Link to this definition"></a></dt>
 <dd><p>Check if the file exists locally in <cite>data_dir</cite>. If not, download it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>source_url</strong> (<em>str</em>) – Remote URL of the file.</p></li>
-<li><p><strong>data_dir</strong> (<em>str</em><em> or </em><em>Path</em><em>, </em><em>optional</em>) – Local directory to save/load the data file.</p></li>
+<li><p><strong>data_dir</strong> (<em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Local directory to save/load the data file. If None, the function returns the source URL.</p></li>
 <li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, force re-download even if the file exists locally.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to the local file if data_dir is provided, else the original source URL.</p>
+<dd class="field-even"><p>Path to the local file if <cite>data_dir</cite> is provided, else the original <cite>source_url</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path or str</p>
@@ -656,46 +876,55 @@ tuple: A tuple containing xarray datasets, each with variables sharing the same 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.list_files_in_https_server">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">list_files_in_https_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#list_files_in_https_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.list_files_in_https_server" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">list_files_in_https_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#list_files_in_https_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.list_files_in_https_server" title="Link to this definition"></a></dt>
 <dd><p>List files in an HTTPS server directory using BeautifulSoup and requests.</p>
-<p>Parameters:
-url (str): The URL to the directory containing the files.</p>
-<p>Returns:
-list: A list of filenames found in the directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – The URL to the directory containing the files.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of filenames found in the directory with ‘.nc’ extension.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.parse_ascii_header">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">parse_ascii_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#parse_ascii_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.parse_ascii_header" title="Link to this definition"></a></dt>
-<dd><p>Parse the header of an ASCII file to extract column names and number of header lines.</p>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">parse_ascii_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'%'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#parse_ascii_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.parse_ascii_header" title="Link to this definition"></a></dt>
+<dd><p>Parse the header of an ASCII file to extract column names and the number of header lines.</p>
 <p>Header lines are identified by the given comment character (default: ‘%’).
 Columns are defined in lines like:
-‘&lt;comment_char&gt; Column 1: &lt;column_name&gt;’</p>
+‘&lt;comment_char&gt; Column 1: &lt;column_name&gt;’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_path</strong> (<em>str</em>) – Path to the ASCII file.</p></li>
-<li><p><strong>comment_char</strong> (<em>str</em>) – Character used to identify header lines.</p></li>
+<li><p><strong>comment_char</strong> (<em>str</em><em>, </em><em>optional</em>) – Character used to identify header lines. Defaults to ‘%’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(list of column names, number of header lines to skip)</p>
+<dd class="field-even"><p>A tuple containing:
+- A list of column names extracted from the header.
+- The number of header lines to skip.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p>tuple of (list of str, int)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.read_ascii_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">read_ascii_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#read_ascii_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.read_ascii_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">read_ascii_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'#'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#read_ascii_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.read_ascii_file" title="Link to this definition"></a></dt>
 <dd><p>Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_path</strong> (<em>str</em>) – Path to the ASCII file.</p></li>
-<li><p><strong>comment_char</strong> (<em>str</em>) – Character denoting comment lines. Defaults to ‘#’.</p></li>
+<li><p><strong>comment_char</strong> (<em>str</em><em>, </em><em>optional</em>) – Character denoting comment lines. Defaults to ‘#’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -709,14 +938,14 @@ Columns are defined in lines like:
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.safe_update_attrs">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">safe_update_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/utilities.html#safe_update_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.safe_update_attrs" title="Link to this definition"></a></dt>
-<dd><p>Safely update attributes of an xarray Dataset without clobbering existing keys,
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">safe_update_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#safe_update_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.safe_update_attrs" title="Link to this definition"></a></dt>
+<dd><p>Safely update attributes of an xarray Dataset without overwriting existing keys,
 unless explicitly allowed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xr.Dataset</em>) – The xarray Dataset whose attributes will be updated.</p></li>
-<li><p><strong>new_attrs</strong> (<em>dict</em>) – Dictionary of new attributes to add.</p></li>
+<li><p><strong>new_attrs</strong> (<em>dict</em><em> of </em><em>str</em>) – Dictionary of new attributes to add.</p></li>
 <li><p><strong>overwrite</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, allow overwriting existing attributes. Defaults to False.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, emit a warning when skipping existing attributes. Defaults to True.</p></li>
 </ul>
@@ -738,7 +967,6 @@ unless explicitly allowed.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="demo-output.html" class="btn btn-neutral float-left" title="AMOCarray demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="faq.html" class="btn btn-neutral float-right" title="FAQ / Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

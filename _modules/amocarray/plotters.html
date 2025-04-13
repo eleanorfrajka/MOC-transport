@@ -44,8 +44,13 @@
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
 <ul>
@@ -55,7 +60,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ / Troubleshooting</a></li>
 </ul>
 
         </div>
@@ -87,6 +91,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.io.formats.style</span><span class="w"> </span><span class="kn">import</span> <span class="n">Styler</span>
 
 
 <span class="c1"># ------------------------------------------------------------------------------------</span>
@@ -94,31 +99,44 @@
 <span class="c1"># ------------------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="show_contents">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.show_contents">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_contents</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;variables&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_contents</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;variables&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Styler</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper function to show contents of an xarray Dataset or a netCDF file.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</span>
-<span class="sd">    content_type (str): The type of content to show, either &#39;variables&#39; (or &#39;vars&#39;) or &#39;attributes&#39; (or &#39;attrs&#39;). Default is &#39;variables&#39;.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : str or xr.Dataset</span>
+<span class="sd">        The input data, either a file path to a netCDF file or an xarray Dataset.</span>
+<span class="sd">    content_type : str, optional</span>
+<span class="sd">        The type of content to show, either &#39;variables&#39; (or &#39;vars&#39;) or &#39;attributes&#39; (or &#39;attrs&#39;).</span>
+<span class="sd">        Default is &#39;variables&#39;.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    pandas.io.formats.style.Styler or pandas.DataFrame: A styled DataFrame with details about the variables or attributes.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.io.formats.style.Styler or pandas.DataFrame</span>
+<span class="sd">        A styled DataFrame with details about the variables or attributes.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the input data is not a file path (str) or an xarray Dataset.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the content_type is not &#39;variables&#39; (or &#39;vars&#39;) or &#39;attributes&#39; (or &#39;attrs&#39;).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">content_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">,</span> <span class="s2">&quot;vars&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">show_variables</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">show_variables</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input data must be a file path (str) or an xarray Dataset&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">content_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;attributes&quot;</span><span class="p">,</span> <span class="s2">&quot;attrs&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">show_attributes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">show_attributes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Attributes can only be shown for netCDF files (str)&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attributes can only be shown for netCDF files (str) or xarray Datasets&quot;</span>
+            <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;content_type must be either &#39;variables&#39; (or &#39;vars&#39;) or &#39;attributes&#39; (or &#39;attrs&#39;)&quot;</span>
@@ -128,26 +146,37 @@
 
 <div class="viewcode-block" id="show_variables">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.show_variables">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_variables</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_variables</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Styler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Processes an xarray Dataset or a netCDF file, extracts variable information,</span>
 <span class="sd">    and returns a styled DataFrame with details about the variables.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : str or xr.Dataset</span>
+<span class="sd">        The input data, either a file path to a netCDF file or an xarray Dataset.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.io.formats.style.Styler</span>
+<span class="sd">        A styled DataFrame containing the following columns:</span>
 <span class="sd">        - dims: The dimension of the variable (or &quot;string&quot; if it is a string type).</span>
 <span class="sd">        - name: The name of the variable.</span>
 <span class="sd">        - units: The units of the variable (if available).</span>
 <span class="sd">        - comment: Any additional comments about the variable (if available).</span>
+<span class="sd">        - standard_name: The standard name of the variable (if available).</span>
+<span class="sd">        - dtype: The data type of the variable.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the input data is not a file path (str) or an xarray Dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;information is based on file: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">variables</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
@@ -197,24 +226,34 @@
 
 <div class="viewcode-block" id="show_attributes">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.show_attributes">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_attributes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_attributes</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Processes an xarray Dataset or a netCDF file, extracts attribute information,</span>
 <span class="sd">    and returns a DataFrame with details about the attributes.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : str or xr.Dataset</span>
+<span class="sd">        The input data, either a file path to a netCDF file or an xarray Dataset.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    pandas.DataFrame: A DataFrame containing the following columns:</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        A DataFrame containing the following columns:</span>
 <span class="sd">        - Attribute: The name of the attribute.</span>
 <span class="sd">        - Value: The value of the attribute.</span>
+<span class="sd">        - DType: The data type of the attribute.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the input data is not a file path (str) or an xarray Dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;information is based on file: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">rootgrp</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">)</span>
         <span class="n">attributes</span> <span class="o">=</span> <span class="n">rootgrp</span><span class="o">.</span><span class="n">ncattrs</span><span class="p">()</span>
         <span class="n">get_attr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rootgrp</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -238,26 +277,37 @@
 
 <div class="viewcode-block" id="show_variables_by_dimension">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.show_variables_by_dimension">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_variables_by_dimension</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dimension_name</span><span class="o">=</span><span class="s2">&quot;trajectory&quot;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_variables_by_dimension</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">dimension_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;trajectory&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Styler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Processes an xarray Dataset or a netCDF file, extracts variable information,</span>
-<span class="sd">    and returns a styled DataFrame with details about the variables filtered by a specific dimension.</span>
+<span class="sd">    Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame</span>
+<span class="sd">    with details about the variables filtered by a specific dimension.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.</span>
-<span class="sd">    dimension_name (str): The name of the dimension to filter variables by.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : str or xr.Dataset</span>
+<span class="sd">        The input data, either a file path to a netCDF file or an xarray Dataset.</span>
+<span class="sd">    dimension_name : str, optional</span>
+<span class="sd">        The name of the dimension to filter variables by, by default &quot;trajectory&quot;.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.io.formats.style.Styler</span>
+<span class="sd">        A styled DataFrame containing the following columns:</span>
 <span class="sd">        - dims: The dimension of the variable (or &quot;string&quot; if it is a string type).</span>
 <span class="sd">        - name: The name of the variable.</span>
 <span class="sd">        - units: The units of the variable (if available).</span>
 <span class="sd">        - comment: Any additional comments about the variable (if available).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the input data is not a file path (str) or an xarray Dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;information is based on file: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">variables</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on xarray Dataset&quot;</span><span class="p">)</span>
@@ -306,27 +356,41 @@
 <div class="viewcode-block" id="plot_monthly_anomalies">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.plot_monthly_anomalies">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_monthly_anomalies</span><span class="p">(</span>
-    <span class="n">osnap_data</span><span class="p">,</span>
-    <span class="n">rapid_data</span><span class="p">,</span>
-    <span class="n">move_data</span><span class="p">,</span>
-    <span class="n">samba_data</span><span class="p">,</span>
-    <span class="n">osnap_label</span><span class="p">,</span>
-    <span class="n">rapid_label</span><span class="p">,</span>
-    <span class="n">move_label</span><span class="p">,</span>
-    <span class="n">samba_label</span><span class="p">,</span>
-<span class="p">):</span>
+    <span class="n">osnap_data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">rapid_data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">move_data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">samba_data</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
+    <span class="n">osnap_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">rapid_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">move_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">samba_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plots the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</span>
+<span class="sd">    Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        osnap_data (xarray.DataArray): Monthly anomalies for OSNAP.</span>
-<span class="sd">        rapid_data (xarray.DataArray): Monthly anomalies for RAPID.</span>
-<span class="sd">        move_data (xarray.DataArray): Monthly anomalies for MOVE.</span>
-<span class="sd">        samba_data (xarray.DataArray): Monthly anomalies for SAMBA.</span>
-<span class="sd">        osnap_label (str): Label for OSNAP plot.</span>
-<span class="sd">        rapid_label (str): Label for RAPID plot.</span>
-<span class="sd">        move_label (str): Label for MOVE plot.</span>
-<span class="sd">        samba_label (str): Label for SAMBA plot.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    osnap_data : xarray.DataArray</span>
+<span class="sd">        Monthly anomalies for OSNAP.</span>
+<span class="sd">    rapid_data : xarray.DataArray</span>
+<span class="sd">        Monthly anomalies for RAPID.</span>
+<span class="sd">    move_data : xarray.DataArray</span>
+<span class="sd">        Monthly anomalies for MOVE.</span>
+<span class="sd">    samba_data : xarray.DataArray</span>
+<span class="sd">        Monthly anomalies for SAMBA.</span>
+<span class="sd">    osnap_label : str</span>
+<span class="sd">        Label for OSNAP plot.</span>
+<span class="sd">    rapid_label : str</span>
+<span class="sd">        Label for RAPID plot.</span>
+<span class="sd">    move_label : str</span>
+<span class="sd">        Label for MOVE plot.</span>
+<span class="sd">    samba_label : str</span>
+<span class="sd">        Label for SAMBA plot.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]</span>
+<span class="sd">        The figure and axes objects of the generated plot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Resample each input dataset to monthly averages</span>
     <span class="n">osnap_data</span> <span class="o">=</span> <span class="n">osnap_data</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">TIME</span><span class="o">=</span><span class="s2">&quot;ME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -379,7 +443,7 @@
     <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>  <span class="c1"># SAMBA</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span></div>
 
 </pre></div>
 
