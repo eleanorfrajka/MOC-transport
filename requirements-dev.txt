@@ -19,3 +19,5 @@ sphinx
 sphinx-rtd-theme
 pypandoc
 myst-nb
+isort
+black
