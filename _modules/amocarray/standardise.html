@@ -95,9 +95,12 @@
 <span class="sd">Currently implemented:</span>
 <span class="sd">- SAMBA</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
 
 
 <div class="viewcode-block" id="standardise_rapid">
@@ -118,21 +121,22 @@
 <span class="sd">        Standardised RAPID dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Rename dimension</span>
-    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
 
     <span class="c1"># Rename variable</span>
-    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
 
     <span class="c1"># Swap dimension to ensure &#39;TIME&#39; is the index coordinate</span>
-    <span class="k">if</span> <span class="s1">&#39;TIME&#39;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s1">&#39;TIME&#39;</span><span class="p">:</span> <span class="s1">&#39;TIME&#39;</span><span class="p">})</span>
+    <span class="k">if</span> <span class="s2">&quot;TIME&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s2">&quot;TIME&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
 
     <span class="c1"># Optional: global metadata updates (future)</span>
     <span class="c1"># utilities.safe_update_attrs(ds, {&quot;weblink&quot;: &quot;...&quot;})</span>
 
-    <span class="k">return</span> <span class="n">ds</span>    </div>
+    <span class="k">return</span> <span class="n">ds</span></div>
+
 
 
 <div class="viewcode-block" id="standardise_samba">
@@ -197,12 +201,14 @@
         <span class="c1"># Attach attributes to variables</span>
         <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">rename_dict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-                    <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-                    <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-                    <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Transport Anomaly&quot;</span><span class="p">,</span>
-                <span class="p">})</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
+                        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Transport Anomaly&quot;</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
 
     <span class="c1"># Global attributes clean-up</span>
     <span class="n">global_attrs</span> <span class="o">=</span> <span class="p">{</span>
@@ -214,6 +220,7 @@
 
     <span class="c1"># Safe update of attributes</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+
     <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">global_attrs</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds</span></div>

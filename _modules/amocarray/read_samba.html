@@ -84,6 +84,7 @@
              
   <h1>Source code for amocarray.read_samba</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
@@ -92,16 +93,16 @@
 <span class="c1"># Default file list</span>
 <span class="n">SAMBA_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span>
+    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="n">SAMBA_TRANSPORT_FILES</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span>
+    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="c1"># Mapping of filenames to remote URLs</span>
 <span class="n">SAMBA_FILE_URLS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">:</span> <span class="s2">&quot;ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.aoml.noaa.gov/phod/SAMOC_international/documents/&quot;</span>
+    <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.aoml.noaa.gov/phod/SAMOC_international/documents/&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Global metadata for SAMBA</span>
@@ -127,12 +128,15 @@
 <span class="p">}</span>
 
 
-
-
 <div class="viewcode-block" id="read_samba">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_samba.read_samba">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_samba</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-               <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_samba</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.</span>
 
@@ -174,7 +178,9 @@
         <span class="c1"># Determine source: use passed source or file-specific URL</span>
         <span class="n">file_source</span> <span class="o">=</span> <span class="n">source</span> <span class="ow">or</span> <span class="n">SAMBA_FILE_URLS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">file_source</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No source provided for &#39;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&#39; and no default URL mapping found.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No source provided for &#39;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&#39; and no default URL mapping found.&quot;</span>
+            <span class="p">)</span>
 
         <span class="c1"># Prepare file path</span>
         <span class="k">if</span> <span class="n">utilities</span><span class="o">.</span><span class="n">_is_valid_url</span><span class="p">(</span><span class="n">file_source</span><span class="p">):</span>
@@ -217,7 +223,7 @@
                 <span class="s2">&quot;source_path&quot;</span><span class="p">:</span> <span class="n">file_source</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">SAMBA_METADATA</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">file_metadata</span><span class="p">,</span>
-            <span class="p">}</span>
+            <span class="p">},</span>
         <span class="p">)</span>
 
         <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -226,7 +232,6 @@
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No valid data files found in </span><span class="si">{</span><span class="n">file_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">datasets</span></div>
-
 
 </pre></div>
 

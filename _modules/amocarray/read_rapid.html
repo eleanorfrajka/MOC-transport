@@ -84,10 +84,12 @@
              
   <h1>Source code for amocarray.read_rapid</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="c1"># Import the modules used</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
+
 <span class="c1"># Import the apply_defaults decorator function directly</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_defaults</span>
 
@@ -103,18 +105,22 @@
 <span class="n">RAPID_TRANSPORT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">]</span>
 
 <span class="c1"># Default list of RAPID data files</span>
-<span class="n">RAPID_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;moc_vertical.nc&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ts_gridded.nc&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;moc_transports.nc&#39;</span>
-<span class="p">]</span>
-<span class="c1">#https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc</span>
-<span class="c1">#https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc</span>
-<span class="c1">#https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc</span>
+<span class="n">RAPID_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moc_vertical.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;ts_gridded.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc</span>
+<span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc</span>
+<span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc</span>
 <div class="viewcode-block" id="read_rapid">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_rapid.read_rapid">[docs]</a>
 <span class="nd">@apply_defaults</span><span class="p">(</span><span class="n">RAPID_DEFAULT_SOURCE</span><span class="p">,</span> <span class="n">RAPID_DEFAULT_FILES</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_rapid</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>    
+<span class="k">def</span><span class="w"> </span><span class="nf">read_rapid</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.</span>
 
@@ -181,7 +187,7 @@
                 <span class="s2">&quot;source_file&quot;</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span>
                 <span class="s2">&quot;source_path&quot;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">RAPID_METADATA</span><span class="p">,</span>
-            <span class="p">}</span>
+            <span class="p">},</span>
         <span class="p">)</span>
 
         <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>

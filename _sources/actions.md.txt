@@ -1,6 +1,6 @@
 # Extra GitHub features: Actions & Pages
 
-In this GitHub repository, we are using GitHub Actions to carry out a number of automated tasks. These actions are stored within the repository in the hidden folder: `.github/workflows/`.  The yaml files within (e.g., `docs.yml` and `pypi.yml`) carry out a set of steps or actions when triggered by an event on GitHub. 
+In this GitHub repository, we are using GitHub Actions to carry out a number of automated tasks. These actions are stored within the repository in the hidden folder: `.github/workflows/`.  The yaml files within (e.g., `docs.yml` and `pypi.yml`) carry out a set of steps or actions when triggered by an event on GitHub.
 
 For example:
 
@@ -8,7 +8,7 @@ For example:
 - On push (when a pull request is merged onto the upstream main), the action `docs_deploy.yml` is triggered.
 - When a release is generated on Github, the action `pypi.yml` is triggered.
 
-The basic behaviour is explained in the template repository that this project was built on at [http://github.com/eleanorfrajka/template-project/](http://github.com/eleanorfrajka/template-project) or in the docs at [https://eleanorfrajka.github.io/template-project/github.html](https://eleanorfrajka.github.io/template-project/github.html).  
+The basic behaviour is explained in the template repository that this project was built on at [http://github.com/eleanorfrajka/template-project/](http://github.com/eleanorfrajka/template-project) or in the docs at [https://eleanorfrajka.github.io/template-project/github.html](https://eleanorfrajka.github.io/template-project/github.html).
 
 
 ## This project's Actions
@@ -63,7 +63,7 @@ nbconvert
 myst-nb
 ```
 
-When you'd like to test the build of your documentation (prior to submitting pull requests to the repository), navigate to the `docs/` directory in a terminal window, and run 
+When you'd like to test the build of your documentation (prior to submitting pull requests to the repository), navigate to the `docs/` directory in a terminal window, and run
 ```
 cd github/amocarray/docs
 make html
@@ -86,7 +86,7 @@ To build the distribution locally, make sure you have the latest version of `bui
 python3 -m pip install --upgrade build pip wheel setuptools setuptools_scm build twine
 ```
 
-Then run the build step from the directory where `pyproject.toml` is located, 
+Then run the build step from the directory where `pyproject.toml` is located,
 ```
 python3 -m build --sdist --wheel . --outdir dist
 ```
@@ -165,5 +165,4 @@ This step assigns the tag and then pushes it to the upstream main.  Go onto Gith
 
 This last step will now trigger the GitHub action, `.github/workflows/pypi.yml` which will build the distribution and send it to pypi.org.  You should see this show up at [https://pypi.org/project/amocarray/](https://pypi.org/project/amocarray/).
 
-**Note:** Unexplained behaviour may occur (e.g., you get a `dev0` appended to the release on pypi) if you are not at the tip of main (i.e. there are uncommitted changes), or you haven't included `amocarray/_version.py` in your `.gitignore`, in which case the action itself generates a change in the repository which is then interpreted as an uncommitted change. 
-
+**Note:** Unexplained behaviour may occur (e.g., you get a `dev0` appended to the release on pypi) if you are not at the tip of main (i.e. there are uncommitted changes), or you haven't included `amocarray/_version.py` in your `.gitignore`, in which case the action itself generates a change in the repository which is then interpreted as an uncommitted change.

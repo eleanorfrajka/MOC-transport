@@ -8,13 +8,13 @@ On GitHub, we are using two main features:
     - GitHub Actions (via workflows)
     - GitHub Pages: to display the documentation as a website (here as https://eleanorfrajka.github.io/template-project)
 
-GitHub Actions provide a way to 
+GitHub Actions provide a way to
 
     - automatically run code tests (tests which you have written, normally stored in the `tests/` directory) when you make a pull request.  This can help ensure that a change to the code in one place doesn't break the code elsewhere.
 
     - automatically build documentation using the latest changes in code.  If you add a function or change its "docstring" (the comment at the top of the function), the html documentation can be automatically updated without you editing it.
 
-The steps of the action are stored as yaml files (`*.yml`) within the repository in the directory `.github/workflows`.  Check, e.g. in this repository, the [tests.yml](https://github.com/eleanorfrajka/template-project/blob/main/.github/workflows/tests.yml) file.  
+The steps of the action are stored as yaml files (`*.yml`) within the repository in the directory `.github/workflows`.  Check, e.g. in this repository, the [tests.yml](https://github.com/eleanorfrajka/template-project/blob/main/.github/workflows/tests.yml) file.
 
 #### GitHub Action to run test code
 
@@ -31,7 +31,7 @@ Note under "All workflows", a workflow named "Run tests"
 The next lines specify when the action should be "triggered".  I.e., what git activity in this repository will cause the workflow to run.
 
 ```
-on: 
+on:
   pull_request:
     branches:
       - main
@@ -92,7 +92,7 @@ On the left, you'll see green ticks next to the tests which ran successfully.  Y
 
 If you select one on the left, you can then see the steps that were carried out on the right.  Clicking a step, you can see some details about the run and any output generated.
 
-For an example of a failed test, see [https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161](https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161).  Click one of the tests with a red x, and the steps will appear to the right.  Click the step where there was an error (red x) and the error message appears.  
+For an example of a failed test, see [https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161](https://github.com/eleanorfrajka/template-project/actions/runs/12084406484/job/33699533161).  Click one of the tests with a red x, and the steps will appear to the right.  Click the step where there was an error (red x) and the error message appears.
 
 In this case, the test was unable to run because there was some legacy code that wasn't applicable here (and also not available), where the `tests/test_tools.py` tried to import a package that didn't exist (`seagliderOG1`).  The error message reads as
 ```
@@ -140,9 +140,9 @@ The `sphinx` is the basic machinery, and `sphinx-rtd-theme` is the "read the doc
 
 The additional `nbsphinx` and `nbconvert` are to handle python notebooks, so that they can be displayed in the sphinx output.  `myst_parser` allows you to include documentation files as `.md` in addition to sphinx's default, `.rst`.
 
-The extra structure within the repository, within the `docs/` directory includes a `Makefile` and `source/conf.py` with some configuration information.  **You should edit `conf.py` to match your repository,** especially the "general information about this project" section.  
+The extra structure within the repository, within the `docs/` directory includes a `Makefile` and `source/conf.py` with some configuration information.  **You should edit `conf.py` to match your repository,** especially the "general information about this project" section.
 
-When you'd like to test the build of your documentation (prior to submitting pull requests to the repository), navigate to the `docs/` directory in a terminal window, and run 
+When you'd like to test the build of your documentation (prior to submitting pull requests to the repository), navigate to the `docs/` directory in a terminal window, and run
 ```
 template-project/docs $ make html
 ```
@@ -150,17 +150,17 @@ This will generate the website within the directory `docs/build/html/`, which yo
 
 ##### Workflows to build documentation
 
-In the template-project, we have two workflows for building documentation.  
+In the template-project, we have two workflows for building documentation.
 
 To test that the documentation can build, there is `.github/workflows/docs.yml` (named "Test documentation build" and viewable on GitHub Actions here: https://github.com/eleanorfrajka/template-project/actions/workflows/docs.yml)
 
 To deploy the documentation to the branch `gh-pages` *after* a successful pull request is merged, there is `.github/workflows/deploy_docs.yml` (named "Deploy Documentation" and viewable here: https://github.com/eleanorfrajka/template-project/actions/workflows/docs_deploy.yml)
 
-Both of these use the same set of steps as `.github/workflows/tests.yml` but with a couple notable differences.  
+Both of these use the same set of steps as `.github/workflows/tests.yml` but with a couple notable differences.
 
 In `docs.yml`, we are not bothering with testing on a range of operating systems and so specify only `runs-on: ubuntu-latest`.  This could be any operating system, but on GitHub, windows appears to be slower.
 
-We're also using a different way to set up python and the environment for execution.  In `tests.yml` this was done via the `actions/setup-python@v2` and pip to install based on `requirements-dev.txt`.  
+We're also using a different way to set up python and the environment for execution.  In `tests.yml` this was done via the `actions/setup-python@v2` and pip to install based on `requirements-dev.txt`.
 ```
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
@@ -170,7 +170,7 @@ We're also using a different way to set up python and the environment for execut
         python -m pip install flake8 pytest
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
 ```
-In `docs.yml`, we are instead using micromamba to manage the environment.  
+In `docs.yml`, we are instead using micromamba to manage the environment.
 ```
     - name: Setup Micromamba ${{ matrix.python-version }}
       uses: mamba-org/setup-micromamba@v2.0.1
@@ -211,10 +211,10 @@ You'll know you're ready for this step when, from the main Github website for th
 
 Now you're ready to set up "Github Pages".
 
-1. Navigate to the repository and click the "Settings" across the top bar (to the right of "Insights"), then in the left sidebar, choose "Pages".  
+1. Navigate to the repository and click the "Settings" across the top bar (to the right of "Insights"), then in the left sidebar, choose "Pages".
 
-2. Select the "Source" as "Deploy from a branch" and in the next line, "Branch", choose in the dropdown not "main" but "gh-pages".  Leave the rest of the settings and click "save".  This tells GitHub to serve the root level of this branch as the pages.  
+2. Select the "Source" as "Deploy from a branch" and in the next line, "Branch", choose in the dropdown not "main" but "gh-pages".  Leave the rest of the settings and click "save".  This tells GitHub to serve the root level of this branch as the pages.
 
 **Note:** If you're following the steps in this template, you should not edit within your `gh-pages` branch since all of the contents here will be automatically generated from the `docs_deploy.yml` using your `notebooks/demo.ipynb` notebook and contents in the repository found in the `docs/` directory.
 
-3. Then, to help others find your pages, go back to your repository and click the settings cogwheel in the right side bar next to the "About" header.  For the "Website", tick the box that says "Use your GitHub Pages website".  This will auto-populate the URL into the Website box.  Click "save changes". 
+3. Then, to help others find your pages, go back to your repository and click the settings cogwheel in the right side bar next to the "About" header.  For the "Website", tick the box that says "Use your GitHub Pages website".  This will auto-populate the URL into the Website box.  Click "save changes".

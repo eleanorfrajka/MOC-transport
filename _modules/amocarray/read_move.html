@@ -84,6 +84,7 @@
              
   <h1>Source code for amocarray.read_move</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
@@ -116,8 +117,13 @@
 <div class="viewcode-block" id="read_move">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.read_move.read_move">[docs]</a>
 <span class="nd">@apply_defaults</span><span class="p">(</span><span class="n">MOVE_DEFAULT_SOURCE</span><span class="p">,</span> <span class="n">MOVE_DEFAULT_FILES</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_move</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-              <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>    
+<span class="k">def</span><span class="w"> </span><span class="nf">read_move</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">file_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">transport_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load the MOVE transport dataset from a URL or local file path into xarray Datasets.</span>
 
@@ -177,13 +183,14 @@
         <span class="c1"># Attach metadata</span>
         <span class="n">file_metadata</span> <span class="o">=</span> <span class="n">MOVE_FILE_METADATA</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span>
-            <span class="n">ds</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">ds</span><span class="p">,</span>
+            <span class="p">{</span>
                 <span class="s2">&quot;source_file&quot;</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span>
                 <span class="s2">&quot;source_path&quot;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">MOVE_METADATA</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">file_metadata</span><span class="p">,</span>
-            <span class="p">})</span>
-
+            <span class="p">},</span>
+        <span class="p">)</span>
 
         <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
 
