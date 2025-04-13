@@ -5,7 +5,9 @@ script_dir = pathlib.Path(__file__).parent.absolute()
 parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))
 
-from amocarray import tools
+from amocarray import tools, logger
+
+logger.disable_logging()
 
 
 def test_convert_units_var():

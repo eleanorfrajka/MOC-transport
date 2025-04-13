@@ -4,6 +4,10 @@ import numpy as np
 from typing import Union
 import xarray as xr
 
+from amocarray import logger
+
+log = logger.log  # Use the global logger
+
 
 def save_dataset(ds: xr.Dataset, output_file: str = "../test.nc") -> bool:
     """

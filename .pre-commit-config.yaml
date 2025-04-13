@@ -36,7 +36,6 @@ repos:
         entry: pytest -q
         language: system
         types: [python]
-        files: ^(tests/.*\\.py$|amocarray/.*\\.py$|notebooks/.*\\.ipynb$)
         exclude: ^data/
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit

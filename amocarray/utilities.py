@@ -1,6 +1,3 @@
-import logging
-import os
-import warnings
 from ftplib import FTP
 from functools import wraps
 from pathlib import Path
@@ -10,11 +7,19 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 import pandas as pd
 import requests
 import xarray as xr
-from bs4 import BeautifulSoup
 
-logger = logging.getLogger(__name__)
-logger.addHandler(logging.NullHandler())
+from amocarray import logger
+from amocarray.logger import log_debug
 
+log = logger.log
+
+
+def get_project_root() -> Path:
+    """Return the absolute path to the project root directory."""
+    return Path(__file__).resolve().parent.parent
+
+def get_default_data_dir() -> Path:
+    return Path(__file__).resolve().parent.parent / "data"
 
 def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
     """
@@ -52,43 +57,92 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
     return decorator
 
 
-def get_local_file(
-    source_url: str, data_dir: Optional[Path] = None, redownload: bool = False
-) -> Union[Path, str]:
+def resolve_file_path(
+    file_name: str,
+    source: Union[str, Path, None],
+    download_url: Optional[str],
+    local_data_dir: Path,
+    redownload: bool = False,
+) -> Path:
     """
-    Check if the file exists locally in `data_dir`. If not, download it.
+    Resolve the path to a data file, using local source, cache, or downloading if necessary.
 
     Parameters
     ----------
-    source_url : str
-        Remote URL of the file.
-    data_dir : Path or None, optional
-        Local directory to save/load the data file. If None, the function returns the source URL.
-    redownload : bool, default=False
-        If True, force re-download even if the file exists locally.
+    file_name : str
+        The name of the file to resolve.
+    source : str or Path or None
+        Optional local source directory.
+    download_url : str or None
+        URL to download the file if needed.
+    local_data_dir : Path
+        Directory where downloaded files are stored.
+    redownload : bool, optional
+        If True, force redownload even if cached file exists.
 
     Returns
     -------
-    Path or str
-        Path to the local file if `data_dir` is provided, else the original `source_url`.
+    Path
+        Path to the resolved file.
     """
-    if data_dir is None:
-        # No local directory provided; return URL (download will happen elsewhere)
-        return source_url
+    # Use local source if provided
+    if source and not _is_valid_url(source):
+        source_path = Path(source)
+        candidate_file = source_path / file_name
+        if candidate_file.exists():
+            log.info("Using local file: %s", candidate_file)
+            return candidate_file
+        else:
+            log.error("Local file not found: %s", candidate_file)
+            raise FileNotFoundError(f"Local file not found: {candidate_file}")
 
-    data_dir = Path(data_dir)
-    data_dir.mkdir(parents=True, exist_ok=True)
+    # Use cached file if available and redownload is False
+    cached_file = local_data_dir / file_name
+    if cached_file.exists() and not redownload:
+        log.info("Using cached file: %s", cached_file)
+        return cached_file
 
-    local_file = data_dir / Path(source_url).name
+    # Download if URL is provided
+    if download_url:
+        try:
+            log.info("Downloading file from %s to %s", download_url, local_data_dir)
+            return download_file(download_url, local_data_dir, redownload=redownload)
+        except Exception as e:
+            log.error("Failed to download %s: %s", download_url, e)
+            raise FileNotFoundError(f"Failed to download {download_url}: {e}")
 
-    if local_file.exists() and not redownload:
-        logger.info(f"Using local file: {local_file}")
-        return local_file
+    # If no options succeeded
+    raise FileNotFoundError(
+        f"File {file_name} could not be resolved from local source, cache, or remote URL."
+    )
 
-    # Download and save to local_file
-    logger.info(f"Downloading file from {source_url} to {local_file}")
-    download_file(source_url, str(data_dir))
-    return local_file
+
+def safe_update_attrs(
+    ds: xr.Dataset,
+    new_attrs: Dict[str, str],
+    overwrite: bool = False,
+    verbose: bool = True,
+) -> xr.Dataset:
+    """
+    Safely update attributes of an xarray Dataset without overwriting existing keys,
+    unless explicitly allowed.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        The xarray Dataset whose attributes will be updated.
+    new_attrs : dict of str
+        Dictionary of new attributes to add.
+    overwrite : bool, optional
+        If True, allow overwriting existing attributes. Defaults to False.
+    verbose : bool, optional
+        If True, emit a warning when skipping existing attributes. Defaults to True.
+
+    Returns
+    -------
+    xr.Dataset
+        The dataset with updated attributes.
+    """
 
 
 def safe_update_attrs(
@@ -121,12 +175,13 @@ def safe_update_attrs(
         if key in ds.attrs:
             if not overwrite:
                 if verbose:
-                    warnings.warn(
-                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten.",
-                        UserWarning,
+                    log_debug(
+                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten."
                     )
                 continue  # Skip assignment
         ds.attrs[key] = value
+
+    return ds
 
     return ds
 
@@ -198,7 +253,7 @@ def _is_valid_file(path: str) -> bool:
     return Path(path).is_file() and path.endswith(".nc")
 
 
-def download_file(url: str, dest_folder: str) -> str:
+def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
     """
     Download a file from HTTP(S) or FTP to the specified destination folder.
 
@@ -208,6 +263,8 @@ def download_file(url: str, dest_folder: str) -> str:
         The URL of the file to download.
     dest_folder : str
         Local folder to save the downloaded file.
+    redownload : bool, optional
+        If True, force re-download of the file even if it exists.
 
     Returns
     -------
@@ -219,10 +276,14 @@ def download_file(url: str, dest_folder: str) -> str:
     ValueError
         If the URL scheme is unsupported.
     """
-    if not os.path.exists(dest_folder):
-        os.makedirs(dest_folder)
+    dest_folder_path = Path(dest_folder)
+    dest_folder_path.mkdir(parents=True, exist_ok=True)
 
-    local_filename = os.path.join(dest_folder, os.path.basename(url))
+    local_filename = dest_folder_path / Path(url).name
+    if local_filename.exists() and not redownload:
+        # File exists and redownload not requested
+        return str(local_filename)
+
     parsed_url = urlparse(url)
 
     if parsed_url.scheme in ("http", "https"):
@@ -243,55 +304,7 @@ def download_file(url: str, dest_folder: str) -> str:
     else:
         raise ValueError(f"Unsupported URL scheme in {url}")
 
-    return local_filename
-
-
-def download_ftp_file(url: str, dest_folder: str = "data") -> str:
-    """
-    Download a file from an FTP URL and save it to the destination folder.
-
-    Parameters
-    ----------
-    url : str
-        The full FTP URL to the file.
-    dest_folder : str, optional
-        Local folder to save the downloaded file. Defaults to "data".
-
-    Returns
-    -------
-    str
-        Path to the downloaded file.
-
-    Raises
-    ------
-    ValueError
-        If the URL scheme is not 'ftp'.
-    """
-    # Parse the URL
-    parsed_url = urlparse(url)
-    if parsed_url.scheme != "ftp":
-        raise ValueError(
-            f"Unsupported URL scheme: {parsed_url.scheme}. Only 'ftp' is supported."
-        )
-
-    ftp_host: str = parsed_url.netloc
-    ftp_file_path: str = parsed_url.path
-
-    # Ensure destination folder exists
-    os.makedirs(dest_folder, exist_ok=True)
-
-    # Local filename
-    local_filename: str = os.path.join(dest_folder, os.path.basename(ftp_file_path))
-
-    logger.info(f"Connecting to FTP host: {ftp_host}")
-    with FTP(ftp_host) as ftp:
-        ftp.login()  # anonymous guest login
-        logger.info(f"Downloading {ftp_file_path} to {local_filename}")
-        with open(local_filename, "wb") as f:
-            ftp.retrbinary(f"RETR {ftp_file_path}", f.write)
-
-    logger.info(f"Download complete: {local_filename}")
-    return local_filename
+    return str(local_filename)
 
 
 def parse_ascii_header(
@@ -336,34 +349,6 @@ def parse_ascii_header(
                 break
 
     return column_names, header_line_count
-
-
-def list_files_in_https_server(url: str) -> List[str]:
-    """
-    List files in an HTTPS server directory using BeautifulSoup and requests.
-
-    Parameters
-    ----------
-    url : str
-        The URL to the directory containing the files.
-
-    Returns
-    -------
-    List[str]
-        A list of filenames found in the directory with '.nc' extension.
-    """
-    response = requests.get(url)
-    response.raise_for_status()  # Raise an error for bad status codes
-
-    soup = BeautifulSoup(response.text, "html.parser")
-    files: List[str] = []
-
-    for link in soup.find_all("a"):
-        href = link.get("href")
-        if href and href.endswith(".nc"):
-            files.append(href)
-
-    return files
 
 
 def read_ascii_file(file_path: str, comment_char: str = "#") -> pd.DataFrame:

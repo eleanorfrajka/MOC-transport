@@ -1,11 +1,11 @@
-import logging
 import re
 
 import numpy as np
 import xarray as xr
 
-# Set up logging
-_log = logging.getLogger(__name__)
+from amocarray import logger
+
+log = logger.log
 
 
 def generate_reverse_conversions(

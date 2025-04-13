@@ -1,4 +1,6 @@
-from amocarray import readers, standardise
+from amocarray import readers, standardise, logger
+
+logger.disable_logging()
 
 
 def test_standardise_samba():

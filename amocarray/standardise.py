@@ -13,7 +13,9 @@ Currently implemented:
 
 import xarray as xr
 
-from amocarray import utilities
+from amocarray import utilities, logger
+
+log = logger.log  # Use the global logger
 
 
 def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
@@ -32,7 +34,7 @@ def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
         Standardised RAPID dataset.
     """
     # Rename dimension
-    if "time" in ds.dims:
+    if "time" in ds.sizes:
         ds = ds.rename_dims({"time": "TIME"})
 
     # Rename variable

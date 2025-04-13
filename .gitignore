@@ -1,4 +1,6 @@
 amocarray/_version.py
+setup.sh
+ts_gridded.nc
 
 # VSCode settings
 .vscode/*
