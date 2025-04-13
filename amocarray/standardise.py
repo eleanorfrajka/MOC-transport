@@ -11,8 +11,6 @@ Currently implemented:
 - SAMBA
 """
 
-from typing import Union
-
 import xarray as xr
 
 from amocarray import utilities
@@ -129,8 +127,6 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     }
 
     # Safe update of attributes
-    from amocarray import utilities
-
     utilities.safe_update_attrs(ds, global_attrs, overwrite=False)
 
     return ds

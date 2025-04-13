@@ -22,3 +22,4 @@ myst-nb
 isort
 black[jupyter]
 pre-commit
+flake8

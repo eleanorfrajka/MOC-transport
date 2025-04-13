@@ -1,16 +1,13 @@
 import pathlib
 import sys
-from pathlib import Path
-from urllib.parse import urlparse
 
 import pytest
-import xarray as xr
 
 script_dir = pathlib.Path(__file__).parent.absolute()
 parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))
 
-from amocarray import readers, utilities
+from amocarray import readers
 
 
 def test_load_dataset_move():

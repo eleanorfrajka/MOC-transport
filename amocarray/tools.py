@@ -1,9 +1,11 @@
-from datetime import datetime
+import logging
+import re
 
-import gsw
 import numpy as np
-import pandas as pd
 import xarray as xr
+
+# Set up logging
+_log = logging.getLogger(__name__)
 
 # Various conversions from the key to units_name with the multiplicative conversion factor
 unit_conversion = {
@@ -44,9 +46,9 @@ unit_str_format = {
 }
 
 
-##-----------------------------------------------------------------------------------------------------------
-## Calculations for new variables
-##-----------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# Calculations for new variables
+# ------------------------------------------------------------------------------------------------------
 
 
 def split_by_unique_dims(ds):
@@ -170,7 +172,7 @@ def find_best_dtype(var_name, da):
 
 
 def set_fill_value(new_dtype):
-    fill_val = 2 ** (int(re.findall("\d+", str(new_dtype))[0]) - 1) - 1
+    fill_val = 2 ** (int(re.findall(r"\d+", str(new_dtype))[0]) - 1) - 1
     return fill_val
 
 

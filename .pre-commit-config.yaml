@@ -28,3 +28,13 @@ repos:
         files: \.(yaml|yml)$
         exclude: ^data/
       - id: check-added-large-files
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: system
+        types: [python]
+        files: ^(tests/.*\\.py$|amocarray/.*\\.py$|notebooks/.*\\.ipynb$)
+        exclude: ^data/
