@@ -2,7 +2,6 @@ import pathlib
 import sys
 import tempfile
 from pathlib import Path
-from urllib.parse import urlparse
 
 import pytest
 import xarray as xr

@@ -1,13 +1,12 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import xarray as xr
 from pandas import DataFrame
 
 
-##------------------------------------------------------------------------------------
-## Views of the ds or nc file
-##------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------
+# Views of the ds or nc file
+# ------------------------------------------------------------------------------------
 def show_contents(data, content_type="variables"):
     """
     Wrapper function to show contents of an xarray Dataset or a netCDF file.
@@ -162,7 +161,7 @@ def show_variables_by_dimension(data, dimension_name="trajectory"):
 
     if isinstance(data, str):
         print("information is based on file: {}".format(data))
-        dataset = Dataset(data)
+        dataset = xr.Dataset(data)
         variables = dataset.variables
     elif isinstance(data, xr.Dataset):
         print("information is based on xarray Dataset")
