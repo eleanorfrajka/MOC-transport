@@ -12,7 +12,7 @@ import amocarray
 
 Or, to install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:
 
-```sh 
+```sh
 git clone https://github.com/AMOCcommunity/amocarray.git
 cd amocarray
 pip install -r requirements-dev.txt

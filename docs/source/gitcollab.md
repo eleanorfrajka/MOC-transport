@@ -12,15 +12,15 @@ When you first work with a shared repository, you will want to:
 
 #### 1. Fork a repository
 
-**On Github.com:** Fork the repository into your own Github account.  If prompted, specify that you would like to contribute to the original project.  
+**On Github.com:** Fork the repository into your own Github account.  If prompted, specify that you would like to contribute to the original project.
 
 #### 2. Clone to your computer
 
-**On Github.com:** From your forked repository, clone the repository to your computer.  
+**On Github.com:** From your forked repository, clone the repository to your computer.
 
-(i) Navigate to your repositories on GitHub, `https://github.com/YourGitHubUsername/template-project`.  Click the green `<> Code` dropdown button, and choose a method to clone this.  If you're not familiar with cloning repositories to your computer, choose `Open with Github Desktop` which will require you to have the application "GitHub Desktop" on your computer.  
+(i) Navigate to your repositories on GitHub, `https://github.com/YourGitHubUsername/template-project`.  Click the green `<> Code` dropdown button, and choose a method to clone this.  If you're not familiar with cloning repositories to your computer, choose `Open with Github Desktop` which will require you to have the application "GitHub Desktop" on your computer.
 
-(ii) When prompted, choose where on your computer you would like this to live (`/a/path/on/your/computer/`).  
+(ii) When prompted, choose where on your computer you would like this to live (`/a/path/on/your/computer/`).
 
 > **Tip**
 > If you use a cloud backup service, you may find it is recommended to *not* put this in a folder that is synced with the cloud. This is because the online backups via a cloud service will need to keep copying files back and forth when you switch branches (which replaces the files in your active directory with the versions from each branch), and depending on timing, the synchronisation could cause errors or duplication.  Additionally, using git negates much of the need for cloud backups as local commits *and* pushes to the online git repository provides backups by design.
@@ -31,7 +31,7 @@ When you first work with a shared repository, you will want to:
 
 #### 4. Create a branch for edits
 
-**On your computer in a terminal window:** When you'd like to start making changes in your repository, **first** make a new branch. For a forked repository from someone else's original repository, you will never work in your "main" branch.  
+**On your computer in a terminal window:** When you'd like to start making changes in your repository, **first** make a new branch. For a forked repository from someone else's original repository, you will never work in your "main" branch.
 
 To make a branch, at the command line, the series of steps would be (from within `/a/path/on/your/computer/template-project/`):
 ```
@@ -53,7 +53,7 @@ This branch will now be up-to-date with the latest changes within `main` (which 
 
 **In VS Code**, to commit the change, you will navigate to the "source explorer" in the left hand bar, and add a commit message (text box above the blue "Commit" button).  This should be short, explaining in present tense what the commit does.
 
-> **Optional (recommended):** Add a short code at the beginning of the commit message (one word) to help categorise what the commit is doing.  See [https://dev.to/ashishxcode/mastering-the-art-of-writing-effective-github-commit-messages-5d2p](https://dev.to/ashishxcode/mastering-the-art-of-writing-effective-github-commit-messages-5d2p).  
+> **Optional (recommended):** Add a short code at the beginning of the commit message (one word) to help categorise what the commit is doing.  See [https://dev.to/ashishxcode/mastering-the-art-of-writing-effective-github-commit-messages-5d2p](https://dev.to/ashishxcode/mastering-the-art-of-writing-effective-github-commit-messages-5d2p).
 
 > Options include things like:
 
@@ -68,11 +68,11 @@ This branch will now be up-to-date with the latest changes within `main` (which 
 
 #### 7. Create a pull request to origin
 
-**On your computer in VS Code:** Sync the commit to main.  If this is the first time you've done this from your branch, you will need to set the upstream.  Set the upstream to be `https://github.com/ifmeo-hamburg/template-project`.  This will direct the pull request to the original main repository (not your main).  Exception, if you're working on a fork where the original main repository lives in your GitHub account `https://github.com/yourGitHubUsername/template-project` then it will be pulled to your main.  
+**On your computer in VS Code:** Sync the commit to main.  If this is the first time you've done this from your branch, you will need to set the upstream.  Set the upstream to be `https://github.com/ifmeo-hamburg/template-project`.  This will direct the pull request to the original main repository (not your main).  Exception, if you're working on a fork where the original main repository lives in your GitHub account `https://github.com/yourGitHubUsername/template-project` then it will be pulled to your main.
 
 #### 8. Compare pull request on GitHub.com
 
-**On Github.com (original repository):** Navigate to the original repository `https://github.com/ifmeo-hamburg/template-project` and you should see the pull request has come through.  There will be a shaded bar at the top with a button "compare and pull request".  Click this button and on the next page add some useful details for the rest of the contributors to understand what your commit is doing.  
+**On Github.com (original repository):** Navigate to the original repository `https://github.com/ifmeo-hamburg/template-project` and you should see the pull request has come through.  There will be a shaded bar at the top with a button "compare and pull request".  Click this button and on the next page add some useful details for the rest of the contributors to understand what your commit is doing.
 
 Note that the default version of this template includes some tests to be run when you submit a pull request.  The python code for these tests is located in `tests/`.  The Github Actions "workflow" that calls the tests is in `.github/workflows/tests.yml`.  It requires that your `requirements-txt` file includes the package:
 ```
@@ -91,9 +91,9 @@ in `requirements-dev.txt`.
 
 #### 10. Rinse and repeat
 
-Now the origin has been updated.  
+Now the origin has been updated.
 
-**On Github.com (your forked repository):** If you want to make further changes *after a merge (by anyone)*, you should **first** sync your fork (main branch) to the origin.  
+**On Github.com (your forked repository):** If you want to make further changes *after a merge (by anyone)*, you should **first** sync your fork (main branch) to the origin.
 
 1. On your forked repository main, `https://github.com/yourGitHubUsername/template-project` where you should see a notification across the top saying "this is behind the origin/main by X commits" with the option to click the **sync** button.  Click it!  This gets your forked main branch _on Github_ up-to-date with the origin/main.
 
@@ -104,7 +104,7 @@ $ git checkout main
 $ git pull
 ```
 
-3. **On your computer, terminal window:** Now you need to create a new branch for working _on your computer_.  
+3. **On your computer, terminal window:** Now you need to create a new branch for working _on your computer_.
 As before, create a new branch using `git checkout -b branchname` as in:
 ```
 $ git checkout -b yourname-patch-2

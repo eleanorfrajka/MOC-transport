@@ -1,7 +1,7 @@
 Publishing to PyPi
 ==================
 
-Publishing your python package to PyPi will mean that other people can install it using e.g. 
+Publishing your python package to PyPi will mean that other people can install it using e.g.
 
 ```
 pip install projectName
@@ -26,7 +26,7 @@ The file `pyproject.toml`  configures the metadata for your project.
 
 ### Choosing a build backend
 
-The default example in the tutorial specifies "Hatchling" to convert your package to a distribution package. 
+The default example in the tutorial specifies "Hatchling" to convert your package to a distribution package.
 
 ```
 [build-system]
@@ -98,7 +98,7 @@ urls.homepage = "https://github.com/eleanorfrajka/template-project"
 urls.repository = "https://github.com/eleanorfrajka/template-project"
 ```
 
-In our case, the "name" (used for the name of the project on PyPi) is "template-project-efw" to make it a unique package, whereas the repository name is "template-project" on github.  
+In our case, the "name" (used for the name of the project on PyPi) is "template-project-efw" to make it a unique package, whereas the repository name is "template-project" on github.
 
 Our version also tries to dynamically assign the version number, which will come out of `template_project/_version.py`.
 
@@ -127,7 +127,7 @@ Then run this from the directory where `pyproject.toml` is located:
 python3 -m build
 ```
 
-## Uploading the distribution archives 
+## Uploading the distribution archives
 
 ### First time: Test it on testpypi first
 1. Create an account on [https://test.pypi.org/account/register](https://test.pypi.org/account/register).  You'll need a 2FA app, e.g. on your phone.  If you already have an account, then you can login to your account at [https://test.pypi.org/](https://test.pypi.org), but this isn't necessary to run the test.
@@ -167,6 +167,6 @@ python3 -m twine upload dist/*
 
 ### Allowing Github releases to update the project on PyPi
 
-To automatically generate the new release on PyPi using Github actions, you need (1) the workflow (see `.github/workflows/pypi.yml` in this template) and (2) to setup (on https://pypi.org) GitHub as a "trusted publisher".  
+To automatically generate the new release on PyPi using Github actions, you need (1) the workflow (see `.github/workflows/pypi.yml` in this template) and (2) to setup (on https://pypi.org) GitHub as a "trusted publisher".
 
 See [https://github.com/marketplace/actions/pypi-publish#trusted-publishing](https://github.com/marketplace/actions/pypi-publish#trusted-publishing) or [https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/](https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/) for more information.
