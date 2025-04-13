@@ -7,57 +7,81 @@ from pandas import DataFrame
 # ------------------------------------------------------------------------------------
 # Views of the ds or nc file
 # ------------------------------------------------------------------------------------
-def show_contents(data, content_type="variables"):
+def show_contents(
+    data: str | xr.Dataset, content_type: str = "variables"
+) -> pd.io.formats.style.Styler | pd.DataFrame:
     """
     Wrapper function to show contents of an xarray Dataset or a netCDF file.
 
-    Parameters:
-    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
-    content_type (str): The type of content to show, either 'variables' (or 'vars') or 'attributes' (or 'attrs'). Default is 'variables'.
+    Parameters
+    ----------
+    data : str or xr.Dataset
+        The input data, either a file path to a netCDF file or an xarray Dataset.
+    content_type : str, optional
+        The type of content to show, either 'variables' (or 'vars') or 'attributes' (or 'attrs').
+        Default is 'variables'.
 
-    Returns:
-    pandas.io.formats.style.Styler or pandas.DataFrame: A styled DataFrame with details about the variables or attributes.
+    Returns
+    -------
+    pandas.io.formats.style.Styler or pandas.DataFrame
+        A styled DataFrame with details about the variables or attributes.
+
+    Raises
+    ------
+    TypeError
+        If the input data is not a file path (str) or an xarray Dataset.
+    ValueError
+        If the content_type is not 'variables' (or 'vars') or 'attributes' (or 'attrs').
     """
     if content_type in ["variables", "vars"]:
-        if isinstance(data, str):
-            return show_variables(data)
-        elif isinstance(data, xr.Dataset):
+        if isinstance(data, (str, xr.Dataset)):
             return show_variables(data)
         else:
             raise TypeError("Input data must be a file path (str) or an xarray Dataset")
     elif content_type in ["attributes", "attrs"]:
-        if isinstance(data, str):
-            return show_attributes(data)
-        elif isinstance(data, xr.Dataset):
+        if isinstance(data, (str, xr.Dataset)):
             return show_attributes(data)
         else:
-            raise TypeError("Attributes can only be shown for netCDF files (str)")
+            raise TypeError(
+                "Attributes can only be shown for netCDF files (str) or xarray Datasets"
+            )
     else:
         raise ValueError(
             "content_type must be either 'variables' (or 'vars') or 'attributes' (or 'attrs')"
         )
 
 
-def show_variables(data):
+def show_variables(data: str | xr.Dataset) -> pd.io.formats.style.Styler:
     """
     Processes an xarray Dataset or a netCDF file, extracts variable information,
     and returns a styled DataFrame with details about the variables.
 
-    Parameters:
-    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
+    Parameters
+    ----------
+    data : str or xr.Dataset
+        The input data, either a file path to a netCDF file or an xarray Dataset.
 
-    Returns:
-    pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:
+    Returns
+    -------
+    pd.io.formats.style.Styler
+        A styled DataFrame containing the following columns:
         - dims: The dimension of the variable (or "string" if it is a string type).
         - name: The name of the variable.
         - units: The units of the variable (if available).
         - comment: Any additional comments about the variable (if available).
+        - standard_name: The standard name of the variable (if available).
+        - dtype: The data type of the variable.
+
+    Raises
+    ------
+    TypeError
+        If the input data is not a file path (str) or an xarray Dataset.
     """
     from netCDF4 import Dataset
     from pandas import DataFrame
 
     if isinstance(data, str):
-        print("information is based on file: {}".format(data))
+        print(f"information is based on file: {data}")
         dataset = Dataset(data)
         variables = dataset.variables
     elif isinstance(data, xr.Dataset):
@@ -104,24 +128,34 @@ def show_variables(data):
     return vars
 
 
-def show_attributes(data):
+def show_attributes(data: str | xr.Dataset) -> pd.DataFrame:
     """
     Processes an xarray Dataset or a netCDF file, extracts attribute information,
     and returns a DataFrame with details about the attributes.
 
-    Parameters:
-    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
+    Parameters
+    ----------
+    data : str or xr.Dataset
+        The input data, either a file path to a netCDF file or an xarray Dataset.
 
-    Returns:
-    pandas.DataFrame: A DataFrame containing the following columns:
+    Returns
+    -------
+    pandas.DataFrame
+        A DataFrame containing the following columns:
         - Attribute: The name of the attribute.
         - Value: The value of the attribute.
+        - DType: The data type of the attribute.
+
+    Raises
+    ------
+    TypeError
+        If the input data is not a file path (str) or an xarray Dataset.
     """
     from netCDF4 import Dataset
     from pandas import DataFrame
 
     if isinstance(data, str):
-        print("information is based on file: {}".format(data))
+        print(f"information is based on file: {data}")
         rootgrp = Dataset(data, "r", format="NETCDF4")
         attributes = rootgrp.ncattrs()
         get_attr = lambda key: getattr(rootgrp, key)
@@ -142,26 +176,37 @@ def show_attributes(data):
     return attrs
 
 
-def show_variables_by_dimension(data, dimension_name="trajectory"):
+def show_variables_by_dimension(
+    data: str | xr.Dataset, dimension_name: str = "trajectory"
+) -> pd.io.formats.style.Styler:
     """
-    Processes an xarray Dataset or a netCDF file, extracts variable information,
-    and returns a styled DataFrame with details about the variables filtered by a specific dimension.
+    Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame
+    with details about the variables filtered by a specific dimension.
 
-    Parameters:
-    data (str or xr.Dataset): The input data, either a file path to a netCDF file or an xarray Dataset.
-    dimension_name (str): The name of the dimension to filter variables by.
+    Parameters
+    ----------
+    data : str or xr.Dataset
+        The input data, either a file path to a netCDF file or an xarray Dataset.
+    dimension_name : str, optional
+        The name of the dimension to filter variables by, by default "trajectory".
 
-    Returns:
-    pandas.io.formats.style.Styler: A styled DataFrame containing the following columns:
+    Returns
+    -------
+    pandas.io.formats.style.Styler
+        A styled DataFrame containing the following columns:
         - dims: The dimension of the variable (or "string" if it is a string type).
         - name: The name of the variable.
         - units: The units of the variable (if available).
         - comment: Any additional comments about the variable (if available).
-    """
 
+    Raises
+    ------
+    TypeError
+        If the input data is not a file path (str) or an xarray Dataset.
+    """
     if isinstance(data, str):
-        print("information is based on file: {}".format(data))
-        dataset = xr.Dataset(data)
+        print(f"information is based on file: {data}")
+        dataset = xr.open_dataset(data)
         variables = dataset.variables
     elif isinstance(data, xr.Dataset):
         print("information is based on xarray Dataset")
@@ -207,27 +252,41 @@ def show_variables_by_dimension(data, dimension_name="trajectory"):
 
 
 def plot_monthly_anomalies(
-    osnap_data,
-    rapid_data,
-    move_data,
-    samba_data,
-    osnap_label,
-    rapid_label,
-    move_label,
-    samba_label,
-):
+    osnap_data: xr.DataArray,
+    rapid_data: xr.DataArray,
+    move_data: xr.DataArray,
+    samba_data: xr.DataArray,
+    osnap_label: str,
+    rapid_label: str,
+    move_label: str,
+    samba_label: str,
+) -> tuple[plt.Figure, list[plt.Axes]]:
     """
-    Plots the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
+    Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
 
-    Parameters:
-        osnap_data (xarray.DataArray): Monthly anomalies for OSNAP.
-        rapid_data (xarray.DataArray): Monthly anomalies for RAPID.
-        move_data (xarray.DataArray): Monthly anomalies for MOVE.
-        samba_data (xarray.DataArray): Monthly anomalies for SAMBA.
-        osnap_label (str): Label for OSNAP plot.
-        rapid_label (str): Label for RAPID plot.
-        move_label (str): Label for MOVE plot.
-        samba_label (str): Label for SAMBA plot.
+    Parameters
+    ----------
+    osnap_data : xarray.DataArray
+        Monthly anomalies for OSNAP.
+    rapid_data : xarray.DataArray
+        Monthly anomalies for RAPID.
+    move_data : xarray.DataArray
+        Monthly anomalies for MOVE.
+    samba_data : xarray.DataArray
+        Monthly anomalies for SAMBA.
+    osnap_label : str
+        Label for OSNAP plot.
+    rapid_label : str
+        Label for RAPID plot.
+    move_label : str
+        Label for MOVE plot.
+    samba_label : str
+        Label for SAMBA plot.
+
+    Returns
+    -------
+    tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]
+        The figure and axes objects of the generated plot.
     """
     # Resample each input dataset to monthly averages
     osnap_data = osnap_data.resample(TIME="ME").mean()
@@ -280,4 +339,4 @@ def plot_monthly_anomalies(
     axes[3].set_ylim([-10, 10])  # SAMBA
 
     plt.tight_layout()
-    plt.show()
+    return fig, axes
