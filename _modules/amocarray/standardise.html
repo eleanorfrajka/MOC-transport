@@ -96,8 +96,6 @@
 <span class="sd">- SAMBA</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
@@ -219,8 +217,6 @@
     <span class="p">}</span>
 
     <span class="c1"># Safe update of attributes</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
-
     <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">global_attrs</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ds</span></div>

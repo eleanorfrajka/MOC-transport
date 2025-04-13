@@ -83,12 +83,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for amocarray.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">gsw</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="c1"># Set up logging</span>
+<span class="n">_log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1"># Various conversions from the key to units_name with the multiplicative conversion factor</span>
 <span class="n">unit_conversion</span> <span class="o">=</span> <span class="p">{</span>
@@ -129,9 +131,9 @@
 <span class="p">}</span>
 
 
-<span class="c1">##-----------------------------------------------------------------------------------------------------------</span>
-<span class="c1">## Calculations for new variables</span>
-<span class="c1">##-----------------------------------------------------------------------------------------------------------</span>
+<span class="c1"># ------------------------------------------------------------------------------------------------------</span>
+<span class="c1"># Calculations for new variables</span>
+<span class="c1"># ------------------------------------------------------------------------------------------------------</span>
 
 
 <div class="viewcode-block" id="split_by_unique_dims">
@@ -272,7 +274,7 @@
 <div class="viewcode-block" id="set_fill_value">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.set_fill_value">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
-    <span class="n">fill_val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">fill_val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">fill_val</span></div>
 
 

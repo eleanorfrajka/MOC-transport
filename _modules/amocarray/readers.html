@@ -84,24 +84,16 @@
              
   <h1>Source code for amocarray.readers</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ftplib</span><span class="w"> </span><span class="kn">import</span> <span class="n">FTP</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span>
-
-<span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
-<span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_move</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_move</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
+
+<span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
+<span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0&quot;</span>
 
 <span class="c1"># Registry of available readers</span>
 <span class="n">_READERS</span> <span class="o">=</span> <span class="p">{</span>

@@ -84,15 +84,14 @@
              
   <h1>Source code for amocarray.plotters</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
 
 
-<span class="c1">##------------------------------------------------------------------------------------</span>
-<span class="c1">## Views of the ds or nc file</span>
-<span class="c1">##------------------------------------------------------------------------------------</span>
+<span class="c1"># ------------------------------------------------------------------------------------</span>
+<span class="c1"># Views of the ds or nc file</span>
+<span class="c1"># ------------------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="show_contents">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.plotters.show_contents">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_contents</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;variables&quot;</span><span class="p">):</span>
@@ -258,7 +257,7 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">variables</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;information is based on xarray Dataset&quot;</span><span class="p">)</span>
