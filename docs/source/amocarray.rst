@@ -61,7 +61,7 @@ Reader for SAMBA (South Atlantic MOC Basin-wide Array) data.
 .. automodule:: amocarray.read_samba
    :members:
    :undoc-members:
-   
+
 standardise
 ===========
 Functions to apply naming conventions, units, and metadata standards to datasets.
@@ -99,4 +99,3 @@ Shared utilities for downloading, reading, and parsing data files.
 .. automodule:: amocarray.utilities
    :members:
    :undoc-members:
-

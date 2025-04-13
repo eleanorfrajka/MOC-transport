@@ -47,7 +47,7 @@ jobs:
         jupyter nbconvert --to notebook --execute notebooks/demo.ipynb --output=demo-output.ipynb --ExecutePreprocessor.allow_errors=False
         mv notebooks/*output.ipynb docs/source/
         pushd docs
-        make clean html 
+        make clean html
         popd
 
     - name: Deploy
@@ -55,5 +55,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/build/html
-
-

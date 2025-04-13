@@ -1,5 +1,8 @@
 amocarray/_version.py
 
+# VSCode settings
+.vscode/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

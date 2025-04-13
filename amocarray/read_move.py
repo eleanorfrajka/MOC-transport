@@ -1,4 +1,5 @@
 import os
+
 import xarray as xr
 
 from amocarray import utilities
@@ -29,8 +30,13 @@ MOVE_FILE_METADATA = {
 
 
 @apply_defaults(MOVE_DEFAULT_SOURCE, MOVE_DEFAULT_FILES)
-def read_move(source: str, file_list: str | list[str], transport_only: bool = True,
-              data_dir=None, redownload=False) -> list[xr.Dataset]:    
+def read_move(
+    source: str,
+    file_list: str | list[str],
+    transport_only: bool = True,
+    data_dir=None,
+    redownload=False,
+) -> list[xr.Dataset]:
     """
     Load the MOVE transport dataset from a URL or local file path into xarray Datasets.
 
@@ -90,13 +96,14 @@ def read_move(source: str, file_list: str | list[str], transport_only: bool = Tr
         # Attach metadata
         file_metadata = MOVE_FILE_METADATA.get(file, {})
         utilities.safe_update_attrs(
-            ds, {
+            ds,
+            {
                 "source_file": file,
                 "source_path": source,
                 **MOVE_METADATA,
                 **file_metadata,
-            })
-
+            },
+        )
 
         datasets.append(ds)
 

@@ -1,19 +1,21 @@
-import xarray as xr
 import os
-from bs4 import BeautifulSoup
-import requests
+from ftplib import FTP
 from pathlib import Path
 from urllib.parse import urlparse
-from ftplib import FTP
+
 import pandas as pd
+import requests
+import xarray as xr
+from bs4 import BeautifulSoup
 
 from amocarray import utilities
+
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
 
 from amocarray.read_move import read_move
-from amocarray.read_rapid import read_rapid
 from amocarray.read_osnap import read_osnap
+from amocarray.read_rapid import read_rapid
 from amocarray.read_samba import read_samba
 
 # Registry of available readers
@@ -39,12 +41,21 @@ def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
     file_path = os.path.join(data_dir, dataset_name)
 
     if not os.path.exists(file_path):
-        raise FileNotFoundError(f"{dataset_name} not found in the {data_dir} directory.")
+        raise FileNotFoundError(
+            f"{dataset_name} not found in the {data_dir} directory."
+        )
 
     return xr.open_dataset(file_path)
 
-def load_dataset(array_name: str, source: str = None, file_list: str | list[str] = None,
-             transport_only: bool = True, data_dir=None, redownload=False) -> list[xr.Dataset]:
+
+def load_dataset(
+    array_name: str,
+    source: str = None,
+    file_list: str | list[str] = None,
+    transport_only: bool = True,
+    data_dir=None,
+    redownload=False,
+) -> list[xr.Dataset]:
     """
     Load raw datasets from a selected AMOC observing array.
 
@@ -74,7 +85,13 @@ def load_dataset(array_name: str, source: str = None, file_list: str | list[str]
         If an unknown array name is provided.
     """
     reader = _get_reader(array_name)
-    return reader(source=source, file_list=file_list, transport_only=transport_only, data_dir=data_dir, redownload=redownload)
+    return reader(
+        source=source,
+        file_list=file_list,
+        transport_only=transport_only,
+        data_dir=data_dir,
+        redownload=redownload,
+    )
 
 
 def _get_reader(array_name: str):
@@ -99,5 +116,6 @@ def _get_reader(array_name: str):
     try:
         return _READERS[array_name.lower()]
     except KeyError:
-        raise ValueError(f"No reader found for '{array_name}'. Available options: {list(_READERS.keys())}")
-
+        raise ValueError(
+            f"No reader found for '{array_name}'. Available options: {list(_READERS.keys())}"
+        )

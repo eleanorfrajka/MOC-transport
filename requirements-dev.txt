@@ -3,13 +3,13 @@ importlib_resources
 pooch
 xarray
 numpy
-pandas  
-scipy 
+pandas
+scipy
 tqdm
 gsw
 matplotlib
 cartopy
-cmocean 
+cmocean
 jupyterlab
 pytest
 pytest-cov
@@ -19,3 +19,6 @@ sphinx
 sphinx-rtd-theme
 pypandoc
 myst-nb
+isort
+black[jupyter]
+pre-commit

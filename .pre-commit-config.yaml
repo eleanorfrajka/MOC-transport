@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+        language_version: python3
+        files: \.(py|ipynb)$
+        exclude: ^data/
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        language_version: python3
+        files: \.(py|ipynb)$
+        exclude: ^data/
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: end-of-file-fixer
+        files: \.(py|yaml|yml|ipynb)$
+        exclude: ^data/
+      - id: trailing-whitespace
+        files: \.(py|yaml|yml|ipynb)$
+        exclude: ^data/
+      - id: check-yaml
+        files: \.(yaml|yml)$
+        exclude: ^data/
+      - id: check-added-large-files

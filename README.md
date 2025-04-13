@@ -8,7 +8,7 @@ This is a work in progress, all contributions welcome!
 
 ### Install
 
-Install from PyPI with 
+Install from PyPI with
 ```sh
 python -m pip install amocarray
 ```
@@ -27,7 +27,7 @@ All contributions are welcome!  See [contributing](CONTRIBUTING.md) for more det
 
 To install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:
 
-```sh 
+```sh
 git clone https://github.com/AMOCcommunity/amocarray.git
 cd amocarray
 pip install -r requirements-dev.txt

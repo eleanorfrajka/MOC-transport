@@ -11,7 +11,7 @@ Welcome to amocarray's documentation!
 
 For recommendations or bug reports, please visit https://github.com/AMOCcommunity/amocarray/issues/new
 
-  
+
 .. toctree::
    :maxdepth: 3
    :caption: Getting started
@@ -23,7 +23,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 .. toctree::
    :maxdepth: 3
    :caption: Users guide
-   
+
    demo-output.ipynb
 
 

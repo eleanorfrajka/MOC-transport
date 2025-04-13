@@ -1,23 +1,24 @@
 # Based on https://github.com/voto-ocean-knowledge/votoutils/blob/main/votoutils/utilities/utilities.py
+import datetime
+import logging
 import os
 import re
+import shutil
+import warnings
+from ftplib import FTP
+from functools import wraps
+from pathlib import Path
+from urllib.parse import urlparse
+
 import numpy as np
 import pandas as pd
-import logging
-import datetime
-import xarray as xr
 import requests
-from urllib.parse import urlparse
-from pathlib import Path
-from ftplib import FTP
+import xarray as xr
 from bs4 import BeautifulSoup
-import warnings
-import shutil
-
-from functools import wraps
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
+
 
 def apply_defaults(default_source, default_files):
     """
@@ -35,6 +36,7 @@ def apply_defaults(default_source, default_files):
     function
         Wrapped function with defaults applied.
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(source=None, file_list=None, *args, **kwargs):
@@ -43,7 +45,9 @@ def apply_defaults(default_source, default_files):
             if file_list is None:
                 file_list = default_files
             return func(source=source, file_list=file_list, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -85,6 +89,7 @@ def get_local_file(source_url, data_dir=None, redownload=False):
     download_file(source_url, local_file)
     return local_file
 
+
 def safe_update_attrs(ds, new_attrs, overwrite=False, verbose=True):
     """
     Safely update attributes of an xarray Dataset without clobbering existing keys,
@@ -112,31 +117,37 @@ def safe_update_attrs(ds, new_attrs, overwrite=False, verbose=True):
                 if verbose:
                     warnings.warn(
                         f"Attribute '{key}' already exists in dataset attrs and will not be overwritten.",
-                        UserWarning
+                        UserWarning,
                     )
                 continue  # Skip assignment
         ds.attrs[key] = value
 
     return ds
 
+
 def _validate_dims(ds):
     dim_name = list(ds.dims)[0]  # Should be 'N_MEASUREMENTS' for OG1
-    if dim_name not in ['TIME', 'time']:
+    if dim_name not in ["TIME", "time"]:
         raise ValueError(f"Dimension name '{dim_name}' is not 'TIME' or 'time'.")
-    
+
+
 def _is_valid_url(url: str) -> bool:
     try:
         result = urlparse(url)
-        return all([
-            result.scheme in ("http", "https", "ftp"),
-            result.netloc,
-            result.path  # <- just check there's a path, not how it ends
-        ])
+        return all(
+            [
+                result.scheme in ("http", "https", "ftp"),
+                result.netloc,
+                result.path,  # <- just check there's a path, not how it ends
+            ]
+        )
     except Exception:
         return False
 
+
 def _is_valid_file(path: str) -> bool:
     return Path(path).is_file() and path.endswith(".nc")
+
 
 def download_file(url, dest_folder):
     """
@@ -160,7 +171,7 @@ def download_file(url, dest_folder):
         # HTTP(S) download
         with requests.get(url, stream=True) as response:
             response.raise_for_status()
-            with open(local_filename, 'wb') as f:
+            with open(local_filename, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
 
@@ -168,7 +179,7 @@ def download_file(url, dest_folder):
         # FTP download
         ftp = FTP(parsed_url.netloc)
         ftp.login()  # anonymous login
-        with open(local_filename, 'wb') as f:
+        with open(local_filename, "wb") as f:
             ftp.retrbinary(f"RETR {parsed_url.path}", f.write)
         ftp.quit()
 
@@ -176,6 +187,7 @@ def download_file(url, dest_folder):
         raise ValueError(f"Unsupported URL scheme in {url}")
 
     return local_filename
+
 
 def download_ftp_file(url: str, dest_folder: str = "data"):
     """
@@ -203,11 +215,12 @@ def download_ftp_file(url: str, dest_folder: str = "data"):
     with FTP(ftp_host) as ftp:
         ftp.login()  # anonymous guest login
         print(f"Downloading {ftp_file_path} to {local_filename}")
-        with open(local_filename, 'wb') as f:
+        with open(local_filename, "wb") as f:
             ftp.retrbinary(f"RETR {ftp_file_path}", f.write)
 
     print(f"Download complete: {local_filename}")
     return local_filename
+
 
 def parse_ascii_header(file_path: str, comment_char: str = "%") -> tuple[list, int]:
     """
@@ -227,7 +240,7 @@ def parse_ascii_header(file_path: str, comment_char: str = "%") -> tuple[list, i
     column_names = []
     header_line_count = 0
 
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         for line in file:
             line = line.strip()
             header_line_count += 1
@@ -242,6 +255,7 @@ def parse_ascii_header(file_path: str, comment_char: str = "%") -> tuple[list, i
                 break
 
     return column_names, header_line_count
+
 
 def list_files_in_https_server(url):
     """
@@ -266,6 +280,7 @@ def list_files_in_https_server(url):
 
     return files
 
+
 def read_ascii_file(file_path, comment_char="#"):
     """
     Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.
@@ -278,4 +293,3 @@ def read_ascii_file(file_path, comment_char="#"):
         pd.DataFrame: The loaded data as a pandas DataFrame.
     """
     return pd.read_csv(file_path, sep=r"\s+", comment=comment_char, on_bad_lines="skip")
-
