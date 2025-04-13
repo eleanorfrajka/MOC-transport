@@ -24,10 +24,10 @@
    "id": "6a1920f3",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:08.885513Z",
-     "iopub.status.busy": "2025-04-13T13:19:08.885198Z",
-     "iopub.status.idle": "2025-04-13T13:19:09.756209Z",
-     "shell.execute_reply": "2025-04-13T13:19:09.755664Z"
+     "iopub.execute_input": "2025-04-13T19:53:00.321475Z",
+     "iopub.status.busy": "2025-04-13T19:53:00.321316Z",
+     "iopub.status.idle": "2025-04-13T19:53:01.149428Z",
+     "shell.execute_reply": "2025-04-13T19:53:01.148936Z"
     }
    },
    "outputs": [],
@@ -52,10 +52,10 @@
    "id": "1e070d18",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:09.758052Z",
-     "iopub.status.busy": "2025-04-13T13:19:09.757843Z",
-     "iopub.status.idle": "2025-04-13T13:19:09.760342Z",
-     "shell.execute_reply": "2025-04-13T13:19:09.759952Z"
+     "iopub.execute_input": "2025-04-13T19:53:01.151431Z",
+     "iopub.status.busy": "2025-04-13T19:53:01.151108Z",
+     "iopub.status.idle": "2025-04-13T19:53:01.153717Z",
+     "shell.execute_reply": "2025-04-13T19:53:01.153269Z"
     }
    },
    "outputs": [],
@@ -78,10 +78,10 @@
    "id": "fd849c48",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:09.761726Z",
-     "iopub.status.busy": "2025-04-13T13:19:09.761577Z",
-     "iopub.status.idle": "2025-04-13T13:19:09.792031Z",
-     "shell.execute_reply": "2025-04-13T13:19:09.791581Z"
+     "iopub.execute_input": "2025-04-13T19:53:01.155255Z",
+     "iopub.status.busy": "2025-04-13T19:53:01.155004Z",
+     "iopub.status.idle": "2025-04-13T19:53:01.191190Z",
+     "shell.execute_reply": "2025-04-13T19:53:01.190723Z"
     }
    },
    "outputs": [
@@ -89,7 +89,114 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/home/runner/work/amocarray/amocarray/amocarray/standardise.py:40: UserWarning: rename 'time' to 'TIME' does not create an index anymore. Try using swap_dims instead or use set_index after rename to create an indexed coordinate.\n",
+      "20250413T195301 INFO     setup_logger Logger initialized for array: rapid, writing to /home/runner/work/amocarray/amocarray/logs/RAPID_20250413T19_read.log\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Loading dataset for array: rapid\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Starting to read RAPID dataset\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/moc_transports.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/moc_transports.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Attaching metadata to RAPID dataset from file: moc_transports.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Successfully loaded 1 RAPID dataset(s)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info Successfully loaded 1 dataset(s) for array: rapid\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195301 INFO     log_info \n",
+      "Summary for array 'rapid':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: moc_transports.nc\n",
+      "  Time coverage: TIME variable not found\n",
+      "  Dimensions:\n",
+      "    - time: 13779\n",
+      "  Variables:\n",
+      "    - t_therm10: shape (13779,)\n",
+      "    - t_aiw10: shape (13779,)\n",
+      "    - t_ud10: shape (13779,)\n",
+      "    - t_ld10: shape (13779,)\n",
+      "    - t_bw10: shape (13779,)\n",
+      "    - t_gs10: shape (13779,)\n",
+      "    - t_ek10: shape (13779,)\n",
+      "    - t_umo10: shape (13779,)\n",
+      "    - moc_mar_hc10: shape (13779,)\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Summary for array 'rapid':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: moc_transports.nc\n",
+      "  Time coverage: TIME variable not found\n",
+      "  Dimensions:\n",
+      "    - time: 13779\n",
+      "  Variables:\n",
+      "    - t_therm10: shape (13779,)\n",
+      "    - t_aiw10: shape (13779,)\n",
+      "    - t_ud10: shape (13779,)\n",
+      "    - t_ld10: shape (13779,)\n",
+      "    - t_bw10: shape (13779,)\n",
+      "    - t_gs10: shape (13779,)\n",
+      "    - t_ek10: shape (13779,)\n",
+      "    - t_umo10: shape (13779,)\n",
+      "    - moc_mar_hc10: shape (13779,)\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/runner/work/amocarray/amocarray/amocarray/standardise.py:42: UserWarning: rename 'time' to 'TIME' does not create an index anymore. Try using swap_dims instead or use set_index after rename to create an indexed coordinate.\n",
       "  ds = ds.rename({\"time\": \"TIME\"})\n"
      ]
     }
@@ -106,17 +213,17 @@
    "id": "c0e74af4",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:09.793398Z",
-     "iopub.status.busy": "2025-04-13T13:19:09.793245Z",
-     "iopub.status.idle": "2025-04-13T13:19:10.804057Z",
-     "shell.execute_reply": "2025-04-13T13:19:10.803552Z"
+     "iopub.execute_input": "2025-04-13T19:53:01.192897Z",
+     "iopub.status.busy": "2025-04-13T19:53:01.192587Z",
+     "iopub.status.idle": "2025-04-13T19:53:02.165287Z",
+     "shell.execute_reply": "2025-04-13T19:53:02.164817Z"
     }
    },
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "<matplotlib.legend.Legend at 0x7fbeb859d7f0>"
+       "<matplotlib.legend.Legend at 0x7f79aedde3c0>"
       ]
      },
      "execution_count": 4,
@@ -190,30 +297,130 @@
    "id": "60f5279f",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:10.805642Z",
-     "iopub.status.busy": "2025-04-13T13:19:10.805487Z",
-     "iopub.status.idle": "2025-04-13T13:19:11.751034Z",
-     "shell.execute_reply": "2025-04-13T13:19:11.750591Z"
+     "iopub.execute_input": "2025-04-13T19:53:02.166960Z",
+     "iopub.status.busy": "2025-04-13T19:53:02.166775Z",
+     "iopub.status.idle": "2025-04-13T19:53:02.187483Z",
+     "shell.execute_reply": "2025-04-13T19:53:02.187092Z"
     }
    },
    "outputs": [
     {
-     "name": "stdout",
+     "name": "stderr",
      "output_type": "stream",
      "text": [
-      "information is based on xarray Dataset\n"
+      "20250413T195302 INFO     setup_logger Logger initialized for array: move, writing to /home/runner/work/amocarray/amocarray/logs/MOVE_20250413T19_read.log\n"
      ]
     },
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'project' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n",
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'comment' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n",
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'acknowledgement' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n"
+      "20250413T195302 INFO     log_info Loading dataset for array: move\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_move Starting to read MOVE dataset\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_move Opening MOVE dataset: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_move Attaching metadata to dataset from file: OS_MOVE_TRANSPORTS.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'project' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'comment' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'acknowledgement' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_move Successfully loaded 1 MOVE dataset(s)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Successfully loaded 1 dataset(s) for array: move\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info \n",
+      "Summary for array 'move':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: OS_MOVE_TRANSPORTS.nc\n",
+      "  Time coverage: 2000-01-01 to 2018-06-30\n",
+      "  Dimensions:\n",
+      "    - TIME: 6756\n",
+      "  Variables:\n",
+      "    - TRANSPORT_TOTAL: shape (6756,)\n",
+      "    - transport_component_internal: shape (6756,)\n",
+      "    - transport_component_internal_offset: shape (6756,)\n",
+      "    - transport_component_boundary: shape (6756,)\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Summary for array 'move':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: OS_MOVE_TRANSPORTS.nc\n",
+      "  Time coverage: 2000-01-01 to 2018-06-30\n",
+      "  Dimensions:\n",
+      "    - TIME: 6756\n",
+      "  Variables:\n",
+      "    - TRANSPORT_TOTAL: shape (6756,)\n",
+      "    - transport_component_internal: shape (6756,)\n",
+      "    - transport_component_internal_offset: shape (6756,)\n",
+      "    - transport_component_boundary: shape (6756,)\n",
+      "\n",
+      "information is based on xarray Dataset\n"
      ]
     },
     {
@@ -221,15 +428,15 @@
       "text/html": [
        "<style type=\"text/css\">\n",
        "</style>\n",
-       "<table id=\"T_e6a27\">\n",
+       "<table id=\"T_09fff\">\n",
        "  <thead>\n",
        "    <tr>\n",
        "      <th class=\"blank level0\" >&nbsp;</th>\n",
-       "      <th id=\"T_e6a27_level0_col0\" class=\"col_heading level0 col0\" >dims</th>\n",
-       "      <th id=\"T_e6a27_level0_col1\" class=\"col_heading level0 col1\" >units</th>\n",
-       "      <th id=\"T_e6a27_level0_col2\" class=\"col_heading level0 col2\" >comment</th>\n",
-       "      <th id=\"T_e6a27_level0_col3\" class=\"col_heading level0 col3\" >standard_name</th>\n",
-       "      <th id=\"T_e6a27_level0_col4\" class=\"col_heading level0 col4\" >dtype</th>\n",
+       "      <th id=\"T_09fff_level0_col0\" class=\"col_heading level0 col0\" >dims</th>\n",
+       "      <th id=\"T_09fff_level0_col1\" class=\"col_heading level0 col1\" >units</th>\n",
+       "      <th id=\"T_09fff_level0_col2\" class=\"col_heading level0 col2\" >comment</th>\n",
+       "      <th id=\"T_09fff_level0_col3\" class=\"col_heading level0 col3\" >standard_name</th>\n",
+       "      <th id=\"T_09fff_level0_col4\" class=\"col_heading level0 col4\" >dtype</th>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th class=\"index_name level0\" >name</th>\n",
@@ -242,50 +449,50 @@
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
-       "      <th id=\"T_e6a27_level0_row0\" class=\"row_heading level0 row0\" >TIME</th>\n",
-       "      <td id=\"T_e6a27_row0_col0\" class=\"data row0 col0\" >TIME</td>\n",
-       "      <td id=\"T_e6a27_row0_col1\" class=\"data row0 col1\" ></td>\n",
-       "      <td id=\"T_e6a27_row0_col2\" class=\"data row0 col2\" ></td>\n",
-       "      <td id=\"T_e6a27_row0_col3\" class=\"data row0 col3\" >time</td>\n",
-       "      <td id=\"T_e6a27_row0_col4\" class=\"data row0 col4\" >datetime64[ns]</td>\n",
+       "      <th id=\"T_09fff_level0_row0\" class=\"row_heading level0 row0\" >TIME</th>\n",
+       "      <td id=\"T_09fff_row0_col0\" class=\"data row0 col0\" >TIME</td>\n",
+       "      <td id=\"T_09fff_row0_col1\" class=\"data row0 col1\" ></td>\n",
+       "      <td id=\"T_09fff_row0_col2\" class=\"data row0 col2\" ></td>\n",
+       "      <td id=\"T_09fff_row0_col3\" class=\"data row0 col3\" >time</td>\n",
+       "      <td id=\"T_09fff_row0_col4\" class=\"data row0 col4\" >datetime64[ns]</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_e6a27_level0_row1\" class=\"row_heading level0 row1\" >TRANSPORT_TOTAL</th>\n",
-       "      <td id=\"T_e6a27_row1_col0\" class=\"data row1 col0\" >TIME</td>\n",
-       "      <td id=\"T_e6a27_row1_col1\" class=\"data row1 col1\" >Sverdrup</td>\n",
-       "      <td id=\"T_e6a27_row1_col2\" class=\"data row1 col2\" ></td>\n",
-       "      <td id=\"T_e6a27_row1_col3\" class=\"data row1 col3\" >ocean_volume_transport_across_line</td>\n",
-       "      <td id=\"T_e6a27_row1_col4\" class=\"data row1 col4\" >float64</td>\n",
+       "      <th id=\"T_09fff_level0_row1\" class=\"row_heading level0 row1\" >TRANSPORT_TOTAL</th>\n",
+       "      <td id=\"T_09fff_row1_col0\" class=\"data row1 col0\" >TIME</td>\n",
+       "      <td id=\"T_09fff_row1_col1\" class=\"data row1 col1\" >Sverdrup</td>\n",
+       "      <td id=\"T_09fff_row1_col2\" class=\"data row1 col2\" ></td>\n",
+       "      <td id=\"T_09fff_row1_col3\" class=\"data row1 col3\" >ocean_volume_transport_across_line</td>\n",
+       "      <td id=\"T_09fff_row1_col4\" class=\"data row1 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_e6a27_level0_row2\" class=\"row_heading level0 row2\" >transport_component_boundary</th>\n",
-       "      <td id=\"T_e6a27_row2_col0\" class=\"data row2 col0\" >TIME</td>\n",
-       "      <td id=\"T_e6a27_row2_col1\" class=\"data row2 col1\" >Sverdrup</td>\n",
-       "      <td id=\"T_e6a27_row2_col2\" class=\"data row2 col2\" ></td>\n",
-       "      <td id=\"T_e6a27_row2_col3\" class=\"data row2 col3\" ></td>\n",
-       "      <td id=\"T_e6a27_row2_col4\" class=\"data row2 col4\" >float64</td>\n",
+       "      <th id=\"T_09fff_level0_row2\" class=\"row_heading level0 row2\" >transport_component_boundary</th>\n",
+       "      <td id=\"T_09fff_row2_col0\" class=\"data row2 col0\" >TIME</td>\n",
+       "      <td id=\"T_09fff_row2_col1\" class=\"data row2 col1\" >Sverdrup</td>\n",
+       "      <td id=\"T_09fff_row2_col2\" class=\"data row2 col2\" ></td>\n",
+       "      <td id=\"T_09fff_row2_col3\" class=\"data row2 col3\" ></td>\n",
+       "      <td id=\"T_09fff_row2_col4\" class=\"data row2 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_e6a27_level0_row3\" class=\"row_heading level0 row3\" >transport_component_internal</th>\n",
-       "      <td id=\"T_e6a27_row3_col0\" class=\"data row3 col0\" >TIME</td>\n",
-       "      <td id=\"T_e6a27_row3_col1\" class=\"data row3 col1\" >Sverdrup</td>\n",
-       "      <td id=\"T_e6a27_row3_col2\" class=\"data row3 col2\" ></td>\n",
-       "      <td id=\"T_e6a27_row3_col3\" class=\"data row3 col3\" ></td>\n",
-       "      <td id=\"T_e6a27_row3_col4\" class=\"data row3 col4\" >float64</td>\n",
+       "      <th id=\"T_09fff_level0_row3\" class=\"row_heading level0 row3\" >transport_component_internal</th>\n",
+       "      <td id=\"T_09fff_row3_col0\" class=\"data row3 col0\" >TIME</td>\n",
+       "      <td id=\"T_09fff_row3_col1\" class=\"data row3 col1\" >Sverdrup</td>\n",
+       "      <td id=\"T_09fff_row3_col2\" class=\"data row3 col2\" ></td>\n",
+       "      <td id=\"T_09fff_row3_col3\" class=\"data row3 col3\" ></td>\n",
+       "      <td id=\"T_09fff_row3_col4\" class=\"data row3 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_e6a27_level0_row4\" class=\"row_heading level0 row4\" >transport_component_internal_offset</th>\n",
-       "      <td id=\"T_e6a27_row4_col0\" class=\"data row4 col0\" >TIME</td>\n",
-       "      <td id=\"T_e6a27_row4_col1\" class=\"data row4 col1\" >Sverdrup</td>\n",
-       "      <td id=\"T_e6a27_row4_col2\" class=\"data row4 col2\" ></td>\n",
-       "      <td id=\"T_e6a27_row4_col3\" class=\"data row4 col3\" ></td>\n",
-       "      <td id=\"T_e6a27_row4_col4\" class=\"data row4 col4\" >float64</td>\n",
+       "      <th id=\"T_09fff_level0_row4\" class=\"row_heading level0 row4\" >transport_component_internal_offset</th>\n",
+       "      <td id=\"T_09fff_row4_col0\" class=\"data row4 col0\" >TIME</td>\n",
+       "      <td id=\"T_09fff_row4_col1\" class=\"data row4 col1\" >Sverdrup</td>\n",
+       "      <td id=\"T_09fff_row4_col2\" class=\"data row4 col2\" ></td>\n",
+       "      <td id=\"T_09fff_row4_col3\" class=\"data row4 col3\" ></td>\n",
+       "      <td id=\"T_09fff_row4_col4\" class=\"data row4 col4\" >float64</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n"
       ],
       "text/plain": [
-       "<pandas.io.formats.style.Styler at 0x7fbeb859fe00>"
+       "<pandas.io.formats.style.Styler at 0x7f79aeddfa10>"
       ]
      },
      "execution_count": 5,
@@ -305,10 +512,10 @@
    "id": "be4323ac",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:11.752502Z",
-     "iopub.status.busy": "2025-04-13T13:19:11.752347Z",
-     "iopub.status.idle": "2025-04-13T13:19:12.140007Z",
-     "shell.execute_reply": "2025-04-13T13:19:12.139467Z"
+     "iopub.execute_input": "2025-04-13T19:53:02.189165Z",
+     "iopub.status.busy": "2025-04-13T19:53:02.188854Z",
+     "iopub.status.idle": "2025-04-13T19:53:02.567215Z",
+     "shell.execute_reply": "2025-04-13T19:53:02.566771Z"
     }
    },
    "outputs": [
@@ -379,26 +586,144 @@
    "id": "63837cc1",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:12.141925Z",
-     "iopub.status.busy": "2025-04-13T13:19:12.141570Z",
-     "iopub.status.idle": "2025-04-13T13:19:15.963002Z",
-     "shell.execute_reply": "2025-04-13T13:19:15.962572Z"
+     "iopub.execute_input": "2025-04-13T19:53:02.568774Z",
+     "iopub.status.busy": "2025-04-13T19:53:02.568620Z",
+     "iopub.status.idle": "2025-04-13T19:53:02.966214Z",
+     "shell.execute_reply": "2025-04-13T19:53:02.965796Z"
     }
    },
    "outputs": [
     {
-     "name": "stdout",
+     "name": "stderr",
      "output_type": "stream",
      "text": [
-      "information is based on xarray Dataset\n"
+      "20250413T195302 INFO     setup_logger Logger initialized for array: osnap, writing to /home/runner/work/amocarray/amocarray/logs/OSNAP_20250413T19_read.log\n"
      ]
     },
     {
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'project' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n"
+      "20250413T195302 INFO     log_info Loading dataset for array: osnap\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_osnap Starting to read OSNAP dataset\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     resolve_file_path Downloading file from https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download to /home/runner/work/amocarray/amocarray/data\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_osnap Opening OSNAP dataset: /home/runner/work/amocarray/amocarray/data/download\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_osnap Attaching metadata to dataset from file: OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'project' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     read_osnap Successfully loaded 1 OSNAP dataset(s)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Successfully loaded 1 dataset(s) for array: osnap\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info \n",
+      "Summary for array 'osnap':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc\n",
+      "  Time coverage: 2014-08-01 to 2020-06-01\n",
+      "  Dimensions:\n",
+      "    - TIME: 71\n",
+      "  Variables:\n",
+      "    - MOC_ALL: shape (71,)\n",
+      "    - MOC_ALL_ERR: shape (71,)\n",
+      "    - MOC_EAST: shape (71,)\n",
+      "    - MOC_EAST_ERR: shape (71,)\n",
+      "    - MOC_WEST: shape (71,)\n",
+      "    - MOC_WEST_ERR: shape (71,)\n",
+      "    - MHT_ALL: shape (71,)\n",
+      "    - MHT_ALL_ERR: shape (71,)\n",
+      "    - MHT_EAST: shape (71,)\n",
+      "    - MHT_EAST_ERR: shape (71,)\n",
+      "    - MHT_WEST: shape (71,)\n",
+      "    - MHT_WEST_ERR: shape (71,)\n",
+      "    - MFT_ALL: shape (71,)\n",
+      "    - MFT_ALL_ERR: shape (71,)\n",
+      "    - MFT_EAST: shape (71,)\n",
+      "    - MFT_EAST_ERR: shape (71,)\n",
+      "    - MFT_WEST: shape (71,)\n",
+      "    - MFT_WEST_ERR: shape (71,)\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Summary for array 'osnap':\n",
+      "Total datasets loaded: 1\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc\n",
+      "  Time coverage: 2014-08-01 to 2020-06-01\n",
+      "  Dimensions:\n",
+      "    - TIME: 71\n",
+      "  Variables:\n",
+      "    - MOC_ALL: shape (71,)\n",
+      "    - MOC_ALL_ERR: shape (71,)\n",
+      "    - MOC_EAST: shape (71,)\n",
+      "    - MOC_EAST_ERR: shape (71,)\n",
+      "    - MOC_WEST: shape (71,)\n",
+      "    - MOC_WEST_ERR: shape (71,)\n",
+      "    - MHT_ALL: shape (71,)\n",
+      "    - MHT_ALL_ERR: shape (71,)\n",
+      "    - MHT_EAST: shape (71,)\n",
+      "    - MHT_EAST_ERR: shape (71,)\n",
+      "    - MHT_WEST: shape (71,)\n",
+      "    - MHT_WEST_ERR: shape (71,)\n",
+      "    - MFT_ALL: shape (71,)\n",
+      "    - MFT_ALL_ERR: shape (71,)\n",
+      "    - MFT_EAST: shape (71,)\n",
+      "    - MFT_EAST_ERR: shape (71,)\n",
+      "    - MFT_WEST: shape (71,)\n",
+      "    - MFT_WEST_ERR: shape (71,)\n",
+      "\n",
+      "information is based on xarray Dataset\n"
      ]
     },
     {
@@ -406,15 +731,15 @@
       "text/html": [
        "<style type=\"text/css\">\n",
        "</style>\n",
-       "<table id=\"T_f845b\">\n",
+       "<table id=\"T_ca2ab\">\n",
        "  <thead>\n",
        "    <tr>\n",
        "      <th class=\"blank level0\" >&nbsp;</th>\n",
-       "      <th id=\"T_f845b_level0_col0\" class=\"col_heading level0 col0\" >dims</th>\n",
-       "      <th id=\"T_f845b_level0_col1\" class=\"col_heading level0 col1\" >units</th>\n",
-       "      <th id=\"T_f845b_level0_col2\" class=\"col_heading level0 col2\" >comment</th>\n",
-       "      <th id=\"T_f845b_level0_col3\" class=\"col_heading level0 col3\" >standard_name</th>\n",
-       "      <th id=\"T_f845b_level0_col4\" class=\"col_heading level0 col4\" >dtype</th>\n",
+       "      <th id=\"T_ca2ab_level0_col0\" class=\"col_heading level0 col0\" >dims</th>\n",
+       "      <th id=\"T_ca2ab_level0_col1\" class=\"col_heading level0 col1\" >units</th>\n",
+       "      <th id=\"T_ca2ab_level0_col2\" class=\"col_heading level0 col2\" >comment</th>\n",
+       "      <th id=\"T_ca2ab_level0_col3\" class=\"col_heading level0 col3\" >standard_name</th>\n",
+       "      <th id=\"T_ca2ab_level0_col4\" class=\"col_heading level0 col4\" >dtype</th>\n",
        "    </tr>\n",
        "    <tr>\n",
        "      <th class=\"index_name level0\" >name</th>\n",
@@ -427,162 +752,162 @@
        "  </thead>\n",
        "  <tbody>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row0\" class=\"row_heading level0 row0\" >MFT_ALL</th>\n",
-       "      <td id=\"T_f845b_row0_col0\" class=\"data row0 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row0_col1\" class=\"data row0 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row0_col2\" class=\"data row0 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row0_col3\" class=\"data row0 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row0_col4\" class=\"data row0 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row0\" class=\"row_heading level0 row0\" >MFT_ALL</th>\n",
+       "      <td id=\"T_ca2ab_row0_col0\" class=\"data row0 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row0_col1\" class=\"data row0 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row0_col2\" class=\"data row0 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row0_col3\" class=\"data row0 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row0_col4\" class=\"data row0 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row1\" class=\"row_heading level0 row1\" >MFT_ALL_ERR</th>\n",
-       "      <td id=\"T_f845b_row1_col0\" class=\"data row1 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row1_col1\" class=\"data row1 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row1_col2\" class=\"data row1 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row1_col3\" class=\"data row1 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row1_col4\" class=\"data row1 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row1\" class=\"row_heading level0 row1\" >MFT_ALL_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row1_col0\" class=\"data row1 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row1_col1\" class=\"data row1 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row1_col2\" class=\"data row1 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row1_col3\" class=\"data row1 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row1_col4\" class=\"data row1 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row2\" class=\"row_heading level0 row2\" >MFT_EAST</th>\n",
-       "      <td id=\"T_f845b_row2_col0\" class=\"data row2 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row2_col1\" class=\"data row2 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row2_col2\" class=\"data row2 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row2_col3\" class=\"data row2 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row2_col4\" class=\"data row2 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row2\" class=\"row_heading level0 row2\" >MFT_EAST</th>\n",
+       "      <td id=\"T_ca2ab_row2_col0\" class=\"data row2 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row2_col1\" class=\"data row2 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row2_col2\" class=\"data row2 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row2_col3\" class=\"data row2 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row2_col4\" class=\"data row2 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row3\" class=\"row_heading level0 row3\" >MFT_EAST_ERR</th>\n",
-       "      <td id=\"T_f845b_row3_col0\" class=\"data row3 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row3_col1\" class=\"data row3 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row3_col2\" class=\"data row3 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row3_col3\" class=\"data row3 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row3_col4\" class=\"data row3 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row3\" class=\"row_heading level0 row3\" >MFT_EAST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row3_col0\" class=\"data row3 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row3_col1\" class=\"data row3 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row3_col2\" class=\"data row3 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row3_col3\" class=\"data row3 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row3_col4\" class=\"data row3 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row4\" class=\"row_heading level0 row4\" >MFT_WEST</th>\n",
-       "      <td id=\"T_f845b_row4_col0\" class=\"data row4 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row4_col1\" class=\"data row4 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row4_col2\" class=\"data row4 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row4_col3\" class=\"data row4 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row4_col4\" class=\"data row4 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row4\" class=\"row_heading level0 row4\" >MFT_WEST</th>\n",
+       "      <td id=\"T_ca2ab_row4_col0\" class=\"data row4 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row4_col1\" class=\"data row4 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row4_col2\" class=\"data row4 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row4_col3\" class=\"data row4 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row4_col4\" class=\"data row4 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row5\" class=\"row_heading level0 row5\" >MFT_WEST_ERR</th>\n",
-       "      <td id=\"T_f845b_row5_col0\" class=\"data row5 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row5_col1\" class=\"data row5 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row5_col2\" class=\"data row5 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row5_col3\" class=\"data row5 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row5_col4\" class=\"data row5 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row5\" class=\"row_heading level0 row5\" >MFT_WEST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row5_col0\" class=\"data row5 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row5_col1\" class=\"data row5 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row5_col2\" class=\"data row5 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row5_col3\" class=\"data row5 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row5_col4\" class=\"data row5 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row6\" class=\"row_heading level0 row6\" >MHT_ALL</th>\n",
-       "      <td id=\"T_f845b_row6_col0\" class=\"data row6 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row6_col1\" class=\"data row6 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row6_col2\" class=\"data row6 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row6_col3\" class=\"data row6 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row6_col4\" class=\"data row6 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row6\" class=\"row_heading level0 row6\" >MHT_ALL</th>\n",
+       "      <td id=\"T_ca2ab_row6_col0\" class=\"data row6 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row6_col1\" class=\"data row6 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row6_col2\" class=\"data row6 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row6_col3\" class=\"data row6 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row6_col4\" class=\"data row6 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row7\" class=\"row_heading level0 row7\" >MHT_ALL_ERR</th>\n",
-       "      <td id=\"T_f845b_row7_col0\" class=\"data row7 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row7_col1\" class=\"data row7 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row7_col2\" class=\"data row7 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row7_col3\" class=\"data row7 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row7_col4\" class=\"data row7 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row7\" class=\"row_heading level0 row7\" >MHT_ALL_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row7_col0\" class=\"data row7 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row7_col1\" class=\"data row7 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row7_col2\" class=\"data row7 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row7_col3\" class=\"data row7 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row7_col4\" class=\"data row7 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row8\" class=\"row_heading level0 row8\" >MHT_EAST</th>\n",
-       "      <td id=\"T_f845b_row8_col0\" class=\"data row8 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row8_col1\" class=\"data row8 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row8_col2\" class=\"data row8 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row8_col3\" class=\"data row8 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row8_col4\" class=\"data row8 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row8\" class=\"row_heading level0 row8\" >MHT_EAST</th>\n",
+       "      <td id=\"T_ca2ab_row8_col0\" class=\"data row8 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row8_col1\" class=\"data row8 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row8_col2\" class=\"data row8 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row8_col3\" class=\"data row8 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row8_col4\" class=\"data row8 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row9\" class=\"row_heading level0 row9\" >MHT_EAST_ERR</th>\n",
-       "      <td id=\"T_f845b_row9_col0\" class=\"data row9 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row9_col1\" class=\"data row9 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row9_col2\" class=\"data row9 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row9_col3\" class=\"data row9 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row9_col4\" class=\"data row9 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row9\" class=\"row_heading level0 row9\" >MHT_EAST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row9_col0\" class=\"data row9 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row9_col1\" class=\"data row9 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row9_col2\" class=\"data row9 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row9_col3\" class=\"data row9 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row9_col4\" class=\"data row9 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row10\" class=\"row_heading level0 row10\" >MHT_WEST</th>\n",
-       "      <td id=\"T_f845b_row10_col0\" class=\"data row10 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row10_col1\" class=\"data row10 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row10_col2\" class=\"data row10 col2\" ></td>\n",
-       "      <td id=\"T_f845b_row10_col3\" class=\"data row10 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row10_col4\" class=\"data row10 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row10\" class=\"row_heading level0 row10\" >MHT_WEST</th>\n",
+       "      <td id=\"T_ca2ab_row10_col0\" class=\"data row10 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row10_col1\" class=\"data row10 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row10_col2\" class=\"data row10 col2\" ></td>\n",
+       "      <td id=\"T_ca2ab_row10_col3\" class=\"data row10 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row10_col4\" class=\"data row10 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row11\" class=\"row_heading level0 row11\" >MHT_WEST_ERR</th>\n",
-       "      <td id=\"T_f845b_row11_col0\" class=\"data row11 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row11_col1\" class=\"data row11 col1\" >PW</td>\n",
-       "      <td id=\"T_f845b_row11_col2\" class=\"data row11 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row11_col3\" class=\"data row11 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row11_col4\" class=\"data row11 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row11\" class=\"row_heading level0 row11\" >MHT_WEST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row11_col0\" class=\"data row11 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row11_col1\" class=\"data row11 col1\" >PW</td>\n",
+       "      <td id=\"T_ca2ab_row11_col2\" class=\"data row11 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row11_col3\" class=\"data row11 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row11_col4\" class=\"data row11 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row12\" class=\"row_heading level0 row12\" >MOC_ALL</th>\n",
-       "      <td id=\"T_f845b_row12_col0\" class=\"data row12 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row12_col1\" class=\"data row12 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row12_col2\" class=\"data row12 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
-       "      <td id=\"T_f845b_row12_col3\" class=\"data row12 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row12_col4\" class=\"data row12 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row12\" class=\"row_heading level0 row12\" >MOC_ALL</th>\n",
+       "      <td id=\"T_ca2ab_row12_col0\" class=\"data row12 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row12_col1\" class=\"data row12 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row12_col2\" class=\"data row12 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
+       "      <td id=\"T_ca2ab_row12_col3\" class=\"data row12 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row12_col4\" class=\"data row12 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row13\" class=\"row_heading level0 row13\" >MOC_ALL_ERR</th>\n",
-       "      <td id=\"T_f845b_row13_col0\" class=\"data row13 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row13_col1\" class=\"data row13 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row13_col2\" class=\"data row13 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row13_col3\" class=\"data row13 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row13_col4\" class=\"data row13 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row13\" class=\"row_heading level0 row13\" >MOC_ALL_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row13_col0\" class=\"data row13 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row13_col1\" class=\"data row13 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row13_col2\" class=\"data row13 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row13_col3\" class=\"data row13 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row13_col4\" class=\"data row13 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row14\" class=\"row_heading level0 row14\" >MOC_EAST</th>\n",
-       "      <td id=\"T_f845b_row14_col0\" class=\"data row14 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row14_col1\" class=\"data row14 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row14_col2\" class=\"data row14 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
-       "      <td id=\"T_f845b_row14_col3\" class=\"data row14 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row14_col4\" class=\"data row14 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row14\" class=\"row_heading level0 row14\" >MOC_EAST</th>\n",
+       "      <td id=\"T_ca2ab_row14_col0\" class=\"data row14 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row14_col1\" class=\"data row14 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row14_col2\" class=\"data row14 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
+       "      <td id=\"T_ca2ab_row14_col3\" class=\"data row14 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row14_col4\" class=\"data row14 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row15\" class=\"row_heading level0 row15\" >MOC_EAST_ERR</th>\n",
-       "      <td id=\"T_f845b_row15_col0\" class=\"data row15 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row15_col1\" class=\"data row15 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row15_col2\" class=\"data row15 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row15_col3\" class=\"data row15 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row15_col4\" class=\"data row15 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row15\" class=\"row_heading level0 row15\" >MOC_EAST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row15_col0\" class=\"data row15 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row15_col1\" class=\"data row15 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row15_col2\" class=\"data row15 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row15_col3\" class=\"data row15 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row15_col4\" class=\"data row15 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row16\" class=\"row_heading level0 row16\" >MOC_WEST</th>\n",
-       "      <td id=\"T_f845b_row16_col0\" class=\"data row16 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row16_col1\" class=\"data row16 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row16_col2\" class=\"data row16 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
-       "      <td id=\"T_f845b_row16_col3\" class=\"data row16 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row16_col4\" class=\"data row16 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row16\" class=\"row_heading level0 row16\" >MOC_WEST</th>\n",
+       "      <td id=\"T_ca2ab_row16_col0\" class=\"data row16 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row16_col1\" class=\"data row16 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row16_col2\" class=\"data row16 col2\" >maximum of the overturning streamfunction in sigma_theta coordinates</td>\n",
+       "      <td id=\"T_ca2ab_row16_col3\" class=\"data row16 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row16_col4\" class=\"data row16 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row17\" class=\"row_heading level0 row17\" >MOC_WEST_ERR</th>\n",
-       "      <td id=\"T_f845b_row17_col0\" class=\"data row17 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row17_col1\" class=\"data row17 col1\" >Sv</td>\n",
-       "      <td id=\"T_f845b_row17_col2\" class=\"data row17 col2\" >Determined from a Monte Carlo analysis</td>\n",
-       "      <td id=\"T_f845b_row17_col3\" class=\"data row17 col3\" ></td>\n",
-       "      <td id=\"T_f845b_row17_col4\" class=\"data row17 col4\" >float64</td>\n",
+       "      <th id=\"T_ca2ab_level0_row17\" class=\"row_heading level0 row17\" >MOC_WEST_ERR</th>\n",
+       "      <td id=\"T_ca2ab_row17_col0\" class=\"data row17 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row17_col1\" class=\"data row17 col1\" >Sv</td>\n",
+       "      <td id=\"T_ca2ab_row17_col2\" class=\"data row17 col2\" >Determined from a Monte Carlo analysis</td>\n",
+       "      <td id=\"T_ca2ab_row17_col3\" class=\"data row17 col3\" ></td>\n",
+       "      <td id=\"T_ca2ab_row17_col4\" class=\"data row17 col4\" >float64</td>\n",
        "    </tr>\n",
        "    <tr>\n",
-       "      <th id=\"T_f845b_level0_row18\" class=\"row_heading level0 row18\" >TIME</th>\n",
-       "      <td id=\"T_f845b_row18_col0\" class=\"data row18 col0\" >TIME</td>\n",
-       "      <td id=\"T_f845b_row18_col1\" class=\"data row18 col1\" ></td>\n",
-       "      <td id=\"T_f845b_row18_col2\" class=\"data row18 col2\" >Start date of each month</td>\n",
-       "      <td id=\"T_f845b_row18_col3\" class=\"data row18 col3\" >time</td>\n",
-       "      <td id=\"T_f845b_row18_col4\" class=\"data row18 col4\" >datetime64[ns]</td>\n",
+       "      <th id=\"T_ca2ab_level0_row18\" class=\"row_heading level0 row18\" >TIME</th>\n",
+       "      <td id=\"T_ca2ab_row18_col0\" class=\"data row18 col0\" >TIME</td>\n",
+       "      <td id=\"T_ca2ab_row18_col1\" class=\"data row18 col1\" ></td>\n",
+       "      <td id=\"T_ca2ab_row18_col2\" class=\"data row18 col2\" >Start date of each month</td>\n",
+       "      <td id=\"T_ca2ab_row18_col3\" class=\"data row18 col3\" >time</td>\n",
+       "      <td id=\"T_ca2ab_row18_col4\" class=\"data row18 col4\" >datetime64[ns]</td>\n",
        "    </tr>\n",
        "  </tbody>\n",
        "</table>\n"
       ],
       "text/plain": [
-       "<pandas.io.formats.style.Styler at 0x7fbeb846da90>"
+       "<pandas.io.formats.style.Styler at 0x7f79acd51090>"
       ]
      },
      "execution_count": 7,
@@ -610,10 +935,10 @@
    "id": "76614b06",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:15.964957Z",
-     "iopub.status.busy": "2025-04-13T13:19:15.964457Z",
-     "iopub.status.idle": "2025-04-13T13:19:17.190006Z",
-     "shell.execute_reply": "2025-04-13T13:19:17.189525Z"
+     "iopub.execute_input": "2025-04-13T19:53:02.967904Z",
+     "iopub.status.busy": "2025-04-13T19:53:02.967622Z",
+     "iopub.status.idle": "2025-04-13T19:53:02.995128Z",
+     "shell.execute_reply": "2025-04-13T19:53:02.994748Z"
     }
    },
    "outputs": [
@@ -621,12 +946,172 @@
      "name": "stderr",
      "output_type": "stream",
      "text": [
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'comment' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n",
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'weblink' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n",
-      "/home/runner/work/amocarray/amocarray/amocarray/utilities.py:124: UserWarning: Attribute 'acknowledgement' already exists in dataset attrs and will not be overwritten.\n",
-      "  warnings.warn(\n"
+      "20250413T195302 INFO     setup_logger Logger initialized for array: SAMBA, writing to /home/runner/work/amocarray/amocarray/logs/SAMBA_20250413T19_read.log\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Loading dataset for array: SAMBA\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Starting to read SAMBA dataset\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/Upper_Abyssal_Transport_Anomalies.txt\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Attaching metadata to SAMBA dataset from file: Upper_Abyssal_Transport_Anomalies.txt\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/MOC_TotalAnomaly_and_constituents.asc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Attaching metadata to SAMBA dataset from file: MOC_TotalAnomaly_and_constituents.asc\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Successfully loaded 2 SAMBA dataset(s)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info Successfully loaded 2 dataset(s) for array: SAMBA\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 INFO     log_info \n",
+      "Summary for array 'SAMBA':\n",
+      "Total datasets loaded: 2\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: Upper_Abyssal_Transport_Anomalies.txt\n",
+      "  Time coverage: 2013-09-12 to 2017-07-16\n",
+      "  Dimensions:\n",
+      "    - TIME: 1404\n",
+      "  Variables:\n",
+      "    - Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv): shape (1404,)\n",
+      "    - Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv): shape (1404,)\n",
+      "\n",
+      "Dataset 2:\n",
+      "  Source file: MOC_TotalAnomaly_and_constituents.asc\n",
+      "  Time coverage: 2009-03-19 to 2017-04-29\n",
+      "  Dimensions:\n",
+      "    - TIME: 2964\n",
+      "  Variables:\n",
+      "    - Total MOC anomaly (relative to record-length average of 14.7 Sv): shape (2964,)\n",
+      "    - Relative (density gradient) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Reference (bottom pressure gradient) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Ekman (wind) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Western density contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Eastern density contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Western bottom pressure contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Eastern bottom pressure contribution to the MOC anomaly: shape (2964,)\n",
+      "\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'comment' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'weblink' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'acknowledgement' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'comment' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'weblink' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "20250413T195302 DEBUG    log_debug Attribute 'acknowledgement' already exists in dataset attrs and will not be overwritten.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Summary for array 'SAMBA':\n",
+      "Total datasets loaded: 2\n",
+      "\n",
+      "Dataset 1:\n",
+      "  Source file: Upper_Abyssal_Transport_Anomalies.txt\n",
+      "  Time coverage: 2013-09-12 to 2017-07-16\n",
+      "  Dimensions:\n",
+      "    - TIME: 1404\n",
+      "  Variables:\n",
+      "    - Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv): shape (1404,)\n",
+      "    - Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv): shape (1404,)\n",
+      "\n",
+      "Dataset 2:\n",
+      "  Source file: MOC_TotalAnomaly_and_constituents.asc\n",
+      "  Time coverage: 2009-03-19 to 2017-04-29\n",
+      "  Dimensions:\n",
+      "    - TIME: 2964\n",
+      "  Variables:\n",
+      "    - Total MOC anomaly (relative to record-length average of 14.7 Sv): shape (2964,)\n",
+      "    - Relative (density gradient) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Reference (bottom pressure gradient) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Ekman (wind) contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Western density contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Eastern density contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Western bottom pressure contribution to the MOC anomaly: shape (2964,)\n",
+      "    - Eastern bottom pressure contribution to the MOC anomaly: shape (2964,)\n",
+      "\n"
      ]
     }
    ],
@@ -643,10 +1128,10 @@
    "id": "8c356a46",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:17.191748Z",
-     "iopub.status.busy": "2025-04-13T13:19:17.191435Z",
-     "iopub.status.idle": "2025-04-13T13:19:17.360269Z",
-     "shell.execute_reply": "2025-04-13T13:19:17.359762Z"
+     "iopub.execute_input": "2025-04-13T19:53:02.996611Z",
+     "iopub.status.busy": "2025-04-13T19:53:02.996446Z",
+     "iopub.status.idle": "2025-04-13T19:53:03.162635Z",
+     "shell.execute_reply": "2025-04-13T19:53:03.162149Z"
     }
    },
    "outputs": [
@@ -725,10 +1210,10 @@
    "id": "b8fa04d3",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2025-04-13T13:19:17.361873Z",
-     "iopub.status.busy": "2025-04-13T13:19:17.361686Z",
-     "iopub.status.idle": "2025-04-13T13:19:17.987854Z",
-     "shell.execute_reply": "2025-04-13T13:19:17.987372Z"
+     "iopub.execute_input": "2025-04-13T19:53:03.164469Z",
+     "iopub.status.busy": "2025-04-13T19:53:03.164166Z",
+     "iopub.status.idle": "2025-04-13T19:53:03.783293Z",
+     "shell.execute_reply": "2025-04-13T19:53:03.782784Z"
     }
    },
    "outputs": [
@@ -771,14 +1256,6 @@
     "    samba_label=\"SAMBA 34.5°S\",\n",
     ")"
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "7a285fd5",
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {

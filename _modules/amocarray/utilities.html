@@ -87,10 +87,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for amocarray.utilities</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ftplib</span><span class="w"> </span><span class="kn">import</span> <span class="n">FTP</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ftplib</span><span class="w"> </span><span class="kn">import</span> <span class="n">FTP</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
@@ -99,10 +96,24 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NullHandler</span><span class="p">())</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_debug</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
+
+
+<div class="viewcode-block" id="get_project_root">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.get_project_root">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_project_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the absolute path to the project root directory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span></div>
+
+
+<div class="viewcode-block" id="get_default_data_dir">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.get_default_data_dir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_default_data_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span></div>
 
 
 <div class="viewcode-block" id="apply_defaults">
@@ -144,46 +155,95 @@
 
 
 
-<div class="viewcode-block" id="get_local_file">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.get_local_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_local_file</span><span class="p">(</span>
-    <span class="n">source_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="resolve_file_path">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.resolve_file_path">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_file_path</span><span class="p">(</span>
+    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">download_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">local_data_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check if the file exists locally in `data_dir`. If not, download it.</span>
+<span class="sd">    Resolve the path to a data file, using local source, cache, or downloading if necessary.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    source_url : str</span>
-<span class="sd">        Remote URL of the file.</span>
-<span class="sd">    data_dir : Path or None, optional</span>
-<span class="sd">        Local directory to save/load the data file. If None, the function returns the source URL.</span>
-<span class="sd">    redownload : bool, default=False</span>
-<span class="sd">        If True, force re-download even if the file exists locally.</span>
+<span class="sd">    file_name : str</span>
+<span class="sd">        The name of the file to resolve.</span>
+<span class="sd">    source : str or Path or None</span>
+<span class="sd">        Optional local source directory.</span>
+<span class="sd">    download_url : str or None</span>
+<span class="sd">        URL to download the file if needed.</span>
+<span class="sd">    local_data_dir : Path</span>
+<span class="sd">        Directory where downloaded files are stored.</span>
+<span class="sd">    redownload : bool, optional</span>
+<span class="sd">        If True, force redownload even if cached file exists.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Path or str</span>
-<span class="sd">        Path to the local file if `data_dir` is provided, else the original `source_url`.</span>
+<span class="sd">    Path</span>
+<span class="sd">        Path to the resolved file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># No local directory provided; return URL (download will happen elsewhere)</span>
-        <span class="k">return</span> <span class="n">source_url</span>
+    <span class="c1"># Use local source if provided</span>
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_is_valid_url</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">candidate_file</span> <span class="o">=</span> <span class="n">source_path</span> <span class="o">/</span> <span class="n">file_name</span>
+        <span class="k">if</span> <span class="n">candidate_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using local file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">candidate_file</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">candidate_file</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Local file not found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">candidate_file</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Local file not found: </span><span class="si">{</span><span class="n">candidate_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
-    <span class="n">data_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Use cached file if available and redownload is False</span>
+    <span class="n">cached_file</span> <span class="o">=</span> <span class="n">local_data_dir</span> <span class="o">/</span> <span class="n">file_name</span>
+    <span class="k">if</span> <span class="n">cached_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">redownload</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using cached file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cached_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cached_file</span>
 
-    <span class="n">local_file</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">source_url</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+    <span class="c1"># Download if URL is provided</span>
+    <span class="k">if</span> <span class="n">download_url</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Downloading file from </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">download_url</span><span class="p">,</span> <span class="n">local_data_dir</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">download_file</span><span class="p">(</span><span class="n">download_url</span><span class="p">,</span> <span class="n">local_data_dir</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="n">redownload</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to download </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">download_url</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download </span><span class="si">{</span><span class="n">download_url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">local_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">redownload</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using local file: </span><span class="si">{</span><span class="n">local_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">local_file</span>
+    <span class="c1"># If no options succeeded</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> could not be resolved from local source, cache, or remote URL.&quot;</span>
+    <span class="p">)</span></div>
 
-    <span class="c1"># Download and save to local_file</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading file from </span><span class="si">{</span><span class="n">source_url</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">download_file</span><span class="p">(</span><span class="n">source_url</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">local_file</span></div>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">safe_update_attrs</span><span class="p">(</span>
+    <span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">new_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Safely update attributes of an xarray Dataset without overwriting existing keys,</span>
+<span class="sd">    unless explicitly allowed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : xr.Dataset</span>
+<span class="sd">        The xarray Dataset whose attributes will be updated.</span>
+<span class="sd">    new_attrs : dict of str</span>
+<span class="sd">        Dictionary of new attributes to add.</span>
+<span class="sd">    overwrite : bool, optional</span>
+<span class="sd">        If True, allow overwriting existing attributes. Defaults to False.</span>
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        If True, emit a warning when skipping existing attributes. Defaults to True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        The dataset with updated attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="safe_update_attrs">
@@ -218,12 +278,13 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Attribute &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already exists in dataset attrs and will not be overwritten.&quot;</span><span class="p">,</span>
-                        <span class="ne">UserWarning</span><span class="p">,</span>
+                    <span class="n">log_debug</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Attribute &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already exists in dataset attrs and will not be overwritten.&quot;</span>
                     <span class="p">)</span>
                 <span class="k">continue</span>  <span class="c1"># Skip assignment</span>
         <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">ds</span>
 
     <span class="k">return</span> <span class="n">ds</span></div>
 
@@ -298,7 +359,7 @@
 
 <div class="viewcode-block" id="download_file">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.download_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Download a file from HTTP(S) or FTP to the specified destination folder.</span>
 
@@ -308,6 +369,8 @@
 <span class="sd">        The URL of the file to download.</span>
 <span class="sd">    dest_folder : str</span>
 <span class="sd">        Local folder to save the downloaded file.</span>
+<span class="sd">    redownload : bool, optional</span>
+<span class="sd">        If True, force re-download of the file even if it exists.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -319,10 +382,14 @@
 <span class="sd">    ValueError</span>
 <span class="sd">        If the URL scheme is unsupported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">)</span>
+    <span class="n">dest_folder_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">)</span>
+    <span class="n">dest_folder_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">local_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="n">local_filename</span> <span class="o">=</span> <span class="n">dest_folder_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">local_filename</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">redownload</span><span class="p">:</span>
+        <span class="c1"># File exists and redownload not requested</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">local_filename</span><span class="p">)</span>
+
     <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">):</span>
@@ -343,58 +410,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported URL scheme in </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">local_filename</span></div>
-
-
-
-<div class="viewcode-block" id="download_ftp_file">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.download_ftp_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">download_ftp_file</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dest_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Download a file from an FTP URL and save it to the destination folder.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    url : str</span>
-<span class="sd">        The full FTP URL to the file.</span>
-<span class="sd">    dest_folder : str, optional</span>
-<span class="sd">        Local folder to save the downloaded file. Defaults to &quot;data&quot;.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Path to the downloaded file.</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If the URL scheme is not &#39;ftp&#39;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Parse the URL</span>
-    <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">!=</span> <span class="s2">&quot;ftp&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unsupported URL scheme: </span><span class="si">{</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span><span class="si">}</span><span class="s2">. Only &#39;ftp&#39; is supported.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">ftp_host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span>
-    <span class="n">ftp_file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span>
-
-    <span class="c1"># Ensure destination folder exists</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Local filename</span>
-    <span class="n">local_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dest_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ftp_file_path</span><span class="p">))</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connecting to FTP host: </span><span class="si">{</span><span class="n">ftp_host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">FTP</span><span class="p">(</span><span class="n">ftp_host</span><span class="p">)</span> <span class="k">as</span> <span class="n">ftp</span><span class="p">:</span>
-        <span class="n">ftp</span><span class="o">.</span><span class="n">login</span><span class="p">()</span>  <span class="c1"># anonymous guest login</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">ftp_file_path</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">local_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">ftp</span><span class="o">.</span><span class="n">retrbinary</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RETR </span><span class="si">{</span><span class="n">ftp_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Download complete: </span><span class="si">{</span><span class="n">local_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">local_filename</span></div>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">local_filename</span><span class="p">)</span></div>
 
 
 
@@ -442,37 +458,6 @@
                 <span class="k">break</span>
 
     <span class="k">return</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">header_line_count</span></div>
-
-
-
-<div class="viewcode-block" id="list_files_in_https_server">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.utilities.list_files_in_https_server">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">list_files_in_https_server</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    List files in an HTTPS server directory using BeautifulSoup and requests.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    url : str</span>
-<span class="sd">        The URL to the directory containing the files.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    List[str]</span>
-<span class="sd">        A list of filenames found in the directory with &#39;.nc&#39; extension.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># Raise an error for bad status codes</span>
-
-    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
-    <span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">):</span>
-        <span class="n">href</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">href</span> <span class="ow">and</span> <span class="n">href</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.nc&quot;</span><span class="p">):</span>
-            <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">files</span></div>
 
 
 

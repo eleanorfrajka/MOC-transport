@@ -105,11 +105,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#utilities">utilities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.apply_defaults"><code class="docutils literal notranslate"><span class="pre">apply_defaults()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.download_file"><code class="docutils literal notranslate"><span class="pre">download_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.download_ftp_file"><code class="docutils literal notranslate"><span class="pre">download_ftp_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.get_local_file"><code class="docutils literal notranslate"><span class="pre">get_local_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.list_files_in_https_server"><code class="docutils literal notranslate"><span class="pre">list_files_in_https_server()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.get_default_data_dir"><code class="docutils literal notranslate"><span class="pre">get_default_data_dir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.get_project_root"><code class="docutils literal notranslate"><span class="pre">get_project_root()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.parse_ascii_header"><code class="docutils literal notranslate"><span class="pre">parse_ascii_header()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.read_ascii_file"><code class="docutils literal notranslate"><span class="pre">read_ascii_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.resolve_file_path"><code class="docutils literal notranslate"><span class="pre">resolve_file_path()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.utilities.safe_update_attrs"><code class="docutils literal notranslate"><span class="pre">safe_update_attrs()</span></code></a></li>
 </ul>
 </li>
@@ -165,6 +165,9 @@
 If None, the reader-specific default source will be used.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
 If None, the reader-specific default files will be used.</p></li>
+<li><p><strong>transport_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, restrict to transport files only.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Local directory for downloaded files.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload of the data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -181,23 +184,22 @@ If None, the reader-specific default files will be used.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.readers.load_sample_dataset">
-<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'moc_transports.nc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'../data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
-<dd><p>Load a sample dataset from the local data directory.</p>
+<span class="sig-prename descclassname"><span class="pre">amocarray.readers.</span></span><span class="sig-name descname"><span class="pre">load_sample_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rapid'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/readers.html#load_sample_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.readers.load_sample_dataset" title="Link to this definition"></a></dt>
+<dd><p>Load a sample dataset for quick testing.</p>
+<p>Currently supports:
+- ‘rapid’ : loads the ‘RAPID_26N_TRANSPORT.nc’ file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the dataset file. Default is “moc_transports.nc”.</p></li>
-<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – The local directory where the dataset is stored. Default is “../data”.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>array_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the observing array to load. Default is ‘rapid’.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The loaded dataset.</p>
+<dd class="field-even"><p>A single xarray Dataset from the sample file.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>xarray.Dataset</p>
+<dd class="field-odd"><p>xr.Dataset</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the specified dataset file does not exist in the given directory.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the array_name is not recognised.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -209,7 +211,7 @@ If None, the reader-specific default files will be used.</p></li>
 <p>Reader for RAPID-MOCHA-WBTS array data at 26°N.</p>
 <dl class="py function" id="module-amocarray.read_rapid">
 <dt class="sig sig-object py" id="amocarray.read_rapid.read_rapid">
-<span class="sig-prename descclassname"><span class="pre">amocarray.read_rapid.</span></span><span class="sig-name descname"><span class="pre">read_rapid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_rapid.html#read_rapid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_rapid.read_rapid" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_rapid.</span></span><span class="sig-name descname"><span class="pre">read_rapid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_rapid.html#read_rapid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_rapid.read_rapid" title="Link to this definition"></a></dt>
 <dd><p>Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -218,6 +220,9 @@ If None, the reader-specific default files will be used.</p></li>
 Defaults to the RAPID data repository URL.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
 If None, will attempt to list files in the source directory.</p></li>
+<li><p><strong>transport_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, restrict to transport files only.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Optional local data directory.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload of the data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -241,14 +246,17 @@ If None, will attempt to list files in the source directory.</p></li>
 <p>Reader for OSNAP (Overturning in the Subpolar North Atlantic Program) data.</p>
 <dl class="py function" id="module-amocarray.read_osnap">
 <dt class="sig sig-object py" id="amocarray.read_osnap.read_osnap">
-<span class="sig-prename descclassname"><span class="pre">amocarray.read_osnap.</span></span><span class="sig-name descname"><span class="pre">read_osnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_osnap.html#read_osnap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_osnap.read_osnap" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_osnap.</span></span><span class="sig-name descname"><span class="pre">read_osnap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_osnap.html#read_osnap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_osnap.read_osnap" title="Link to this definition"></a></dt>
 <dd><p>Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the NetCDF file(s). If None, will use predefined URLs per file.</p></li>
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – Local path to the data directory (remote source is handled per-file).</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
 Defaults to OSNAP_DEFAULT_FILES.</p></li>
+<li><p><strong>transport_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, restrict to transport files only.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Optional local data directory.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload of the data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -272,7 +280,7 @@ Defaults to OSNAP_DEFAULT_FILES.</p></li>
 <p>Reader for MOVE (Meridional Overturning Variability Experiment) data.</p>
 <dl class="py function" id="module-amocarray.read_move">
 <dt class="sig sig-object py" id="amocarray.read_move.read_move">
-<span class="sig-prename descclassname"><span class="pre">amocarray.read_move.</span></span><span class="sig-name descname"><span class="pre">read_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_move.html#read_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_move.read_move" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_move.</span></span><span class="sig-name descname"><span class="pre">read_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_move.html#read_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_move.read_move" title="Link to this definition"></a></dt>
 <dd><p>Load the MOVE transport dataset from a URL or local file path into xarray Datasets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -281,6 +289,9 @@ Defaults to OSNAP_DEFAULT_FILES.</p></li>
 Defaults to the MOVE data repository URL.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
 Defaults to MOVE_DEFAULT_FILES.</p></li>
+<li><p><strong>transport_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, restrict to transport files only.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Optional local data directory.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload of the data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -304,7 +315,7 @@ Defaults to MOVE_DEFAULT_FILES.</p></li>
 <p>Reader for SAMBA (South Atlantic MOC Basin-wide Array) data.</p>
 <dl class="py function" id="module-amocarray.read_samba">
 <dt class="sig sig-object py" id="amocarray.read_samba.read_samba">
-<span class="sig-prename descclassname"><span class="pre">amocarray.read_samba.</span></span><span class="sig-name descname"><span class="pre">read_samba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_samba.html#read_samba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_samba.read_samba" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.read_samba.</span></span><span class="sig-name descname"><span class="pre">read_samba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transport_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/read_samba.html#read_samba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.read_samba.read_samba" title="Link to this definition"></a></dt>
 <dd><p>Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -312,6 +323,9 @@ Defaults to MOVE_DEFAULT_FILES.</p></li>
 <li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the dataset directory. If None, will use predefined URLs per file.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
 Defaults to SAMBA_DEFAULT_FILES.</p></li>
+<li><p><strong>transport_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, restrict to transport files only.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em><em>, </em><em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Optional local data directory.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload of the data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -809,13 +823,14 @@ containing variables that share the same set of dimensions.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.utilities.download_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#download_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_file" title="Link to this definition"></a></dt>
 <dd><p>Download a file from HTTP(S) or FTP to the specified destination folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>url</strong> (<em>str</em>) – The URL of the file to download.</p></li>
 <li><p><strong>dest_folder</strong> (<em>str</em>) – Local folder to save the downloaded file.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force re-download of the file even if it exists.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -831,64 +846,14 @@ containing variables that share the same set of dimensions.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="amocarray.utilities.download_ftp_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">download_ftp_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#download_ftp_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.download_ftp_file" title="Link to this definition"></a></dt>
-<dd><p>Download a file from an FTP URL and save it to the destination folder.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) – The full FTP URL to the file.</p></li>
-<li><p><strong>dest_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Local folder to save the downloaded file. Defaults to “data”.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to the downloaded file.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the URL scheme is not ‘ftp’.</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="amocarray.utilities.get_default_data_dir">
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">get_default_data_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#get_default_data_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.get_default_data_dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="amocarray.utilities.get_local_file">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">get_local_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#get_local_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.get_local_file" title="Link to this definition"></a></dt>
-<dd><p>Check if the file exists locally in <cite>data_dir</cite>. If not, download it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source_url</strong> (<em>str</em>) – Remote URL of the file.</p></li>
-<li><p><strong>data_dir</strong> (<em>Path</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Local directory to save/load the data file. If None, the function returns the source URL.</p></li>
-<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, force re-download even if the file exists locally.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Path to the local file if <cite>data_dir</cite> is provided, else the original <cite>source_url</cite>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Path or str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="amocarray.utilities.list_files_in_https_server">
-<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">list_files_in_https_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#list_files_in_https_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.list_files_in_https_server" title="Link to this definition"></a></dt>
-<dd><p>List files in an HTTPS server directory using BeautifulSoup and requests.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – The URL to the directory containing the files.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of filenames found in the directory with ‘.nc’ extension.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[str]</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="amocarray.utilities.get_project_root">
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">get_project_root</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#get_project_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.get_project_root" title="Link to this definition"></a></dt>
+<dd><p>Return the absolute path to the project root directory.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -932,6 +897,29 @@ Columns are defined in lines like:
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.utilities.resolve_file_path">
+<span class="sig-prename descclassname"><span class="pre">amocarray.utilities.</span></span><span class="sig-name descname"><span class="pre">resolve_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redownload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/amocarray/utilities.html#resolve_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.utilities.resolve_file_path" title="Link to this definition"></a></dt>
+<dd><p>Resolve the path to a data file, using local source, cache, or downloading if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>str</em>) – The name of the file to resolve.</p></li>
+<li><p><strong>source</strong> (<em>str</em><em> or </em><em>Path</em><em> or </em><em>None</em>) – Optional local source directory.</p></li>
+<li><p><strong>download_url</strong> (<em>str</em><em> or </em><em>None</em>) – URL to download the file if needed.</p></li>
+<li><p><strong>local_data_dir</strong> (<em>Path</em>) – Directory where downloaded files are stored.</p></li>
+<li><p><strong>redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, force redownload even if cached file exists.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the resolved file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
 </dd>
 </dl>
 </dd></dl>

@@ -87,62 +87,98 @@
            <div itemprop="articleBody">
              
   <h1>Source code for amocarray.readers</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_move</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_move</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
 <span class="c1"># Dropbox location Public/linked_elsewhere/amocarray_data/</span>
 <span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&amp;dl=0&quot;</span>
 
-<span class="c1"># Registry of available readers</span>
-<span class="n">_READERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;move&quot;</span><span class="p">:</span> <span class="n">read_move</span><span class="p">,</span>
-    <span class="s2">&quot;rapid&quot;</span><span class="p">:</span> <span class="n">read_rapid</span><span class="p">,</span>
-    <span class="s2">&quot;osnap&quot;</span><span class="p">:</span> <span class="n">read_osnap</span><span class="p">,</span>
-    <span class="s2">&quot;samba&quot;</span><span class="p">:</span> <span class="n">read_samba</span><span class="p">,</span>
-<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the reader function for the given array name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array_name : str</span>
+<span class="sd">        The name of the observing array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    function</span>
+<span class="sd">        Reader function corresponding to the given array name.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If an unknown array name is provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">readers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;move&quot;</span><span class="p">:</span> <span class="n">read_move</span><span class="p">,</span>
+        <span class="s2">&quot;rapid&quot;</span><span class="p">:</span> <span class="n">read_rapid</span><span class="p">,</span>
+        <span class="s2">&quot;osnap&quot;</span><span class="p">:</span> <span class="n">read_osnap</span><span class="p">,</span>
+        <span class="s2">&quot;samba&quot;</span><span class="p">:</span> <span class="n">read_samba</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown array name: </span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">. Valid options are: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">readers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
 
 <div class="viewcode-block" id="load_sample_dataset">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.load_sample_dataset">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span>
-    <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;../data&quot;</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rapid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load a sample dataset from the local data directory.</span>
+<span class="sd">    Load a sample dataset for quick testing.</span>
+
+<span class="sd">    Currently supports:</span>
+<span class="sd">    - &#39;rapid&#39; : loads the &#39;RAPID_26N_TRANSPORT.nc&#39; file</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dataset_name : str, optional</span>
-<span class="sd">        The name of the dataset file. Default is &quot;moc_transports.nc&quot;.</span>
-<span class="sd">    data_dir : str, optional</span>
-<span class="sd">        The local directory where the dataset is stored. Default is &quot;../data&quot;.</span>
+<span class="sd">    array_name : str, optional</span>
+<span class="sd">        The name of the observing array to load. Default is &#39;rapid&#39;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    xarray.Dataset</span>
-<span class="sd">        The loaded dataset.</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        A single xarray Dataset from the sample file.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
-<span class="sd">    FileNotFoundError</span>
-<span class="sd">        If the specified dataset file does not exist in the given directory.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the array_name is not recognised.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2"> not found in the </span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2"> directory.&quot;</span>
+    <span class="k">if</span> <span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;rapid&quot;</span><span class="p">:</span>
+        <span class="n">sample_file</span> <span class="o">=</span> <span class="s2">&quot;moc_transports.nc&quot;</span>
+        <span class="n">datasets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span>
+            <span class="n">array_name</span><span class="o">=</span><span class="n">array_name</span><span class="p">,</span>
+            <span class="n">file_list</span><span class="o">=</span><span class="n">sample_file</span><span class="p">,</span>
+            <span class="n">transport_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">datasets</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No datasets were loaded for sample file: </span><span class="si">{</span><span class="n">sample_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Sample dataset for array &#39;</span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&#39; is not defined. &quot;</span>
+        <span class="s2">&quot;Currently only &#39;rapid&#39; is supported.&quot;</span>
+    <span class="p">)</span></div>
 
 
 
@@ -173,6 +209,12 @@
 <span class="sd">    file_list : str or list of str, optional</span>
 <span class="sd">        Filename or list of filenames to process.</span>
 <span class="sd">        If None, the reader-specific default files will be used.</span>
+<span class="sd">    transport_only : bool, optional</span>
+<span class="sd">        If True, restrict to transport files only.</span>
+<span class="sd">    data_dir : str, optional</span>
+<span class="sd">        Local directory for downloaded files.</span>
+<span class="sd">    redownload : bool, optional</span>
+<span class="sd">        If True, force redownload of the data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -184,42 +226,71 @@
 <span class="sd">    ValueError</span>
 <span class="sd">        If an unknown array name is provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">LOGGING_ENABLED</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">setup_logger</span><span class="p">(</span><span class="n">array_name</span><span class="o">=</span><span class="n">array_name</span><span class="p">)</span>
+
+    <span class="c1"># Use logger globally</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
+    <span class="n">log_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading dataset for array: </span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
     <span class="n">reader</span> <span class="o">=</span> <span class="n">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">reader</span><span class="p">(</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="n">reader</span><span class="p">(</span>
         <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
         <span class="n">file_list</span><span class="o">=</span><span class="n">file_list</span><span class="p">,</span>
         <span class="n">transport_only</span><span class="o">=</span><span class="n">transport_only</span><span class="p">,</span>
         <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span>
         <span class="n">redownload</span><span class="o">=</span><span class="n">redownload</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
+
+    <span class="n">log_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Successfully loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="si">}</span><span class="s2"> dataset(s) for array: </span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">_summarise_datasets</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">array_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">datasets</span></div>
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieve the reader function for a given observing array.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_summarise_datasets</span><span class="p">(</span><span class="n">datasets</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print and log a summary of loaded datasets.&quot;&quot;&quot;</span>
+    <span class="n">summary_lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Summary for array &#39;</span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&#39;:&quot;</span><span class="p">)</span>
+    <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total datasets loaded: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    array_name : str</span>
-<span class="sd">        Name of the observing array.</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    callable</span>
-<span class="sd">        The reader function corresponding to the requested array.</span>
+        <span class="c1"># Filename from metadata</span>
+        <span class="n">source_file</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source_file&quot;</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Source file: </span><span class="si">{</span><span class="n">source_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If no reader is registered for the given array name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_READERS</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;No reader found for &#39;</span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&#39;. Available options: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">_READERS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
+        <span class="c1"># Time coverage</span>
+        <span class="n">time_var</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">time_end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time_var</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Time coverage: </span><span class="si">{</span><span class="n">time_start</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">time_end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Time coverage: TIME variable not found&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Dimensions</span>
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Dimensions:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Variables</span>
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Variables:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">summary_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># empty line between datasets</span>
+
+    <span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">summary_lines</span><span class="p">)</span>
+
+    <span class="c1"># Print to console</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+
+    <span class="c1"># Write to log</span>
+    <span class="n">log_info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">summary</span><span class="p">)</span>
 </pre></div>
 
            </div>
