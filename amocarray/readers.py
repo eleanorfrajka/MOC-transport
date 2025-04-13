@@ -1,57 +1,97 @@
-import os
+import xarray as xr
 from pathlib import Path
+
 from typing import Union
 
-import xarray as xr
-
+from amocarray import logger
 from amocarray.read_move import read_move
-from amocarray.read_osnap import read_osnap
 from amocarray.read_rapid import read_rapid
+from amocarray.read_osnap import read_osnap
 from amocarray.read_samba import read_samba
+
+log = logger.log
 
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
 
-# Registry of available readers
-_READERS = {
-    "move": read_move,
-    "rapid": read_rapid,
-    "osnap": read_osnap,
-    "samba": read_samba,
-}
 
-
-def load_sample_dataset(
-    dataset_name: str = "moc_transports.nc", data_dir: str = "../data"
-) -> xr.Dataset:
+def _get_reader(array_name: str):
     """
-    Load a sample dataset from the local data directory.
+    Return the reader function for the given array name.
 
     Parameters
     ----------
-    dataset_name : str, optional
-        The name of the dataset file. Default is "moc_transports.nc".
-    data_dir : str, optional
-        The local directory where the dataset is stored. Default is "../data".
+    array_name : str
+        The name of the observing array.
 
     Returns
     -------
-    xarray.Dataset
-        The loaded dataset.
+    function
+        Reader function corresponding to the given array name.
 
     Raises
     ------
-    FileNotFoundError
-        If the specified dataset file does not exist in the given directory.
+    ValueError
+        If an unknown array name is provided.
     """
-    file_path = os.path.join(data_dir, dataset_name)
-
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(
-            f"{dataset_name} not found in the {data_dir} directory."
+    readers = {
+        "move": read_move,
+        "rapid": read_rapid,
+        "osnap": read_osnap,
+        "samba": read_samba,
+    }
+    try:
+        return readers[array_name.lower()]
+    except KeyError:
+        raise ValueError(
+            f"Unknown array name: {array_name}. Valid options are: {list(readers.keys())}"
         )
 
-    return xr.open_dataset(file_path)
+
+def load_sample_dataset(
+    array_name: str = "rapid", enable_logging: bool = False
+) -> xr.Dataset:
+    """
+    Load a sample dataset for quick testing.
+
+    Currently supports:
+    - 'rapid' : loads the 'RAPID_26N_TRANSPORT.nc' file
+
+    Parameters
+    ----------
+    array_name : str, optional
+        The name of the observing array to load. Default is 'rapid'.
+    enable_logging : bool, optional
+        If True, setup and write logs. If False, suppress logging. Default is False.
+
+    Returns
+    -------
+    xr.Dataset
+        A single xarray Dataset from the sample file.
+
+    Raises
+    ------
+    ValueError
+        If the array_name is not recognised.
+    """
+    if array_name.lower() == "rapid":
+        sample_file = "moc_transports.nc"
+        datasets = load_dataset(
+            array_name=array_name,
+            file_list=sample_file,
+            transport_only=True,
+            enable_logging=enable_logging,
+        )
+        if not datasets:
+            raise FileNotFoundError(
+                f"No datasets were loaded for sample file: {sample_file}"
+            )
+        return datasets[0]
+
+    raise ValueError(
+        f"Sample dataset for array '{array_name}' is not defined. "
+        "Currently only 'rapid' is supported."
+    )
 
 
 def load_dataset(
@@ -61,6 +101,7 @@ def load_dataset(
     transport_only: bool = True,
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
+    enable_logging: bool = True,
 ) -> list[xr.Dataset]:
     """
     Load raw datasets from a selected AMOC observing array.
@@ -79,6 +120,12 @@ def load_dataset(
     file_list : str or list of str, optional
         Filename or list of filenames to process.
         If None, the reader-specific default files will be used.
+    transport_only : bool, optional
+        If True, restrict to transport files only.
+    data_dir : str, optional
+        Local directory for downloaded files.
+    redownload : bool, optional
+        If True, force redownload of the data.
 
     Returns
     -------
@@ -90,8 +137,16 @@ def load_dataset(
     ValueError
         If an unknown array name is provided.
     """
+    # Set up logger for this run
+    if enable_logging:
+        logger.setup_logger(array_name=array_name, output_dir="logs")
+
+    # Use logger globally
+    log = logger.log
+    log.info(f"Loading dataset for array: {array_name}")
+
     reader = _get_reader(array_name)
-    return reader(
+    datasets = reader(
         source=source,
         file_list=file_list,
         transport_only=transport_only,
@@ -99,29 +154,6 @@ def load_dataset(
         redownload=redownload,
     )
 
+    log.info(f"Successfully loaded {len(datasets)} dataset(s) for array: {array_name}")
 
-def _get_reader(array_name: str) -> callable:
-    """
-    Retrieve the reader function for a given observing array.
-
-    Parameters
-    ----------
-    array_name : str
-        Name of the observing array.
-
-    Returns
-    -------
-    callable
-        The reader function corresponding to the requested array.
-
-    Raises
-    ------
-    ValueError
-        If no reader is registered for the given array name.
-    """
-    try:
-        return _READERS[array_name.lower()]
-    except KeyError:
-        raise ValueError(
-            f"No reader found for '{array_name}'. Available options: {list(_READERS.keys())}"
-        )
+    return datasets

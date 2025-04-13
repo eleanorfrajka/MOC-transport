@@ -1,9 +1,13 @@
-import os
+from pathlib import Path
+from typing import Union
 
 import pandas as pd
 import xarray as xr
 
-from amocarray import utilities
+from amocarray import utilities, logger
+from amocarray.utilities import apply_defaults
+
+log = logger.log  # Use the global logger
 
 # Default file list
 SAMBA_DEFAULT_FILES = [
@@ -43,12 +47,13 @@ SAMBA_FILE_METADATA = {
 }
 
 
+@apply_defaults(None, SAMBA_DEFAULT_FILES)
 def read_samba(
-    source: str = None,
-    file_list: str | list[str] = None,
+    source: Union[str, Path, None],
+    file_list: Union[str, list[str]],
     transport_only: bool = True,
-    data_dir=None,
-    redownload=False,
+    data_dir: Union[str, Path, None] = None,
+    redownload: bool = False,
 ) -> list[xr.Dataset]:
     """
     Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.
@@ -60,6 +65,12 @@ def read_samba(
     file_list : str or list of str, optional
         Filename or list of filenames to process.
         Defaults to SAMBA_DEFAULT_FILES.
+    transport_only : bool, optional
+        If True, restrict to transport files only.
+    data_dir : str, Path or None, optional
+        Optional local data directory.
+    redownload : bool, optional
+        If True, force redownload of the data.
 
     Returns
     -------
@@ -73,7 +84,8 @@ def read_samba(
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
     """
-    source = utilities.get_local_file(source, data_dir, redownload)
+    log.info("Starting to read SAMBA dataset")
+
     # Ensure file_list has a default
     if file_list is None:
         file_list = SAMBA_DEFAULT_FILES
@@ -82,31 +94,28 @@ def read_samba(
     if isinstance(file_list, str):
         file_list = [file_list]
 
+    local_data_dir = Path(data_dir) if data_dir else Path.home() / ".amocarray_data"
+    local_data_dir.mkdir(parents=True, exist_ok=True)
+
     datasets = []
 
     for file in file_list:
         if not (file.lower().endswith(".txt") or file.lower().endswith(".asc")):
+            log.warning("Skipping unsupported file type: %s", file)
             continue
 
-        # Determine source: use passed source or file-specific URL
-        file_source = source or SAMBA_FILE_URLS.get(file)
-        if not file_source:
-            raise ValueError(
-                f"No source provided for '{file}' and no default URL mapping found."
-            )
+        download_url = SAMBA_FILE_URLS.get(file)
+        if not download_url:
+            log.error("No download URL defined for SAMBA file: %s", file)
+            raise FileNotFoundError(f"No download URL defined for SAMBA file {file}")
 
-        # Prepare file path
-        if utilities._is_valid_url(file_source):
-            file_url = f"{file_source.rstrip('/')}/{file}"
-            dest_folder = os.path.join(os.path.expanduser("~"), ".amocarray_data")
-            try:
-                file_path = utilities.download_file(file_url, dest_folder)
-            except Exception as e:
-                raise FileNotFoundError(f"Failed to download {file_url}: {e}")
-        else:
-            file_path = os.path.join(file_source, file)
-            if not os.path.exists(file_path):
-                raise FileNotFoundError(f"Local file not found: {file_path}")
+        file_path = utilities.resolve_file_path(
+            file_name=file,
+            source=source,
+            download_url=download_url,
+            local_data_dir=local_data_dir,
+            redownload=redownload,
+        )
 
         # Parse ASCII file
         try:
@@ -114,26 +123,42 @@ def read_samba(
             df = utilities.read_ascii_file(file_path, comment_char="%")
             df.columns = column_names
         except Exception as e:
+            log.error("Failed to parse ASCII file: %s: %s", file_path, e)
             raise FileNotFoundError(f"Failed to parse ASCII file: {file_path}: {e}")
 
         # Time handling
-        if "Upper_Abyssal" in file:
-            df["TIME"] = pd.to_datetime(df[["Year", "Month", "Day", "Hour", "Minute"]])
-            df = df.drop(columns=["Year", "Month", "Day", "Hour", "Minute"])
-        else:
-            df["TIME"] = pd.to_datetime(df[["Year", "Month", "Day", "Hour"]])
-            df = df.drop(columns=["Year", "Month", "Day", "Hour"])
+        try:
+            if "Upper_Abyssal" in file:
+                df["TIME"] = pd.to_datetime(
+                    df[["Year", "Month", "Day", "Hour", "Minute"]]
+                )
+                df = df.drop(columns=["Year", "Month", "Day", "Hour", "Minute"])
+            else:
+                df["TIME"] = pd.to_datetime(df[["Year", "Month", "Day", "Hour"]])
+                df = df.drop(columns=["Year", "Month", "Day", "Hour"])
+        except Exception as e:
+            log.error("Failed to construct TIME column for %s: %s", file, e)
+            raise ValueError(f"Failed to construct TIME column for {file}: {e}")
 
-        # Convert to xarray
-        ds = df.set_index("TIME").to_xarray()
+        # Convert DataFrame to xarray Dataset
+        try:
+            ds = df.set_index("TIME").to_xarray()
+        except Exception as e:
+            log.error(
+                "Failed to convert DataFrame to xarray Dataset for %s: %s", file, e
+            )
+            raise ValueError(
+                f"Failed to convert DataFrame to xarray Dataset for {file}: {e}"
+            )
 
         # Attach metadata
         file_metadata = SAMBA_FILE_METADATA.get(file, {})
+        log.info("Attaching metadata to SAMBA dataset from file: %s", file)
         utilities.safe_update_attrs(
             ds,
             {
                 "source_file": file,
-                "source_path": file_source,
+                "source_path": str(file_path),
                 **SAMBA_METADATA,
                 **file_metadata,
             },
@@ -142,6 +167,8 @@ def read_samba(
         datasets.append(ds)
 
     if not datasets:
+        log.error("No valid SAMBA files found in %s", file_list)
         raise FileNotFoundError(f"No valid data files found in {file_list}")
 
+    log.info("Successfully loaded %d SAMBA dataset(s)", len(datasets))
     return datasets

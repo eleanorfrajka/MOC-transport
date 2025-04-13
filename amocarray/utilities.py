@@ -1,4 +1,3 @@
-import logging
 import os
 import warnings
 from ftplib import FTP
@@ -12,8 +11,14 @@ import requests
 import xarray as xr
 from bs4 import BeautifulSoup
 
-logger = logging.getLogger(__name__)
-logger.addHandler(logging.NullHandler())
+from amocarray import logger
+
+log = logger.log
+
+
+def get_project_root() -> Path:
+    """Return the absolute path to the project root directory."""
+    return Path(__file__).resolve().parent.parent
 
 
 def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
@@ -50,6 +55,66 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
         return wrapper
 
     return decorator
+
+
+def resolve_file_path(
+    file_name: str,
+    source: Union[str, Path, None],
+    download_url: Optional[str],
+    local_data_dir: Path,
+    redownload: bool = False,
+) -> Path:
+    """
+    Resolve the path to a data file, using local source, cache, or downloading if necessary.
+
+    Parameters
+    ----------
+    file_name : str
+        The name of the file to resolve.
+    source : str or Path or None
+        Optional local source directory.
+    download_url : str or None
+        URL to download the file if needed.
+    local_data_dir : Path
+        Directory where downloaded files are stored.
+    redownload : bool, optional
+        If True, force redownload even if cached file exists.
+
+    Returns
+    -------
+    Path
+        Path to the resolved file.
+    """
+    # Use local source if provided
+    if source and not _is_valid_url(source):
+        source_path = Path(source)
+        candidate_file = source_path / file_name
+        if candidate_file.exists():
+            log.info("Using local file: %s", candidate_file)
+            return candidate_file
+        else:
+            log.error("Local file not found: %s", candidate_file)
+            raise FileNotFoundError(f"Local file not found: {candidate_file}")
+
+    # Use cached file if available and redownload is False
+    cached_file = local_data_dir / file_name
+    if cached_file.exists() and not redownload:
+        log.info("Using cached file: %s", cached_file)
+        return cached_file
+
+    # Download if URL is provided
+    if download_url:
+        try:
+            log.info("Downloading file from %s to %s", download_url, local_data_dir)
+            return download_file(download_url, local_data_dir, redownload=redownload)
+        except Exception as e:
+            log.error("Failed to download %s: %s", download_url, e)
+            raise FileNotFoundError(f"Failed to download {download_url}: {e}")
+
+    # If no options succeeded
+    raise FileNotFoundError(
+        f"File {file_name} could not be resolved from local source, cache, or remote URL."
+    )
 
 
 def get_local_file(
@@ -198,7 +263,7 @@ def _is_valid_file(path: str) -> bool:
     return Path(path).is_file() and path.endswith(".nc")
 
 
-def download_file(url: str, dest_folder: str) -> str:
+def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
     """
     Download a file from HTTP(S) or FTP to the specified destination folder.
 
@@ -208,6 +273,8 @@ def download_file(url: str, dest_folder: str) -> str:
         The URL of the file to download.
     dest_folder : str
         Local folder to save the downloaded file.
+    redownload : bool, optional
+        If True, force re-download of the file even if it exists.
 
     Returns
     -------
@@ -219,10 +286,14 @@ def download_file(url: str, dest_folder: str) -> str:
     ValueError
         If the URL scheme is unsupported.
     """
-    if not os.path.exists(dest_folder):
-        os.makedirs(dest_folder)
+    dest_folder_path = Path(dest_folder)
+    dest_folder_path.mkdir(parents=True, exist_ok=True)
 
-    local_filename = os.path.join(dest_folder, os.path.basename(url))
+    local_filename = dest_folder_path / Path(url).name
+    if local_filename.exists() and not redownload:
+        # File exists and redownload not requested
+        return str(local_filename)
+
     parsed_url = urlparse(url)
 
     if parsed_url.scheme in ("http", "https"):
@@ -243,7 +314,7 @@ def download_file(url: str, dest_folder: str) -> str:
     else:
         raise ValueError(f"Unsupported URL scheme in {url}")
 
-    return local_filename
+    return str(local_filename)
 
 
 def download_ftp_file(url: str, dest_folder: str = "data") -> str:
