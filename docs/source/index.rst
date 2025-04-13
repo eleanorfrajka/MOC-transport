@@ -17,9 +17,16 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :caption: Getting started
 
    installation.md
+   
+.. toctree::
+   :maxdepth: 3
+   :caption: Contributors' guide
+   
    gitcollab.md
    actions.md
-
+   conventions.md
+   housekeeping.md
+   
 .. toctree::
    :maxdepth: 3
    :caption: Users guide
@@ -33,7 +40,6 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
    GitHub Repo <http://github.com/AMOCcommunity/amocarray>
    amocarray
-   faq
 
 Indices and tables
 ==================

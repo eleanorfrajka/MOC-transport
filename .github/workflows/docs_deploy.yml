@@ -32,6 +32,11 @@ jobs:
           --file requirements-dev.txt
           --channel conda-forge
 
+    - name: Install pip-only tools
+      shell: bash -l {0}
+      run: |
+        pip install black[jupyter] ruff pre-commit
+
     - name: Install template_project
       shell: bash -l {0}
       run: |

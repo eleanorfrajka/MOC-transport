@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+from typing import Union
 
 import xarray as xr
 
@@ -19,16 +21,28 @@ _READERS = {
 }
 
 
-def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
+def load_sample_dataset(
+    dataset_name: str = "moc_transports.nc", data_dir: str = "../data"
+) -> xr.Dataset:
     """
     Load a sample dataset from the local data directory.
 
-    Parameters:
-    dataset_name (str): The name of the dataset file.
-    data_dir (str): The local directory where the dataset is stored.
+    Parameters
+    ----------
+    dataset_name : str, optional
+        The name of the dataset file. Default is "moc_transports.nc".
+    data_dir : str, optional
+        The local directory where the dataset is stored. Default is "../data".
 
-    Returns:
-    xarray.Dataset: The loaded dataset.
+    Returns
+    -------
+    xarray.Dataset
+        The loaded dataset.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the specified dataset file does not exist in the given directory.
     """
     file_path = os.path.join(data_dir, dataset_name)
 
@@ -43,10 +57,10 @@ def load_sample_dataset(dataset_name="moc_transports.nc", data_dir="../data"):
 def load_dataset(
     array_name: str,
     source: str = None,
-    file_list: str | list[str] = None,
+    file_list: Union[str | list[str]] = None,
     transport_only: bool = True,
-    data_dir=None,
-    redownload=False,
+    data_dir: Union[str, Path, None] = None,
+    redownload: bool = False,
 ) -> list[xr.Dataset]:
     """
     Load raw datasets from a selected AMOC observing array.
@@ -86,9 +100,9 @@ def load_dataset(
     )
 
 
-def _get_reader(array_name: str):
+def _get_reader(array_name: str) -> callable:
     """
-    Internal helper to retrieve the reader function for a given array.
+    Retrieve the reader function for a given observing array.
 
     Parameters
     ----------
@@ -97,7 +111,7 @@ def _get_reader(array_name: str):
 
     Returns
     -------
-    function
+    callable
         The reader function corresponding to the requested array.
 
     Raises

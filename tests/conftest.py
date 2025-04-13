@@ -18,8 +18,10 @@ def mock_download_file(monkeypatch):
     Instead of downloading, it writes dummy data to the destination.
     """
 
-    def fake_download_file(source_url, destination):
-        destination = Path(destination)
+    def fake_download_file(source_url, dest_folder):
+        destination = Path(dest_folder) / Path(source_url).name
+        assert destination.parent.exists(), "Destination folder does not exist in mock."
         destination.write_text("fake data")
+        return str(destination)
 
     monkeypatch.setattr("amocarray.utilities.download_file", fake_download_file)

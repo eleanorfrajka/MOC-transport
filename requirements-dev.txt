@@ -1,24 +1,37 @@
-netcdf4
-importlib_resources
-pooch
-xarray
-numpy
-pandas
-scipy
-tqdm
-gsw
-matplotlib
-cartopy
-cmocean
-jupyterlab
-pytest
-pytest-cov
-nbsphinx
-nbconvert
-sphinx
-sphinx-rtd-theme
-pypandoc
-myst-nb
-black[jupyter]
-pre-commit
-ruff
+# Core scientific stack
+numpy>=1.23
+pandas>=2.0
+xarray>=2023.12.0
+scipy>=1.10
+netcdf4>=1.6
+
+# Oceanographic tools
+#gsw>=3.6.16
+#cmocean>=2.0  # optional, confirm usage
+#cartopy>=0.22  # optional, confirm usage
+
+# Progress bar (optional)
+#tqdm>=4.66  # optional, confirm usage
+
+# Plotting
+matplotlib>=3.7
+
+# Jupyter and notebooks
+jupyterlab>=4.0
+nbconvert>=7.8
+myst-nb>=1.0
+nbsphinx>=0.9  # optional, confirm usage
+
+# Documentation
+sphinx>=7.2
+sphinx-rtd-theme>=2.0
+pypandoc>=1.11  # optional, confirm usage
+
+# Testing
+pytest>=8.0
+pytest-cov>=4.1  # optional, if you use coverage
+
+# Code quality
+black>=24.0
+ruff>=0.3
+pre-commit>=3.5
