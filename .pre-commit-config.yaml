@@ -28,3 +28,21 @@ repos:
         files: \.(yaml|yml)$
         exclude: ^data/
       - id: check-added-large-files
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: system
+        types: [python]
+        files: ^(tests/.*\\.py$|amocarray/.*\\.py$|notebooks/.*\\.ipynb$)
+        exclude: ^data/
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        language_version: python3
+        additional_dependencies: []
+        exclude: ^data/
