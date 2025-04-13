@@ -25,7 +25,8 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    gitcollab.md
    actions.md
    conventions.md
-
+   housekeeping.md
+   
 .. toctree::
    :maxdepth: 3
    :caption: Users guide

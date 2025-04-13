@@ -1,11 +1,8 @@
-netcdf4
-pooch
-xarray
-numpy
-pandas
-scipy
-tqdm
-gsw
-matplotlib
-cartopy
-cmocean
+numpy>=1.23
+pandas>=2.0
+xarray>=2023.12.0
+netcdf4>=1.6
+scipy>=1.10
+
+# Plotting
+matplotlib>=3.7

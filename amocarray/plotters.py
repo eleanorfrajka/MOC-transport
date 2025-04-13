@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import xarray as xr
 from pandas import DataFrame
+from pandas.io.formats.style import Styler
 
 
 # ------------------------------------------------------------------------------------
@@ -9,7 +10,7 @@ from pandas import DataFrame
 # ------------------------------------------------------------------------------------
 def show_contents(
     data: str | xr.Dataset, content_type: str = "variables"
-) -> pd.io.formats.style.Styler | pd.DataFrame:
+) -> Styler | pd.DataFrame:
     """
     Wrapper function to show contents of an xarray Dataset or a netCDF file.
 
@@ -51,7 +52,7 @@ def show_contents(
         )
 
 
-def show_variables(data: str | xr.Dataset) -> pd.io.formats.style.Styler:
+def show_variables(data: str | xr.Dataset) -> Styler:
     """
     Processes an xarray Dataset or a netCDF file, extracts variable information,
     and returns a styled DataFrame with details about the variables.
@@ -178,7 +179,7 @@ def show_attributes(data: str | xr.Dataset) -> pd.DataFrame:
 
 def show_variables_by_dimension(
     data: str | xr.Dataset, dimension_name: str = "trajectory"
-) -> pd.io.formats.style.Styler:
+) -> Styler:
     """
     Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame
     with details about the variables filtered by a specific dimension.
