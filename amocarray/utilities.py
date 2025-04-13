@@ -1,5 +1,3 @@
-import os
-import warnings
 from ftplib import FTP
 from functools import wraps
 from pathlib import Path
@@ -9,9 +7,9 @@ from typing import Callable, Dict, List, Optional, Tuple, Union
 import pandas as pd
 import requests
 import xarray as xr
-from bs4 import BeautifulSoup
 
 from amocarray import logger
+from amocarray.logger import log_debug
 
 log = logger.log
 
@@ -117,43 +115,32 @@ def resolve_file_path(
     )
 
 
-def get_local_file(
-    source_url: str, data_dir: Optional[Path] = None, redownload: bool = False
-) -> Union[Path, str]:
+def safe_update_attrs(
+    ds: xr.Dataset,
+    new_attrs: Dict[str, str],
+    overwrite: bool = False,
+    verbose: bool = True,
+) -> xr.Dataset:
     """
-    Check if the file exists locally in `data_dir`. If not, download it.
+    Safely update attributes of an xarray Dataset without overwriting existing keys,
+    unless explicitly allowed.
 
     Parameters
     ----------
-    source_url : str
-        Remote URL of the file.
-    data_dir : Path or None, optional
-        Local directory to save/load the data file. If None, the function returns the source URL.
-    redownload : bool, default=False
-        If True, force re-download even if the file exists locally.
+    ds : xr.Dataset
+        The xarray Dataset whose attributes will be updated.
+    new_attrs : dict of str
+        Dictionary of new attributes to add.
+    overwrite : bool, optional
+        If True, allow overwriting existing attributes. Defaults to False.
+    verbose : bool, optional
+        If True, emit a warning when skipping existing attributes. Defaults to True.
 
     Returns
     -------
-    Path or str
-        Path to the local file if `data_dir` is provided, else the original `source_url`.
+    xr.Dataset
+        The dataset with updated attributes.
     """
-    if data_dir is None:
-        # No local directory provided; return URL (download will happen elsewhere)
-        return source_url
-
-    data_dir = Path(data_dir)
-    data_dir.mkdir(parents=True, exist_ok=True)
-
-    local_file = data_dir / Path(source_url).name
-
-    if local_file.exists() and not redownload:
-        logger.info(f"Using local file: {local_file}")
-        return local_file
-
-    # Download and save to local_file
-    logger.info(f"Downloading file from {source_url} to {local_file}")
-    download_file(source_url, str(data_dir))
-    return local_file
 
 
 def safe_update_attrs(
@@ -186,12 +173,13 @@ def safe_update_attrs(
         if key in ds.attrs:
             if not overwrite:
                 if verbose:
-                    warnings.warn(
-                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten.",
-                        UserWarning,
+                    log_debug(
+                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten."
                     )
                 continue  # Skip assignment
         ds.attrs[key] = value
+
+    return ds
 
     return ds
 
@@ -317,54 +305,6 @@ def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
     return str(local_filename)
 
 
-def download_ftp_file(url: str, dest_folder: str = "data") -> str:
-    """
-    Download a file from an FTP URL and save it to the destination folder.
-
-    Parameters
-    ----------
-    url : str
-        The full FTP URL to the file.
-    dest_folder : str, optional
-        Local folder to save the downloaded file. Defaults to "data".
-
-    Returns
-    -------
-    str
-        Path to the downloaded file.
-
-    Raises
-    ------
-    ValueError
-        If the URL scheme is not 'ftp'.
-    """
-    # Parse the URL
-    parsed_url = urlparse(url)
-    if parsed_url.scheme != "ftp":
-        raise ValueError(
-            f"Unsupported URL scheme: {parsed_url.scheme}. Only 'ftp' is supported."
-        )
-
-    ftp_host: str = parsed_url.netloc
-    ftp_file_path: str = parsed_url.path
-
-    # Ensure destination folder exists
-    os.makedirs(dest_folder, exist_ok=True)
-
-    # Local filename
-    local_filename: str = os.path.join(dest_folder, os.path.basename(ftp_file_path))
-
-    logger.info(f"Connecting to FTP host: {ftp_host}")
-    with FTP(ftp_host) as ftp:
-        ftp.login()  # anonymous guest login
-        logger.info(f"Downloading {ftp_file_path} to {local_filename}")
-        with open(local_filename, "wb") as f:
-            ftp.retrbinary(f"RETR {ftp_file_path}", f.write)
-
-    logger.info(f"Download complete: {local_filename}")
-    return local_filename
-
-
 def parse_ascii_header(
     file_path: str, comment_char: str = "%"
 ) -> Tuple[List[str], int]:
@@ -407,34 +347,6 @@ def parse_ascii_header(
                 break
 
     return column_names, header_line_count
-
-
-def list_files_in_https_server(url: str) -> List[str]:
-    """
-    List files in an HTTPS server directory using BeautifulSoup and requests.
-
-    Parameters
-    ----------
-    url : str
-        The URL to the directory containing the files.
-
-    Returns
-    -------
-    List[str]
-        A list of filenames found in the directory with '.nc' extension.
-    """
-    response = requests.get(url)
-    response.raise_for_status()  # Raise an error for bad status codes
-
-    soup = BeautifulSoup(response.text, "html.parser")
-    files: List[str] = []
-
-    for link in soup.find_all("a"):
-        href = link.get("href")
-        if href and href.endswith(".nc"):
-            files.append(href)
-
-    return files
 
 
 def read_ascii_file(file_path: str, comment_char: str = "#") -> pd.DataFrame:

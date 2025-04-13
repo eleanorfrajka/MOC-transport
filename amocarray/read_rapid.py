@@ -6,6 +6,7 @@ import xarray as xr
 # Import the modules used
 from amocarray import utilities, logger
 from amocarray.utilities import apply_defaults
+from amocarray.logger import log_info, log_error, log_warning
 
 log = logger.log  # Use the global logger
 
@@ -77,7 +78,7 @@ def read_rapid(
     FileNotFoundError
         If no valid NetCDF files are found in the provided file list.
     """
-    log.info("Starting to read RAPID dataset")
+    log_info("Starting to read RAPID dataset")
 
     if file_list is None:
         file_list = RAPID_DEFAULT_FILES
@@ -93,7 +94,7 @@ def read_rapid(
 
     for file in file_list:
         if not file.lower().endswith(".nc"):
-            log.warning("Skipping non-NetCDF file: %s", file)
+            log_warning("Skipping non-NetCDF file: %s", file)
             continue
 
         download_url = (
@@ -109,14 +110,14 @@ def read_rapid(
         )
 
         try:
-            log.info("Opening RAPID dataset: %s", file_path)
+            log_info("Opening RAPID dataset: %s", file_path)
             ds = xr.open_dataset(file_path)
         except Exception as e:
-            log.error("Failed to open NetCDF file: %s: %s", file_path, e)
+            log_error("Failed to open NetCDF file: %s: %s", file_path, e)
             raise FileNotFoundError(f"Failed to open NetCDF file: {file_path}: {e}")
 
         file_metadata = RAPID_FILE_METADATA.get(file, {})
-        log.info("Attaching metadata to RAPID dataset from file: %s", file)
+        log_info("Attaching metadata to RAPID dataset from file: %s", file)
         utilities.safe_update_attrs(
             ds,
             {
@@ -130,9 +131,9 @@ def read_rapid(
         datasets.append(ds)
 
     if not datasets:
-        log.error("No valid RAPID NetCDF files found in %s", file_list)
+        log_error("No valid RAPID NetCDF files found in %s", file_list)
         raise FileNotFoundError(f"No valid RAPID NetCDF files found in {file_list}")
 
-    log.info("Successfully loaded %d RAPID dataset(s)", len(datasets))
+    log_info("Successfully loaded %d RAPID dataset(s)", len(datasets))
 
     return datasets

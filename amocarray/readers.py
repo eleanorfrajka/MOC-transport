@@ -1,6 +1,6 @@
 import xarray as xr
 from pathlib import Path
-
+import pandas as pd
 from typing import Union
 
 from amocarray import logger
@@ -8,6 +8,7 @@ from amocarray.read_move import read_move
 from amocarray.read_rapid import read_rapid
 from amocarray.read_osnap import read_osnap
 from amocarray.read_samba import read_samba
+from amocarray.logger import log_info
 
 log = logger.log
 
@@ -48,9 +49,7 @@ def _get_reader(array_name: str):
         )
 
 
-def load_sample_dataset(
-    array_name: str = "rapid", enable_logging: bool = False
-) -> xr.Dataset:
+def load_sample_dataset(array_name: str = "rapid") -> xr.Dataset:
     """
     Load a sample dataset for quick testing.
 
@@ -61,8 +60,6 @@ def load_sample_dataset(
     ----------
     array_name : str, optional
         The name of the observing array to load. Default is 'rapid'.
-    enable_logging : bool, optional
-        If True, setup and write logs. If False, suppress logging. Default is False.
 
     Returns
     -------
@@ -80,7 +77,6 @@ def load_sample_dataset(
             array_name=array_name,
             file_list=sample_file,
             transport_only=True,
-            enable_logging=enable_logging,
         )
         if not datasets:
             raise FileNotFoundError(
@@ -101,7 +97,6 @@ def load_dataset(
     transport_only: bool = True,
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
-    enable_logging: bool = True,
 ) -> list[xr.Dataset]:
     """
     Load raw datasets from a selected AMOC observing array.
@@ -137,13 +132,12 @@ def load_dataset(
     ValueError
         If an unknown array name is provided.
     """
-    # Set up logger for this run
-    if enable_logging:
-        logger.setup_logger(array_name=array_name, output_dir="logs")
+    if logger.LOGGING_ENABLED:
+        logger.setup_logger(array_name=array_name)
 
     # Use logger globally
     log = logger.log
-    log.info(f"Loading dataset for array: {array_name}")
+    log_info(f"Loading dataset for array: {array_name}")
 
     reader = _get_reader(array_name)
     datasets = reader(
@@ -154,6 +148,51 @@ def load_dataset(
         redownload=redownload,
     )
 
-    log.info(f"Successfully loaded {len(datasets)} dataset(s) for array: {array_name}")
+    log_info(f"Successfully loaded {len(datasets)} dataset(s) for array: {array_name}")
+    _summarise_datasets(datasets, array_name)
 
     return datasets
+
+
+def _summarise_datasets(datasets: list, array_name: str):
+    """Print and log a summary of loaded datasets."""
+    summary_lines = []
+    summary_lines.append(f"Summary for array '{array_name}':")
+    summary_lines.append(f"Total datasets loaded: {len(datasets)}\n")
+
+    for idx, ds in enumerate(datasets, start=1):
+        summary_lines.append(f"Dataset {idx}:")
+
+        # Filename from metadata
+        source_file = ds.attrs.get("source_file", "Unknown")
+        summary_lines.append(f"  Source file: {source_file}")
+
+        # Time coverage
+        time_var = ds.get("TIME")
+        if time_var is not None:
+            time_start = pd.to_datetime(time_var.values[0]).strftime("%Y-%m-%d")
+            time_end = pd.to_datetime(time_var.values[-1]).strftime("%Y-%m-%d")
+            summary_lines.append(f"  Time coverage: {time_start} to {time_end}")
+        else:
+            summary_lines.append("  Time coverage: TIME variable not found")
+
+        # Dimensions
+        summary_lines.append("  Dimensions:")
+        for dim, size in ds.sizes.items():
+            summary_lines.append(f"    - {dim}: {size}")
+
+        # Variables
+        summary_lines.append("  Variables:")
+        for var in ds.data_vars:
+            shape = ds[var].shape
+            summary_lines.append(f"    - {var}: shape {shape}")
+
+        summary_lines.append("")  # empty line between datasets
+
+    summary = "\n".join(summary_lines)
+
+    # Print to console
+    print(summary)
+
+    # Write to log
+    log_info("\n" + summary)

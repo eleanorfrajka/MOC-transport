@@ -1,10 +1,9 @@
-import tempfile
 from pathlib import Path
 
 import pytest
 import xarray as xr
 
-from amocarray import utilities
+from amocarray import utilities, logger
 
 # Sample data
 VALID_URL = "https://mooring.ucsd.edu/move/nc/"
@@ -14,6 +13,8 @@ INVALID_STRING = "not_a_valid_source"
 # Replace with actual path to a local .nc file if you have one for local testing
 LOCAL_VALID_FILE = "/path/to/your/OS_MOVE_TRANSPORTS.nc"
 LOCAL_INVALID_FILE = "/path/to/invalid_file.txt"
+
+logger.disable_logging()
 
 
 @pytest.mark.parametrize(
@@ -50,14 +51,23 @@ def test_safe_update_attrs_add_new_attribute():
     assert ds.attrs["project"] == "MOVE"
 
 
-def test_safe_update_attrs_existing_key_warns():
+def test_safe_update_attrs_existing_key_logs(caplog):
+    from amocarray import utilities, logger
+
+    # Re-enable logging for this test
+    logger.enable_logging()
+
     ds = xr.Dataset(attrs={"project": "MOVE"})
     new_attrs = {"project": "OSNAP"}
 
-    with pytest.warns(
-        UserWarning, match="Attribute 'project' already exists in dataset attrs"
-    ):
-        utilities.safe_update_attrs(ds, new_attrs)
+    with caplog.at_level("DEBUG", logger="amocarray"):
+        utilities.safe_update_attrs(ds, new_attrs, overwrite=False, verbose=True)
+
+    assert any(
+        "Attribute 'project' already exists in dataset attrs and will not be overwritten."
+        in message
+        for message in caplog.messages
+    )
 
 
 def test_safe_update_attrs_existing_key_with_overwrite():
@@ -65,35 +75,3 @@ def test_safe_update_attrs_existing_key_with_overwrite():
     new_attrs = {"project": "OSNAP"}
     ds = utilities.safe_update_attrs(ds, new_attrs, overwrite=True)
     assert ds.attrs["project"] == "OSNAP"
-
-
-def test_get_local_file(mock_download_file):
-    """
-    Test get_local_file to ensure it correctly handles local caching and redownloading.
-
-    Parameters
-    ----------
-    mock_download_file : fixture
-        Pytest fixture that mocks the download_file function to avoid real network calls.
-    """
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmpdir = Path(tmpdir)
-        fake_url = "https://example.com/data.txt"
-        expected_local_file = tmpdir / "data.txt"
-
-        # Case 1: No local file, expect download
-        result = utilities.get_local_file(fake_url, data_dir=tmpdir)
-        assert result == expected_local_file
-        assert expected_local_file.exists()
-        assert expected_local_file.read_text() == "fake data"
-
-        # Case 2: Local file exists, expect no download
-        expected_local_file.write_text("existing data")
-        result = utilities.get_local_file(fake_url, data_dir=tmpdir)
-        assert result == expected_local_file
-        assert expected_local_file.read_text() == "existing data"
-
-        # Case 3: Redownload forces overwrite
-        result = utilities.get_local_file(fake_url, data_dir=tmpdir, redownload=True)
-        assert result == expected_local_file
-        assert expected_local_file.read_text() == "fake data"

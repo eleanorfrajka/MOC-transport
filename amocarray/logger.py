@@ -8,6 +8,46 @@ from pathlib import Path
 log = logging.getLogger("amocarray")
 log.setLevel(logging.DEBUG)  # capture everything; handlers filter later
 
+# Global logging flag
+# Set to True to enable logging, False to disable
+LOGGING_ENABLED = True
+
+
+def enable_logging():
+    """Enable logging globally."""
+    global LOGGING_ENABLED
+    LOGGING_ENABLED = True
+
+
+def disable_logging():
+    """Disable logging globally."""
+    global LOGGING_ENABLED
+    LOGGING_ENABLED = False
+
+
+def log_info(message, *args):
+    """Log an info message, if logging is enabled."""
+    if LOGGING_ENABLED:
+        log.info(message, *args)
+
+
+def log_warning(message, *args):
+    """Log a warning message, if logging is enabled."""
+    if LOGGING_ENABLED:
+        log.warning(message, *args)
+
+
+def log_error(message, *args):
+    """Log an error message, if logging is enabled."""
+    if LOGGING_ENABLED:
+        log.error(message, *args)
+
+
+def log_debug(message, *args):
+    """Log a debug message, if logging is enabled."""
+    if LOGGING_ENABLED:
+        log.debug(message, *args)
+
 
 def setup_logger(array_name: str, output_dir: str = "logs") -> None:
     """
@@ -20,6 +60,8 @@ def setup_logger(array_name: str, output_dir: str = "logs") -> None:
     output_dir : str
         Directory to save log files.
     """
+    if not LOGGING_ENABLED:
+        return
     # Resolve output directory to project root
     project_root = Path(__file__).resolve().parent.parent
     output_path = project_root / output_dir

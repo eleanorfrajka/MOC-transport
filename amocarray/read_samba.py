@@ -6,6 +6,7 @@ import xarray as xr
 
 from amocarray import utilities, logger
 from amocarray.utilities import apply_defaults
+from amocarray.logger import log_info, log_error, log_warning
 
 log = logger.log  # Use the global logger
 
@@ -84,7 +85,7 @@ def read_samba(
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
     """
-    log.info("Starting to read SAMBA dataset")
+    log_info("Starting to read SAMBA dataset")
 
     # Ensure file_list has a default
     if file_list is None:
@@ -101,12 +102,12 @@ def read_samba(
 
     for file in file_list:
         if not (file.lower().endswith(".txt") or file.lower().endswith(".asc")):
-            log.warning("Skipping unsupported file type: %s", file)
+            log_warning("Skipping unsupported file type: %s", file)
             continue
 
         download_url = SAMBA_FILE_URLS.get(file)
         if not download_url:
-            log.error("No download URL defined for SAMBA file: %s", file)
+            log_error("No download URL defined for SAMBA file: %s", file)
             raise FileNotFoundError(f"No download URL defined for SAMBA file {file}")
 
         file_path = utilities.resolve_file_path(
@@ -123,7 +124,7 @@ def read_samba(
             df = utilities.read_ascii_file(file_path, comment_char="%")
             df.columns = column_names
         except Exception as e:
-            log.error("Failed to parse ASCII file: %s: %s", file_path, e)
+            log_error("Failed to parse ASCII file: %s: %s", file_path, e)
             raise FileNotFoundError(f"Failed to parse ASCII file: {file_path}: {e}")
 
         # Time handling
@@ -137,14 +138,14 @@ def read_samba(
                 df["TIME"] = pd.to_datetime(df[["Year", "Month", "Day", "Hour"]])
                 df = df.drop(columns=["Year", "Month", "Day", "Hour"])
         except Exception as e:
-            log.error("Failed to construct TIME column for %s: %s", file, e)
+            log_error("Failed to construct TIME column for %s: %s", file, e)
             raise ValueError(f"Failed to construct TIME column for {file}: {e}")
 
         # Convert DataFrame to xarray Dataset
         try:
             ds = df.set_index("TIME").to_xarray()
         except Exception as e:
-            log.error(
+            log_error(
                 "Failed to convert DataFrame to xarray Dataset for %s: %s", file, e
             )
             raise ValueError(
@@ -153,7 +154,7 @@ def read_samba(
 
         # Attach metadata
         file_metadata = SAMBA_FILE_METADATA.get(file, {})
-        log.info("Attaching metadata to SAMBA dataset from file: %s", file)
+        log_info("Attaching metadata to SAMBA dataset from file: %s", file)
         utilities.safe_update_attrs(
             ds,
             {
@@ -167,8 +168,8 @@ def read_samba(
         datasets.append(ds)
 
     if not datasets:
-        log.error("No valid SAMBA files found in %s", file_list)
+        log_error("No valid SAMBA files found in %s", file_list)
         raise FileNotFoundError(f"No valid data files found in {file_list}")
 
-    log.info("Successfully loaded %d SAMBA dataset(s)", len(datasets))
+    log_info("Successfully loaded %d SAMBA dataset(s)", len(datasets))
     return datasets

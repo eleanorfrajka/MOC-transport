@@ -1,4 +1,5 @@
 amocarray/_version.py
+setup.sh
 
 # VSCode settings
 .vscode/*
