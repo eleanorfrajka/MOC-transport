@@ -1,9 +1,9 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import xarray as xr
 from pandas import DataFrame
 
-import matplotlib.pyplot as plt
 
 ##------------------------------------------------------------------------------------
 ## Views of the ds or nc file
@@ -51,8 +51,8 @@ def show_variables(data):
         - units: The units of the variable (if available).
         - comment: Any additional comments about the variable (if available).
     """
-    from pandas import DataFrame
     from netCDF4 import Dataset
+    from pandas import DataFrame
 
     if isinstance(data, str):
         print("information is based on file: {}".format(data))
@@ -114,8 +114,8 @@ def show_attributes(data):
         - Attribute: The name of the attribute.
         - Value: The value of the attribute.
     """
-    from pandas import DataFrame
     from netCDF4 import Dataset
+    from pandas import DataFrame
 
     if isinstance(data, str):
         print("information is based on file: {}".format(data))

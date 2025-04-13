@@ -1,10 +1,12 @@
 import pathlib
 import sys
-import pytest
-import xarray as xr
 import tempfile
 from pathlib import Path
 from urllib.parse import urlparse
+
+import pytest
+import xarray as xr
+
 script_dir = pathlib.Path(__file__).parent.absolute()
 parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))

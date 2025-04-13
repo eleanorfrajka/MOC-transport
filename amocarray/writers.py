@@ -1,6 +1,8 @@
+from numbers import Number
+
 import numpy as np
 import xarray as xr
-from numbers import Number
+
 
 def save_dataset(ds, output_file='../test.nc'):
     """

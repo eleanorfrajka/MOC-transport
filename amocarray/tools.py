@@ -1,9 +1,9 @@
+from datetime import datetime
+
+import gsw
 import numpy as np
 import pandas as pd
 import xarray as xr
-import gsw
-from datetime import datetime
-
 
 # Various conversions from the key to units_name with the multiplicative conversion factor
 unit_conversion = {

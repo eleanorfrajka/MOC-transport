@@ -1,20 +1,20 @@
 # Based on https://github.com/voto-ocean-knowledge/votoutils/blob/main/votoutils/utilities/utilities.py
+import datetime
+import logging
 import os
 import re
+import shutil
+import warnings
+from ftplib import FTP
+from functools import wraps
+from pathlib import Path
+from urllib.parse import urlparse
+
 import numpy as np
 import pandas as pd
-import logging
-import datetime
-import xarray as xr
 import requests
-from urllib.parse import urlparse
-from pathlib import Path
-from ftplib import FTP
+import xarray as xr
 from bs4 import BeautifulSoup
-import warnings
-import shutil
-
-from functools import wraps
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
@@ -65,7 +65,8 @@ def get_local_file(source_url, data_dir=None, redownload=False):
     Path or str
         Path to the local file if data_dir is provided, else the original source URL.
     """
-    from .utilities import download_file  # make sure you have this in utilities.py
+    from .utilities import \
+        download_file  # make sure you have this in utilities.py
 
     if data_dir is None:
         # No local directory provided; return URL (download will happen elsewhere)

@@ -1,11 +1,13 @@
 
 import pathlib
 import sys
+
 script_dir = pathlib.Path(__file__).parent.absolute()
 parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))
 
 from amocarray import readers, standardise
+
 
 def test_standardise_samba():
     datasets = readers.load_dataset("samba")

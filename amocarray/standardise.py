@@ -10,9 +10,11 @@ These functions take raw loaded datasets and:
 Currently implemented:
 - SAMBA
 """
-import xarray as xr
-from amocarray import utilities
 from typing import Union
+
+import xarray as xr
+
+from amocarray import utilities
 
 
 def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:

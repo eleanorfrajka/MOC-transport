@@ -1,19 +1,21 @@
-import xarray as xr
 import os
-from bs4 import BeautifulSoup
-import requests
+from ftplib import FTP
 from pathlib import Path
 from urllib.parse import urlparse
-from ftplib import FTP
+
 import pandas as pd
+import requests
+import xarray as xr
+from bs4 import BeautifulSoup
 
 from amocarray import utilities
+
 # Dropbox location Public/linked_elsewhere/amocarray_data/
 server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8WAcKyw?rlkey=16nqlykhgkwfyfeodkj274xpc&dl=0"
 
 from amocarray.read_move import read_move
-from amocarray.read_rapid import read_rapid
 from amocarray.read_osnap import read_osnap
+from amocarray.read_rapid import read_rapid
 from amocarray.read_samba import read_samba
 
 # Registry of available readers
