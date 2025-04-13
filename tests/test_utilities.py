@@ -22,21 +22,33 @@ INVALID_STRING = "not_a_valid_source"
 LOCAL_VALID_FILE = "/path/to/your/OS_MOVE_TRANSPORTS.nc"
 LOCAL_INVALID_FILE = "/path/to/invalid_file.txt"
 
-@pytest.mark.parametrize("url,expected", [
-    (VALID_URL, True),
-    (INVALID_URL, False),
-    ("not_a_url", False),
-])
+
+@pytest.mark.parametrize(
+    "url,expected",
+    [
+        (VALID_URL, True),
+        (INVALID_URL, False),
+        ("not_a_url", False),
+    ],
+)
 def test_is_valid_url(url, expected):
     assert utilities._is_valid_url(url) == expected
 
-@pytest.mark.parametrize("path,expected", [
-    (LOCAL_VALID_FILE, Path(LOCAL_VALID_FILE).is_file() and LOCAL_VALID_FILE.endswith(".nc")),
-    (LOCAL_INVALID_FILE, False),
-    ("non_existent_file.nc", False),
-])
+
+@pytest.mark.parametrize(
+    "path,expected",
+    [
+        (
+            LOCAL_VALID_FILE,
+            Path(LOCAL_VALID_FILE).is_file() and LOCAL_VALID_FILE.endswith(".nc"),
+        ),
+        (LOCAL_INVALID_FILE, False),
+        ("non_existent_file.nc", False),
+    ],
+)
 def test_is_valid_file(path, expected):
     assert utilities._is_valid_file(path) == expected
+
 
 def test_safe_update_attrs_add_new_attribute():
     ds = xr.Dataset()
@@ -44,18 +56,23 @@ def test_safe_update_attrs_add_new_attribute():
     ds = utilities.safe_update_attrs(ds, new_attrs)
     assert ds.attrs["project"] == "MOVE"
 
+
 def test_safe_update_attrs_existing_key_warns():
     ds = xr.Dataset(attrs={"project": "MOVE"})
     new_attrs = {"project": "OSNAP"}
 
-    with pytest.warns(UserWarning, match="Attribute 'project' already exists in dataset attrs"):
+    with pytest.warns(
+        UserWarning, match="Attribute 'project' already exists in dataset attrs"
+    ):
         utilities.safe_update_attrs(ds, new_attrs)
+
 
 def test_safe_update_attrs_existing_key_with_overwrite():
     ds = xr.Dataset(attrs={"project": "MOVE"})
     new_attrs = {"project": "OSNAP"}
     ds = utilities.safe_update_attrs(ds, new_attrs, overwrite=True)
     assert ds.attrs["project"] == "OSNAP"
+
 
 def test_get_local_file(mock_download_file):
     """

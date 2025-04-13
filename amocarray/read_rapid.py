@@ -4,6 +4,7 @@ import xarray as xr
 
 # Import the modules used
 from amocarray import utilities
+
 # Import the apply_defaults decorator function directly
 from amocarray.utilities import apply_defaults
 
@@ -19,16 +20,20 @@ RAPID_DEFAULT_SOURCE = "https://rapid.ac.uk/sites/default/files/rapid_data/"
 RAPID_TRANSPORT_FILES = ["moc_transports.nc"]
 
 # Default list of RAPID data files
-RAPID_DEFAULT_FILES = [
-    'moc_vertical.nc',
-    'ts_gridded.nc',
-    'moc_transports.nc'
-]
-#https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc
-#https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc
-#https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc
+RAPID_DEFAULT_FILES = ["moc_vertical.nc", "ts_gridded.nc", "moc_transports.nc"]
+
+
+# https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc
+# https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc
+# https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc
 @apply_defaults(RAPID_DEFAULT_SOURCE, RAPID_DEFAULT_FILES)
-def read_rapid(source: str, file_list: str | list[str], transport_only: bool = True, data_dir=None, redownload=False) -> list[xr.Dataset]:    
+def read_rapid(
+    source: str,
+    file_list: str | list[str],
+    transport_only: bool = True,
+    data_dir=None,
+    redownload=False,
+) -> list[xr.Dataset]:
     """
     Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.
 
@@ -95,7 +100,7 @@ def read_rapid(source: str, file_list: str | list[str], transport_only: bool = T
                 "source_file": file,
                 "source_path": source,
                 **RAPID_METADATA,
-            }
+            },
         )
 
         datasets.append(ds)

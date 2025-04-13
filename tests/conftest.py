@@ -2,9 +2,10 @@
 Pytest fixture for monkey patching the download_file function.
 
 This replaces the real download logic with a fake function during tests,
-so that no actual network requests are made. Instead, the fake function 
+so that no actual network requests are made. Instead, the fake function
 creates a dummy local file. Keeps tests fast, isolated, and reliable.
 """
+
 from pathlib import Path
 
 import pytest

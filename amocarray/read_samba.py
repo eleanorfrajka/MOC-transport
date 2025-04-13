@@ -8,16 +8,16 @@ from amocarray import utilities
 # Default file list
 SAMBA_DEFAULT_FILES = [
     "Upper_Abyssal_Transport_Anomalies.txt",
-    "MOC_TotalAnomaly_and_constituents.asc"
+    "MOC_TotalAnomaly_and_constituents.asc",
 ]
 SAMBA_TRANSPORT_FILES = [
     "Upper_Abyssal_Transport_Anomalies.txt",
-    "MOC_TotalAnomaly_and_constituents.asc"
+    "MOC_TotalAnomaly_and_constituents.asc",
 ]
 # Mapping of filenames to remote URLs
 SAMBA_FILE_URLS = {
     "Upper_Abyssal_Transport_Anomalies.txt": "ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/",
-    "MOC_TotalAnomaly_and_constituents.asc": "https://www.aoml.noaa.gov/phod/SAMOC_international/documents/"
+    "MOC_TotalAnomaly_and_constituents.asc": "https://www.aoml.noaa.gov/phod/SAMOC_international/documents/",
 }
 
 # Global metadata for SAMBA
@@ -43,10 +43,13 @@ SAMBA_FILE_METADATA = {
 }
 
 
-
-
-def read_samba(source: str = None, file_list: str | list[str] = None, transport_only: bool = True,
-               data_dir=None, redownload=False) -> list[xr.Dataset]:
+def read_samba(
+    source: str = None,
+    file_list: str | list[str] = None,
+    transport_only: bool = True,
+    data_dir=None,
+    redownload=False,
+) -> list[xr.Dataset]:
     """
     Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.
 
@@ -88,7 +91,9 @@ def read_samba(source: str = None, file_list: str | list[str] = None, transport_
         # Determine source: use passed source or file-specific URL
         file_source = source or SAMBA_FILE_URLS.get(file)
         if not file_source:
-            raise ValueError(f"No source provided for '{file}' and no default URL mapping found.")
+            raise ValueError(
+                f"No source provided for '{file}' and no default URL mapping found."
+            )
 
         # Prepare file path
         if utilities._is_valid_url(file_source):
@@ -131,7 +136,7 @@ def read_samba(source: str = None, file_list: str | list[str] = None, transport_
                 "source_path": file_source,
                 **SAMBA_METADATA,
                 **file_metadata,
-            }
+            },
         )
 
         datasets.append(ds)
@@ -140,4 +145,3 @@ def read_samba(source: str = None, file_list: str | list[str] = None, transport_
         raise FileNotFoundError(f"No valid data files found in {file_list}")
 
     return datasets
-

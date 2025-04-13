@@ -10,6 +10,7 @@ These functions take raw loaded datasets and:
 Currently implemented:
 - SAMBA
 """
+
 from typing import Union
 
 import xarray as xr
@@ -33,21 +34,22 @@ def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
         Standardised RAPID dataset.
     """
     # Rename dimension
-    if 'time' in ds.dims:
-        ds = ds.rename_dims({'time': 'TIME'})
+    if "time" in ds.dims:
+        ds = ds.rename_dims({"time": "TIME"})
 
     # Rename variable
-    if 'time' in ds.variables:
-        ds = ds.rename({'time': 'TIME'})
+    if "time" in ds.variables:
+        ds = ds.rename({"time": "TIME"})
 
     # Swap dimension to ensure 'TIME' is the index coordinate
-    if 'TIME' in ds.coords:
-        ds = ds.swap_dims({'TIME': 'TIME'})
+    if "TIME" in ds.coords:
+        ds = ds.swap_dims({"TIME": "TIME"})
 
     # Optional: global metadata updates (future)
     # utilities.safe_update_attrs(ds, {"weblink": "..."})
 
-    return ds    
+    return ds
+
 
 def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     """
@@ -109,12 +111,14 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
         # Attach attributes to variables
         for var in rename_dict.values():
             if var in ds.variables:
-                ds[var].attrs.update({
-                    "description": variable_attrs.get(var, ""),
-                    "units": units,
-                    "long_name": variable_attrs.get(var, ""),
-                    "standard_name": "Transport Anomaly",
-                })
+                ds[var].attrs.update(
+                    {
+                        "description": variable_attrs.get(var, ""),
+                        "units": units,
+                        "long_name": variable_attrs.get(var, ""),
+                        "standard_name": "Transport Anomaly",
+                    }
+                )
 
     # Global attributes clean-up
     global_attrs = {
@@ -126,6 +130,7 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
 
     # Safe update of attributes
     from amocarray import utilities
+
     utilities.safe_update_attrs(ds, global_attrs, overwrite=False)
 
     return ds
