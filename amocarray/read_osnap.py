@@ -95,7 +95,7 @@ def read_osnap(
         file_list = [file_list]
 
     # Determine the local storage path
-    local_data_dir = Path(data_dir) if data_dir else Path.home() / ".amocarray_data"
+    local_data_dir = Path(data_dir) if data_dir else utilities.get_default_data_dir()
     local_data_dir.mkdir(parents=True, exist_ok=True)
 
     datasets = []
