@@ -1,7 +1,7 @@
 from numbers import Number
+from typing import Union
 
 import numpy as np
-from typing import Union
 import xarray as xr
 
 from amocarray import logger
@@ -10,8 +10,7 @@ log = logger.log  # Use the global logger
 
 
 def save_dataset(ds: xr.Dataset, output_file: str = "../test.nc") -> bool:
-    """
-    Attempts to save the dataset to a NetCDF file. If a TypeError occurs due to invalid attribute values,
+    """Attempts to save the dataset to a NetCDF file. If a TypeError occurs due to invalid attribute values,
     it converts the invalid attributes to strings and retries the save operation.
 
     Parameters
@@ -30,6 +29,7 @@ def save_dataset(ds: xr.Dataset, output_file: str = "../test.nc") -> bool:
     -----
     This function is based on a workaround for issues with saving datasets containing
     attributes of unsupported types. See: https://github.com/pydata/xarray/issues/3743
+
     """
     valid_types: tuple[Union[type, tuple], ...] = (
         str,
@@ -51,7 +51,7 @@ def save_dataset(ds: xr.Dataset, output_file: str = "../test.nc") -> bool:
             for k, v in variable.attrs.items():
                 if not isinstance(v, valid_types) or isinstance(v, bool):
                     print(
-                        f"variable '{varname}': Converting attribute '{k}' with value '{v}' to string."
+                        f"variable '{varname}': Converting attribute '{k}' with value '{v}' to string.",
                     )
                     variable.attrs[k] = str(v)
         try:

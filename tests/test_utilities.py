@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import xarray as xr
 
-from amocarray import utilities, logger
+from amocarray import logger, utilities
 
 # Sample data
 VALID_URL = "https://mooring.ucsd.edu/move/nc/"
@@ -52,7 +52,7 @@ def test_safe_update_attrs_add_new_attribute():
 
 
 def test_safe_update_attrs_existing_key_logs(caplog):
-    from amocarray import utilities, logger
+    from amocarray import logger, utilities
 
     # Re-enable logging for this test
     logger.enable_logging()

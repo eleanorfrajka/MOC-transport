@@ -65,3 +65,11 @@ ignore = [
 line-length = 88
 target-version = ['py39']
 
+[tool.ruff]
+select = ["D"]  # Enables pydocstyle checks
+ignore = ["D107", "D203", "D213"]  # Optional ignores for __init__ and style conflicts
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "ANN", "B", "BLE", "TRY", "ARG", "SLF"]
+ignore = ["E501", "D203", "D213", "D401", "PLR0913", "C901"]
+

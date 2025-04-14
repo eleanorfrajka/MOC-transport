@@ -1,5 +1,4 @@
-"""
-Standardisation functions for AMOC observing array datasets.
+"""Standardisation functions for AMOC observing array datasets.
 
 These functions take raw loaded datasets and:
 - Rename variables to standard names
@@ -13,14 +12,13 @@ Currently implemented:
 
 import xarray as xr
 
-from amocarray import utilities, logger
+from amocarray import logger, utilities
 
 log = logger.log  # Use the global logger
 
 
 def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
-    """
-    Standardise RAPID dataset:
+    """Standardise RAPID dataset:
     - Rename time dimension and variable from 'time' to 'TIME'.
 
     Parameters
@@ -32,6 +30,7 @@ def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
     -------
     xr.Dataset
         Standardised RAPID dataset.
+
     """
     # Rename dimension
     if "time" in ds.sizes:
@@ -52,8 +51,7 @@ def standardise_rapid(ds: xr.Dataset) -> xr.Dataset:
 
 
 def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
-    """
-    Standardise SAMBA dataset:
+    """Standardise SAMBA dataset:
     - Rename variables to standard names.
     - Add variable-level metadata (units, description, etc.).
     - Update global attributes.
@@ -69,6 +67,7 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     -------
     xr.Dataset
         Standardised SAMBA dataset.
+
     """
     # Variable renaming and attributes
     variable_mapping = {
@@ -117,7 +116,7 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
                         "units": units,
                         "long_name": variable_attrs.get(var, ""),
                         "standard_name": "Transport Anomaly",
-                    }
+                    },
                 )
 
     # Global attributes clean-up

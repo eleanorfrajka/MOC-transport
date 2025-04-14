@@ -1,5 +1,4 @@
-"""
-Pytest fixture for monkey patching the download_file function.
+"""Pytest fixture for monkey patching the download_file function.
 
 This replaces the real download logic with a fake function during tests,
 so that no actual network requests are made. Instead, the fake function
@@ -11,10 +10,9 @@ from pathlib import Path
 import pytest
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_download_file(monkeypatch):
-    """
-    Fixture to mock the download_file function in utilities.py.
+    """Fixture to mock the download_file function in utilities.py.
     Instead of downloading, it writes dummy data to the destination.
     """
 

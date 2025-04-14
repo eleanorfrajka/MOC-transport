@@ -4,9 +4,9 @@ from typing import Union
 import pandas as pd
 import xarray as xr
 
-from amocarray import utilities, logger
+from amocarray import logger, utilities
+from amocarray.logger import log_error, log_info, log_warning
 from amocarray.utilities import apply_defaults
-from amocarray.logger import log_info, log_error, log_warning
 
 log = logger.log  # Use the global logger
 
@@ -56,8 +56,7 @@ def read_samba(
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
 ) -> list[xr.Dataset]:
-    """
-    Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.
+    """Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.
 
     Parameters
     ----------
@@ -84,6 +83,7 @@ def read_samba(
         If no source is provided for a file and no default URL mapping found.
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
+
     """
     log_info("Starting to read SAMBA dataset")
 
@@ -131,7 +131,7 @@ def read_samba(
         try:
             if "Upper_Abyssal" in file:
                 df["TIME"] = pd.to_datetime(
-                    df[["Year", "Month", "Day", "Hour", "Minute"]]
+                    df[["Year", "Month", "Day", "Hour", "Minute"]],
                 )
                 df = df.drop(columns=["Year", "Month", "Day", "Hour", "Minute"])
             else:
@@ -146,10 +146,12 @@ def read_samba(
             ds = df.set_index("TIME").to_xarray()
         except Exception as e:
             log_error(
-                "Failed to convert DataFrame to xarray Dataset for %s: %s", file, e
+                "Failed to convert DataFrame to xarray Dataset for %s: %s",
+                file,
+                e,
             )
             raise ValueError(
-                f"Failed to convert DataFrame to xarray Dataset for {file}: {e}"
+                f"Failed to convert DataFrame to xarray Dataset for {file}: {e}",
             )
 
         # Attach metadata

@@ -5,7 +5,7 @@ script_dir = pathlib.Path(__file__).parent.absolute()
 parent_dir = script_dir.parents[0]
 sys.path.append(str(parent_dir))
 
-from amocarray import tools, logger
+from amocarray import logger, tools
 
 logger.disable_logging()
 

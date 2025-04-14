@@ -9,10 +9,10 @@ from pandas.io.formats.style import Styler
 # Views of the ds or nc file
 # ------------------------------------------------------------------------------------
 def show_contents(
-    data: str | xr.Dataset, content_type: str = "variables"
+    data: str | xr.Dataset,
+    content_type: str = "variables",
 ) -> Styler | pd.DataFrame:
-    """
-    Wrapper function to show contents of an xarray Dataset or a netCDF file.
+    """Wrapper function to show contents of an xarray Dataset or a netCDF file.
 
     Parameters
     ----------
@@ -33,6 +33,7 @@ def show_contents(
         If the input data is not a file path (str) or an xarray Dataset.
     ValueError
         If the content_type is not 'variables' (or 'vars') or 'attributes' (or 'attrs').
+
     """
     if content_type in ["variables", "vars"]:
         if isinstance(data, (str, xr.Dataset)):
@@ -44,17 +45,16 @@ def show_contents(
             return show_attributes(data)
         else:
             raise TypeError(
-                "Attributes can only be shown for netCDF files (str) or xarray Datasets"
+                "Attributes can only be shown for netCDF files (str) or xarray Datasets",
             )
     else:
         raise ValueError(
-            "content_type must be either 'variables' (or 'vars') or 'attributes' (or 'attrs')"
+            "content_type must be either 'variables' (or 'vars') or 'attributes' (or 'attrs')",
         )
 
 
 def show_variables(data: str | xr.Dataset) -> Styler:
-    """
-    Processes an xarray Dataset or a netCDF file, extracts variable information,
+    """Processes an xarray Dataset or a netCDF file, extracts variable information,
     and returns a styled DataFrame with details about the variables.
 
     Parameters
@@ -77,6 +77,7 @@ def show_variables(data: str | xr.Dataset) -> Styler:
     ------
     TypeError
         If the input data is not a file path (str) or an xarray Dataset.
+
     """
     from netCDF4 import Dataset
     from pandas import DataFrame
@@ -130,8 +131,7 @@ def show_variables(data: str | xr.Dataset) -> Styler:
 
 
 def show_attributes(data: str | xr.Dataset) -> pd.DataFrame:
-    """
-    Processes an xarray Dataset or a netCDF file, extracts attribute information,
+    """Processes an xarray Dataset or a netCDF file, extracts attribute information,
     and returns a DataFrame with details about the attributes.
 
     Parameters
@@ -151,6 +151,7 @@ def show_attributes(data: str | xr.Dataset) -> pd.DataFrame:
     ------
     TypeError
         If the input data is not a file path (str) or an xarray Dataset.
+
     """
     from netCDF4 import Dataset
     from pandas import DataFrame
@@ -178,10 +179,10 @@ def show_attributes(data: str | xr.Dataset) -> pd.DataFrame:
 
 
 def show_variables_by_dimension(
-    data: str | xr.Dataset, dimension_name: str = "trajectory"
+    data: str | xr.Dataset,
+    dimension_name: str = "trajectory",
 ) -> Styler:
-    """
-    Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame
+    """Extracts variable information from an xarray Dataset or a netCDF file and returns a styled DataFrame
     with details about the variables filtered by a specific dimension.
 
     Parameters
@@ -204,6 +205,7 @@ def show_variables_by_dimension(
     ------
     TypeError
         If the input data is not a file path (str) or an xarray Dataset.
+
     """
     if isinstance(data, str):
         print(f"information is based on file: {data}")
@@ -262,8 +264,7 @@ def plot_monthly_anomalies(
     move_label: str,
     samba_label: str,
 ) -> tuple[plt.Figure, list[plt.Axes]]:
-    """
-    Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
+    """Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
 
     Parameters
     ----------
@@ -288,6 +289,7 @@ def plot_monthly_anomalies(
     -------
     tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]
         The figure and axes objects of the generated plot.
+
     """
     # Resample each input dataset to monthly averages
     osnap_data = osnap_data.resample(TIME="ME").mean()

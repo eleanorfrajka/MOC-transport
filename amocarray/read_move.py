@@ -3,7 +3,7 @@ from typing import Union
 
 import xarray as xr
 
-from amocarray import utilities, logger
+from amocarray import logger, utilities
 from amocarray.utilities import apply_defaults
 
 log = logger.log  # ✅ use the global logger
@@ -40,8 +40,7 @@ def read_move(
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
 ) -> list[xr.Dataset]:
-    """
-    Load the MOVE transport dataset from a URL or local file path into xarray Datasets.
+    """Load the MOVE transport dataset from a URL or local file path into xarray Datasets.
 
     Parameters
     ----------
@@ -69,6 +68,7 @@ def read_move(
         If the source is neither a valid URL nor a directory path.
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
+
     """
     log.info("Starting to read MOVE dataset")
 

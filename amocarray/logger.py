@@ -1,8 +1,7 @@
 # amocarray/logger.py
-import logging
 import datetime
+import logging
 from pathlib import Path
-
 
 # Global logger instance (will be configured by setup_logger)
 log = logging.getLogger("amocarray")
@@ -50,8 +49,7 @@ def log_debug(message, *args):
 
 
 def setup_logger(array_name: str, output_dir: str = "logs") -> None:
-    """
-    Configure the global logger to output to a file for the given array.
+    """Configure the global logger to output to a file for the given array.
 
     Parameters
     ----------
@@ -59,6 +57,7 @@ def setup_logger(array_name: str, output_dir: str = "logs") -> None:
         Name of the observing array (e.g., 'move', 'rapid', etc.).
     output_dir : str
         Directory to save log files.
+
     """
     if not LOGGING_ENABLED:
         return
