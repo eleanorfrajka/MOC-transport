@@ -4,9 +4,9 @@ from typing import Union
 import xarray as xr
 
 # Import the modules used
-from amocarray import utilities, logger
+from amocarray import logger, utilities
+from amocarray.logger import log_error, log_info, log_warning
 from amocarray.utilities import apply_defaults
-from amocarray.logger import log_info, log_error, log_warning
 
 log = logger.log  # Use the global logger
 
@@ -48,8 +48,7 @@ def read_rapid(
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
 ) -> list[xr.Dataset]:
-    """
-    Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.
+    """Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.
 
     Parameters
     ----------
@@ -77,6 +76,7 @@ def read_rapid(
         If the source is neither a valid URL nor a directory path.
     FileNotFoundError
         If no valid NetCDF files are found in the provided file list.
+
     """
     log_info("Starting to read RAPID dataset")
 

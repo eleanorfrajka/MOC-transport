@@ -3,7 +3,7 @@ from typing import Union
 
 import xarray as xr
 
-from amocarray import utilities, logger
+from amocarray import logger, utilities
 from amocarray.utilities import apply_defaults
 
 log = logger.log  # Use global logger
@@ -55,8 +55,7 @@ def read_osnap(
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
 ) -> list[xr.Dataset]:
-    """
-    Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.
+    """Load the OSNAP transport datasets from a URL or local file path into xarray Datasets.
 
     Parameters
     ----------
@@ -83,6 +82,7 @@ def read_osnap(
         If no source is provided for a file and no default URL mapping is found.
     FileNotFoundError
         If the file cannot be downloaded or does not exist locally.
+
     """
     log.info("Starting to read OSNAP dataset")
 

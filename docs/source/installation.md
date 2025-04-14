@@ -10,7 +10,7 @@ import amocarray
 ```
 ### Install for contributing
 
-Or, to install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:
+Or, to install a local, development version of amocarray, clone the repository, open a terminal in the root directory (next to this readme file) and run these commands:
 
 ```sh
 git clone https://github.com/AMOCcommunity/amocarray.git

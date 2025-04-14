@@ -1,14 +1,15 @@
-import xarray as xr
 from pathlib import Path
-import pandas as pd
 from typing import Union
 
+import pandas as pd
+import xarray as xr
+
 from amocarray import logger
-from amocarray.read_move import read_move
-from amocarray.read_rapid import read_rapid
-from amocarray.read_osnap import read_osnap
-from amocarray.read_samba import read_samba
 from amocarray.logger import log_info
+from amocarray.read_move import read_move
+from amocarray.read_osnap import read_osnap
+from amocarray.read_rapid import read_rapid
+from amocarray.read_samba import read_samba
 
 log = logger.log
 
@@ -17,8 +18,7 @@ server = "https://www.dropbox.com/scl/fo/4bjo8slq1krn5rkhbkyds/AM-EVfSHi8ro7u2y8
 
 
 def _get_reader(array_name: str):
-    """
-    Return the reader function for the given array name.
+    """Return the reader function for the given array name.
 
     Parameters
     ----------
@@ -34,6 +34,7 @@ def _get_reader(array_name: str):
     ------
     ValueError
         If an unknown array name is provided.
+
     """
     readers = {
         "move": read_move,
@@ -45,13 +46,12 @@ def _get_reader(array_name: str):
         return readers[array_name.lower()]
     except KeyError:
         raise ValueError(
-            f"Unknown array name: {array_name}. Valid options are: {list(readers.keys())}"
+            f"Unknown array name: {array_name}. Valid options are: {list(readers.keys())}",
         )
 
 
 def load_sample_dataset(array_name: str = "rapid") -> xr.Dataset:
-    """
-    Load a sample dataset for quick testing.
+    """Load a sample dataset for quick testing.
 
     Currently supports:
     - 'rapid' : loads the 'RAPID_26N_TRANSPORT.nc' file
@@ -70,6 +70,7 @@ def load_sample_dataset(array_name: str = "rapid") -> xr.Dataset:
     ------
     ValueError
         If the array_name is not recognised.
+
     """
     if array_name.lower() == "rapid":
         sample_file = "moc_transports.nc"
@@ -80,13 +81,13 @@ def load_sample_dataset(array_name: str = "rapid") -> xr.Dataset:
         )
         if not datasets:
             raise FileNotFoundError(
-                f"No datasets were loaded for sample file: {sample_file}"
+                f"No datasets were loaded for sample file: {sample_file}",
             )
         return datasets[0]
 
     raise ValueError(
         f"Sample dataset for array '{array_name}' is not defined. "
-        "Currently only 'rapid' is supported."
+        "Currently only 'rapid' is supported.",
     )
 
 
@@ -98,8 +99,7 @@ def load_dataset(
     data_dir: Union[str, Path, None] = None,
     redownload: bool = False,
 ) -> list[xr.Dataset]:
-    """
-    Load raw datasets from a selected AMOC observing array.
+    """Load raw datasets from a selected AMOC observing array.
 
     Parameters
     ----------
@@ -131,6 +131,7 @@ def load_dataset(
     ------
     ValueError
         If an unknown array name is provided.
+
     """
     if logger.LOGGING_ENABLED:
         logger.setup_logger(array_name=array_name)

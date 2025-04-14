@@ -9,10 +9,9 @@ log = logger.log
 
 
 def generate_reverse_conversions(
-    forward_conversions: dict[str, dict[str, float]]
+    forward_conversions: dict[str, dict[str, float]],
 ) -> dict[str, dict[str, float]]:
-    """
-    Create a unit conversion dictionary with both forward and reverse conversions.
+    """Create a unit conversion dictionary with both forward and reverse conversions.
 
     Parameters
     ----------
@@ -29,6 +28,7 @@ def generate_reverse_conversions(
     Notes
     -----
     If a conversion factor is zero, a warning is printed, and the reverse conversion is skipped.
+
     """
     complete_conversions: dict[str, dict[str, float]] = {}
 
@@ -39,7 +39,7 @@ def generate_reverse_conversions(
             complete_conversions.setdefault(to_unit, {})
             if factor == 0:
                 print(
-                    f"Warning: zero factor in conversion from {from_unit} to {to_unit}"
+                    f"Warning: zero factor in conversion from {from_unit} to {to_unit}",
                 )
                 continue
             complete_conversions[to_unit][from_unit] = 1 / factor
@@ -81,8 +81,7 @@ unit_str_format = {
 
 
 def split_by_unique_dims(ds: xr.Dataset) -> dict[tuple[str, ...], xr.Dataset]:
-    """
-    Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.
+    """Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.
 
     Parameters
     ----------
@@ -125,6 +124,7 @@ def split_by_unique_dims(ds: xr.Dataset) -> dict[tuple[str, ...], xr.Dataset]:
     Dimensions without coordinates: y
     Data variables:
         var3     (y) int64 7 8
+
     """
     unique_dims_datasets: dict[tuple[str, ...], xr.Dataset] = {}
 
@@ -138,10 +138,11 @@ def split_by_unique_dims(ds: xr.Dataset) -> dict[tuple[str, ...], xr.Dataset]:
 
 
 def reformat_units_var(
-    ds: xr.Dataset, var_name: str, unit_format: dict[str, str] = unit_str_format
+    ds: xr.Dataset,
+    var_name: str,
+    unit_format: dict[str, str] = unit_str_format,
 ) -> str:
-    """
-    Reformat the units of a variable in the dataset based on a provided mapping.
+    """Reformat the units of a variable in the dataset based on a provided mapping.
 
     Parameters
     ----------
@@ -158,6 +159,7 @@ def reformat_units_var(
     str
         The reformatted unit string. If the old unit is not found in `unit_format`,
         the original unit string is returned.
+
     """
     old_unit = ds[var_name].attrs["units"]
     new_unit = unit_format.get(old_unit, old_unit)
@@ -170,8 +172,7 @@ def convert_units_var(
     new_unit: str,
     unit_conversion: dict[str, dict[str, float]] = unit_conversion,
 ) -> np.ndarray | float:
-    """
-    Converts variable values from one unit to another using a predefined conversion factor.
+    """Converts variable values from one unit to another using a predefined conversion factor.
 
     Parameters
     ----------
@@ -198,6 +199,7 @@ def convert_units_var(
     -----
     If the conversion factor for the specified units is not available, a message is printed, and the original
     values are returned without any conversion.
+
     """
     try:
         conversion_factor = unit_conversion[current_unit][new_unit]
@@ -208,8 +210,7 @@ def convert_units_var(
 
 
 def convert_qc_flags(dsa: xr.Dataset, qc_name: str) -> xr.Dataset:
-    """
-    Convert and update quality control (QC) flags in a dataset.
+    """Convert and update quality control (QC) flags in a dataset.
 
     This function processes a QC variable in the given dataset by converting its
     data type, updating its attributes, and linking it to the associated variable.
@@ -253,6 +254,7 @@ def convert_qc_flags(dsa: xr.Dataset, qc_name: str) -> xr.Dataset:
     {'flag_meaning': 'good bad', 'long_name': 'Sea temperature quality flag', 'standard_name': 'status_flag'}
     >>> updated_data['temperature'].attrs
     {'long_name': 'Sea temperature', 'ancillary_variables': 'temperature_qc'}
+
     """
     var_name: str = qc_name[:-3]
     if qc_name in list(dsa):
@@ -273,8 +275,7 @@ def convert_qc_flags(dsa: xr.Dataset, qc_name: str) -> xr.Dataset:
 
 
 def find_best_dtype(var_name: str, da: xr.DataArray) -> np.dtype:
-    """
-    Determines the most suitable data type for a given variable.
+    """Determines the most suitable data type for a given variable.
 
     Parameters
     ----------
@@ -287,6 +288,7 @@ def find_best_dtype(var_name: str, da: xr.DataArray) -> np.dtype:
     -------
     numpy.dtype
         The optimal data type for the variable based on its name and values.
+
     """
     input_dtype = da.dtype.type
     if "latitude" in var_name.lower() or "longitude" in var_name.lower():
@@ -306,8 +308,7 @@ def find_best_dtype(var_name: str, da: xr.DataArray) -> np.dtype:
 
 
 def set_fill_value(new_dtype: np.dtype) -> int:
-    """
-    Calculate the fill value for a given data type.
+    """Calculate the fill value for a given data type.
 
     Parameters
     ----------
@@ -318,14 +319,14 @@ def set_fill_value(new_dtype: np.dtype) -> int:
     -------
     int
         The calculated fill value based on the bit-width of the data type.
+
     """
     fill_val: int = 2 ** (int(re.findall(r"\d+", str(new_dtype))[0]) - 1) - 1
     return fill_val
 
 
 def set_best_dtype(ds: xr.Dataset) -> xr.Dataset:
-    """
-    Adjust the data types of variables in a dataset to optimize memory usage.
+    """Adjust the data types of variables in a dataset to optimize memory usage.
 
     Parameters
     ----------
@@ -343,6 +344,7 @@ def set_best_dtype(ds: xr.Dataset) -> xr.Dataset:
     - Attributes like `valid_min` and `valid_max` are updated to match the new data type.
     - If the new data type is integer-based, NaN values are replaced with a fill value.
     - Logs the percentage of memory saved after the data type adjustments.
+
     """
     bytes_in: int = ds.nbytes
     for var_name in list(ds):

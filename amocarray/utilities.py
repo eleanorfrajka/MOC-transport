@@ -1,8 +1,8 @@
 from ftplib import FTP
 from functools import wraps
 from pathlib import Path
-from urllib.parse import urlparse
 from typing import Callable, Dict, List, Optional, Tuple, Union
+from urllib.parse import urlparse
 
 import pandas as pd
 import requests
@@ -24,8 +24,7 @@ def get_default_data_dir() -> Path:
 
 
 def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
-    """
-    Decorator to apply default values for 'source' and 'file_list' parameters if they are None.
+    """Decorator to apply default values for 'source' and 'file_list' parameters if they are None.
 
     Parameters
     ----------
@@ -38,6 +37,7 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
     -------
     Callable
         A wrapped function with defaults applied.
+
     """
 
     def decorator(func: Callable) -> Callable:
@@ -66,8 +66,7 @@ def resolve_file_path(
     local_data_dir: Path,
     redownload: bool = False,
 ) -> Path:
-    """
-    Resolve the path to a data file, using local source, cache, or downloading if necessary.
+    """Resolve the path to a data file, using local source, cache, or downloading if necessary.
 
     Parameters
     ----------
@@ -86,6 +85,7 @@ def resolve_file_path(
     -------
     Path
         Path to the resolved file.
+
     """
     # Use local source if provided
     if source and not _is_valid_url(source):
@@ -115,7 +115,7 @@ def resolve_file_path(
 
     # If no options succeeded
     raise FileNotFoundError(
-        f"File {file_name} could not be resolved from local source, cache, or remote URL."
+        f"File {file_name} could not be resolved from local source, cache, or remote URL.",
     )
 
 
@@ -125,8 +125,7 @@ def safe_update_attrs(
     overwrite: bool = False,
     verbose: bool = True,
 ) -> xr.Dataset:
-    """
-    Safely update attributes of an xarray Dataset without overwriting existing keys,
+    """Safely update attributes of an xarray Dataset without overwriting existing keys,
     unless explicitly allowed.
 
     Parameters
@@ -144,6 +143,7 @@ def safe_update_attrs(
     -------
     xr.Dataset
         The dataset with updated attributes.
+
     """
 
 
@@ -153,8 +153,7 @@ def safe_update_attrs(
     overwrite: bool = False,
     verbose: bool = True,
 ) -> xr.Dataset:
-    """
-    Safely update attributes of an xarray Dataset without overwriting existing keys,
+    """Safely update attributes of an xarray Dataset without overwriting existing keys,
     unless explicitly allowed.
 
     Parameters
@@ -172,13 +171,14 @@ def safe_update_attrs(
     -------
     xr.Dataset
         The dataset with updated attributes.
+
     """
     for key, value in new_attrs.items():
         if key in ds.attrs:
             if not overwrite:
                 if verbose:
                     log_debug(
-                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten."
+                        f"Attribute '{key}' already exists in dataset attrs and will not be overwritten.",
                     )
                 continue  # Skip assignment
         ds.attrs[key] = value
@@ -189,8 +189,7 @@ def safe_update_attrs(
 
 
 def _validate_dims(ds: xr.Dataset) -> None:
-    """
-    Validate the dimensions of an xarray Dataset.
+    """Validate the dimensions of an xarray Dataset.
 
     This function checks if the first dimension of the dataset is named 'TIME' or 'time'.
     If not, it raises a ValueError.
@@ -204,6 +203,7 @@ def _validate_dims(ds: xr.Dataset) -> None:
     ------
     ValueError
         If the first dimension name is not 'TIME' or 'time'.
+
     """
     dim_name = list(ds.dims)[0]  # Should be 'N_MEASUREMENTS' for OG1
     if dim_name not in ["TIME", "time"]:
@@ -211,8 +211,7 @@ def _validate_dims(ds: xr.Dataset) -> None:
 
 
 def _is_valid_url(url: str) -> bool:
-    """
-    Validate if a given string is a valid URL with supported schemes.
+    """Validate if a given string is a valid URL with supported schemes.
 
     Parameters
     ----------
@@ -224,6 +223,7 @@ def _is_valid_url(url: str) -> bool:
     bool
         True if the URL is valid and uses a supported scheme ('http', 'https', 'ftp'),
         otherwise False.
+
     """
     try:
         result = urlparse(url)
@@ -232,15 +232,14 @@ def _is_valid_url(url: str) -> bool:
                 result.scheme in ("http", "https", "ftp"),
                 result.netloc,
                 result.path,  # Ensure there's a path, not necessarily its format
-            ]
+            ],
         )
     except Exception:
         return False
 
 
 def _is_valid_file(path: str) -> bool:
-    """
-    Check if the given path is a valid file and has a '.nc' extension.
+    """Check if the given path is a valid file and has a '.nc' extension.
 
     Parameters
     ----------
@@ -251,13 +250,13 @@ def _is_valid_file(path: str) -> bool:
     -------
     bool
         True if the path is a valid file and ends with '.nc', otherwise False.
+
     """
     return Path(path).is_file() and path.endswith(".nc")
 
 
 def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
-    """
-    Download a file from HTTP(S) or FTP to the specified destination folder.
+    """Download a file from HTTP(S) or FTP to the specified destination folder.
 
     Parameters
     ----------
@@ -277,6 +276,7 @@ def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
     ------
     ValueError
         If the URL scheme is unsupported.
+
     """
     dest_folder_path = Path(dest_folder)
     dest_folder_path.mkdir(parents=True, exist_ok=True)
@@ -310,10 +310,10 @@ def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
 
 
 def parse_ascii_header(
-    file_path: str, comment_char: str = "%"
+    file_path: str,
+    comment_char: str = "%",
 ) -> Tuple[List[str], int]:
-    """
-    Parse the header of an ASCII file to extract column names and the number of header lines.
+    """Parse the header of an ASCII file to extract column names and the number of header lines.
 
     Header lines are identified by the given comment character (default: '%').
     Columns are defined in lines like:
@@ -332,11 +332,12 @@ def parse_ascii_header(
         A tuple containing:
         - A list of column names extracted from the header.
         - The number of header lines to skip.
+
     """
     column_names: List[str] = []
     header_line_count: int = 0
 
-    with open(file_path, "r") as file:
+    with open(file_path) as file:
         for line in file:
             line = line.strip()
             header_line_count += 1
@@ -354,8 +355,7 @@ def parse_ascii_header(
 
 
 def read_ascii_file(file_path: str, comment_char: str = "#") -> pd.DataFrame:
-    """
-    Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.
+    """Read an ASCII file into a pandas DataFrame, skipping lines starting with a specified comment character.
 
     Parameters
     ----------
@@ -368,5 +368,6 @@ def read_ascii_file(file_path: str, comment_char: str = "#") -> pd.DataFrame:
     -------
     pd.DataFrame
         The loaded data as a pandas DataFrame.
+
     """
     return pd.read_csv(file_path, sep=r"\s+", comment=comment_char, on_bad_lines="skip")

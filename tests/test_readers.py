@@ -1,7 +1,7 @@
 import pytest
 import xarray as xr
 
-from amocarray import readers, logger
+from amocarray import logger, readers
 
 logger.disable_logging()
 
@@ -18,7 +18,8 @@ def test_load_sample_dataset_rapid():
 
 def test_load_sample_dataset_invalid_array():
     with pytest.raises(
-        ValueError, match="Sample dataset for array 'invalid' is not defined"
+        ValueError,
+        match="Sample dataset for array 'invalid' is not defined",
     ):
         readers.load_sample_dataset("invalid")
 
@@ -43,7 +44,8 @@ def test_load_dataset(array_name, expected_var):
 
     for ds in datasets:
         assert isinstance(
-            ds, xr.Dataset
+            ds,
+            xr.Dataset,
         ), f"Each dataset for {array_name} should be an xarray.Dataset"
         assert (
             "TIME" in ds or "time" in ds

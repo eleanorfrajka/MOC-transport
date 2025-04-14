@@ -7,6 +7,12 @@ repos:
         files: \.(py|ipynb)$
         exclude: ^data/
 
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6  # Check for the latest version
+    hooks:
+      - id: codespell
+        args: ["--ignore-words-list", "nd"]  # Optional: ignore some false positives
+
 #  - repo: https://github.com/pycqa/isort
 #    rev: 5.13.2
 #    hooks:
@@ -42,5 +48,10 @@ repos:
     rev: v0.3.0
     hooks:
       - id: ruff
-        args: ["--fix", "--exit-zero"]
+        args: [
+          "--fix",
+          "--exit-zero",
+          "--select",
+          "E,F,W,C90,ANN,B,BLE,TRY,ARG,SLF",
+        ]
         exclude: ^data/

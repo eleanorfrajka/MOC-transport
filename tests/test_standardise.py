@@ -1,4 +1,4 @@
-from amocarray import readers, standardise, logger
+from amocarray import logger, readers, standardise
 
 logger.disable_logging()
 
