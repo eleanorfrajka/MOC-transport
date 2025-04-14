@@ -94,9 +94,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">utilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_error</span><span class="p">,</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_warning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_defaults</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_error</span><span class="p">,</span> <span class="n">log_warning</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>  <span class="c1"># Use the global logger</span>
 
@@ -148,8 +148,7 @@
     <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the SAMBA transport datasets from remote URL or local file path into xarray Datasets.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -176,6 +175,7 @@
 <span class="sd">        If no source is provided for a file and no default URL mapping found.</span>
 <span class="sd">    FileNotFoundError</span>
 <span class="sd">        If the file cannot be downloaded or does not exist locally.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log_info</span><span class="p">(</span><span class="s2">&quot;Starting to read SAMBA dataset&quot;</span><span class="p">)</span>
 
@@ -223,7 +223,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;Upper_Abyssal&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
                 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;TIME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-                    <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">,</span> <span class="s2">&quot;Minute&quot;</span><span class="p">]]</span>
+                    <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">,</span> <span class="s2">&quot;Minute&quot;</span><span class="p">]],</span>
                 <span class="p">)</span>
                 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Month&quot;</span><span class="p">,</span> <span class="s2">&quot;Day&quot;</span><span class="p">,</span> <span class="s2">&quot;Hour&quot;</span><span class="p">,</span> <span class="s2">&quot;Minute&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
@@ -238,10 +238,12 @@
             <span class="n">ds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">log_error</span><span class="p">(</span>
-                <span class="s2">&quot;Failed to convert DataFrame to xarray Dataset for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">e</span>
+                <span class="s2">&quot;Failed to convert DataFrame to xarray Dataset for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">file</span><span class="p">,</span>
+                <span class="n">e</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Failed to convert DataFrame to xarray Dataset for </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Failed to convert DataFrame to xarray Dataset for </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Attach metadata</span>

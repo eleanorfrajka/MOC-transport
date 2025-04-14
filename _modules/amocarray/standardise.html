@@ -88,8 +88,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for amocarray.standardise</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Standardisation functions for AMOC observing array datasets.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Standardisation functions for AMOC observing array datasets.</span>
 
 <span class="sd">These functions take raw loaded datasets and:</span>
 <span class="sd">- Rename variables to standard names</span>
@@ -103,7 +102,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">utilities</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>  <span class="c1"># Use the global logger</span>
 
@@ -111,8 +110,7 @@
 <div class="viewcode-block" id="standardise_rapid">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_rapid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standardise_rapid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Standardise RAPID dataset:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise RAPID dataset:</span>
 <span class="sd">    - Rename time dimension and variable from &#39;time&#39; to &#39;TIME&#39;.</span>
 
 <span class="sd">    Parameters</span>
@@ -124,6 +122,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    xr.Dataset</span>
 <span class="sd">        Standardised RAPID dataset.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Rename dimension</span>
     <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">:</span>
@@ -147,8 +146,7 @@
 <div class="viewcode-block" id="standardise_samba">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_samba">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standardise_samba</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Standardise SAMBA dataset:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise SAMBA dataset:</span>
 <span class="sd">    - Rename variables to standard names.</span>
 <span class="sd">    - Add variable-level metadata (units, description, etc.).</span>
 <span class="sd">    - Update global attributes.</span>
@@ -164,6 +162,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    xr.Dataset</span>
 <span class="sd">        Standardised SAMBA dataset.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Variable renaming and attributes</span>
     <span class="n">variable_mapping</span> <span class="o">=</span> <span class="p">{</span>
@@ -212,7 +211,7 @@
                         <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
                         <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
                         <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Transport Anomaly&quot;</span><span class="p">,</span>
-                    <span class="p">}</span>
+                    <span class="p">},</span>
                 <span class="p">)</span>
 
     <span class="c1"># Global attributes clean-up</span>

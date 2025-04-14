@@ -94,9 +94,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="c1"># Import the modules used</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">utilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_error</span><span class="p">,</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_warning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_defaults</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_error</span><span class="p">,</span> <span class="n">log_warning</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>  <span class="c1"># Use the global logger</span>
 
@@ -140,8 +140,7 @@
     <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the RAPID transport dataset from a URL or local file path into an xarray.Dataset.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -169,6 +168,7 @@
 <span class="sd">        If the source is neither a valid URL nor a directory path.</span>
 <span class="sd">    FileNotFoundError</span>
 <span class="sd">        If no valid NetCDF files are found in the provided file list.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log_info</span><span class="p">(</span><span class="s2">&quot;Starting to read RAPID dataset&quot;</span><span class="p">)</span>
 

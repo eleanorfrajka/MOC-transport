@@ -88,17 +88,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for amocarray.readers</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_move</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_move</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_move</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_move</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
@@ -107,8 +108,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the reader function for the given array name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the reader function for the given array name.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -124,6 +124,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If an unknown array name is provided.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">readers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;move&quot;</span><span class="p">:</span> <span class="n">read_move</span><span class="p">,</span>
@@ -135,15 +136,14 @@
         <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unknown array name: </span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">. Valid options are: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">readers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown array name: </span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">. Valid options are: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">readers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
 
 <div class="viewcode-block" id="load_sample_dataset">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.readers.load_sample_dataset">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_sample_dataset</span><span class="p">(</span><span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rapid&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load a sample dataset for quick testing.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a sample dataset for quick testing.</span>
 
 <span class="sd">    Currently supports:</span>
 <span class="sd">    - &#39;rapid&#39; : loads the &#39;RAPID_26N_TRANSPORT.nc&#39; file</span>
@@ -162,6 +162,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the array_name is not recognised.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;rapid&quot;</span><span class="p">:</span>
         <span class="n">sample_file</span> <span class="o">=</span> <span class="s2">&quot;moc_transports.nc&quot;</span>
@@ -172,13 +173,13 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">datasets</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No datasets were loaded for sample file: </span><span class="si">{</span><span class="n">sample_file</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;No datasets were loaded for sample file: </span><span class="si">{</span><span class="n">sample_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Sample dataset for array &#39;</span><span class="si">{</span><span class="n">array_name</span><span class="si">}</span><span class="s2">&#39; is not defined. &quot;</span>
-        <span class="s2">&quot;Currently only &#39;rapid&#39; is supported.&quot;</span>
+        <span class="s2">&quot;Currently only &#39;rapid&#39; is supported.&quot;</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -193,8 +194,7 @@
     <span class="n">data_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">redownload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load raw datasets from a selected AMOC observing array.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load raw datasets from a selected AMOC observing array.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -226,6 +226,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If an unknown array name is provided.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">LOGGING_ENABLED</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">setup_logger</span><span class="p">(</span><span class="n">array_name</span><span class="o">=</span><span class="n">array_name</span><span class="p">)</span>

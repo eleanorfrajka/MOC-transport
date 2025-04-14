@@ -81,7 +81,7 @@ This new **feature branch** will now be up-to-date with the latest changes withi
 
 #### 7. Create a pull request to **upstream main**
 
-**On your computer in VS Code:** Sync the commit to main.  If this is the first time you've done this from your branch, you will need to "set the upstream".  Set the upstream to be https://github.com/AMOCcommunity/amocarray.  This will direct the pull request to the **upstream main** repository (not your main). If you accidently set it to your main, no worries, it just created a branch on your **forked repository** that won't go anywhere.  Redo it to upstream.
+**On your computer in VS Code:** Sync the commit to main.  If this is the first time you've done this from your branch, you will need to "set the upstream".  Set the upstream to be https://github.com/AMOCcommunity/amocarray.  This will direct the pull request to the **upstream main** repository (not your main). If you accidentally set it to your main, no worries, it just created a branch on your **forked repository** that won't go anywhere.  Redo it to upstream.
 
 Don't worry, if you created a pull request by mistake, you can "close it" on github.com without doing anything further.
 

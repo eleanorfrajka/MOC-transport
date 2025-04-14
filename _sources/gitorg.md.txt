@@ -19,7 +19,7 @@ Steps to transfer:
 
 7. Go to the README and docs, and update links to the repo and docs site
 
-8. Go to the package settings in `pyproject.toml` and update the URLs fo the repo and documentation that will display on PyPI
+8. Go to the package settings in `pyproject.toml` and update the URLs of the repo and documentation that will display on PyPI
 
 9. On PyPI: trusted publisher, update the repo address to where it is now for package publication
 

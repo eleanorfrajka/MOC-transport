@@ -90,26 +90,26 @@
              
   <section id="faq-troubleshooting">
 <h1>FAQ / Troubleshooting<a class="headerlink" href="#faq-troubleshooting" title="Link to this heading"></a></h1>
-<section id="i-get-an-error-when-doing-from-template-project-import-plotters">
-<h2>I get an error when doing <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">template_project</span> <span class="pre">import</span> <span class="pre">plotters</span></code><a class="headerlink" href="#i-get-an-error-when-doing-from-template-project-import-plotters" title="Link to this heading"></a></h2>
-<p>This is because your code can’t find the project <code class="docutils literal notranslate"><span class="pre">template_project</span></code>.</p>
-<p><strong>Option 1:</strong> Install the package <code class="docutils literal notranslate"><span class="pre">template_project</span></code> locally</p>
+<section id="i-get-an-error-when-doing-from-amocarray-import-plotters">
+<h2>I get an error when doing <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">amocarray</span> <span class="pre">import</span> <span class="pre">plotters</span></code><a class="headerlink" href="#i-get-an-error-when-doing-from-amocarray-import-plotters" title="Link to this heading"></a></h2>
+<p>This is because your code can’t find the project <code class="docutils literal notranslate"><span class="pre">amocarray</span></code>.</p>
+<p><strong>Option 1:</strong> Install the package <code class="docutils literal notranslate"><span class="pre">amocarray</span></code> locally</p>
 <p>Activate your environment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">micromamba</span> <span class="n">activate</span> <span class="n">template_env</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
 </pre></div>
 </div>
-<p>then install your project from the terminal window in, e.g., <code class="docutils literal notranslate"><span class="pre">/Users/eddifying/github/template-project</span></code> as</p>
+<p>then install your project from the terminal window in, e.g., <code class="docutils literal notranslate"><span class="pre">/a/path/on/your/computer/amocarray</span></code> as</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
 </pre></div>
 </div>
 <p>This will set it up so that you are installing the package in “editable” mode.  Then any changes you make to the scripts will be taken into account (though you may need to restart your kernel).</p>
-<p><strong>Option 2:</strong> Add the path to the <code class="docutils literal notranslate"><span class="pre">template_project</span></code> to the code</p>
+<p><strong>Option 2:</strong> Add the path to the <code class="docutils literal notranslate"><span class="pre">amocarray</span></code> to the code</p>
 <p>Alternatively, you could add to your notebook some lines so that your code can “find” the package.  This might look like</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/eddifying/github/template-project&#39;</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/a/path/on/your/computer/amocarray&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>before the line where you try <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">template_project</span> <span class="pre">import</span> <span class="pre">plotters</span></code>.  The secon</p>
+<p>before the line where you try <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">amocarray</span> <span class="pre">import</span> <span class="pre">plotters</span></code>.</p>
 </section>
 <section id="failing-to-install-the-package-in-a-github-action">
 <h2>Failing to install the package in a Github Action<a class="headerlink" href="#failing-to-install-the-package-in-a-github-action" title="Link to this heading"></a></h2>
@@ -119,7 +119,7 @@
 </pre></div>
 </div>
 <p>To test the installation, you’ll want a fresh environment.</p>
-<p><strong>In a terminal window, at the root of your project</strong> (for me, this is <code class="docutils literal notranslate"><span class="pre">/Users/eddifying/github/template-project/</span></code>), run the following commands in order.</p>
+<p><strong>In a terminal window, at the root of your project</strong> (for me, this is <code class="docutils literal notranslate"><span class="pre">/a/path/on/your/computer/amocarray/</span></code>), run the following commands in order.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">virtualenv</span> <span class="n">venv</span>
 <span class="n">source</span> <span class="n">venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span> <span class="o">&amp;&amp;</span> <span class="n">micromamba</span> <span class="n">deactivate</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
@@ -127,14 +127,6 @@
 </pre></div>
 </div>
 <p>Then check and troubleshoot any errors.  When this runs, you are probably ready to try it with the GitHub Actions (where the workflows are in your repository in <code class="docutils literal notranslate"><span class="pre">.github/workflows/*.yml</span></code>)</p>
-</section>
-<section id="what-s-the-difference-between-template-project-and-template-project">
-<h2>What’s the difference between <code class="docutils literal notranslate"><span class="pre">template-project</span></code> and <code class="docutils literal notranslate"><span class="pre">template_project</span></code>??<a class="headerlink" href="#what-s-the-difference-between-template-project-and-template-project" title="Link to this heading"></a></h2>
-<p>Our repository is called <code class="docutils literal notranslate"><span class="pre">template-project</span></code>.  You can have dashes in a repository name.</p>
-<p>Within the repository, the code (<code class="docutils literal notranslate"><span class="pre">*.py</span></code> files) are located in a subdirectory called <code class="docutils literal notranslate"><span class="pre">template_project</span></code>.  This is the package or module that we are creating and that will be installed, e.g., by <code class="docutils literal notranslate"><span class="pre">pip</span></code> when you do a <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>.  Python packages should not have dashes in them!</p>
-<p><strong>Could we have called them both <code class="docutils literal notranslate"><span class="pre">template_project</span></code>?</strong>  Yes!</p>
-<p><strong>Could we have called them both <code class="docutils literal notranslate"><span class="pre">template-project</span></code>?</strong>  No!  Not recommended for python packages even though it’s totally fine for repositories.</p>
-<p><strong>Why did you do this confusing thing in the template?</strong>  Two answers: First, by accident.  It was called <code class="docutils literal notranslate"><span class="pre">template-project/projectName</span></code> but since it appears to be common practice to have the package/module with the same name as the repository, this would mean <code class="docutils literal notranslate"><span class="pre">projectName</span></code> should be more like <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">project</span></code>.  But it also provides some clarity for what we’re talking about in the various steps–as long as we didn’t make mistakes with the hyphens and dashes, you know whether we’re referring to the <code class="docutils literal notranslate"><span class="pre">template-project</span></code> repository or the <code class="docutils literal notranslate"><span class="pre">template_project</span></code> package/module.</p>
 </section>
 </section>
 

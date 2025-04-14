@@ -101,10 +101,9 @@
 <div class="viewcode-block" id="generate_reverse_conversions">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.generate_reverse_conversions">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_reverse_conversions</span><span class="p">(</span>
-    <span class="n">forward_conversions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+    <span class="n">forward_conversions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a unit conversion dictionary with both forward and reverse conversions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a unit conversion dictionary with both forward and reverse conversions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -121,6 +120,7 @@
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    If a conversion factor is zero, a warning is printed, and the reverse conversion is skipped.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">complete_conversions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -131,7 +131,7 @@
             <span class="n">complete_conversions</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">to_unit</span><span class="p">,</span> <span class="p">{})</span>
             <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Warning: zero factor in conversion from </span><span class="si">{</span><span class="n">from_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Warning: zero factor in conversion from </span><span class="si">{</span><span class="n">from_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
             <span class="n">complete_conversions</span><span class="p">[</span><span class="n">to_unit</span><span class="p">][</span><span class="n">from_unit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">factor</span>
@@ -176,8 +176,7 @@
 <div class="viewcode-block" id="split_by_unique_dims">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.split_by_unique_dims">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">split_by_unique_dims</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -220,6 +219,7 @@
 <span class="sd">    Dimensions without coordinates: y</span>
 <span class="sd">    Data variables:</span>
 <span class="sd">        var3     (y) int64 7 8</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">unique_dims_datasets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -236,10 +236,11 @@
 <div class="viewcode-block" id="reformat_units_var">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.reformat_units_var">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reformat_units_var</span><span class="p">(</span>
-    <span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit_format</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">unit_str_format</span>
+    <span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">unit_format</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">unit_str_format</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reformat the units of a variable in the dataset based on a provided mapping.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reformat the units of a variable in the dataset based on a provided mapping.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -256,6 +257,7 @@
 <span class="sd">    str</span>
 <span class="sd">        The reformatted unit string. If the old unit is not found in `unit_format`,</span>
 <span class="sd">        the original unit string is returned.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">old_unit</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span>
     <span class="n">new_unit</span> <span class="o">=</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">old_unit</span><span class="p">,</span> <span class="n">old_unit</span><span class="p">)</span>
@@ -271,8 +273,7 @@
     <span class="n">new_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">unit_conversion</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts variable values from one unit to another using a predefined conversion factor.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts variable values from one unit to another using a predefined conversion factor.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -299,6 +300,7 @@
 <span class="sd">    -----</span>
 <span class="sd">    If the conversion factor for the specified units is not available, a message is printed, and the original</span>
 <span class="sd">    values are returned without any conversion.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">conversion_factor</span> <span class="o">=</span> <span class="n">unit_conversion</span><span class="p">[</span><span class="n">current_unit</span><span class="p">][</span><span class="n">new_unit</span><span class="p">]</span>
@@ -312,8 +314,7 @@
 <div class="viewcode-block" id="convert_qc_flags">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.convert_qc_flags">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_qc_flags</span><span class="p">(</span><span class="n">dsa</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">qc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert and update quality control (QC) flags in a dataset.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert and update quality control (QC) flags in a dataset.</span>
 
 <span class="sd">    This function processes a QC variable in the given dataset by converting its</span>
 <span class="sd">    data type, updating its attributes, and linking it to the associated variable.</span>
@@ -357,6 +358,7 @@
 <span class="sd">    {&#39;flag_meaning&#39;: &#39;good bad&#39;, &#39;long_name&#39;: &#39;Sea temperature quality flag&#39;, &#39;standard_name&#39;: &#39;status_flag&#39;}</span>
 <span class="sd">    &gt;&gt;&gt; updated_data[&#39;temperature&#39;].attrs</span>
 <span class="sd">    {&#39;long_name&#39;: &#39;Sea temperature&#39;, &#39;ancillary_variables&#39;: &#39;temperature_qc&#39;}</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">qc_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">qc_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsa</span><span class="p">):</span>
@@ -380,8 +382,7 @@
 <div class="viewcode-block" id="find_best_dtype">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.find_best_dtype">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_best_dtype</span><span class="p">(</span><span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">da</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Determines the most suitable data type for a given variable.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determines the most suitable data type for a given variable.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -394,6 +395,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    numpy.dtype</span>
 <span class="sd">        The optimal data type for the variable based on its name and values.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
     <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;longitude&quot;</span> <span class="ow">in</span> <span class="n">var_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
@@ -416,8 +418,7 @@
 <div class="viewcode-block" id="set_fill_value">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.set_fill_value">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_fill_value</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the fill value for a given data type.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the fill value for a given data type.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -428,6 +429,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    int</span>
 <span class="sd">        The calculated fill value based on the bit-width of the data type.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fill_val</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d+&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">fill_val</span></div>
@@ -437,8 +439,7 @@
 <div class="viewcode-block" id="set_best_dtype">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.tools.set_best_dtype">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_best_dtype</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adjust the data types of variables in a dataset to optimize memory usage.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adjust the data types of variables in a dataset to optimize memory usage.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -456,6 +457,7 @@
 <span class="sd">    - Attributes like `valid_min` and `valid_max` are updated to match the new data type.</span>
 <span class="sd">    - If the new data type is integer-based, NaN values are replaced with a fill value.</span>
 <span class="sd">    - Logs the percentage of memory saved after the data type adjustments.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bytes_in</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
     <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
