@@ -81,7 +81,7 @@ amocarray/
 
 All contributions are welcome!  See [contributing](CONTRIBUTING.md) for more details.
 
-To install a local, development version of amocarray, clone the repository, open a terminal in teh root directory (next to this readme file) and run these commands:
+To install a local, development version of amocarray, clone the repository, open a terminal in the root directory (next to this readme file) and run these commands:
 
 ```sh
 git clone https://github.com/AMOCcommunity/amocarray.git
