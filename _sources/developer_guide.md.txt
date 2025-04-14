@@ -137,10 +137,12 @@ cd amocarray
 
 ### Step 2: Set up a virtual environment
 
+In a terminal window, at the root of the repository (next to the `LICENSE` file), run
 ```bash
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate && micromamba deactivate
 ```
+Note the addition to the line `source venv/bin/activate`: the part `&& micromamba deactivate` is a safeguard in case you sometimes use micromamba.  It will ensure that you've deactivated any micromamba environments in this terminal.
 
 ### Step 3: Install dependencies
 
@@ -148,21 +150,26 @@ source venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
+If you have added or changed these, and want to make sure you have a clean install, you can do a
+```bash
+pip install -r requirements-dev.txt --force-reinstall
+```
+which will reinstall the packages at the newest version available.
 
 ### Step 4: (Optional) Install pre-commit hooks manually
 
-We recommend running pre-commit manually as a task or on-save action.
+We recommend running pre-commits to fix formatting and run tests, prior to making a pull request (or even prior to committing).  These will help you fix any problems you might otherwise encounter when the GitHub actions run the tests on your PR.
 
-To install hooks (optional):
-
-```bash
-pre-commit install
-```
-
-Otherwise, you can run pre-commit manually:
+You can run pre-commit manually:
 
 ```bash
 pre-commit run --all-files
+```
+
+Advanced (optional): If you know how to get these running, then to install hooks
+
+```bash
+pre-commit install
 ```
 
 ### Step 5: Build the documentation (optional)

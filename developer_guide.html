@@ -283,10 +283,12 @@ It is designed to support researchers and data users by providing tools to read,
 </section>
 <section id="step-2-set-up-a-virtual-environment">
 <h3>Step 2: Set up a virtual environment<a class="headerlink" href="#step-2-set-up-a-virtual-environment" title="Link to this heading"></a></h3>
+<p>In a terminal window, at the root of the repository (next to the <code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> file), run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
-<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>micromamba<span class="w"> </span>deactivate
 </pre></div>
 </div>
+<p>Note the addition to the line <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">venv/bin/activate</span></code>: the part <code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span> <span class="pre">micromamba</span> <span class="pre">deactivate</span></code> is a safeguard in case you sometimes use micromamba.  It will ensure that you’ve deactivated any micromamba environments in this terminal.</p>
 </section>
 <section id="step-3-install-dependencies">
 <h3>Step 3: Install dependencies<a class="headerlink" href="#step-3-install-dependencies" title="Link to this heading"></a></h3>
@@ -294,16 +296,21 @@ It is designed to support researchers and data users by providing tools to read,
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
 </pre></div>
 </div>
+<p>If you have added or changed these, and want to make sure you have a clean install, you can do a</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt<span class="w"> </span>--force-reinstall
+</pre></div>
+</div>
+<p>which will reinstall the packages at the newest version available.</p>
 </section>
 <section id="step-4-optional-install-pre-commit-hooks-manually">
 <h3>Step 4: (Optional) Install pre-commit hooks manually<a class="headerlink" href="#step-4-optional-install-pre-commit-hooks-manually" title="Link to this heading"></a></h3>
-<p>We recommend running pre-commit manually as a task or on-save action.</p>
-<p>To install hooks (optional):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>install
+<p>We recommend running pre-commits to fix formatting and run tests, prior to making a pull request (or even prior to committing).  These will help you fix any problems you might otherwise encounter when the GitHub actions run the tests on your PR.</p>
+<p>You can run pre-commit manually:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 </pre></div>
 </div>
-<p>Otherwise, you can run pre-commit manually:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+<p>Advanced (optional): If you know how to get these running, then to install hooks</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>install
 </pre></div>
 </div>
 </section>
