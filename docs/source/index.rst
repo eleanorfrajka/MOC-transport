@@ -17,19 +17,20 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :caption: Getting started
 
    installation.md
-   
+
 .. toctree::
    :maxdepth: 3
-   :caption: Contributors' guide
-   
+   :caption: Developers' guide
+
+   developer_guide.md
    gitcollab.md
    actions.md
    conventions.md
    housekeeping.md
-   
+
 .. toctree::
    :maxdepth: 3
-   :caption: Users guide
+   :caption: Users' guide
 
    demo-output.ipynb
 
