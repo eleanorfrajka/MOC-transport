@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Guide for amocarray &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Collaborating with git: Basic workflow" href="gitcollab.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart-first-contribution">1. Quickstart: First Contribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-overview">2. Project Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-structure">3. Project Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#project-management-and-configuration-files">Project Management and Configuration Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-modules">Core Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-development-environment">4. Setting Up Development Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-clone-the-repository">Step 1: Clone the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-set-up-a-virtual-environment">Step 2: Set up a virtual environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-install-dependencies">Step 3: Install dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-optional-install-pre-commit-hooks-manually">Step 4: (Optional) Install pre-commit hooks manually</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-build-the-documentation-optional">Step 5: Build the documentation (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development-workflow">5. Development Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#branching-model">Branching Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fork-pull-requests">Fork &amp; Pull Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keeping-your-fork-up-to-date">Keeping Your Fork Up To Date</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ignoring-local-files-gitignore-vs-git-info-exclude">6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gitignore"><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-info-exclude"><code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#best-practice">Best Practice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#commit-message-style-guide">7. Commit Message Style Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#format">Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#types">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-this-matters">Why this matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#logging-and-debugging">8. Logging and Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-logging-works">How logging works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enabling-and-disabling-logging">Enabling and disabling logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-logs-in-modules">Writing logs in modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-levels">Log levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#best-practices">Best practices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">9. Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-commit-not-running">Pre-commit not running?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vscode-virtualenv-not-recognised">VSCode virtualenv not recognised?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tests-failing-due-to-missing-data">Tests failing due to missing data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pre-commit-pytest-hook-fails-but-pytest-passes-manually">Pre-commit <code class="docutils literal notranslate"><span class="pre">pytest</span></code> hook fails but <code class="docutils literal notranslate"><span class="pre">pytest</span></code> passes manually?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#my-commits-are-blocked-by-pre-commit-errors">My commits are blocked by pre-commit errors?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#further-resources">10. Further Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/developer_guide.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="developer-guide-for-amocarray">
+<h1>Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code><a class="headerlink" href="#developer-guide-for-amocarray" title="Link to this heading"></a></h1>
+<!-- omit in toc -->
+<p>Welcome to the <code class="docutils literal notranslate"><span class="pre">amocarray</span></code> Developer Guide!</p>
+<p>This guide will help you set up your local development environment, understand the project structure, and contribute effectively to the project. Whether you’re fixing bugs, adding new readers, or improving documentation, this guide is your starting point.</p>
+<p><strong>Related resources:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/conventions.html">Coding conventions</a></p></li>
+<li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/housekeeping.html">Housekeeping checklist</a></p></li>
+<li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/gitcollab.html">Git collaboration</a></p></li>
+<li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/actions.html">Project actions</a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Quickstart: First Contribution</p></li>
+<li><p>Project Overview</p></li>
+<li><p>Project Structure</p></li>
+<li><p>Setting Up Development Environment</p></li>
+<li><p>Development Workflow</p></li>
+<li><p>Ignoring Local Files: .gitignore vs .git/info/exclude</p></li>
+<li><p>Commit Message Style Guide</p></li>
+<li><p>Logging and Debugging</p></li>
+<li><p>Troubleshooting</p></li>
+<li><p>Further Resources</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="quickstart-first-contribution">
+<h2>1. Quickstart: First Contribution<a class="headerlink" href="#quickstart-first-contribution" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Fork the repository</p></li>
+<li><p>Clone the upstream repository:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AMOCcommunity/amocarray.git
+<span class="nb">cd</span><span class="w"> </span>amocarray
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create a virtual environment and install dependencies:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Make your changes (update a doc, fix a function!)</p></li>
+<li><p>Run tests and pre-commit checks:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
+pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Push to your fork</p></li>
+<li><p>Open a pull request 🚀</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="project-overview">
+<h2>2. Project Overview<a class="headerlink" href="#project-overview" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">amocarray</span></code> is a Python package to process and analyse data from AMOC observing arrays.<br />
+It is designed to support researchers and data users by providing tools to read, standardise, and work with multiple datasets.</p>
+<p><strong>Core goals:</strong></p>
+<ul class="simple">
+<li><p>Consistent handling of multiple AMOC arrays</p></li>
+<li><p>Easy integration of new data sources</p></li>
+<li><p>High code quality and reproducibility</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="project-structure">
+<h2>3. Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>amocarray/
+├──<span class="w"> </span>amocarray/<span class="w">               </span><span class="c1"># Core modules (readers, utilities, standardisation)</span>
+│<span class="w">   </span>├──<span class="w"> </span>readers.py<span class="w">           </span><span class="c1"># High-level interface for loading datasets</span>
+│<span class="w">   </span>├──<span class="w"> </span>read_move.py<span class="w">         </span><span class="c1"># Reader for MOVE data</span>
+│<span class="w">   </span>├──<span class="w"> </span>read_rapid.py<span class="w">        </span><span class="c1"># Reader for RAPID data</span>
+│<span class="w">   </span>├──<span class="w"> </span>read_osnap.py<span class="w">        </span><span class="c1"># Reader for OSNAP data</span>
+│<span class="w">   </span>├──<span class="w"> </span>read_samba.py<span class="w">        </span><span class="c1"># Reader for SAMBA data</span>
+│<span class="w">   </span>├──<span class="w"> </span>utilities.py<span class="w">         </span><span class="c1"># Helper functions (file handling, downloads, etc.)</span>
+│<span class="w">   </span>├──<span class="w"> </span>tools.py<span class="w">             </span><span class="c1"># Unit conversions and data cleaning</span>
+│<span class="w">   </span>├──<span class="w"> </span>standardise.py<span class="w">       </span><span class="c1"># Functions for dataset standardisation</span>
+│<span class="w">   </span>├──<span class="w"> </span>plotters.py<span class="w">          </span><span class="c1"># Plotting utilities</span>
+│<span class="w">   </span>├──<span class="w"> </span>writers.py<span class="w">           </span><span class="c1"># Data writing utilities</span>
+│<span class="w">   </span>└──<span class="w"> </span>logger.py<span class="w">            </span><span class="c1"># Project-wide structured logging</span>
+├──<span class="w"> </span>tests/<span class="w">                   </span><span class="c1"># Unit tests</span>
+├──<span class="w"> </span>data/<span class="w">                    </span><span class="c1"># Local data storage (downloads etc.)</span>
+├──<span class="w"> </span>docs/<span class="w">                    </span><span class="c1"># Documentation sources (built with Sphinx)</span>
+├──<span class="w"> </span>notebooks/<span class="w">               </span><span class="c1"># Jupyter notebooks for exploration and demos</span>
+├──<span class="w"> </span>.github/<span class="w">                 </span><span class="c1"># GitHub workflows and actions</span>
+├──<span class="w"> </span>pyproject.toml<span class="w">           </span><span class="c1"># Project metadata and build system config</span>
+├──<span class="w"> </span>CITATION.cff<span class="w">             </span><span class="c1"># Citation file for this project</span>
+├──<span class="w"> </span>CONTRIBUTING.md<span class="w">          </span><span class="c1"># Contribution guidelines</span>
+├──<span class="w"> </span>README.md<span class="w">                </span><span class="c1"># Project overview and installation instructions</span>
+├──<span class="w"> </span>requirements.txt<span class="w">         </span><span class="c1"># Runtime dependencies</span>
+├──<span class="w"> </span>requirements-dev.txt<span class="w">     </span><span class="c1"># Development dependencies</span>
+└──<span class="w"> </span>.pre-commit-config.yaml<span class="w">  </span><span class="c1"># Pre-commit hooks configuration</span>
+</pre></div>
+</div>
+<section id="project-management-and-configuration-files">
+<h3>Project Management and Configuration Files<a class="headerlink" href="#project-management-and-configuration-files" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>: Project metadata and build system configuration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code>: Citation information for the project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.md</span></code>: Guidelines for contributors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code>: Project overview, installation, and usage instructions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>: Pre-commit hook configurations.</p></li>
+</ul>
+</section>
+<section id="core-modules">
+<h3>Core Modules<a class="headerlink" href="#core-modules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">readers.py</span></code>: Clean, high-level interface for loading datasets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read_move.py</span></code>, <code class="docutils literal notranslate"><span class="pre">read_rapid.py</span></code>, etc.: Specific reader modules for MOVE, RAPID, OSNAP, SAMBA.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utilities.py</span></code>: Shared helper functions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tools.py</span></code>: Unit conversions and data cleaning.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">standardise.py</span></code>: Dataset standardisation functions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logger.py</span></code>: Project-wide structured logging.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plotters.py</span></code>: Plotting utilities.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">writers.py</span></code>: Data writing utilities.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="setting-up-development-environment">
+<h2>4. Setting Up Development Environment<a class="headerlink" href="#setting-up-development-environment" title="Link to this heading"></a></h2>
+<section id="step-1-clone-the-repository">
+<h3>Step 1: Clone the repository<a class="headerlink" href="#step-1-clone-the-repository" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AMOCcommunity/amocarray.git
+<span class="nb">cd</span><span class="w"> </span>amocarray
+</pre></div>
+</div>
+</section>
+<section id="step-2-set-up-a-virtual-environment">
+<h3>Step 2: Set up a virtual environment<a class="headerlink" href="#step-2-set-up-a-virtual-environment" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+</pre></div>
+</div>
+</section>
+<section id="step-3-install-dependencies">
+<h3>Step 3: Install dependencies<a class="headerlink" href="#step-3-install-dependencies" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
+</pre></div>
+</div>
+</section>
+<section id="step-4-optional-install-pre-commit-hooks-manually">
+<h3>Step 4: (Optional) Install pre-commit hooks manually<a class="headerlink" href="#step-4-optional-install-pre-commit-hooks-manually" title="Link to this heading"></a></h3>
+<p>We recommend running pre-commit manually as a task or on-save action.</p>
+<p>To install hooks (optional):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+<p>Otherwise, you can run pre-commit manually:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</pre></div>
+</div>
+</section>
+<section id="step-5-build-the-documentation-optional">
+<h3>Step 5: Build the documentation (optional)<a class="headerlink" href="#step-5-build-the-documentation-optional" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
+make<span class="w"> </span>html
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="development-workflow">
+<h2>5. Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading"></a></h2>
+<section id="branching-model">
+<h3>Branching Model<a class="headerlink" href="#branching-model" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Work on feature branches from <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p>No enforced naming convention, but commonly we use: <code class="docutils literal notranslate"><span class="pre">Eleanor-patch-X</span></code>, where X increments for each patch.</p></li>
+</ul>
+</section>
+<section id="fork-pull-requests">
+<h3>Fork &amp; Pull Requests<a class="headerlink" href="#fork-pull-requests" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Fork the repository on GitHub.</p></li>
+<li><p>Push your changes to your fork.</p></li>
+<li><p>Open a pull request to <code class="docutils literal notranslate"><span class="pre">AMOCcommunity/amocarray</span></code>.</p></li>
+</ul>
+<p><strong>See:</strong> <a class="reference external" href="https://amoccommunity.github.io/amocarray/gitcollab.html">Git collaboration guide</a></p>
+</section>
+<section id="keeping-your-fork-up-to-date">
+<h3>Keeping Your Fork Up To Date<a class="headerlink" href="#keeping-your-fork-up-to-date" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/AMOCcommunity/amocarray.git
+git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>merge<span class="w"> </span>upstream/main
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="ignoring-local-files-gitignore-vs-git-info-exclude">
+<h2>6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code><a class="headerlink" href="#ignoring-local-files-gitignore-vs-git-info-exclude" title="Link to this heading"></a></h2>
+<p>When working with local files that should not be tracked by Git, you have two main options:</p>
+<section id="gitignore">
+<h3><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code><a class="headerlink" href="#gitignore" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Lives in the root of the repository.</p></li>
+<li><p>Changes are <strong>shared</strong> with all contributors.</p></li>
+<li><p>Best for files or patterns that should be ignored project-wide (e.g., temporary build files, virtual environments).</p></li>
+</ul>
+<p>Example entries:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__pycache__</span><span class="o">/</span>
+<span class="n">venv</span><span class="o">/</span>
+<span class="n">data</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="git-info-exclude">
+<h3><code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code><a class="headerlink" href="#git-info-exclude" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Personal, local ignores <strong>specific to your environment</strong>.</p></li>
+<li><p>Behaves like <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> but is <strong>never committed</strong>.</p></li>
+<li><p>Use for local files you want to ignore without affecting the shared project settings.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_temp_outputs</span><span class="o">/</span>
+<span class="n">notes</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>You can edit <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code> manually at any time.</p>
+</section>
+<section id="best-practice">
+<h3>Best Practice<a class="headerlink" href="#best-practice" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> for project-wide ignores.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code> for personal, local excludes — no risk of accidentally committing changes to shared ignore patterns!</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="commit-message-style-guide">
+<h2>7. Commit Message Style Guide<a class="headerlink" href="#commit-message-style-guide" title="Link to this heading"></a></h2>
+<p>We use clear, consistent commit messages to make our history readable and to support changelog automation in the future.</p>
+<section id="format">
+<h3>Format<a class="headerlink" href="#format" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="n">short</span> <span class="n">description</span> <span class="n">of</span> <span class="n">the</span> <span class="n">change</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Use <strong>lowercase</strong> for the description (except proper nouns).</p></li>
+<li><p>Keep it concise but descriptive (ideally under 72 characters).</p></li>
+<li><p>Use the imperative mood: “fix bug” not “fixed bug” or “fixes bug”.</p></li>
+</ul>
+</section>
+<section id="types">
+<h3>Types<a class="headerlink" href="#types" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tag</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">feat</span></code></p></td>
+<td><p>New feature</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fix</span></code></p></td>
+<td><p>Bug fix</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docs</span></code></p></td>
+<td><p>Documentation only changes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">style</span></code></p></td>
+<td><p>Code style changes (formatting, no logic)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">refactor</span></code></p></td>
+<td><p>Code improvements without behavior change</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test</span></code></p></td>
+<td><p>Adding or improving tests</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ci</span></code></p></td>
+<td><p>Changes to CI/CD pipelines</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">chore</span></code></p></td>
+<td><p>Maintenance or auxiliary tooling changes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cleanup</span></code></p></td>
+<td><p>Removing old code or housekeeping</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fix</span> <span class="n">osnap</span> <span class="n">reader</span> <span class="n">dimension</span> <span class="n">handling</span>
+<span class="n">feat</span> <span class="n">add</span> <span class="n">metadata</span> <span class="n">support</span> <span class="k">for</span> <span class="n">samba</span> <span class="n">reader</span>
+<span class="n">docs</span> <span class="n">update</span> <span class="n">README</span> <span class="k">with</span> <span class="n">installation</span> <span class="n">steps</span>
+<span class="n">test</span> <span class="n">add</span> <span class="n">coverage</span> <span class="k">for</span> <span class="n">utilities</span> <span class="n">module</span>
+<span class="n">ci</span> <span class="n">add</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">config</span> <span class="k">for</span> <span class="n">linting</span>
+<span class="n">cleanup</span> <span class="n">remove</span> <span class="n">deprecated</span> <span class="n">functions</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tools.py</span>
+</pre></div>
+</div>
+</section>
+<section id="why-this-matters">
+<h3>Why this matters<a class="headerlink" href="#why-this-matters" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>✅ Easier to read history</p></li>
+<li><p>✅ Easier changelog generation (future automation-ready!)</p></li>
+<li><p>✅ Helps reviewers quickly understand the purpose of commits</p></li>
+</ul>
+<p>When in doubt, keep your commits small and focused!</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="logging-and-debugging">
+<h2>8. Logging and Debugging<a class="headerlink" href="#logging-and-debugging" title="Link to this heading"></a></h2>
+<p>With PR #25, structured logging has been introduced to <code class="docutils literal notranslate"><span class="pre">amocarray</span></code>.</p>
+<p>Logs track steps during data reading and, in the future, will also report changes during dataset standardisation.</p>
+<section id="how-logging-works">
+<h3>How logging works<a class="headerlink" href="#how-logging-works" title="Link to this heading"></a></h3>
+<p>Logging is handled in <code class="docutils literal notranslate"><span class="pre">logger.py</span></code> using:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup_logger</span><span class="p">(</span><span class="n">array_name</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Creates a log file per array (MOVE, RAPID, OSNAP, etc.)</p></li>
+<li><p>Timestamped as: <code class="docutils literal notranslate"><span class="pre">YYYYMMDDTHH</span></code></p></li>
+<li><p>Currently appends the string “read” — this may evolve to include other processes like standardisation.</p></li>
+</ul>
+</section>
+<section id="enabling-and-disabling-logging">
+<h3>Enabling and disabling logging<a class="headerlink" href="#enabling-and-disabling-logging" title="Link to this heading"></a></h3>
+<p>Logging is controlled by the global variable <code class="docutils literal notranslate"><span class="pre">LOGGING_ENABLED</span></code> in <code class="docutils literal notranslate"><span class="pre">logger.py</span></code>.</p>
+<p>You can toggle logging dynamically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">enable_logging</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">disable_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="writing-logs-in-modules">
+<h3>Writing logs in modules<a class="headerlink" href="#writing-logs-in-modules" title="Link to this heading"></a></h3>
+<p>We wrap standard Python logging calls to allow toggling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_warning</span><span class="p">,</span> <span class="n">log_error</span><span class="p">,</span> <span class="n">log_debug</span>
+</pre></div>
+</div>
+<p>Then, in your code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log_info</span><span class="p">(</span><span class="s2">&quot;Dataset successfully loaded.&quot;</span><span class="p">)</span>
+<span class="n">log_warning</span><span class="p">(</span><span class="s2">&quot;Missing metadata detected.&quot;</span><span class="p">)</span>
+<span class="n">log_error</span><span class="p">(</span><span class="s2">&quot;File not found.&quot;</span><span class="p">)</span>
+<span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Variable dimensions: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Note:</strong> This departs from typical imports (<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">amocarray</span> <span class="pre">import</span> <span class="pre">logger</span></code>) to keep calls clean and familiar: <code class="docutils literal notranslate"><span class="pre">log_info(...)</span></code> rather than <code class="docutils literal notranslate"><span class="pre">logger.log.info(...)</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="log-levels">
+<h3>Log levels<a class="headerlink" href="#log-levels" title="Link to this heading"></a></h3>
+<p>We use standard Python logging levels, with our most common being:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">log_error</span></code>: Critical failures or exceptions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_warning</span></code>: Potential issues that do not stop execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_info</span></code>: Useful process steps and confirmations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_debug</span></code>: Detailed diagnostic output.</p></li>
+</ul>
+<p>All levels are currently captured:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>  <span class="c1"># capture everything; handlers filter later</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h3>Best practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>✅ Use logging to track important steps in your code.</p></li>
+<li><p>✅ Log warnings for unusual but non-breaking behaviour.</p></li>
+<li><p>✅ Use <code class="docutils literal notranslate"><span class="pre">log_debug</span></code> for rich details useful in debugging.</p></li>
+<li><p>✅ Avoid excessive logging inside tight loops.</p></li>
+</ul>
+<p>As <code class="docutils literal notranslate"><span class="pre">amocarray</span></code> expands, logs will play an increasing role in transparency and reproducibility.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>9. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="pre-commit-not-running">
+<h3>Pre-commit not running?<a class="headerlink" href="#pre-commit-not-running" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Run manually:
+<code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">--all-files</span></code></p>
+</div></blockquote>
+</section>
+<section id="vscode-virtualenv-not-recognised">
+<h3>VSCode virtualenv not recognised?<a class="headerlink" href="#vscode-virtualenv-not-recognised" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Ensure VSCode Python interpreter is set to <code class="docutils literal notranslate"><span class="pre">./venv/bin/python</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="tests-failing-due-to-missing-data">
+<h3>Tests failing due to missing data?<a class="headerlink" href="#tests-failing-due-to-missing-data" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Check your data directory is correctly set.</p>
+</div></blockquote>
+</section>
+<section id="pre-commit-pytest-hook-fails-but-pytest-passes-manually">
+<h3>Pre-commit <code class="docutils literal notranslate"><span class="pre">pytest</span></code> hook fails but <code class="docutils literal notranslate"><span class="pre">pytest</span></code> passes manually?<a class="headerlink" href="#pre-commit-pytest-hook-fails-but-pytest-passes-manually" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Ensure your virtual environment is activated in your VSCode terminal settings.</p>
+</div></blockquote>
+</section>
+<section id="my-commits-are-blocked-by-pre-commit-errors">
+<h3>My commits are blocked by pre-commit errors?<a class="headerlink" href="#my-commits-are-blocked-by-pre-commit-errors" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Fix all reported issues (linting, formatting, etc.) then try committing again.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="further-resources">
+<h2>10. Further Resources<a class="headerlink" href="#further-resources" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/">amocarray User Documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/OceanGlidersCommunity/ocean-gliders">OceanGliders Metadata Standards</a></p></li>
+<li><p><a class="reference external" href="https://www.amoccommunity.org/">AMOC Community Project</a></p></li>
+</ul>
+<hr class="docutils" />
+<p><em>This developer guide was prepared based on interactions with callumGPT and with ChatGPT to help structure and clarify.</em></p>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gitcollab.html" class="btn btn-neutral float-right" title="Collaborating with git: Basic workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

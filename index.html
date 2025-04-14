@@ -47,14 +47,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
 </ul>
@@ -102,8 +103,63 @@
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contributors' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#quickstart-first-contribution">1. Quickstart: First Contribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#project-overview">2. Project Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#project-structure">3. Project Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#project-management-and-configuration-files">Project Management and Configuration Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#core-modules">Core Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#setting-up-development-environment">4. Setting Up Development Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#step-1-clone-the-repository">Step 1: Clone the repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#step-2-set-up-a-virtual-environment">Step 2: Set up a virtual environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#step-3-install-dependencies">Step 3: Install dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#step-4-optional-install-pre-commit-hooks-manually">Step 4: (Optional) Install pre-commit hooks manually</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#step-5-build-the-documentation-optional">Step 5: Build the documentation (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#development-workflow">5. Development Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#branching-model">Branching Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#fork-pull-requests">Fork &amp; Pull Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#keeping-your-fork-up-to-date">Keeping Your Fork Up To Date</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#ignoring-local-files-gitignore-vs-git-info-exclude">6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#gitignore"><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#git-info-exclude"><code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#best-practice">Best Practice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#commit-message-style-guide">7. Commit Message Style Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#format">Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#types">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#why-this-matters">Why this matters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#logging-and-debugging">8. Logging and Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#how-logging-works">How logging works</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#enabling-and-disabling-logging">Enabling and disabling logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#writing-logs-in-modules">Writing logs in modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#log-levels">Log levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#best-practices">Best practices</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#troubleshooting">9. Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#pre-commit-not-running">Pre-commit not running?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#vscode-virtualenv-not-recognised">VSCode virtualenv not recognised?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#tests-failing-due-to-missing-data">Tests failing due to missing data?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#pre-commit-pytest-hook-fails-but-pytest-passes-manually">Pre-commit <code class="docutils literal notranslate"><span class="pre">pytest</span></code> hook fails but <code class="docutils literal notranslate"><span class="pre">pytest</span></code> passes manually?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="developer_guide.html#my-commits-are-blocked-by-pre-commit-errors">My commits are blocked by pre-commit errors?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#further-resources">10. Further Resources</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gitcollab.html#forking-branching-someone-else-s-repository">Forking &amp; branching someone else’s repository</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="gitcollab.html#fork-a-repository">1. Fork a repository</a></li>
@@ -173,7 +229,7 @@
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Users guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="demo-output.html#Load-RAPID-26°N">Load RAPID 26°N</a></li>
