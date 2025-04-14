@@ -18,8 +18,10 @@ def get_project_root() -> Path:
     """Return the absolute path to the project root directory."""
     return Path(__file__).resolve().parent.parent
 
+
 def get_default_data_dir() -> Path:
     return Path(__file__).resolve().parent.parent / "data"
+
 
 def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
     """
