@@ -31,9 +31,7 @@ urls.homepage = "https://github.com/AMOCcommunity/amocarray"
 urls.repository = "https://github.com/AMOCcommunity/amocarray"
 
 [tool.setuptools]
-packages = [
-  "amocarray", "amocarray.metadata"
-]
+packages = ["amocarray", "amocarray.metadata"]
 include-package-data = true
 
 [tool.setuptools.package-data]

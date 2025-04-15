@@ -15,7 +15,6 @@ log = logger.log
 from importlib import resources
 
 
-
 def get_project_root() -> Path:
     """Return the absolute path to the project root directory."""
     return Path(__file__).resolve().parent.parent
@@ -121,8 +120,6 @@ def resolve_file_path(
     )
 
 
-
-
 def load_array_metadata(array_name: str) -> dict:
     """
     Load metadata YAML for a given mooring array.
@@ -138,10 +135,16 @@ def load_array_metadata(array_name: str) -> dict:
         Dictionary containing the parsed YAML metadata.
     """
     try:
-        with resources.files("amocarray.metadata").joinpath(f"{array_name.lower()}_array.yml").open("r") as f:
+        with (
+            resources.files("amocarray.metadata")
+            .joinpath(f"{array_name.lower()}_array.yml")
+            .open("r") as f
+        ):
             return yaml.safe_load(f)
     except FileNotFoundError as e:
-        raise FileNotFoundError(f"No metadata file found for array: {array_name}") from e
+        raise FileNotFoundError(
+            f"No metadata file found for array: {array_name}"
+        ) from e
     except Exception as e:
         raise RuntimeError(f"Error loading metadata for array {array_name}: {e}") from e
 
@@ -198,6 +201,7 @@ REQUIRED_VARIABLE_FIELDS = [
     "standard_name",
 ]
 
+
 def validate_array_yaml(array_name: str, verbose: bool = True) -> bool:
     """
     Validate the structure and required fields of an array-level metadata YAML.
@@ -239,7 +243,9 @@ def validate_array_yaml(array_name: str, verbose: bool = True) -> bool:
                 if field not in var_attrs:
                     success = False
                     if verbose:
-                        print(f"Missing '{field}' for variable '{var_name}' in file '{file_name}'")
+                        print(
+                            f"Missing '{field}' for variable '{var_name}' in file '{file_name}'"
+                        )
 
     if success and verbose:
         print(f"Validation passed for array '{array_name}'.")

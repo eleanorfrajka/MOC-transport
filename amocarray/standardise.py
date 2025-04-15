@@ -132,6 +132,7 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
 
     return ds
 
+
 def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     """Standardise SAMBA dataset:
     - Rename variables to standard names.
@@ -165,10 +166,12 @@ def standardise_samba(ds: xr.Dataset, file_name: str) -> xr.Dataset:
 
     # Compose global attributes from array-wide + file-specific
     global_attrs = dict(meta.get("metadata", {}))  # array-wide
-    global_attrs.update({
-        "summary": meta["metadata"].get("description", ""),
-        "weblink": meta["metadata"].get("weblink", ""),
-    })
+    global_attrs.update(
+        {
+            "summary": meta["metadata"].get("description", ""),
+            "weblink": meta["metadata"].get("weblink", ""),
+        }
+    )
     if "acknowledgement" in file_meta:
         global_attrs["acknowledgement"] = file_meta["acknowledgement"]
     if "data_product" in file_meta:
