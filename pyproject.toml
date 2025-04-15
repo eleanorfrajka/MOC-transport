@@ -35,7 +35,7 @@ packages = ["amocarray", "amocarray.metadata"]
 include-package-data = true
 
 [tool.setuptools.package-data]
-amocarray.metadata = ["*.yml"]
+amocarray = ["metadata/*.yml"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = [
