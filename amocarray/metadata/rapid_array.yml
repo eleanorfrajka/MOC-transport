@@ -1,0 +1,131 @@
+metadata:
+  array_name: RAPID
+  description: "RAPID 26N transport estimates dataset"
+  project: "RAPID-AMOC 26°N array"
+  weblink: https://rapid.ac.uk/rapidmoc
+  comment: Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/
+  license: CC-BY 4.0
+  Metadata_Conventions: CF-1.8, ACDD-1.3
+  time_coverage_start: "2004-04-01"
+  time_coverage_end: "2023-12-31"
+  Creation_date: 17-Sep-2024
+  platform_type: Mooring array
+  creator_name: Ben Moat
+  creator_url: https://rapid.ac.uk/
+  creator_email: ben.moat@noc.ac.uk
+  institution: National Oceanography Centre, UK
+  references: https://doi.org/10.1038/nature06095
+  doi: https://doi.org/10.5285/223b34a32dc5c945e0637086abc0f274
+
+files:
+  moc_transports.nc:
+    data_product: "RAPID layer transport time series"
+    variable_mapping:
+      time: TIME
+    variables:
+      t_therm10:
+        long_name: "Transport"
+        description: "Thermocline recirculation 0-800m"
+        units: Sv
+        standard_name: Transport
+      t_aiw10:
+        long_name: "Transport"
+        description: "Intermediate water 800-1100m"
+        units: Sv
+        standard_name: Transport
+      t_ud10:
+        long_name: "Transport"
+        description: "upper NADW 1100-3000m"
+        units: Sv
+        standard_name: Transport
+      t_ld10:
+        long_name: "Transport"
+        description: "lower NADW 3000-5000m"
+        units: Sv
+        standard_name: Transport
+      t_bw10:
+        long_name: "Transport"
+        description: "AABW > 5000m"
+        units: Sv
+        standard_name: Transport
+      t_gs10:
+        long_name: "Florida Straits Transport"
+        description: "Florida Current from cable measurements"
+        units: Sv
+        standard_name: Transport
+      t_ek10:
+        long_name: "Ekman Transport"
+        description: "Ekman transport from wind stress"
+        units: Sv
+        standard_name: Transport
+      t_umo10:
+        long_name: "Transport"
+        description: "Upper Mid-Ocean transport"
+        units: Sv
+        standard_name: Transport
+      moc_mar_hc10:
+        long_name: "overturning transport"
+        description: "MOC strength"
+        units: Sv
+        standard_name: Transport
+
+  ts_gridded.nc:
+    data_product: "RAPID gridded temperature and salinity"
+    source_file: ts_gridded.nc
+    source_path: /Users/eddifying/Cloudfree/gitlab-cloudfree/amocarray/data/ts_gridded.nc
+    variable_mapping: {}
+    variables:
+      TG_west:
+        long_name: "Temperature west 26.52N/76.74W"
+        units: degC
+        standard_name: sea_water_temperature
+      SG_west:
+        long_name: "Salinity west 26.52N/76.74W"
+        units: psu
+        standard_name: sea_water_practical_salinity
+      TG_wb3:
+        long_name: "Temperature WB3 26.50N/76.50W"
+        units: degC
+        standard_name: sea_water_temperature
+      SG_wb3:
+        long_name: "Salinity WB3 26.50N/76.50W"
+        units: psu
+        standard_name: sea_water_practical_salinity
+      TG_east:
+        long_name: "Temperature east 26.99N/16.23W"
+        units: degC
+        standard_name: sea_water_temperature
+      SG_east:
+        long_name: "Salinity east 26.99N/16.23W"
+        units: psu
+        standard_name: sea_water_practical_salinity
+      TG_marwest:
+        long_name: "Temperature MAR west 24.52N/50.57W"
+        units: degC
+        standard_name: sea_water_temperature
+      SG_marwest:
+        long_name: "Salinity MAR west 24.52N/50.57W"
+        units: psu
+        standard_name: sea_water_practical_salinity
+      TG_mareast:
+        long_name: "Temperature MAR east 24.52N/41.21W"
+        units: degC
+        standard_name: sea_water_temperature
+      SG_mareast:
+        long_name: "Salinity MAR east 24.52N/41.21W"
+        units: psu
+        standard_name: sea_water_practical_salinity
+
+  moc_vertical.nc:
+    data_product: "RAPID vertical streamfunction time series"
+    source_file: moc_vertical.nc
+    source_path: /Users/eddifying/Cloudfree/gitlab-cloudfree/amocarray/data/moc_vertical.nc
+    variable_mapping: {}
+    variables:
+      stream_function_mar:
+        long_name: "Meridional overturning"
+        description: "Streamfunction across the Atlantic at 26.5°N"
+        units: Sv
+        standard_name: Transport
