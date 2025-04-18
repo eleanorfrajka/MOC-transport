@@ -66,10 +66,28 @@ line-length = 88
 target-version = ['py39']
 
 [tool.ruff]
-select = ["D"]  # Enables pydocstyle checks
-ignore = ["D107", "D203", "D213"]  # Optional ignores for __init__ and style conflicts
+# …any other top‑level settings you use (extend, cache-dir, line-length, exclude, etc.)…
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "C90", "ANN", "B", "BLE", "TRY", "ARG", "SLF"]
-ignore = ["E501", "D203", "D213", "D401", "PLR0913", "C901"]
-
+select = [
+  "D",       # pydocstyle
+  "E",       # pycodestyle errors
+  "F",       # pyflakes errors
+  "W",       # pycodestyle warnings
+  "C90",     # mccabe complexity
+  "ANN",     # type annotations
+  "B",       # flake8-bugbear
+  "BLE",     # bleach checks
+  "TRY",     # tryceratops
+  "ARG",     # flake8-arguments
+  "SLF",     # flake8-self
+]
+ignore = [
+  "D107",    # missing docstring in __init__
+  "D203",    # 1 blank line required before class docstring
+  "D213",    # multi-line summary docstring style
+  "D401",    # first line should be in imperative mood
+  "E501",    # line‑length
+  "PLR0913", # too many arguments
+  "C901",    # complexity
+]
