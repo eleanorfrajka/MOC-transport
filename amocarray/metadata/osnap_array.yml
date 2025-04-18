@@ -1,0 +1,198 @@
+metadata:
+  program: OSNAP
+  description: "OSNAP transport and hydrographic estimates dataset, 2014-2020"
+  project: "Overturning in the Subpolar North Atlantic Program (OSNAP)"
+  weblink: https://www.o-snap.org
+  comment: Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project
+    and all the national programs that contribute to it (www.o-snap.org).
+  doi: https://doi.org/10.35090/gatech/70342
+  license: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  Conventions: CF-1.8, ACDD-1.3
+  featureType: timeSeries
+  time_coverage_start: "2014-08-01"
+  time_coverage_end: "2020-06-30"
+  platform_type: Mooring array
+  institution: Multiple contributing institutions (US, UK, Germany, Netherlands, Canada, France, China)
+  creator_name: OSNAP investigators
+  references: >
+    Lozier et al. (2019), Science, doi:10.1126/science.aau6592;
+    Li et al. (2017), JTECH, doi:10.1175/JTECH-D-16-0247.1;
+    Li et al. (2021), Nature Communications, doi:10.1038/s41467-021-23350-2;
+    Fu et al. (2023), Communications Earth & Environment, doi:10.1038/s43247-023-00848-9
+  data_policy: >
+    Any person making use of OSNAP observational data and/or numerical results must communicate with the responsible investigators at the start of the analysis and anticipate that the data collectors will be co-authors of published results.
+    In cases where investigators choose not to be co-authors on publications that rely on their data, the parties responsible for collecting the data and the sponsoring funding agencies should be acknowledged, including reference to any relevant publications by the originating authors describing the data sets and a reference to the data set itself using its DOI.
+    OSNAP data are intended for scholarly use by the academic and scientific community, with the express understanding that any such use will properly acknowledge the originating investigator.
+
+files:
+  OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc:
+    data_product: "Time series of MOC, MHT, and MFT"
+    variable_mapping: {}
+    variables:
+      TIME:
+        long_name: "Start date of each monthly period"
+        description: "Time in days since 1950-01-01"
+        units: days since 1950-01-01
+        standard_name: time
+      MOC_ALL:
+        long_name: "Total MOC"
+        description: "Maximum overturning streamfunction across full OSNAP array"
+        units: Sv
+        standard_name: Transport_anomaly
+      MOC_ALL_ERR:
+        long_name: "MOC uncertainty"
+        description: "Uncertainty in MOC_ALL"
+        units: Sv
+        standard_name: Transport_anomaly
+      MOC_WEST:
+        long_name: "MOC west"
+        description: "Overturning streamfunction at OSNAP West"
+        units: Sv
+        standard_name: Transport_anomaly
+      MOC_WEST_ERR:
+        long_name: "MOC west uncertainty"
+        description: "Uncertainty in MOC_WEST"
+        units: Sv
+        standard_name: Transport_anomaly
+      MOC_EAST:
+        long_name: "MOC east"
+        description: "Overturning streamfunction at OSNAP East"
+        units: Sv
+        standard_name: Transport_anomaly
+      MOC_EAST_ERR:
+        long_name: "MOC east uncertainty"
+        description: "Uncertainty in MOC_EAST"
+        units: Sv
+        standard_name: Transport_anomaly
+      MHT_ALL:
+        long_name: "Heat transport"
+        description: "Meridional heat transport across full OSNAP array"
+        units: PW
+        standard_name: Heat_transport
+      MHT_ALL_ERR:
+        long_name: "Heat transport uncertainty"
+        description: "Uncertainty in MHT_ALL"
+        units: PW
+        standard_name: Heat_transport
+      MHT_EAST:
+        long_name: "Heat transport east"
+        description: "Meridional heat transport at OSNAP East"
+        units: PW
+        standard_name: Heat_transport
+      MHT_EAST_ERR:
+        long_name: "Heat transport east uncertainty"
+        description: "Uncertainty in MHT_EAST"
+        units: PW
+        standard_name: Heat_transport
+      MHT_WEST:
+        long_name: "Heat transport west"
+        description: "Meridional heat transport at OSNAP West"
+        units: PW
+        standard_name: Heat_transport
+      MHT_WEST_ERR:
+        long_name: "Heat transport west uncertainty"
+        description: "Uncertainty in MHT_WEST"
+        units: PW
+        standard_name: Heat_transport
+      MFT_ALL:
+        long_name: "Freshwater transport"
+        description: "Meridional freshwater transport across full OSNAP array"
+        units: Sv
+        standard_name: Freshwater_transport
+      MFT_ALL_ERR:
+        long_name: "Freshwater transport uncertainty"
+        description: "Uncertainty in MFT_ALL"
+        units: Sv
+        standard_name: Freshwater_transport
+      MFT_EAST:
+        long_name: "Freshwater transport east"
+        description: "Meridional freshwater transport at OSNAP East"
+        units: Sv
+        standard_name: Freshwater_transport
+      MFT_EAST_ERR:
+        long_name: "Freshwater transport east uncertainty"
+        description: "Uncertainty in MFT_EAST"
+        units: Sv
+        standard_name: Freshwater_transport
+      MFT_WEST:
+        long_name: "Freshwater transport west"
+        description: "Meridional freshwater transport at OSNAP West"
+        units: Sv
+        standard_name: Freshwater_transport
+      MFT_WEST_ERR:
+        long_name: "Freshwater transport west uncertainty"
+        description: "Uncertainty in MFT_WEST"
+        units: Sv
+        standard_name: Freshwater_transport
+
+  OSNAP_Streamfunction_201408_202006_2023.nc:
+    data_product: "Meridional overturning streamfunction"
+    variable_mapping: {}
+    variables:
+      TIME:
+        long_name: "Start date of each monthly period"
+        description: "Time in days since 1950-01-01"
+        units: days since 1950-01-01
+        standard_name: time
+      LEVEL:
+        long_name: "Sigma-theta levels"
+        description: "Potential density surfaces (σθ)"
+        units: kg m-3
+        standard_name: potential_density
+      T_ALL:
+        long_name: "Streamfunction total"
+        description: "Streamfunction in σθ coordinates across full OSNAP"
+        units: Sv
+        standard_name: Transport
+      T_WEST:
+        long_name: "Streamfunction west"
+        description: "Streamfunction in σθ at OSNAP West"
+        units: Sv
+        standard_name: Transport
+      T_EAST:
+        long_name: "Streamfunction east"
+        description: "Streamfunction in σθ at OSNAP East"
+        units: Sv
+        standard_name: Transport
+
+  OSNAP_Gridded_TSV_201408_202006_2023.nc:
+    data_product: "Gridded velocity, temperature, and salinity"
+    variable_mapping: {}
+    variables:
+      TIME:
+        long_name: "Start date of each monthly period"
+        description: "Time in days since 1950-01-01"
+        units: days since 1950-01-01
+        standard_name: time
+      DEPTH:
+        long_name: "Depth"
+        description: "Depth in meters"
+        units: m
+        standard_name: depth
+      LONGITUDE:
+        long_name: "Longitude"
+        description: "Longitude in degrees"
+        units: degrees_east
+        standard_name: longitude
+      LATITUDE:
+        long_name: "Latitude"
+        description: "Latitude in degrees"
+        units: degrees_north
+        standard_name: latitude
+      VELO:
+        long_name: "Velocity"
+        description: "Cross-sectional velocity along OSNAP"
+        units: m s-1
+        standard_name: sea_water_velocity
+      TEMP:
+        long_name: "Temperature"
+        description: "In-situ temperature along OSNAP"
+        units: degC
+        standard_name: sea_water_temperature
+      SAL:
+        long_name: "Salinity"
+        description: "Practical salinity along OSNAP"
+        units: psu
+        standard_name: sea_water_practical_salinity

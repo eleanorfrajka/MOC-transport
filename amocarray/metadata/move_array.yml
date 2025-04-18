@@ -1,0 +1,72 @@
+metadata:
+  program: MOVE
+  description: "MOVE transport estimates dataset from UCSD mooring project"
+  project: "Meridional Overturning Variability Experiment (MOVE)"
+  weblink: https://mooring.ucsd.edu/move/
+  comment: Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    The MOVE project is made possible with funding from the NOAA Climate Program Office under award NA15OAR4320071. Initial funding came from the German Bundesministerium fuer Bildung und Forschung.
+  license: >
+    Data freely available. User assumes all risk for use of data. Please give due credit to the authors, project, and funding sources when using these data, e.g. by including the 'citation' text provided here.
+  citation: >
+    Collection of MOVE data was funded by NOAA Research, and carried out by principal investigators
+    Uwe Send and Matthias Lankhorst. MOVE data are made freely available through the international OceanSITES program.
+  creator_url: http://orcid.org/0000-0002-4166-4044
+  contributor_name: Uwe Send, Matthias Lankhorst
+  contributor_role: Principal Investigator, Creator
+  contributor_url: _ , http://orcid.org/0000-0002-4166-4044
+  institution: Scripps Institution of Oceanography
+  reference: >
+    Uwe Send, Matthias Lankhorst, Torsten Kanzow: Observation of decadal change in the Atlantic Meridional Overturning Circulation
+    using 10 years of continuous transport data. Geophysical Research Letters, Vol. 38, L24606, 2011. doi: 10.1029/2011GL049801.
+  doi: >
+    http://dx.doi.org/10.1016/j.dsr.2005.12.007 http://dx.doi.org/10.1029/2011GL049801
+  Conventions: CF-1.7, ACDD-1.3
+  featureType: timeSeries
+  time_coverage_start: "2000-01-01"
+  time_coverage_end: "2018-06-30"
+  date_created: "2019-01-30T18:13:16Z"
+  platform_type: Mooring array
+  source: >
+    Derived using the following files:
+      OceanSITES file OS_MOVE_MULTISITE_GRIDDED_TS.nc, created 2019-01-30T18:11:12Z
+      OceanSITES file OS_MOVE_MULTISITE_GRIDDED_V.nc, created 2019-01-17T00:40:57Z
+
+files:
+  OS_MOVE_TRANSPORTS.nc:
+    source_file: OS_MOVE_TRANSPORTS.nc
+    source_path: /Users/eddifying/Cloudfree/gitlab-cloudfree/amocarray/data/OS_MOVE_TRANSPORTS.nc
+    data_product: "MOVE transport time series"
+    variable_mapping: {}
+    variables:
+      MOVE:
+        long_name: ocean_volume_transport_across_line
+        description: "Total ocean volume transport across the MOVE line between Guadeloupe and Researcher Ridge in the depth layer defined by pressures 1200 to 4950 dbar"
+        units: Sv
+        standard_name: Transport
+        valid_min: -100.0
+        valid_max: 100.0
+
+      transport_component_internal:
+        long_name: "Transport"
+        description: "Internal component of ocean volume transport across the MOVE line"
+        units: Sv
+        standard_name: Transport
+        valid_min: -100.0
+        valid_max: 100.0
+
+      transport_component_internal_offset:
+        long_name: "Transport"
+        description: "Offset to be added to internal component of ocean volume transport across the MOVE line"
+        units: Sv
+        standard_name: Transport
+        valid_min: -100.0
+        valid_max: 100.0
+
+      transport_component_boundary:
+        long_name: "Transport"
+        description: "Boundary component of ocean volume transport across the MOVE line"
+        units: Sv
+        standard_name: Transport
+        valid_min: -100.0
+        valid_max: 100.0
