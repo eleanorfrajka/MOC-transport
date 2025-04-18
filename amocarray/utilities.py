@@ -62,6 +62,28 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
     return decorator
 
 
+import re
+
+
+def normalize_whitespace(attrs: dict) -> dict:
+    """
+    Replace non-breaking & other unusual whitespace in every string attr value
+    with a normal ASCII space, and collapse runs of whitespace down to one space.
+    """
+    ws_pattern = re.compile(r"\s+")
+    cleaned = {}
+    for k, v in attrs.items():
+        if isinstance(v, str):
+            # 1) replace non-breaking spaces with normal spaces
+            t = v.replace("\u00A0", " ")
+            # 2) collapse any runs of whitespace (tabs, newlines, NBSP, etc.) to a single space
+            t = ws_pattern.sub(" ", t).strip()
+            cleaned[k] = t
+        else:
+            cleaned[k] = v
+    return cleaned
+
+
 def resolve_file_path(
     file_name: str,
     source: Union[str, Path, None],

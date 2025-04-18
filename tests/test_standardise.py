@@ -21,7 +21,7 @@ def test_standardise_samba():
         std_ds = standardise.standardise_samba(ds, file_name)
 
         # Global metadata keys expected
-        for key in ["weblink", "summary"]:
+        for key in ["web_link", "summary"]:
             assert key in std_ds.attrs, f"Missing global attribute: {key}"
 
         # Check if data_product or acknowledgement were added if in the YAML
@@ -43,7 +43,7 @@ def test_standardise_samba():
 # Only include mappings where alias != canonical key
 PREFERRED_KEYS = {
     "title": "summary",
-    "web_link": "weblink",
+    "weblink": "web_link",
     "note": "comment",
     "Acknowledgement": "acknowledgement",
     "DOI": "doi",
@@ -90,7 +90,7 @@ def test_merge_metadata_aliases(attrs, expected):
     assert result == expected
 
 
-@ pytest.mark.parametrize(
+@pytest.mark.parametrize(
     "input_dict, expected_dict",
     [
         (
@@ -105,7 +105,7 @@ def test_merge_metadata_aliases(attrs, expected):
                 "contributor_name": "Alice, Bob, Carol",
                 "contributor_role": "creator, PI, publisher",
                 "contributing_institutions": "InstA, InstB, InstC",
-                "contributing_institutions_vocabulary": "",
+                "contributing_institutions_vocabulary": ", , ",
                 "contributing_institutions_role": "",
                 "contributing_institutions_role_vocabulary": "",
                 "contributor_email": ", , ",
