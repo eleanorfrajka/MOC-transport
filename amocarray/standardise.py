@@ -60,7 +60,7 @@ _GLOBAL_ATTR_ORDER = [
     "start_date",
     "date_created",
     "featureType",  # preserve this exact case
-    "conventions",  # note: lower‐case here to catch any case variant
+    "Conventions",  # preserve this exact case
 ]
 
 _INSTITUTION_CORRECTIONS = {
@@ -209,12 +209,35 @@ def _consolidate_contributors(cleaned: dict) -> dict:
         "principal_investigator": "PI",
         "publisher_name": "publisher",
         "publisher": "publisher",
+        "creator_url": "creator",
+        "publisher_url": "publisher",
+        "principal_investigaor_url": "PI",
         "contributor_name": "",
         "contributor": "",
     }
 
-    # Step A: extract all email buckets
+
+def _consolidate_contributors(cleaned: dict) -> dict:
+    """
+    Consolidate creators, PIs, publishers, and contributors into unified fields:
+    - contributor_name, contributor_role, contributor_email, contributor_id aligned one-to-one
+    - contributing_institutions, with placeholders for vocabularies/roles
+    """
+    log_debug("Starting _consolidate_contributors with attrs: %s", cleaned)
+
+    role_map = {
+        "creator_name": "creator",
+        "creator": "creator",
+        "principal_investigator": "PI",
+        "publisher_name": "publisher",
+        "publisher": "publisher",
+        "contributor_name": "",
+        "contributor": "",
+    }
+
+    # Step A: extract email & URL buckets
     email_buckets = {}
+    url_buckets = {}
     bucket_order = []
     for key in list(cleaned.keys()):
         if key.endswith("_email"):
@@ -223,10 +246,18 @@ def _consolidate_contributors(cleaned: dict) -> dict:
                 v.strip() for v in str(raw).replace(";", ",").split(",") if v.strip()
             ]
             email_buckets[key] = parts
-            bucket_order.append(key)
+            bucket_order.append(("email", key))
+        elif key.endswith("_url"):
+            raw = cleaned.pop(key)
+            parts = [
+                v.strip() for v in str(raw).replace(";", ",").split(",") if v.strip()
+            ]
+            url_buckets[key] = parts
+            bucket_order.append(("url", key))
     log_debug("Email buckets: %s", email_buckets)
+    log_debug("URL buckets: %s", url_buckets)
 
-    # Step B: extract any name-keys and their roles
+    # Step B: extract names, roles, sources
     names, roles, sources = [], [], []
     for key in list(cleaned.keys()):
         if key in role_map:
@@ -238,47 +269,63 @@ def _consolidate_contributors(cleaned: dict) -> dict:
                 names.append(p)
                 roles.append(role_map[key])
                 sources.append(key)
-    log_debug("Names: %s, Roles: %s, Sources: %s", names, roles, sources)
+    log_debug("Names: %s; Roles: %s; Sources: %s", names, roles, sources)
 
-    # Step C: build contributors
+    # Step C: build contributor fields
     if names:
-        # C1) names + roles
+        # C1: names + roles
         cleaned["contributor_name"] = ", ".join(names)
-        if "contributor_role" not in cleaned:
-            cleaned["contributor_role"] = ", ".join(roles)
+        cleaned["contributor_role"] = cleaned.get("contributor_role", ", ".join(roles))
         log_debug(
             "Set contributor_name=%r, contributor_role=%r",
             cleaned["contributor_name"],
             cleaned["contributor_role"],
         )
 
-        # C2) align emails to each source
-        aligned = []
-        buckets = {k: v.copy() for k, v in email_buckets.items()}
+        # C2: align emails one‑to‑one
+        aligned_emails = []
+        email_copy = {k: v.copy() for k, v in email_buckets.items()}
         for src in sources:
             base = src[:-5] if src.endswith("_name") else src
             ek = f"{base}_email"
-            aligned.append(buckets.get(ek, []).pop(0) if buckets.get(ek) else "")
-        cleaned["contributor_email"] = ", ".join(aligned)
+            aligned_emails.append(
+                email_copy.get(ek, []).pop(0) if email_copy.get(ek) else ""
+            )
+        cleaned["contributor_email"] = ", ".join(aligned_emails)
         log_debug("Aligned contributor_email=%r", cleaned["contributor_email"])
 
-    elif bucket_order:
-        # Email-only case: create one placeholder per email
-        flat_emails, placeholder_roles = [], []
-        for bk in bucket_order:
-            log_debug(f"Processing email bucket: {bk[:-6]}")
-            role = role_map.get(bk[:-6], "")
-            log_debug(f"Role for {bk}: {role}")
-            for email in email_buckets[bk]:
-                flat_emails.append(email)
-                placeholder_roles.append(role)
+        # C3: align URLs → contributor_id
+        aligned_ids = []
+        url_copy = {k: v.copy() for k, v in url_buckets.items()}
+        for src in sources:
+            base = src[:-5] if src.endswith("_name") else src
+            uk = f"{base}_url"
+            aligned_ids.append(url_copy.get(uk, []).pop(0) if url_copy.get(uk) else "")
+        cleaned["contributor_id"] = ", ".join(aligned_ids)
+        log_debug("Aligned contributor_id=%r", cleaned["contributor_id"])
 
-        cleaned["contributor_name"] = ", ".join([""] * len(flat_emails))
+    elif bucket_order:
+        # Email-only (or URL-only) fallback
+        # Build flat lists preserving email/url order
+        flat_emails, flat_ids, placeholder_roles = [], [], []
+        for typ, bk in bucket_order:
+            role = role_map.get(bk.rsplit("_", 1)[0], "")
+            if typ == "email":
+                for e in email_buckets.get(bk, []):
+                    flat_emails.append(e)
+                    placeholder_roles.append(role)
+            else:  # typ == "url"
+                for u in url_buckets.get(bk, []):
+                    flat_ids.append(u)
+                    # ensure a role slot for each URL too
+                    placeholder_roles.append(role)
+
+        cleaned["contributor_name"] = ", ".join([""] * len(placeholder_roles))
         cleaned["contributor_role"] = ", ".join(placeholder_roles)
         cleaned["contributor_email"] = ", ".join(flat_emails)
-        log_debug("Placeholder contributor_name=%r", cleaned["contributor_name"])
-        log_debug("Placeholder contributor_role=%r", cleaned["contributor_role"])
-        log_debug("Flattened contributor_email=%r", cleaned["contributor_email"])
+        cleaned["contributor_id"] = ", ".join(flat_ids)
+        log_debug("Placeholder contributor_email=%r", cleaned["contributor_email"])
+        log_debug("Placeholder contributor_id=%r", cleaned["contributor_id"])
 
     # Step D: consolidate institution keys
     inst_vocab_map = {
@@ -374,6 +421,8 @@ def merge_metadata_aliases(attrs: dict, preferred_keys: dict) -> dict:
         # Preserve 'featureType' exactly
         if orig_key == "featureType":
             canonical = "featureType"
+        elif orig_key == "Conventions":
+            canonical = "Conventions"
         else:
             low = orig_key.lower()
             # 1) if we have a mapping for this lowercase alias, rename

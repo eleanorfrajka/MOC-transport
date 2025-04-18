@@ -1,5 +1,5 @@
 metadata:
-  array_name: OSNAP
+  program: OSNAP
   description: "OSNAP transport and hydrographic estimates dataset, 2014-2020"
   project: "Overturning in the Subpolar North Atlantic Program (OSNAP)"
   weblink: https://www.o-snap.org
@@ -9,13 +9,13 @@ metadata:
     and all the national programs that contribute to it (www.o-snap.org).
   doi: https://doi.org/10.35090/gatech/70342
   license: Creative Commons Attribution 4.0 International (CC BY 4.0)
-  Metadata_Conventions: CF-1.8, ACDD-1.3
+  Conventions: CF-1.8, ACDD-1.3
+  featureType: timeSeries
   time_coverage_start: "2014-08-01"
   time_coverage_end: "2020-06-30"
   platform_type: Mooring array
   institution: Multiple contributing institutions (US, UK, Germany, Netherlands, Canada, France, China)
   creator_name: OSNAP investigators
-  creator_url: http://www.o-snap.org
   references: >
     Lozier et al. (2019), Science, doi:10.1126/science.aau6592;
     Li et al. (2017), JTECH, doi:10.1175/JTECH-D-16-0247.1;

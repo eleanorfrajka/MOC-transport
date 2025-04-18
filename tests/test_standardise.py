@@ -109,6 +109,7 @@ def test_merge_metadata_aliases(attrs, expected):
                 "contributing_institutions_role": "",
                 "contributing_institutions_role_vocabulary": "",
                 "contributor_email": ", , ",
+                "contributor_id": ", , ",
             },
         ),
         (
@@ -121,6 +122,7 @@ def test_merge_metadata_aliases(attrs, expected):
                 "contributor_name": ", , , ",
                 "contributor_email": "alice@example.com, bob1@example.com, bob2@example.com, carol@example.com",
                 "contributor_role": "creator, PI, PI, publisher",
+                "contributor_id": "",
             },
         ),
         (
@@ -133,6 +135,7 @@ def test_merge_metadata_aliases(attrs, expected):
                 "contributor_name": "Alice, Bob",
                 "contributor_role": "creator, PI",
                 "contributor_email": ", pi@inst.org",
+                "contributor_id": ", ",
             },
         ),
     ],
