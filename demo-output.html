@@ -121,7 +121,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">readers</span><span class="p">,</span> <span class="n">plotters</span><span class="p">,</span> <span class="n">standardise</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">readers</span><span class="p">,</span> <span class="n">plotters</span><span class="p">,</span> <span class="n">standardise</span><span class="p">,</span> <span class="n">utilities</span>
 </pre></div>
 </div>
 </div>
@@ -142,8 +142,14 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data from data/moc_transports</span>
 <span class="n">ds_rapid</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_sample_dataset</span><span class="p">()</span>
-<span class="n">ds_rapid</span> <span class="o">=</span> <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_rapid</span><span class="p">(</span><span class="n">ds_rapid</span><span class="p">)</span>
-</pre></div>
+<span class="n">ds_rapid</span> <span class="o">=</span> <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_rapid</span><span class="p">(</span><span class="n">ds_rapid</span><span class="p">,</span> <span class="n">ds_rapid</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span>
+
+<span class="n">datasetsRAPID</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;rapid&quot;</span><span class="p">,</span> <span class="n">transport_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">standardRAPID</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_rapid</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasetsRAPID</span>
+<span class="p">]</span>
+<span class="n">ds_rapid</span>
+<br/></pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -151,15 +157,15 @@
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-20250414T213328 INFO     setup_logger Logger initialized for array: rapid, writing to /home/runner/work/amocarray/amocarray/logs/RAPID_20250414T21_read.log
-20250414T213328 INFO     log_info Loading dataset for array: rapid
-20250414T213328 INFO     log_info Starting to read RAPID dataset
-20250414T213328 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
-20250414T213328 INFO     log_info Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
-20250414T213328 INFO     log_info Attaching metadata to RAPID dataset from file: moc_transports.nc
-20250414T213328 INFO     log_info Successfully loaded 1 RAPID dataset(s)
-20250414T213328 INFO     log_info Successfully loaded 1 dataset(s) for array: rapid
-20250414T213328 INFO     log_info
+20250418T065936 INFO     setup_logger Logger initialized for array: rapid, writing to /home/runner/work/amocarray/amocarray/logs/RAPID_20250418T06_read.log
+20250418T065936 INFO     load_dataset Loading dataset for array: rapid
+20250418T065936 INFO     read_rapid Starting to read RAPID dataset
+20250418T065936 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
+20250418T065936 INFO     read_rapid Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
+20250418T065936 INFO     read_rapid Attaching metadata to RAPID dataset from file: moc_transports.nc
+20250418T065936 INFO     read_rapid Successfully loaded 1 RAPID dataset(s)
+20250418T065936 INFO     load_dataset Successfully loaded 1 dataset(s) for array: rapid
+20250418T065936 INFO     _summarise_datasets
 Summary for array &#39;rapid&#39;:
 Total datasets loaded: 1
 
@@ -179,6 +185,45 @@ Dataset 1:
     - t_umo10: shape (13779,)
     - moc_mar_hc10: shape (13779,)
 
+20250418T065936 DEBUG    standardise_array Standardising moc_transports.nc for RAPID
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Title&#39; → &#39;title&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Institution&#39; → &#39;institution&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Website&#39; → &#39;web_link&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Created_by&#39; → &#39;creator_name&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Creation_date&#39; → &#39;date_created&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator&#39; → &#39;principal_investigator&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator_email&#39; → &#39;principal_investigator_email&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;DOI&#39; → &#39;doi&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;web_link&#39;; keeping first value
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;note&#39; → &#39;comment&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;weblink&#39;; keeping first value
+20250418T065936 DEBUG    merge_metadata_aliases Conflict for &#39;comment&#39; from &#39;comment&#39;; keeping first value
+20250418T065936 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;creator_name&#39; → &#39;creator_name&#39;
+20250418T065936 DEBUG    merge_metadata_aliases Conflict for &#39;institution&#39; from &#39;institution&#39;; keeping first value
+20250418T065936 DEBUG    merge_metadata_aliases Conflict for &#39;doi&#39; from &#39;doi&#39;; keeping first value
+20250418T065936 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;title&#39;: &#39;RAPID MOC timeseries&#39;, &#39;institution&#39;: &#39;National Oceanography Centre,UK&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/&#39;, &#39;creator_name&#39;: &#39;Ben Moat&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;principal_investigator&#39;: &#39;Ben Moat&#39;, &#39;principal_investigator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_transports.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_transports.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID layer transport time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;creator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;}
+20250418T065936 DEBUG    _consolidate_contributors Email buckets: {&#39;principal_investigator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;], &#39;creator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;]}
+20250418T065936 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T065936 DEBUG    _consolidate_contributors Names: [&#39;Ben Moat&#39;, &#39;Ben Moat&#39;]; Roles: [&#39;creator&#39;, &#39;PI&#39;]; Sources: [&#39;creator_name&#39;, &#39;principal_investigator&#39;]
+20250418T065936 DEBUG    _consolidate_contributors Set contributor_name=&#39;Ben Moat, Ben Moat&#39;, contributor_role=&#39;creator, PI&#39;
+20250418T065936 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;
+20250418T065936 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;, &#39;
+20250418T065936 DEBUG    _consolidate_contributors Matched institution &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39; → &#39;national oceanography centre (southampton) (uk)&#39; → &#39;https://edmo.seadatanet.org/report/17&#39;
+20250418T065936 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;title&#39;: &#39;RAPID MOC timeseries&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_transports.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_transports.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID layer transport time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;contributor_name&#39;: &#39;Ben Moat, Ben Moat&#39;, &#39;contributor_role&#39;: &#39;creator, PI&#39;, &#39;contributor_email&#39;: &#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;, &#39;contributor_id&#39;: &#39;, &#39;, &#39;contributing_institutions&#39;: &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;https://edmo.seadatanet.org/report/17&#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T065936 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T065936 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T065936 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
+20250418T065936 INFO     setup_logger Logger initialized for array: rapid, writing to /home/runner/work/amocarray/amocarray/logs/RAPID_20250418T06_read.log
+20250418T065936 INFO     load_dataset Loading dataset for array: rapid
+20250418T065936 INFO     read_rapid Starting to read RAPID dataset
+20250418T065936 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/moc_vertical.nc
+20250418T065936 INFO     read_rapid Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/moc_vertical.nc
+20250418T065936 INFO     read_rapid Attaching metadata to RAPID dataset from file: moc_vertical.nc
+20250418T065936 INFO     resolve_file_path Downloading file from https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc to /home/runner/work/amocarray/amocarray/data
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -207,14 +252,651 @@ Dataset 1:
 
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/runner/work/amocarray/amocarray/amocarray/standardise.py:41: UserWarning: rename &#39;time&#39; to &#39;TIME&#39; does not create an index anymore. Try using swap_dims instead or use set_index after rename to create an indexed coordinate.
-  ds = ds.rename({&#34;time&#34;: &#34;TIME&#34;})
+20250418T065958 INFO     read_rapid Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/ts_gridded.nc
+20250418T065958 INFO     read_rapid Attaching metadata to RAPID dataset from file: ts_gridded.nc
+20250418T065958 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
+20250418T065958 INFO     read_rapid Opening RAPID dataset: /home/runner/work/amocarray/amocarray/data/moc_transports.nc
+20250418T065958 INFO     read_rapid Attaching metadata to RAPID dataset from file: moc_transports.nc
+20250418T065958 INFO     read_rapid Successfully loaded 3 RAPID dataset(s)
+20250418T065958 INFO     load_dataset Successfully loaded 3 dataset(s) for array: rapid
+20250418T065958 INFO     _summarise_datasets
+Summary for array &#39;rapid&#39;:
+Total datasets loaded: 3
+
+Dataset 1:
+  Source file: moc_vertical.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+    - depth: 307
+  Variables:
+    - stream_function_mar: shape (307, 13779)
+
+Dataset 2:
+  Source file: ts_gridded.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+    - depth: 242
+  Variables:
+    - pressure: shape (242,)
+    - TG_west: shape (242, 13779)
+    - SG_west: shape (242, 13779)
+    - TG_wb3: shape (242, 13779)
+    - SG_wb3: shape (242, 13779)
+    - TG_east: shape (242, 13779)
+    - SG_east: shape (242, 13779)
+    - TG_marwest: shape (242, 13779)
+    - SG_marwest: shape (242, 13779)
+    - TG_mareast: shape (242, 13779)
+    - SG_mareast: shape (242, 13779)
+    - TG_west_flag: shape (242, 13779)
+    - SG_west_flag: shape (242, 13779)
+    - TG_east_flag: shape (242, 13779)
+    - SG_east_flag: shape (242, 13779)
+    - TG_marwest_flag: shape (242, 13779)
+    - SG_marwest_flag: shape (242, 13779)
+    - TG_mareast_flag: shape (242, 13779)
+    - SG_mareast_flag: shape (242, 13779)
+
+Dataset 3:
+  Source file: moc_transports.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+  Variables:
+    - t_therm10: shape (13779,)
+    - t_aiw10: shape (13779,)
+    - t_ud10: shape (13779,)
+    - t_ld10: shape (13779,)
+    - t_bw10: shape (13779,)
+    - t_gs10: shape (13779,)
+    - t_ek10: shape (13779,)
+    - t_umo10: shape (13779,)
+    - moc_mar_hc10: shape (13779,)
+
+20250418T065958 DEBUG    standardise_array Standardising moc_vertical.nc for RAPID
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Title&#39; → &#39;title&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Institution&#39; → &#39;institution&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Website&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Created_by&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Creation_date&#39; → &#39;date_created&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator&#39; → &#39;principal_investigator&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator_email&#39; → &#39;principal_investigator_email&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;DOI&#39; → &#39;doi&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;web_link&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;note&#39; → &#39;comment&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;weblink&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;comment&#39; from &#39;comment&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;acknowledgement&#39; from &#39;acknowledgement&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;creator_name&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;institution&#39; from &#39;institution&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;doi&#39; from &#39;doi&#39;; keeping first value
+20250418T065958 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;title&#39;: &#39;RAPID streamfunction&#39;, &#39;institution&#39;: &#39;National Oceanography Centre,UK&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID 26N AMOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk&#39;, &#39;creator_name&#39;: &#39;Ben Moat&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;principal_investigator&#39;: &#39;Ben Moat&#39;, &#39;principal_investigator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_vertical.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_vertical.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID vertical streamfunction time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;creator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;}
+20250418T065958 DEBUG    _consolidate_contributors Email buckets: {&#39;principal_investigator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;], &#39;creator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;]}
+20250418T065958 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T065958 DEBUG    _consolidate_contributors Names: [&#39;Ben Moat&#39;, &#39;Ben Moat&#39;]; Roles: [&#39;creator&#39;, &#39;PI&#39;]; Sources: [&#39;creator_name&#39;, &#39;principal_investigator&#39;]
+20250418T065958 DEBUG    _consolidate_contributors Set contributor_name=&#39;Ben Moat, Ben Moat&#39;, contributor_role=&#39;creator, PI&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;, &#39;
+20250418T065958 DEBUG    _consolidate_contributors Matched institution &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39; → &#39;national oceanography centre (southampton) (uk)&#39; → &#39;https://edmo.seadatanet.org/report/17&#39;
+20250418T065958 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;title&#39;: &#39;RAPID streamfunction&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID 26N AMOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_vertical.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_vertical.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID vertical streamfunction time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;contributor_name&#39;: &#39;Ben Moat, Ben Moat&#39;, &#39;contributor_role&#39;: &#39;creator, PI&#39;, &#39;contributor_email&#39;: &#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;, &#39;contributor_id&#39;: &#39;, &#39;, &#39;contributing_institutions&#39;: &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;https://edmo.seadatanet.org/report/17&#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T065958 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
+20250418T065958 DEBUG    standardise_array Standardising ts_gridded.nc for RAPID
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Title&#39; → &#39;title&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Institution&#39; → &#39;institution&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Website&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Created_by&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Creation_date&#39; → &#39;date_created&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator&#39; → &#39;principal_investigator&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator_email&#39; → &#39;principal_investigator_email&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;DOI&#39; → &#39;doi&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;web_link&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;note&#39; → &#39;comment&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;weblink&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;comment&#39; from &#39;comment&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;acknowledgement&#39; from &#39;acknowledgement&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;creator_name&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;institution&#39; from &#39;institution&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;doi&#39; from &#39;doi&#39;; keeping first value
+20250418T065958 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;title&#39;: &#39;RAPID streamfunction&#39;, &#39;institution&#39;: &#39;National Oceanography Centre,UK&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID 26N AMOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk&#39;, &#39;creator_name&#39;: &#39;Ben Moat&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;principal_investigator&#39;: &#39;Ben Moat&#39;, &#39;principal_investigator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;ts_gridded.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/ts_gridded.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID gridded temperature and salinity&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;creator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;}
+20250418T065958 DEBUG    _consolidate_contributors Email buckets: {&#39;principal_investigator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;], &#39;creator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;]}
+20250418T065958 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T065958 DEBUG    _consolidate_contributors Names: [&#39;Ben Moat&#39;, &#39;Ben Moat&#39;]; Roles: [&#39;creator&#39;, &#39;PI&#39;]; Sources: [&#39;creator_name&#39;, &#39;principal_investigator&#39;]
+20250418T065958 DEBUG    _consolidate_contributors Set contributor_name=&#39;Ben Moat, Ben Moat&#39;, contributor_role=&#39;creator, PI&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;, &#39;
+20250418T065958 DEBUG    _consolidate_contributors Matched institution &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39; → &#39;national oceanography centre (southampton) (uk)&#39; → &#39;https://edmo.seadatanet.org/report/17&#39;
+20250418T065958 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;title&#39;: &#39;RAPID streamfunction&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID 26N AMOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;ts_gridded.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/ts_gridded.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID gridded temperature and salinity&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;contributor_name&#39;: &#39;Ben Moat, Ben Moat&#39;, &#39;contributor_role&#39;: &#39;creator, PI&#39;, &#39;contributor_email&#39;: &#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;, &#39;contributor_id&#39;: &#39;, &#39;, &#39;contributing_institutions&#39;: &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;https://edmo.seadatanet.org/report/17&#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T065958 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
+20250418T065958 DEBUG    standardise_array Standardising moc_transports.nc for RAPID
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Title&#39; → &#39;title&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Institution&#39; → &#39;institution&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Website&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Created_by&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Creation_date&#39; → &#39;date_created&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator&#39; → &#39;principal_investigator&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;Principle_investigator_email&#39; → &#39;principal_investigator_email&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;DOI&#39; → &#39;doi&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;web_link&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;note&#39; → &#39;comment&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;web_link&#39; from &#39;weblink&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;comment&#39; from &#39;comment&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;acknowledgement&#39; → &#39;acknowledgement&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Skipped duplicate (identical) key &#39;creator_name&#39; → &#39;creator_name&#39;
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;institution&#39; from &#39;institution&#39;; keeping first value
+20250418T065958 DEBUG    merge_metadata_aliases Conflict for &#39;doi&#39; from &#39;doi&#39;; keeping first value
+20250418T065958 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;title&#39;: &#39;RAPID MOC timeseries&#39;, &#39;institution&#39;: &#39;National Oceanography Centre,UK&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/&#39;, &#39;creator_name&#39;: &#39;Ben Moat&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;principal_investigator&#39;: &#39;Ben Moat&#39;, &#39;principal_investigator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_transports.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_transports.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID layer transport time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;creator_email&#39;: &#39;ben.moat@noc.ac.uk&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;}
+20250418T065958 DEBUG    _consolidate_contributors Email buckets: {&#39;principal_investigator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;], &#39;creator_email&#39;: [&#39;ben.moat@noc.ac.uk&#39;]}
+20250418T065958 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T065958 DEBUG    _consolidate_contributors Names: [&#39;Ben Moat&#39;, &#39;Ben Moat&#39;]; Roles: [&#39;creator&#39;, &#39;PI&#39;]; Sources: [&#39;creator_name&#39;, &#39;principal_investigator&#39;]
+20250418T065958 DEBUG    _consolidate_contributors Set contributor_name=&#39;Ben Moat, Ben Moat&#39;, contributor_role=&#39;creator, PI&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;
+20250418T065958 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;, &#39;
+20250418T065958 DEBUG    _consolidate_contributors Matched institution &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39; → &#39;national oceanography centre (southampton) (uk)&#39; → &#39;https://edmo.seadatanet.org/report/17&#39;
+20250418T065958 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;title&#39;: &#39;RAPID MOC timeseries&#39;, &#39;web_link&#39;: &#39;http://www.rapid.ac.uk/&#39;, &#39;acknowledgement&#39;: &#39;The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/&#39;, &#39;date_created&#39;: &#39;17-Sep-2024&#39;, &#39;doi&#39;: &#39;doi: 10.5285/223b34a32dc5c945e0637086abc0f274&#39;, &#39;source_file&#39;: &#39;moc_transports.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/moc_transports.nc&#39;, &#39;description&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;project&#39;: &#39;RAPID-AMOC 26°N array&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via xarray&#39;, &#39;data_product&#39;: &#39;RAPID layer transport time series&#39;, &#39;program&#39;: &#39;RAPID&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2004-04-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;RAPID 26N transport estimates dataset&#39;, &#39;contributor_name&#39;: &#39;Ben Moat, Ben Moat&#39;, &#39;contributor_role&#39;: &#39;creator, PI&#39;, &#39;contributor_email&#39;: &#39;ben.moat@noc.ac.uk, ben.moat@noc.ac.uk&#39;, &#39;contributor_id&#39;: &#39;, &#39;, &#39;contributing_institutions&#39;: &#39;National Oceanography Centre\xa0(Southampton) (UK)&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;https://edmo.seadatanet.org/report/17&#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T065958 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T065958 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
 </pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Summary for array &#39;rapid&#39;:
+Total datasets loaded: 3
+
+Dataset 1:
+  Source file: moc_vertical.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+    - depth: 307
+  Variables:
+    - stream_function_mar: shape (307, 13779)
+
+Dataset 2:
+  Source file: ts_gridded.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+    - depth: 242
+  Variables:
+    - pressure: shape (242,)
+    - TG_west: shape (242, 13779)
+    - SG_west: shape (242, 13779)
+    - TG_wb3: shape (242, 13779)
+    - SG_wb3: shape (242, 13779)
+    - TG_east: shape (242, 13779)
+    - SG_east: shape (242, 13779)
+    - TG_marwest: shape (242, 13779)
+    - SG_marwest: shape (242, 13779)
+    - TG_mareast: shape (242, 13779)
+    - SG_mareast: shape (242, 13779)
+    - TG_west_flag: shape (242, 13779)
+    - SG_west_flag: shape (242, 13779)
+    - TG_east_flag: shape (242, 13779)
+    - SG_east_flag: shape (242, 13779)
+    - TG_marwest_flag: shape (242, 13779)
+    - SG_marwest_flag: shape (242, 13779)
+    - TG_mareast_flag: shape (242, 13779)
+    - SG_mareast_flag: shape (242, 13779)
+
+Dataset 3:
+  Source file: moc_transports.nc
+  Time coverage: TIME variable not found
+  Dimensions:
+    - time: 13779
+  Variables:
+    - t_therm10: shape (13779,)
+    - t_aiw10: shape (13779,)
+    - t_ud10: shape (13779,)
+    - t_ld10: shape (13779,)
+    - t_bw10: shape (13779,)
+    - t_gs10: shape (13779,)
+    - t_ek10: shape (13779,)
+    - t_umo10: shape (13779,)
+    - moc_mar_hc10: shape (13779,)
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1f1f1f;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 1MB
+Dimensions:       (TIME: 13779)
+Coordinates:
+  * TIME          (TIME) datetime64[ns] 110kB 2004-04-02 ... 2023-02-11
+Data variables:
+    t_therm10     (TIME) float64 110kB ...
+    t_aiw10       (TIME) float64 110kB ...
+    t_ud10        (TIME) float64 110kB ...
+    t_ld10        (TIME) float64 110kB ...
+    t_bw10        (TIME) float64 110kB ...
+    t_gs10        (TIME) float64 110kB ...
+    t_ek10        (TIME) float64 110kB ...
+    t_umo10       (TIME) float64 110kB ...
+    moc_mar_hc10  (TIME) float64 110kB ...
+Attributes: (12/29)
+    title:                                      RAPID MOC timeseries
+    platform:                                   mooring
+    platform_vocabulary:                        https://vocab.nerc.ac.uk/coll...
+    time_coverage_start:                        2004-04-01
+    time_coverage_end:                          2023-12-31
+    program:                                    RAPID
+    ...                                         ...
+    description:                                RAPID 26N transport estimates...
+    data_product:                               RAPID layer transport time se...
+    license:                                    CC-BY 4.0
+    Conventions:                                CF-1.8, ACDD-1.3
+    summary:                                    RAPID 26N transport estimates...
+    featureType_vocabulary:                     https://cfconventions.org/cf-...</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-9ca278ae-d343-4ee2-ad0b-3e4893557614' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-9ca278ae-d343-4ee2-ad0b-3e4893557614' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>TIME</span>: 13779</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-b102de00-65a4-4177-a915-30e557811bc7' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b102de00-65a4-4177-a915-30e557811bc7' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>TIME</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2004-04-02 ... 2023-02-11</div><input id='attrs-dda371ff-72da-4fb6-a3d5-a39a09ccdaf6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-dda371ff-72da-4fb6-a3d5-a39a09ccdaf6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab7e8ed2-5ff0-4175-a91c-534eddd7210b' class='xr-var-data-in' type='checkbox'><label for='data-ab7e8ed2-5ff0-4175-a91c-534eddd7210b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time in days</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2004-04-02T00:00:00.000000000&#x27;, &#x27;2004-04-02T12:00:00.000000000&#x27;,
+       &#x27;2004-04-03T00:00:00.000000000&#x27;, ..., &#x27;2023-02-10T00:00:00.000000000&#x27;,
+       &#x27;2023-02-10T12:00:00.000000000&#x27;, &#x27;2023-02-11T00:00:00.000000000&#x27;],
+      shape=(13779,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-19f268be-39bf-4492-a80b-fce257a81237' class='xr-section-summary-in' type='checkbox'  checked><label for='section-19f268be-39bf-4492-a80b-fce257a81237' class='xr-section-summary' >Data variables: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>t_therm10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b38af82b-09cf-48c0-9a08-59e80a77b880' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b38af82b-09cf-48c0-9a08-59e80a77b880' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-92df0415-087c-44b2-beea-7da8abfc7a8b' class='xr-var-data-in' type='checkbox'><label for='data-92df0415-087c-44b2-beea-7da8abfc7a8b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>Thermocline recirculation 0-800m</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_aiw10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-16e4bf79-5a4f-42b3-9795-9a245e6ed4a0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-16e4bf79-5a4f-42b3-9795-9a245e6ed4a0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ca5660bd-5c07-4d9b-8b21-d5800fa1052c' class='xr-var-data-in' type='checkbox'><label for='data-ca5660bd-5c07-4d9b-8b21-d5800fa1052c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>Intermediate water 800-1100m</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_ud10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-91ce05cd-0746-41b7-83f9-2eb1a078faa8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-91ce05cd-0746-41b7-83f9-2eb1a078faa8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-38bbd244-9727-4502-819d-ce58d6c48b22' class='xr-var-data-in' type='checkbox'><label for='data-38bbd244-9727-4502-819d-ce58d6c48b22' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>upper NADW 1100-3000m</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_ld10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-d1365d23-05a6-424a-ac74-d7a277feae6c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d1365d23-05a6-424a-ac74-d7a277feae6c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d726ee53-ad3b-4062-b253-5ce641f29ad4' class='xr-var-data-in' type='checkbox'><label for='data-d726ee53-ad3b-4062-b253-5ce641f29ad4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>lower NADW 3000-5000m</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_bw10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-8448e928-2bba-4b78-94d4-bf87e0536177' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8448e928-2bba-4b78-94d4-bf87e0536177' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-60b599f4-ccff-41fc-9a14-d2eb959ac589' class='xr-var-data-in' type='checkbox'><label for='data-60b599f4-ccff-41fc-9a14-d2eb959ac589' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>AABW &gt; 5000m</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_gs10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-92108df1-78d7-49d3-bf10-7b2544d6168a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-92108df1-78d7-49d3-bf10-7b2544d6168a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-460febe5-554b-4b60-b87f-b3aeaf724286' class='xr-var-data-in' type='checkbox'><label for='data-460febe5-554b-4b60-b87f-b3aeaf724286' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Florida Straits Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>Florida Current from cable measurements</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_ek10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-a8c83713-83dd-4fce-b3f8-a0164ee2c80e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a8c83713-83dd-4fce-b3f8-a0164ee2c80e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a9ad8ad4-27a8-4336-92bd-19d182f0625d' class='xr-var-data-in' type='checkbox'><label for='data-a9ad8ad4-27a8-4336-92bd-19d182f0625d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Ekman Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>Ekman transport from wind stress</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>t_umo10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-4c213e9f-cdf5-41a7-9763-e7d5e28e5b1b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4c213e9f-cdf5-41a7-9763-e7d5e28e5b1b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-afccf9ed-3436-4e5b-bfdf-1fd16a18c120' class='xr-var-data-in' type='checkbox'><label for='data-afccf9ed-3436-4e5b-bfdf-1fd16a18c120' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>Upper Mid-Ocean transport</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>moc_mar_hc10</span></div><div class='xr-var-dims'>(TIME)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-4664eebe-d6eb-493c-aa15-d0f8283809e6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4664eebe-d6eb-493c-aa15-d0f8283809e6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4bd923c6-b558-4906-aaa1-bea5a928f0a4' class='xr-var-data-in' type='checkbox'><label for='data-4bd923c6-b558-4906-aaa1-bea5a928f0a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>overturning transport</dd><dt><span>units :</span></dt><dd>Sv</dd><dt><span>description :</span></dt><dd>MOC strength</dd><dt><span>standard_name :</span></dt><dd>Transport</dd></dl></div><div class='xr-var-data'><pre>[13779 values with dtype=float64]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-71838bb1-38df-478f-9e34-6f66adccb33b' class='xr-section-summary-in' type='checkbox'  ><label for='section-71838bb1-38df-478f-9e34-6f66adccb33b' class='xr-section-summary' >Indexes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>TIME</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-c908ad5d-81d7-4aa4-869a-cfca5c1f7ef6' class='xr-index-data-in' type='checkbox'/><label for='index-c908ad5d-81d7-4aa4-869a-cfca5c1f7ef6' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2004-04-02 00:00:00&#x27;, &#x27;2004-04-02 12:00:00&#x27;,
+               &#x27;2004-04-03 00:00:00&#x27;, &#x27;2004-04-03 12:00:00&#x27;,
+               &#x27;2004-04-04 00:00:00&#x27;, &#x27;2004-04-04 12:00:00&#x27;,
+               &#x27;2004-04-05 00:00:00&#x27;, &#x27;2004-04-05 12:00:00&#x27;,
+               &#x27;2004-04-06 00:00:00&#x27;, &#x27;2004-04-06 12:00:00&#x27;,
+               ...
+               &#x27;2023-02-06 12:00:00&#x27;, &#x27;2023-02-07 00:00:00&#x27;,
+               &#x27;2023-02-07 12:00:00&#x27;, &#x27;2023-02-08 00:00:00&#x27;,
+               &#x27;2023-02-08 12:00:00&#x27;, &#x27;2023-02-09 00:00:00&#x27;,
+               &#x27;2023-02-09 12:00:00&#x27;, &#x27;2023-02-10 00:00:00&#x27;,
+               &#x27;2023-02-10 12:00:00&#x27;, &#x27;2023-02-11 00:00:00&#x27;],
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;TIME&#x27;, length=13779, freq=None))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-213f56c9-d852-4576-9f86-4e6c69b01830' class='xr-section-summary-in' type='checkbox'  ><label for='section-213f56c9-d852-4576-9f86-4e6c69b01830' class='xr-section-summary' >Attributes: <span>(29)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>title :</span></dt><dd>RAPID MOC timeseries</dd><dt><span>platform :</span></dt><dd>mooring</dd><dt><span>platform_vocabulary :</span></dt><dd>https://vocab.nerc.ac.uk/collection/L06/</dd><dt><span>time_coverage_start :</span></dt><dd>2004-04-01</dd><dt><span>time_coverage_end :</span></dt><dd>2023-12-31</dd><dt><span>program :</span></dt><dd>RAPID</dd><dt><span>project :</span></dt><dd>RAPID-AMOC 26°N array</dd><dt><span>contributor_name :</span></dt><dd>Ben Moat, Ben Moat</dd><dt><span>contributor_email :</span></dt><dd>ben.moat@noc.ac.uk, ben.moat@noc.ac.uk</dd><dt><span>contributor_id :</span></dt><dd>, </dd><dt><span>contributor_role :</span></dt><dd>creator, PI</dd><dt><span>contributing_institutions :</span></dt><dd>National Oceanography Centre (Southampton) (UK)</dd><dt><span>contributing_institutions_vocabulary :</span></dt><dd>https://edmo.seadatanet.org/report/17</dd><dt><span>contributing_institutions_role :</span></dt><dd></dd><dt><span>contributing_institutions_role_vocabulary :</span></dt><dd></dd><dt><span>doi :</span></dt><dd>doi: 10.5285/223b34a32dc5c945e0637086abc0f274</dd><dt><span>web_link :</span></dt><dd>http://www.rapid.ac.uk/</dd><dt><span>comment :</span></dt><dd>Dataset accessed and processed via xarray</dd><dt><span>date_created :</span></dt><dd>17-Sep-2024</dd><dt><span>featureType :</span></dt><dd>timeSeries</dd><dt><span>acknowledgement :</span></dt><dd>The RAPID-MOC monitoring project is funded by the Natural Environment Research Council and data is freely available from www.rapid.ac.uk/</dd><dt><span>source_file :</span></dt><dd>moc_transports.nc</dd><dt><span>source_path :</span></dt><dd>/home/runner/work/amocarray/amocarray/data/moc_transports.nc</dd><dt><span>description :</span></dt><dd>RAPID 26N transport estimates dataset</dd><dt><span>data_product :</span></dt><dd>RAPID layer transport time series</dd><dt><span>license :</span></dt><dd>CC-BY 4.0</dd><dt><span>Conventions :</span></dt><dd>CF-1.8, ACDD-1.3</dd><dt><span>summary :</span></dt><dd>RAPID 26N transport estimates dataset</dd><dt><span>featureType_vocabulary :</span></dt><dd>https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types</dd></dl></div></li></ul></div></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -268,7 +950,7 @@ Dataset 1:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f4e6d3e63c0&gt;
+&lt;matplotlib.legend.Legend at 0x7fe6a0037b60&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -285,9 +967,11 @@ Dataset 1:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets16</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">)</span>
-<span class="n">ds_move</span> <span class="o">=</span> <span class="n">datasets16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plotters</span><span class="o">.</span><span class="n">show_variables</span><span class="p">(</span><span class="n">ds_move</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasetsMOVE</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">)</span>
+<span class="n">ds_move</span> <span class="o">=</span> <span class="n">datasetsMOVE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">standardMOVE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_move</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasetsMOVE</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -296,18 +980,18 @@ Dataset 1:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-20250414T213329 INFO     setup_logger Logger initialized for array: move, writing to /home/runner/work/amocarray/amocarray/logs/MOVE_20250414T21_read.log
-20250414T213329 INFO     log_info Loading dataset for array: move
-20250414T213329 INFO     read_move Starting to read MOVE dataset
-20250414T213329 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc
-20250414T213329 INFO     read_move Opening MOVE dataset: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc
-20250414T213329 INFO     read_move Attaching metadata to dataset from file: OS_MOVE_TRANSPORTS.nc
-20250414T213329 DEBUG    log_debug Attribute &#39;project&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213329 DEBUG    log_debug Attribute &#39;comment&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213329 DEBUG    log_debug Attribute &#39;acknowledgement&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213329 INFO     read_move Successfully loaded 1 MOVE dataset(s)
-20250414T213329 INFO     log_info Successfully loaded 1 dataset(s) for array: move
-20250414T213329 INFO     log_info
+20250418T065959 INFO     setup_logger Logger initialized for array: move, writing to /home/runner/work/amocarray/amocarray/logs/MOVE_20250418T06_read.log
+20250418T065959 INFO     load_dataset Loading dataset for array: move
+20250418T065959 INFO     read_move Starting to read MOVE dataset
+20250418T065959 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc
+20250418T065959 INFO     read_move Opening MOVE dataset: /home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc
+20250418T065959 INFO     read_move Attaching metadata to dataset from file: OS_MOVE_TRANSPORTS.nc
+20250418T065959 DEBUG    safe_update_attrs Attribute &#39;project&#39; already exists in dataset attrs and will not be overwritten.
+20250418T065959 DEBUG    safe_update_attrs Attribute &#39;comment&#39; already exists in dataset attrs and will not be overwritten.
+20250418T065959 DEBUG    safe_update_attrs Attribute &#39;acknowledgement&#39; already exists in dataset attrs and will not be overwritten.
+20250418T065959 INFO     read_move Successfully loaded 1 MOVE dataset(s)
+20250418T065959 INFO     load_dataset Successfully loaded 1 dataset(s) for array: move
+20250418T065959 INFO     _summarise_datasets
 Summary for array &#39;move&#39;:
 Total datasets loaded: 1
 
@@ -322,9 +1006,26 @@ Dataset 1:
     - transport_component_internal_offset: shape (6756,)
     - transport_component_boundary: shape (6756,)
 
+20250418T065959 DEBUG    standardise_array Standardising OS_MOVE_TRANSPORTS.nc for MOVE
+20250418T065959 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T065959 DEBUG    merge_metadata_aliases Renaming key &#39;reference&#39; → &#39;references&#39;
+20250418T065959 DEBUG    merge_metadata_aliases Conflict for &#39;references&#39; from &#39;reference&#39;; keeping first value
+20250418T065959 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T065959 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;Conventions&#39;: &#39;CF-1.7, ACDD-1.3&#39;, &#39;title&#39;: &#39;Ocean Volume Transport Data from the MOVE Mooring Observations&#39;, &#39;summary&#39;: &#39;MOVE transport estimates dataset from UCSD mooring project&#39;, &#39;date_created&#39;: &#39;2019-01-30T18:13:16Z&#39;, &#39;creator_name&#39;: &#39;Matthias Lankhorst&#39;, &#39;creator_url&#39;: &#39;http://orcid.org/0000-0002-4166-4044&#39;, &#39;contributor_name&#39;: &#39;Uwe Send, Matthias Lankhorst&#39;, &#39;contributor_role&#39;: &#39;Principal Investigator, Creator&#39;, &#39;institution&#39;: &#39;Scripps Institution of Oceanography&#39;, &#39;project&#39;: &#39;Meridional Overturning Variability Experiment (MOVE)&#39;, &#39;references&#39;: &#39;http://dx.doi.org/10.1016/j.dsr.2005.12.007 http://dx.doi.org/10.1029/2011GL049801&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;license&#39;: &#34;Data freely available. User assumes all risk for use of data. Please give due credit to the authors, project, and funding sources when using these data, e.g. by including the &#39;citation&#39; text provided here.&#34;, &#39;citation&#39;: &#39;Collection of MOVE data was funded by NOAA Research, and carried out by principal investigators Uwe Send and Matthias Lankhorst. MOVE data are made freely available through the international OceanSITES program.&#39;, &#39;acknowledgement&#39;: &#39;The MOVE project is made possible with funding from the NOAA Climate Program Office under award NA15OAR4320071. Initial funding came from the German Bundesministerium fuer Bildung und Forschung.&#39;, &#39;source&#39;: &#39;Derived using the following files: OceanSITES file OS_MOVE_MULTISITE_GRIDDED_TS.nc, created 2019-01-30T18:11:12Z OceanSITES file OS_MOVE_MULTISITE_GRIDDED_V.nc, created 2019-01-17T00:40:57Z&#39;, &#39;source_file&#39;: &#39;OS_MOVE_TRANSPORTS.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc&#39;, &#39;description&#39;: &#39;MOVE transport estimates dataset from UCSD mooring project&#39;, &#39;web_link&#39;: &#39;https://mooring.ucsd.edu/move/&#39;, &#39;data_product&#39;: &#39;MOVE transport time series&#39;, &#39;program&#39;: &#39;MOVE&#39;, &#39;contributor_url&#39;: &#39;_ , http://orcid.org/0000-0002-4166-4044&#39;, &#39;doi&#39;: &#39;http://dx.doi.org/10.1016/j.dsr.2005.12.007 http://dx.doi.org/10.1029/2011GL049801&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;time_coverage_start&#39;: &#39;2000-01-01&#39;, &#39;time_coverage_end&#39;: &#39;2018-06-30&#39;, &#39;platform&#39;: &#39;Mooring array&#39;}
+20250418T065959 DEBUG    _consolidate_contributors Email buckets: {}
+20250418T065959 DEBUG    _consolidate_contributors URL buckets: {&#39;creator_url&#39;: [&#39;http://orcid.org/0000-0002-4166-4044&#39;], &#39;contributor_url&#39;: [&#39;_&#39;, &#39;http://orcid.org/0000-0002-4166-4044&#39;]}
+20250418T065959 DEBUG    _consolidate_contributors Names: [&#39;Matthias Lankhorst&#39;, &#39;Uwe Send&#39;, &#39;Matthias Lankhorst&#39;]; Roles: [&#39;creator&#39;, &#39;&#39;, &#39;&#39;]; Sources: [&#39;creator_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;]
+20250418T065959 DEBUG    _consolidate_contributors Set contributor_name=&#39;Matthias Lankhorst, Uwe Send, Matthias Lankhorst&#39;, contributor_role=&#39;Principal Investigator, Creator&#39;
+20250418T065959 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;, , &#39;
+20250418T065959 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;http://orcid.org/0000-0002-4166-4044, _, http://orcid.org/0000-0002-4166-4044&#39;
+20250418T065959 DEBUG    _consolidate_contributors Matched institution &#39;Scripps Institution of Oceanography&#39; → &#39;scripps institution of oceanography&#39; → &#39;&#39;
+20250418T065959 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;Conventions&#39;: &#39;CF-1.7, ACDD-1.3&#39;, &#39;title&#39;: &#39;Ocean Volume Transport Data from the MOVE Mooring Observations&#39;, &#39;summary&#39;: &#39;MOVE transport estimates dataset from UCSD mooring project&#39;, &#39;date_created&#39;: &#39;2019-01-30T18:13:16Z&#39;, &#39;contributor_role&#39;: &#39;Principal Investigator, Creator&#39;, &#39;project&#39;: &#39;Meridional Overturning Variability Experiment (MOVE)&#39;, &#39;references&#39;: &#39;http://dx.doi.org/10.1016/j.dsr.2005.12.007 http://dx.doi.org/10.1029/2011GL049801&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;license&#39;: &#34;Data freely available. User assumes all risk for use of data. Please give due credit to the authors, project, and funding sources when using these data, e.g. by including the &#39;citation&#39; text provided here.&#34;, &#39;citation&#39;: &#39;Collection of MOVE data was funded by NOAA Research, and carried out by principal investigators Uwe Send and Matthias Lankhorst. MOVE data are made freely available through the international OceanSITES program.&#39;, &#39;acknowledgement&#39;: &#39;The MOVE project is made possible with funding from the NOAA Climate Program Office under award NA15OAR4320071. Initial funding came from the German Bundesministerium fuer Bildung und Forschung.&#39;, &#39;source&#39;: &#39;Derived using the following files: OceanSITES file OS_MOVE_MULTISITE_GRIDDED_TS.nc, created 2019-01-30T18:11:12Z OceanSITES file OS_MOVE_MULTISITE_GRIDDED_V.nc, created 2019-01-17T00:40:57Z&#39;, &#39;source_file&#39;: &#39;OS_MOVE_TRANSPORTS.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/OS_MOVE_TRANSPORTS.nc&#39;, &#39;description&#39;: &#39;MOVE transport estimates dataset from UCSD mooring project&#39;, &#39;web_link&#39;: &#39;https://mooring.ucsd.edu/move/&#39;, &#39;data_product&#39;: &#39;MOVE transport time series&#39;, &#39;program&#39;: &#39;MOVE&#39;, &#39;doi&#39;: &#39;http://dx.doi.org/10.1016/j.dsr.2005.12.007 http://dx.doi.org/10.1029/2011GL049801&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;time_coverage_start&#39;: &#39;2000-01-01&#39;, &#39;time_coverage_end&#39;: &#39;2018-06-30&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;contributor_name&#39;: &#39;Matthias Lankhorst, Uwe Send, Matthias Lankhorst&#39;, &#39;contributor_email&#39;: &#39;, , &#39;, &#39;contributor_id&#39;: &#39;http://orcid.org/0000-0002-4166-4044, _, http://orcid.org/0000-0002-4166-4044&#39;, &#39;contributing_institutions&#39;: &#39;Scripps Institution of Oceanography&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;&#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T065959 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T065959 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T065959 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -343,78 +1044,7 @@ Dataset 1:
     - transport_component_internal_offset: shape (6756,)
     - transport_component_boundary: shape (6756,)
 
-information is based on xarray Dataset
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<style type="text/css">
-</style>
-<table id="T_51f93">
-  <thead>
-    <tr>
-      <th class="blank level0" >&nbsp;</th>
-      <th id="T_51f93_level0_col0" class="col_heading level0 col0" >dims</th>
-      <th id="T_51f93_level0_col1" class="col_heading level0 col1" >units</th>
-      <th id="T_51f93_level0_col2" class="col_heading level0 col2" >comment</th>
-      <th id="T_51f93_level0_col3" class="col_heading level0 col3" >standard_name</th>
-      <th id="T_51f93_level0_col4" class="col_heading level0 col4" >dtype</th>
-    </tr>
-    <tr>
-      <th class="index_name level0" >name</th>
-      <th class="blank col0" >&nbsp;</th>
-      <th class="blank col1" >&nbsp;</th>
-      <th class="blank col2" >&nbsp;</th>
-      <th class="blank col3" >&nbsp;</th>
-      <th class="blank col4" >&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_51f93_level0_row0" class="row_heading level0 row0" >TIME</th>
-      <td id="T_51f93_row0_col0" class="data row0 col0" >TIME</td>
-      <td id="T_51f93_row0_col1" class="data row0 col1" ></td>
-      <td id="T_51f93_row0_col2" class="data row0 col2" ></td>
-      <td id="T_51f93_row0_col3" class="data row0 col3" >time</td>
-      <td id="T_51f93_row0_col4" class="data row0 col4" >datetime64[ns]</td>
-    </tr>
-    <tr>
-      <th id="T_51f93_level0_row1" class="row_heading level0 row1" >TRANSPORT_TOTAL</th>
-      <td id="T_51f93_row1_col0" class="data row1 col0" >TIME</td>
-      <td id="T_51f93_row1_col1" class="data row1 col1" >Sverdrup</td>
-      <td id="T_51f93_row1_col2" class="data row1 col2" ></td>
-      <td id="T_51f93_row1_col3" class="data row1 col3" >ocean_volume_transport_across_line</td>
-      <td id="T_51f93_row1_col4" class="data row1 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_51f93_level0_row2" class="row_heading level0 row2" >transport_component_boundary</th>
-      <td id="T_51f93_row2_col0" class="data row2 col0" >TIME</td>
-      <td id="T_51f93_row2_col1" class="data row2 col1" >Sverdrup</td>
-      <td id="T_51f93_row2_col2" class="data row2 col2" ></td>
-      <td id="T_51f93_row2_col3" class="data row2 col3" ></td>
-      <td id="T_51f93_row2_col4" class="data row2 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_51f93_level0_row3" class="row_heading level0 row3" >transport_component_internal</th>
-      <td id="T_51f93_row3_col0" class="data row3 col0" >TIME</td>
-      <td id="T_51f93_row3_col1" class="data row3 col1" >Sverdrup</td>
-      <td id="T_51f93_row3_col2" class="data row3 col2" ></td>
-      <td id="T_51f93_row3_col3" class="data row3 col3" ></td>
-      <td id="T_51f93_row3_col4" class="data row3 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_51f93_level0_row4" class="row_heading level0 row4" >transport_component_internal_offset</th>
-      <td id="T_51f93_row4_col0" class="data row4 col0" >TIME</td>
-      <td id="T_51f93_row4_col1" class="data row4 col1" >Sverdrup</td>
-      <td id="T_51f93_row4_col2" class="data row4 col2" ></td>
-      <td id="T_51f93_row4_col3" class="data row4 col3" ></td>
-      <td id="T_51f93_row4_col4" class="data row4 col4" >float64</td>
-    </tr>
-  </tbody>
-</table></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -478,7 +1108,9 @@ information is based on xarray Dataset
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasetsOSNAP</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;osnap&quot;</span><span class="p">)</span>
 <span class="n">ds_osnap</span> <span class="o">=</span> <span class="n">datasetsOSNAP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plotters</span><span class="o">.</span><span class="n">show_variables</span><span class="p">(</span><span class="n">ds_osnap</span><span class="p">)</span>
+<span class="n">standardOSNAP</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_osnap</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasetsOSNAP</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -487,16 +1119,16 @@ information is based on xarray Dataset
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-20250414T213329 INFO     setup_logger Logger initialized for array: osnap, writing to /home/runner/work/amocarray/amocarray/logs/OSNAP_20250414T21_read.log
-20250414T213329 INFO     log_info Loading dataset for array: osnap
-20250414T213329 INFO     read_osnap Starting to read OSNAP dataset
-20250414T213329 INFO     resolve_file_path Downloading file from https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download to /home/runner/work/amocarray/amocarray/data
-20250414T213330 INFO     read_osnap Opening OSNAP dataset: /home/runner/work/amocarray/amocarray/data/download
-20250414T213330 INFO     read_osnap Attaching metadata to dataset from file: OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc
-20250414T213330 DEBUG    log_debug Attribute &#39;project&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 INFO     read_osnap Successfully loaded 1 OSNAP dataset(s)
-20250414T213330 INFO     log_info Successfully loaded 1 dataset(s) for array: osnap
-20250414T213330 INFO     log_info
+20250418T065959 INFO     setup_logger Logger initialized for array: osnap, writing to /home/runner/work/amocarray/amocarray/logs/OSNAP_20250418T06_read.log
+20250418T065959 INFO     load_dataset Loading dataset for array: osnap
+20250418T065959 INFO     read_osnap Starting to read OSNAP dataset
+20250418T065959 INFO     resolve_file_path Downloading file from https://repository.gatech.edu/bitstreams/e039e311-dd2e-4511-a525-c2fcfb3be85a/download to /home/runner/work/amocarray/amocarray/data
+20250418T070002 INFO     read_osnap Opening OSNAP dataset: /home/runner/work/amocarray/amocarray/data/download
+20250418T070002 INFO     read_osnap Attaching metadata to dataset from file: OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc
+20250418T070002 DEBUG    safe_update_attrs Attribute &#39;project&#39; already exists in dataset attrs and will not be overwritten.
+20250418T070002 INFO     read_osnap Successfully loaded 1 OSNAP dataset(s)
+20250418T070002 INFO     load_dataset Successfully loaded 1 dataset(s) for array: osnap
+20250418T070002 INFO     _summarise_datasets
 Summary for array &#39;osnap&#39;:
 Total datasets loaded: 1
 
@@ -525,9 +1157,37 @@ Dataset 1:
     - MFT_WEST: shape (71,)
     - MFT_WEST_ERR: shape (71,)
 
+20250418T070002 DEBUG    standardise_array Standardising OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc for OSNAP
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T070002 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;title&#39;: &#39;OSNAP MOC MHT MFT time series (2014-2020)&#39;, &#39;project&#39;: &#39;Overturning in the Subpolar North Atlantic Program (OSNAP)&#39;, &#39;contributor_name&#39;: &#39;Yao Fu, M. Susan Lozier, Tiago Carrilho Biló, Amy S. Bower, Stuart A. Cunningham, Frédéric Cyr, M. Femke de Jong, Brad deYoung, Lewis Drysdale, Neil Fraser, Nora Fried, Heather H. Furey, Guoqi Han, Patricia Handmann, N. Penny Holliday, James Holte, Mark E. Inall, William E. Johns, Sam Jones, Johannes Karstensen, Feili Li, Astrid Pacini, Robert S. Pickart, Darren Rayner, Fiammetta Straneo, Igor Yashayaev&#39;, &#39;contributor_role&#39;: &#39;data design, collection and/or processing&#39;, &#39;contributor_institution&#39;: &#39;Georgia Institute of Technology, USA; National Oceanography Centre at Southampton, UK; Woods Hole Oceanographic Institution, USA; Scottish Association for Marine Science, UK; Royal Netherlands Institute for Sea Research and Utrecht University, Netherlands; Memorial University, Canada; Fisheries and Oceans Canada Northwest Atlantic Fisheries Centre and Institute of Ocean Sciences, Canada; Scripps Institution of Oceanography, UCSD, USA; Edinburgh University, UK; University of Miami, USA; GEOMAR Helmholtz Centre for Ocean Research Kiel, Germany; Bedford Institute of Oceanography, Canada; Xiamen University, China&#39;, &#39;publisher_name&#39;: &#39;M. Susan Lozier; Yao Fu&#39;, &#39;publisher_email&#39;: &#39;susan.lozier@gatech.edu; yaofu@gatech.edu;&#39;, &#39;data_assembly_center&#39;: &#39;Georgia Institute of Technology&#39;, &#39;references&#39;: &#39;Lozier et al. (2019), Science, doi:10.1126/science.aau6592; Li et al. (2017), JTECH, doi:10.1175/JTECH-D-16-0247.1; Li et al. (2021), Nature Communications, doi:10.1038/s41467-021-23350-2; Fu et al. (2023), Communications Earth &amp; Environment, doi:10.1038/s43247-023-00848-9&#39;, &#39;citation&#39;: &#39;OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project and all the national programs that contribute to it (www.o-snap.org)&#39;, &#39;date_created&#39;: &#39;2023-04-24 11:33:07&#39;, &#39;time_coverage_start&#39;: &#39;2014-08-01&#39;, &#39;time_coverage_end&#39;: &#39;2020-06-30&#39;, &#39;source_file&#39;: &#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/download&#39;, &#39;web_link&#39;: &#39;https://www.o-snap.org&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project and all the national programs that contribute to it (www.o-snap.org).&#39;, &#39;doi&#39;: &#39;https://doi.org/10.35090/gatech/70342&#39;, &#39;data_product&#39;: &#39;Time series of MOC, MHT, and MFT&#39;, &#39;program&#39;: &#39;OSNAP&#39;, &#39;description&#39;: &#39;OSNAP transport and hydrographic estimates dataset, 2014-2020&#39;, &#39;license&#39;: &#39;Creative Commons Attribution 4.0 International (CC BY 4.0)&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;institution&#39;: &#39;Multiple contributing institutions (US, UK, Germany, Netherlands, Canada, France, China)&#39;, &#39;creator_name&#39;: &#39;OSNAP investigators&#39;, &#39;data_policy&#39;: &#39;Any person making use of OSNAP observational data and/or numerical results must communicate with the responsible investigators at the start of the analysis and anticipate that the data collectors will be co-authors of published results. In cases where investigators choose not to be co-authors on publications that rely on their data, the parties responsible for collecting the data and the sponsoring funding agencies should be acknowledged, including reference to any relevant publications by the originating authors describing the data sets and a reference to the data set itself using its DOI. OSNAP data are intended for scholarly use by the academic and scientific community, with the express understanding that any such use will properly acknowledge the originating investigator.&#39;, &#39;summary&#39;: &#39;OSNAP transport and hydrographic estimates dataset, 2014-2020&#39;}
+20250418T070002 DEBUG    _consolidate_contributors Email buckets: {&#39;publisher_email&#39;: [&#39;susan.lozier@gatech.edu&#39;, &#39;yaofu@gatech.edu&#39;]}
+20250418T070002 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T070002 DEBUG    _consolidate_contributors Names: [&#39;Yao Fu&#39;, &#39;M. Susan Lozier&#39;, &#39;Tiago Carrilho Biló&#39;, &#39;Amy S. Bower&#39;, &#39;Stuart A. Cunningham&#39;, &#39;Frédéric Cyr&#39;, &#39;M. Femke de Jong&#39;, &#39;Brad deYoung&#39;, &#39;Lewis Drysdale&#39;, &#39;Neil Fraser&#39;, &#39;Nora Fried&#39;, &#39;Heather H. Furey&#39;, &#39;Guoqi Han&#39;, &#39;Patricia Handmann&#39;, &#39;N. Penny Holliday&#39;, &#39;James Holte&#39;, &#39;Mark E. Inall&#39;, &#39;William E. Johns&#39;, &#39;Sam Jones&#39;, &#39;Johannes Karstensen&#39;, &#39;Feili Li&#39;, &#39;Astrid Pacini&#39;, &#39;Robert S. Pickart&#39;, &#39;Darren Rayner&#39;, &#39;Fiammetta Straneo&#39;, &#39;Igor Yashayaev&#39;, &#39;M. Susan Lozier&#39;, &#39;Yao Fu&#39;, &#39;OSNAP investigators&#39;]; Roles: [&#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;publisher&#39;, &#39;publisher&#39;, &#39;creator&#39;]; Sources: [&#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;contributor_name&#39;, &#39;publisher_name&#39;, &#39;publisher_name&#39;, &#39;creator_name&#39;]
+20250418T070002 DEBUG    _consolidate_contributors Set contributor_name=&#39;Yao Fu, M. Susan Lozier, Tiago Carrilho Biló, Amy S. Bower, Stuart A. Cunningham, Frédéric Cyr, M. Femke de Jong, Brad deYoung, Lewis Drysdale, Neil Fraser, Nora Fried, Heather H. Furey, Guoqi Han, Patricia Handmann, N. Penny Holliday, James Holte, Mark E. Inall, William E. Johns, Sam Jones, Johannes Karstensen, Feili Li, Astrid Pacini, Robert S. Pickart, Darren Rayner, Fiammetta Straneo, Igor Yashayaev, M. Susan Lozier, Yao Fu, OSNAP investigators&#39;, contributor_role=&#39;data design, collection and/or processing&#39;
+20250418T070002 DEBUG    _consolidate_contributors Aligned contributor_email=&#39;, , , , , , , , , , , , , , , , , , , , , , , , , , susan.lozier@gatech.edu, yaofu@gatech.edu, &#39;
+20250418T070002 DEBUG    _consolidate_contributors Aligned contributor_id=&#39;, , , , , , , , , , , , , , , , , , , , , , , , , , , , &#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Georgia Institute of Technology, USA&#39; → &#39;georgia institute of technology, usa&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;National Oceanography Centre at Southampton, UK&#39; → &#39;national oceanography centre at southampton, uk&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Woods Hole Oceanographic Institution, USA&#39; → &#39;woods hole oceanographic institution, usa&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Scottish Association for Marine Science, UK&#39; → &#39;scottish association for marine science, uk&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Royal Netherlands Institute for Sea Research and Utrecht University, Netherlands&#39; → &#39;royal netherlands institute for sea research and utrecht university, netherlands&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Memorial University, Canada&#39; → &#39;memorial university, canada&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Fisheries and Oceans Canada Northwest Atlantic Fisheries Centre and Institute of Ocean Sciences, Canada&#39; → &#39;fisheries and oceans canada northwest atlantic fisheries centre and institute of ocean sciences, canada&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Scripps Institution of Oceanography, UCSD, USA&#39; → &#39;scripps institution of oceanography, ucsd, usa&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Edinburgh University, UK&#39; → &#39;edinburgh university, uk&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;University of Miami, USA&#39; → &#39;university of miami, usa&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;GEOMAR Helmholtz Centre for Ocean Research Kiel, Germany&#39; → &#39;geomar helmholtz centre for ocean research kiel, germany&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Bedford Institute of Oceanography, Canada&#39; → &#39;bedford institute of oceanography, canada&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Xiamen University, China&#39; → &#39;xiamen university, china&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Matched institution &#39;Multiple contributing institutions (US, UK, Germany, Netherlands, Canada, France, China)&#39; → &#39;multiple contributing institutions (us, uk, germany, netherlands, canada, france, china)&#39; → &#39;&#39;
+20250418T070002 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;title&#39;: &#39;OSNAP MOC MHT MFT time series (2014-2020)&#39;, &#39;project&#39;: &#39;Overturning in the Subpolar North Atlantic Program (OSNAP)&#39;, &#39;contributor_role&#39;: &#39;data design, collection and/or processing&#39;, &#39;data_assembly_center&#39;: &#39;Georgia Institute of Technology&#39;, &#39;references&#39;: &#39;Lozier et al. (2019), Science, doi:10.1126/science.aau6592; Li et al. (2017), JTECH, doi:10.1175/JTECH-D-16-0247.1; Li et al. (2021), Nature Communications, doi:10.1038/s41467-021-23350-2; Fu et al. (2023), Communications Earth &amp; Environment, doi:10.1038/s43247-023-00848-9&#39;, &#39;citation&#39;: &#39;OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project and all the national programs that contribute to it (www.o-snap.org)&#39;, &#39;date_created&#39;: &#39;2023-04-24 11:33:07&#39;, &#39;time_coverage_start&#39;: &#39;2014-08-01&#39;, &#39;time_coverage_end&#39;: &#39;2020-06-30&#39;, &#39;source_file&#39;: &#39;OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/download&#39;, &#39;web_link&#39;: &#39;https://www.o-snap.org&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;OSNAP data were collected and made freely available by the OSNAP (Overturning in the Subpolar North Atlantic Program) project and all the national programs that contribute to it (www.o-snap.org).&#39;, &#39;doi&#39;: &#39;https://doi.org/10.35090/gatech/70342&#39;, &#39;data_product&#39;: &#39;Time series of MOC, MHT, and MFT&#39;, &#39;program&#39;: &#39;OSNAP&#39;, &#39;description&#39;: &#39;OSNAP transport and hydrographic estimates dataset, 2014-2020&#39;, &#39;license&#39;: &#39;Creative Commons Attribution 4.0 International (CC BY 4.0)&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;data_policy&#39;: &#39;Any person making use of OSNAP observational data and/or numerical results must communicate with the responsible investigators at the start of the analysis and anticipate that the data collectors will be co-authors of published results. In cases where investigators choose not to be co-authors on publications that rely on their data, the parties responsible for collecting the data and the sponsoring funding agencies should be acknowledged, including reference to any relevant publications by the originating authors describing the data sets and a reference to the data set itself using its DOI. OSNAP data are intended for scholarly use by the academic and scientific community, with the express understanding that any such use will properly acknowledge the originating investigator.&#39;, &#39;summary&#39;: &#39;OSNAP transport and hydrographic estimates dataset, 2014-2020&#39;, &#39;contributor_name&#39;: &#39;Yao Fu, M. Susan Lozier, Tiago Carrilho Biló, Amy S. Bower, Stuart A. Cunningham, Frédéric Cyr, M. Femke de Jong, Brad deYoung, Lewis Drysdale, Neil Fraser, Nora Fried, Heather H. Furey, Guoqi Han, Patricia Handmann, N. Penny Holliday, James Holte, Mark E. Inall, William E. Johns, Sam Jones, Johannes Karstensen, Feili Li, Astrid Pacini, Robert S. Pickart, Darren Rayner, Fiammetta Straneo, Igor Yashayaev, M. Susan Lozier, Yao Fu, OSNAP investigators&#39;, &#39;contributor_email&#39;: &#39;, , , , , , , , , , , , , , , , , , , , , , , , , , susan.lozier@gatech.edu, yaofu@gatech.edu, &#39;, &#39;contributor_id&#39;: &#39;, , , , , , , , , , , , , , , , , , , , , , , , , , , , &#39;, &#39;contributing_institutions&#39;: &#39;Georgia Institute of Technology, USA, National Oceanography Centre at Southampton, UK, Woods Hole Oceanographic Institution, USA, Scottish Association for Marine Science, UK, Royal Netherlands Institute for Sea Research and Utrecht University, Netherlands, Memorial University, Canada, Fisheries and Oceans Canada Northwest Atlantic Fisheries Centre and Institute of Ocean Sciences, Canada, Scripps Institution of Oceanography, UCSD, USA, Edinburgh University, UK, University of Miami, USA, GEOMAR Helmholtz Centre for Ocean Research Kiel, Germany, Bedford Institute of Oceanography, Canada, Xiamen University, China, Multiple contributing institutions (US, UK, Germany, Netherlands, Canada, France, China)&#39;, &#39;contributing_institutions_vocabulary&#39;: &#39;, , , , , , , , , , , , , &#39;, &#39;contributing_institutions_role&#39;: &#39;&#39;, &#39;contributing_institutions_role_vocabulary&#39;: &#39;&#39;}
+20250418T070002 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -560,190 +1220,7 @@ Dataset 1:
     - MFT_WEST: shape (71,)
     - MFT_WEST_ERR: shape (71,)
 
-information is based on xarray Dataset
 </pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<style type="text/css">
-</style>
-<table id="T_9991f">
-  <thead>
-    <tr>
-      <th class="blank level0" >&nbsp;</th>
-      <th id="T_9991f_level0_col0" class="col_heading level0 col0" >dims</th>
-      <th id="T_9991f_level0_col1" class="col_heading level0 col1" >units</th>
-      <th id="T_9991f_level0_col2" class="col_heading level0 col2" >comment</th>
-      <th id="T_9991f_level0_col3" class="col_heading level0 col3" >standard_name</th>
-      <th id="T_9991f_level0_col4" class="col_heading level0 col4" >dtype</th>
-    </tr>
-    <tr>
-      <th class="index_name level0" >name</th>
-      <th class="blank col0" >&nbsp;</th>
-      <th class="blank col1" >&nbsp;</th>
-      <th class="blank col2" >&nbsp;</th>
-      <th class="blank col3" >&nbsp;</th>
-      <th class="blank col4" >&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_9991f_level0_row0" class="row_heading level0 row0" >MFT_ALL</th>
-      <td id="T_9991f_row0_col0" class="data row0 col0" >TIME</td>
-      <td id="T_9991f_row0_col1" class="data row0 col1" >Sv</td>
-      <td id="T_9991f_row0_col2" class="data row0 col2" ></td>
-      <td id="T_9991f_row0_col3" class="data row0 col3" ></td>
-      <td id="T_9991f_row0_col4" class="data row0 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row1" class="row_heading level0 row1" >MFT_ALL_ERR</th>
-      <td id="T_9991f_row1_col0" class="data row1 col0" >TIME</td>
-      <td id="T_9991f_row1_col1" class="data row1 col1" >Sv</td>
-      <td id="T_9991f_row1_col2" class="data row1 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row1_col3" class="data row1 col3" ></td>
-      <td id="T_9991f_row1_col4" class="data row1 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row2" class="row_heading level0 row2" >MFT_EAST</th>
-      <td id="T_9991f_row2_col0" class="data row2 col0" >TIME</td>
-      <td id="T_9991f_row2_col1" class="data row2 col1" >Sv</td>
-      <td id="T_9991f_row2_col2" class="data row2 col2" ></td>
-      <td id="T_9991f_row2_col3" class="data row2 col3" ></td>
-      <td id="T_9991f_row2_col4" class="data row2 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row3" class="row_heading level0 row3" >MFT_EAST_ERR</th>
-      <td id="T_9991f_row3_col0" class="data row3 col0" >TIME</td>
-      <td id="T_9991f_row3_col1" class="data row3 col1" >Sv</td>
-      <td id="T_9991f_row3_col2" class="data row3 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row3_col3" class="data row3 col3" ></td>
-      <td id="T_9991f_row3_col4" class="data row3 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row4" class="row_heading level0 row4" >MFT_WEST</th>
-      <td id="T_9991f_row4_col0" class="data row4 col0" >TIME</td>
-      <td id="T_9991f_row4_col1" class="data row4 col1" >Sv</td>
-      <td id="T_9991f_row4_col2" class="data row4 col2" ></td>
-      <td id="T_9991f_row4_col3" class="data row4 col3" ></td>
-      <td id="T_9991f_row4_col4" class="data row4 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row5" class="row_heading level0 row5" >MFT_WEST_ERR</th>
-      <td id="T_9991f_row5_col0" class="data row5 col0" >TIME</td>
-      <td id="T_9991f_row5_col1" class="data row5 col1" >Sv</td>
-      <td id="T_9991f_row5_col2" class="data row5 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row5_col3" class="data row5 col3" ></td>
-      <td id="T_9991f_row5_col4" class="data row5 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row6" class="row_heading level0 row6" >MHT_ALL</th>
-      <td id="T_9991f_row6_col0" class="data row6 col0" >TIME</td>
-      <td id="T_9991f_row6_col1" class="data row6 col1" >PW</td>
-      <td id="T_9991f_row6_col2" class="data row6 col2" ></td>
-      <td id="T_9991f_row6_col3" class="data row6 col3" ></td>
-      <td id="T_9991f_row6_col4" class="data row6 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row7" class="row_heading level0 row7" >MHT_ALL_ERR</th>
-      <td id="T_9991f_row7_col0" class="data row7 col0" >TIME</td>
-      <td id="T_9991f_row7_col1" class="data row7 col1" >PW</td>
-      <td id="T_9991f_row7_col2" class="data row7 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row7_col3" class="data row7 col3" ></td>
-      <td id="T_9991f_row7_col4" class="data row7 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row8" class="row_heading level0 row8" >MHT_EAST</th>
-      <td id="T_9991f_row8_col0" class="data row8 col0" >TIME</td>
-      <td id="T_9991f_row8_col1" class="data row8 col1" >PW</td>
-      <td id="T_9991f_row8_col2" class="data row8 col2" ></td>
-      <td id="T_9991f_row8_col3" class="data row8 col3" ></td>
-      <td id="T_9991f_row8_col4" class="data row8 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row9" class="row_heading level0 row9" >MHT_EAST_ERR</th>
-      <td id="T_9991f_row9_col0" class="data row9 col0" >TIME</td>
-      <td id="T_9991f_row9_col1" class="data row9 col1" >PW</td>
-      <td id="T_9991f_row9_col2" class="data row9 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row9_col3" class="data row9 col3" ></td>
-      <td id="T_9991f_row9_col4" class="data row9 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row10" class="row_heading level0 row10" >MHT_WEST</th>
-      <td id="T_9991f_row10_col0" class="data row10 col0" >TIME</td>
-      <td id="T_9991f_row10_col1" class="data row10 col1" >PW</td>
-      <td id="T_9991f_row10_col2" class="data row10 col2" ></td>
-      <td id="T_9991f_row10_col3" class="data row10 col3" ></td>
-      <td id="T_9991f_row10_col4" class="data row10 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row11" class="row_heading level0 row11" >MHT_WEST_ERR</th>
-      <td id="T_9991f_row11_col0" class="data row11 col0" >TIME</td>
-      <td id="T_9991f_row11_col1" class="data row11 col1" >PW</td>
-      <td id="T_9991f_row11_col2" class="data row11 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row11_col3" class="data row11 col3" ></td>
-      <td id="T_9991f_row11_col4" class="data row11 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row12" class="row_heading level0 row12" >MOC_ALL</th>
-      <td id="T_9991f_row12_col0" class="data row12 col0" >TIME</td>
-      <td id="T_9991f_row12_col1" class="data row12 col1" >Sv</td>
-      <td id="T_9991f_row12_col2" class="data row12 col2" >maximum of the overturning streamfunction in sigma_theta coordinates</td>
-      <td id="T_9991f_row12_col3" class="data row12 col3" ></td>
-      <td id="T_9991f_row12_col4" class="data row12 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row13" class="row_heading level0 row13" >MOC_ALL_ERR</th>
-      <td id="T_9991f_row13_col0" class="data row13 col0" >TIME</td>
-      <td id="T_9991f_row13_col1" class="data row13 col1" >Sv</td>
-      <td id="T_9991f_row13_col2" class="data row13 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row13_col3" class="data row13 col3" ></td>
-      <td id="T_9991f_row13_col4" class="data row13 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row14" class="row_heading level0 row14" >MOC_EAST</th>
-      <td id="T_9991f_row14_col0" class="data row14 col0" >TIME</td>
-      <td id="T_9991f_row14_col1" class="data row14 col1" >Sv</td>
-      <td id="T_9991f_row14_col2" class="data row14 col2" >maximum of the overturning streamfunction in sigma_theta coordinates</td>
-      <td id="T_9991f_row14_col3" class="data row14 col3" ></td>
-      <td id="T_9991f_row14_col4" class="data row14 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row15" class="row_heading level0 row15" >MOC_EAST_ERR</th>
-      <td id="T_9991f_row15_col0" class="data row15 col0" >TIME</td>
-      <td id="T_9991f_row15_col1" class="data row15 col1" >Sv</td>
-      <td id="T_9991f_row15_col2" class="data row15 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row15_col3" class="data row15 col3" ></td>
-      <td id="T_9991f_row15_col4" class="data row15 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row16" class="row_heading level0 row16" >MOC_WEST</th>
-      <td id="T_9991f_row16_col0" class="data row16 col0" >TIME</td>
-      <td id="T_9991f_row16_col1" class="data row16 col1" >Sv</td>
-      <td id="T_9991f_row16_col2" class="data row16 col2" >maximum of the overturning streamfunction in sigma_theta coordinates</td>
-      <td id="T_9991f_row16_col3" class="data row16 col3" ></td>
-      <td id="T_9991f_row16_col4" class="data row16 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row17" class="row_heading level0 row17" >MOC_WEST_ERR</th>
-      <td id="T_9991f_row17_col0" class="data row17 col0" >TIME</td>
-      <td id="T_9991f_row17_col1" class="data row17 col1" >Sv</td>
-      <td id="T_9991f_row17_col2" class="data row17 col2" >Determined from a Monte Carlo analysis</td>
-      <td id="T_9991f_row17_col3" class="data row17 col3" ></td>
-      <td id="T_9991f_row17_col4" class="data row17 col4" >float64</td>
-    </tr>
-    <tr>
-      <th id="T_9991f_level0_row18" class="row_heading level0 row18" >TIME</th>
-      <td id="T_9991f_row18_col0" class="data row18 col0" >TIME</td>
-      <td id="T_9991f_row18_col1" class="data row18 col1" ></td>
-      <td id="T_9991f_row18_col2" class="data row18 col2" >Start date of each month</td>
-      <td id="T_9991f_row18_col3" class="data row18 col3" >time</td>
-      <td id="T_9991f_row18_col4" class="data row18 col4" >datetime64[ns]</td>
-    </tr>
-  </tbody>
-</table></div>
 </div>
 </section>
 <section id="Load-SAMBA-34.5°S">
@@ -752,11 +1229,11 @@ information is based on xarray Dataset
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasets34S</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;SAMBA&quot;</span><span class="p">)</span>
-<span class="n">standardised_datasets</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_samba</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasets34S</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datasetsSAMBA</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;SAMBA&quot;</span><span class="p">)</span>
+<span class="n">standardSAMBA</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">standardise</span><span class="o">.</span><span class="n">standardise_samba</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datasetsSAMBA</span>
 <span class="p">]</span>
-</pre></div>
+<br/></pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -764,16 +1241,16 @@ information is based on xarray Dataset
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-20250414T213330 INFO     setup_logger Logger initialized for array: SAMBA, writing to /home/runner/work/amocarray/amocarray/logs/SAMBA_20250414T21_read.log
-20250414T213330 INFO     log_info Loading dataset for array: SAMBA
-20250414T213330 INFO     log_info Starting to read SAMBA dataset
-20250414T213330 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/Upper_Abyssal_Transport_Anomalies.txt
-20250414T213330 INFO     log_info Attaching metadata to SAMBA dataset from file: Upper_Abyssal_Transport_Anomalies.txt
-20250414T213330 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/MOC_TotalAnomaly_and_constituents.asc
-20250414T213330 INFO     log_info Attaching metadata to SAMBA dataset from file: MOC_TotalAnomaly_and_constituents.asc
-20250414T213330 INFO     log_info Successfully loaded 2 SAMBA dataset(s)
-20250414T213330 INFO     log_info Successfully loaded 2 dataset(s) for array: SAMBA
-20250414T213330 INFO     log_info
+20250418T070002 INFO     setup_logger Logger initialized for array: SAMBA, writing to /home/runner/work/amocarray/amocarray/logs/SAMBA_20250418T07_read.log
+20250418T070002 INFO     load_dataset Loading dataset for array: SAMBA
+20250418T070002 INFO     read_samba Starting to read SAMBA dataset
+20250418T070002 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/Upper_Abyssal_Transport_Anomalies.txt
+20250418T070002 INFO     read_samba Attaching metadata to SAMBA dataset from file: Upper_Abyssal_Transport_Anomalies.txt
+20250418T070002 INFO     resolve_file_path Using cached file: /home/runner/work/amocarray/amocarray/data/MOC_TotalAnomaly_and_constituents.asc
+20250418T070002 INFO     read_samba Attaching metadata to SAMBA dataset from file: MOC_TotalAnomaly_and_constituents.asc
+20250418T070002 INFO     read_samba Successfully loaded 2 SAMBA dataset(s)
+20250418T070002 INFO     load_dataset Successfully loaded 2 dataset(s) for array: SAMBA
+20250418T070002 INFO     _summarise_datasets
 Summary for array &#39;SAMBA&#39;:
 Total datasets loaded: 2
 
@@ -801,12 +1278,28 @@ Dataset 2:
     - Western bottom pressure contribution to the MOC anomaly: shape (2964,)
     - Eastern bottom pressure contribution to the MOC anomaly: shape (2964,)
 
-20250414T213330 DEBUG    log_debug Attribute &#39;comment&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 DEBUG    log_debug Attribute &#39;weblink&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 DEBUG    log_debug Attribute &#39;acknowledgement&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 DEBUG    log_debug Attribute &#39;comment&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 DEBUG    log_debug Attribute &#39;weblink&#39; already exists in dataset attrs and will not be overwritten.
-20250414T213330 DEBUG    log_debug Attribute &#39;acknowledgement&#39; already exists in dataset attrs and will not be overwritten.
+20250418T070002 DEBUG    standardise_array Standardising Upper_Abyssal_Transport_Anomalies.txt for SAMBA
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T070002 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;source_file&#39;: &#39;Upper_Abyssal_Transport_Anomalies.txt&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/Upper_Abyssal_Transport_Anomalies.txt&#39;, &#39;description&#39;: &#39;SAMBA 34S transport estimates dataset&#39;, &#39;project&#39;: &#39;South Atlantic MOC Basin-wide Array (SAMBA)&#39;, &#39;web_link&#39;: &#39;https://www.aoml.noaa.gov/phod/samoc&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;M. Kersalé et al., Highly variable upper and abyssal overturning cells in the South Atlantic. Sci. Adv. 6, eaba7573 (2020). DOI: 10.1126/sciadv.aba7573&#39;, &#39;data_product&#39;: &#39;Daily volume transport anomaly estimates for the upper and abyssal cells of the MOC&#39;, &#39;program&#39;: &#39;SAMBA&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2001-06-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;SAMBA 34S transport estimates dataset&#39;}
+20250418T070002 DEBUG    _consolidate_contributors Email buckets: {}
+20250418T070002 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T070002 DEBUG    _consolidate_contributors Names: []; Roles: []; Sources: []
+20250418T070002 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;source_file&#39;: &#39;Upper_Abyssal_Transport_Anomalies.txt&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/Upper_Abyssal_Transport_Anomalies.txt&#39;, &#39;description&#39;: &#39;SAMBA 34S transport estimates dataset&#39;, &#39;project&#39;: &#39;South Atlantic MOC Basin-wide Array (SAMBA)&#39;, &#39;web_link&#39;: &#39;https://www.aoml.noaa.gov/phod/samoc&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;M. Kersalé et al., Highly variable upper and abyssal overturning cells in the South Atlantic. Sci. Adv. 6, eaba7573 (2020). DOI: 10.1126/sciadv.aba7573&#39;, &#39;data_product&#39;: &#39;Daily volume transport anomaly estimates for the upper and abyssal cells of the MOC&#39;, &#39;program&#39;: &#39;SAMBA&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2001-06-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;SAMBA 34S transport estimates dataset&#39;}
+20250418T070002 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
+20250418T070002 DEBUG    standardise_array Standardising MOC_TotalAnomaly_and_constituents.asc for SAMBA
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;weblink&#39; → &#39;web_link&#39;
+20250418T070002 DEBUG    merge_metadata_aliases Renaming key &#39;platform_type&#39; → &#39;platform&#39;
+20250418T070002 DEBUG    _consolidate_contributors Starting _consolidate_contributors with attrs: {&#39;source_file&#39;: &#39;MOC_TotalAnomaly_and_constituents.asc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/MOC_TotalAnomaly_and_constituents.asc&#39;, &#39;description&#39;: &#39;SAMBA 34S transport estimates dataset&#39;, &#39;project&#39;: &#39;South Atlantic MOC Basin-wide Array (SAMBA)&#39;, &#39;web_link&#39;: &#39;https://www.aoml.noaa.gov/phod/samoc&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;Meinen, C. S., Speich, S., Piola, A. R., Ansorge, I., Campos, E., Kersalé, M., et al. (2018). Meridional overturning circulation transport variability at 34.5°S during 2009–2017: Baroclinic and barotropic flows and the dueling influence of the boundaries. Geophysical Research Letters, 45, 4180–4188. https://doi.org/10.1029/2018GL077408&#39;, &#39;data_product&#39;: &#39;Daily travel time values, calibrated to a nominal pressure of 1000 dbar, and bottom pressures from the two PIES/CPIES moorings&#39;, &#39;program&#39;: &#39;SAMBA&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2001-06-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;SAMBA 34S transport estimates dataset&#39;}
+20250418T070002 DEBUG    _consolidate_contributors Email buckets: {}
+20250418T070002 DEBUG    _consolidate_contributors URL buckets: {}
+20250418T070002 DEBUG    _consolidate_contributors Names: []; Roles: []; Sources: []
+20250418T070002 DEBUG    _consolidate_contributors Finished _consolidate_contributors: {&#39;source_file&#39;: &#39;MOC_TotalAnomaly_and_constituents.asc&#39;, &#39;source_path&#39;: &#39;/home/runner/work/amocarray/amocarray/data/MOC_TotalAnomaly_and_constituents.asc&#39;, &#39;description&#39;: &#39;SAMBA 34S transport estimates dataset&#39;, &#39;project&#39;: &#39;South Atlantic MOC Basin-wide Array (SAMBA)&#39;, &#39;web_link&#39;: &#39;https://www.aoml.noaa.gov/phod/samoc&#39;, &#39;comment&#39;: &#39;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&#39;, &#39;acknowledgement&#39;: &#39;Meinen, C. S., Speich, S., Piola, A. R., Ansorge, I., Campos, E., Kersalé, M., et al. (2018). Meridional overturning circulation transport variability at 34.5°S during 2009–2017: Baroclinic and barotropic flows and the dueling influence of the boundaries. Geophysical Research Letters, 45, 4180–4188. https://doi.org/10.1029/2018GL077408&#39;, &#39;data_product&#39;: &#39;Daily travel time values, calibrated to a nominal pressure of 1000 dbar, and bottom pressures from the two PIES/CPIES moorings&#39;, &#39;program&#39;: &#39;SAMBA&#39;, &#39;license&#39;: &#39;CC-BY 4.0&#39;, &#39;featureType&#39;: &#39;timeSeries&#39;, &#39;Conventions&#39;: &#39;CF-1.8, ACDD-1.3&#39;, &#39;time_coverage_start&#39;: &#39;2001-06-01&#39;, &#39;time_coverage_end&#39;: &#39;2023-12-31&#39;, &#39;platform&#39;: &#39;Mooring array&#39;, &#39;summary&#39;: &#39;SAMBA 34S transport estimates dataset&#39;}
+20250418T070002 DEBUG    normalize_and_add_vocabulary Normalized &#39;platform&#39;: &#39;Mooring array&#39; → &#39;mooring&#39;
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;platform&#39;: https://vocab.nerc.ac.uk/collection/L06/
+20250418T070002 DEBUG    normalize_and_add_vocabulary Added vocabulary for &#39;featureType&#39;: https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -848,9 +1341,9 @@ Dataset 2:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract the upper and abyssal transport data</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">standardised_datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">standardSAMBA</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">upper_transport</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;UPPER_TRANSPORT&quot;</span><span class="p">]</span>
-<span class="n">ds2</span> <span class="o">=</span> <span class="n">standardised_datasets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ds2</span> <span class="o">=</span> <span class="n">standardSAMBA</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">moc_meinen</span> <span class="o">=</span> <span class="n">ds2</span><span class="p">[</span><span class="s2">&quot;MOC&quot;</span><span class="p">]</span>
 
 
@@ -916,12 +1409,11 @@ Dataset 2:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">plotters</span><span class="p">)</span>
-<span class="n">plotters</span><span class="o">.</span><span class="n">plot_monthly_anomalies</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotters</span><span class="o">.</span><span class="n">plot_monthly_anomalies</span><span class="p">(</span>
     <span class="n">osnap_data</span><span class="o">=</span><span class="n">ds_osnap</span><span class="p">[</span><span class="s2">&quot;MOC_ALL&quot;</span><span class="p">],</span>
     <span class="n">rapid_data</span><span class="o">=</span><span class="n">ds_rapid</span><span class="p">[</span><span class="s2">&quot;moc_mar_hc10&quot;</span><span class="p">],</span>
     <span class="n">move_data</span><span class="o">=-</span><span class="n">ds_move</span><span class="p">[</span><span class="s2">&quot;TRANSPORT_TOTAL&quot;</span><span class="p">],</span>
-    <span class="n">samba_data</span><span class="o">=</span><span class="n">standardised_datasets</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;MOC&quot;</span><span class="p">],</span>
+    <span class="n">samba_data</span><span class="o">=</span><span class="n">standardSAMBA</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;MOC&quot;</span><span class="p">],</span>
     <span class="n">osnap_label</span><span class="o">=</span><span class="s2">&quot;OSNAP&quot;</span><span class="p">,</span>
     <span class="n">rapid_label</span><span class="o">=</span><span class="s2">&quot;RAPID 26°N&quot;</span><span class="p">,</span>
     <span class="n">move_label</span><span class="o">=</span><span class="s2">&quot;MOVE 16°N&quot;</span><span class="p">,</span>
@@ -949,6 +1441,14 @@ Dataset 2:
 </div>
 <div class="output_area docutils container">
 <img alt="_images/demo-output_14_1.png" src="_images/demo-output_14_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
 </div>
 </div>
 </section>

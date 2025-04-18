@@ -101,130 +101,569 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">utilities</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_debug</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>  <span class="c1"># Use the global logger</span>
 
+<span class="c1"># Extracted from OG1.0 spec “## Global attributes” (cf. turn1view0) :contentReference[oaicite:0]{index=0}</span>
+<span class="n">_GLOBAL_ATTR_ORDER</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;platform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;platform_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;naming_authority&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;institution&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;internal_mission_identifier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_lat_min&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_lat_max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_lon_min&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_lon_max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_vertical_min&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geospatial_vertical_max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time_coverage_start&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time_coverage_end&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;site&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;site_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;program&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;program_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;project&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;network&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributor_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributor_email&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributor_id&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributor_role&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributor_role_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributing_institutions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributing_institutions_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributing_institutions_role&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;contributing_institutions_role_vocabulary&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;data_url&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;doi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rtqc_method&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rtqc_method_doi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;web_link&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;start_date&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;date_created&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;featureType&quot;</span><span class="p">,</span>  <span class="c1"># preserve this exact case</span>
+    <span class="s2">&quot;Conventions&quot;</span><span class="p">,</span>  <span class="c1"># preserve this exact case</span>
+<span class="p">]</span>
 
-<div class="viewcode-block" id="standardise_rapid">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_rapid">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">standardise_rapid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise RAPID dataset:</span>
-<span class="sd">    - Rename time dimension and variable from &#39;time&#39; to &#39;TIME&#39;.</span>
+<span class="n">_INSTITUTION_CORRECTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;National Oceanography Centre,UK&quot;</span><span class="p">:</span> <span class="s2">&quot;National Oceanography Centre (Southampton) (UK)&quot;</span><span class="p">,</span>
+    <span class="c1"># add more exact‐string fixes here as you discover them</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="reorder_metadata">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.reorder_metadata">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">reorder_metadata</span><span class="p">(</span><span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a new dict with keys ordered according to the OG1.0 global‐attribute list.</span>
+<span class="sd">    Any attrs not in the spec list are appended at the end, in their original order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Shallow copy so we can pop</span>
+    <span class="n">remaining</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+    <span class="n">ordered</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_GLOBAL_ATTR_ORDER</span><span class="p">:</span>
+        <span class="c1"># featureType is case‐sensitive; everything else is matched lowercase</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;featureType&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;featureType&quot;</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
+                <span class="n">ordered</span><span class="p">[</span><span class="s2">&quot;featureType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">remaining</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;featureType&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># look for any remaining key whose lower() matches</span>
+            <span class="n">to_remove</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">orig</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">orig</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+                    <span class="n">to_remove</span> <span class="o">=</span> <span class="n">orig</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">to_remove</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ordered</span><span class="p">[</span><span class="n">to_remove</span><span class="p">]</span> <span class="o">=</span> <span class="n">remaining</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">to_remove</span><span class="p">)</span>
+
+    <span class="c1"># finally, append all the rest in their original insertion order</span>
+    <span class="k">for</span> <span class="n">orig</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">remaining</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ordered</span><span class="p">[</span><span class="n">orig</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ordered</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="normalize_and_add_vocabulary">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.normalize_and_add_vocabulary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_and_add_vocabulary</span><span class="p">(</span>
+    <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">normalizations</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For each (attr, (value_map, vocab_url)) in `normalizations`:</span>
+<span class="sd">      - If `attr` exists in attrs:</span>
+<span class="sd">          * Map attrs[attr] using value_map (or leave it if unmapped)</span>
+<span class="sd">          * Add attrs[f&quot;{attr}_vocabulary&quot;] = vocab_url</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ds : xr.Dataset</span>
-<span class="sd">        Raw RAPID dataset loaded from read_rapid().</span>
+<span class="sd">    attrs : dict</span>
+<span class="sd">        Metadata attributes, already cleaned &amp; renamed.</span>
+<span class="sd">    normalizations : dict</span>
+<span class="sd">        Keys are canonical attr names (e.g. &quot;platform&quot;), values are</span>
+<span class="sd">        (value_map, vocabulary_url) tuples.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    xr.Dataset</span>
-<span class="sd">        Standardised RAPID dataset.</span>
-
+<span class="sd">    dict</span>
+<span class="sd">        attrs with normalized values and added &lt;attr&gt;_vocabulary entries.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Rename dimension</span>
-    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">sizes</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="p">(</span><span class="n">value_map</span><span class="p">,</span> <span class="n">vocab_url</span><span class="p">)</span> <span class="ow">in</span> <span class="n">normalizations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+            <span class="n">mapped</span> <span class="o">=</span> <span class="n">value_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mapped</span> <span class="o">!=</span> <span class="n">raw</span><span class="p">:</span>
+                <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Normalized &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%r</span><span class="s2"> → </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">mapped</span><span class="p">)</span>
+            <span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped</span>
 
-    <span class="c1"># Rename variable</span>
-    <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
+            <span class="n">vocab_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">_vocabulary&quot;</span>
+            <span class="c1"># only set if not already present</span>
+            <span class="k">if</span> <span class="n">vocab_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                <span class="n">attrs</span><span class="p">[</span><span class="n">vocab_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">vocab_url</span>
+                <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Added vocabulary for &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">vocab_url</span><span class="p">)</span>
 
-    <span class="c1"># Swap dimension to ensure &#39;TIME&#39; is the index coordinate</span>
-    <span class="k">if</span> <span class="s2">&quot;TIME&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s2">&quot;TIME&quot;</span><span class="p">:</span> <span class="s2">&quot;TIME&quot;</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">attrs</span></div>
 
-    <span class="c1"># Optional: global metadata updates (future)</span>
-    <span class="c1"># utilities.safe_update_attrs(ds, {&quot;weblink&quot;: &quot;...&quot;})</span>
 
-    <span class="k">return</span> <span class="n">ds</span></div>
+
+<div class="viewcode-block" id="clean_metadata">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.clean_metadata">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_metadata</span><span class="p">(</span><span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">preferred_keys</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clean up a metadata dictionary:</span>
+<span class="sd">    - Normalize key casing</span>
+<span class="sd">    - Merge aliases with identical values</span>
+<span class="sd">    - Apply standard naming (via preferred_keys mapping)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Step 0: normalize whitespace everywhere</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">utilities</span><span class="o">.</span><span class="n">normalize_whitespace</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">preferred_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">preferred_keys</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;weblink&quot;</span><span class="p">:</span> <span class="s2">&quot;web_link&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;website&quot;</span><span class="p">:</span> <span class="s2">&quot;web_link&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;note&quot;</span><span class="p">:</span> <span class="s2">&quot;comment&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;acknowledgement&quot;</span><span class="p">:</span> <span class="s2">&quot;acknowledgement&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DOI&quot;</span><span class="p">:</span> <span class="s2">&quot;doi&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="s2">&quot;references&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;creator&quot;</span><span class="p">:</span> <span class="s2">&quot;creator_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;platform_type&quot;</span><span class="p">:</span> <span class="s2">&quot;platform&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;contributor&quot;</span><span class="p">:</span> <span class="s2">&quot;contributor_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Institution&quot;</span><span class="p">:</span> <span class="s2">&quot;institution&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Project&quot;</span><span class="p">:</span> <span class="s2">&quot;project&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;created_by&quot;</span><span class="p">:</span> <span class="s2">&quot;creator_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;principle_investigator&quot;</span><span class="p">:</span> <span class="s2">&quot;principal_investigator&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;principle_investigator_email&quot;</span><span class="p">:</span> <span class="s2">&quot;principal_investigator_email&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;creation_date&quot;</span><span class="p">:</span> <span class="s2">&quot;date_created&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="c1"># Step 1: merge any identical aliases first</span>
+    <span class="n">merged_attrs</span> <span class="o">=</span> <span class="n">merge_metadata_aliases</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="n">preferred_keys</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: normalize remaining cases and resolve conflicts</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">merged_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># key is already canonical if it was an alias</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cleaned</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cleaned</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">log_debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping identical &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cleaned</span><span class="p">[</span><span class="n">key</span><span class="p">])):</span>
+                <span class="n">log_debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Replacing &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; value with longer one (&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cleaned</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span><span class="si">}</span><span class="s2">→</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span><span class="si">}</span><span class="s2"> chars)&quot;</span>
+                <span class="p">)</span>
+                <span class="n">cleaned</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log_debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keeping existing &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;, ignoring shorter from merge&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cleaned</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="c1"># Step 3: consolidate contributors and institutions</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">_consolidate_contributors</span><span class="p">(</span><span class="n">cleaned</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cleaned</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_consolidate_contributors</span><span class="p">(</span><span class="n">cleaned</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Consolidate creators, PIs, publishers, and contributors into unified fields:</span>
+<span class="sd">    - contributor_name, contributor_role, contributor_email aligned one-to-one</span>
+<span class="sd">    - contributing_institutions, with placeholders for vocabularies/roles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Starting _consolidate_contributors with attrs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">)</span>
+
+    <span class="n">role_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;creator_name&quot;</span><span class="p">:</span> <span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;creator&quot;</span><span class="p">:</span> <span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;principal_investigator&quot;</span><span class="p">:</span> <span class="s2">&quot;PI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;publisher_name&quot;</span><span class="p">:</span> <span class="s2">&quot;publisher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;publisher&quot;</span><span class="p">:</span> <span class="s2">&quot;publisher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;creator_url&quot;</span><span class="p">:</span> <span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;publisher_url&quot;</span><span class="p">:</span> <span class="s2">&quot;publisher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;principal_investigaor_url&quot;</span><span class="p">:</span> <span class="s2">&quot;PI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;contributor_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;contributor&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_consolidate_contributors</span><span class="p">(</span><span class="n">cleaned</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Consolidate creators, PIs, publishers, and contributors into unified fields:</span>
+<span class="sd">    - contributor_name, contributor_role, contributor_email, contributor_id aligned one-to-one</span>
+<span class="sd">    - contributing_institutions, with placeholders for vocabularies/roles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Starting _consolidate_contributors with attrs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">)</span>
+
+    <span class="n">role_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;creator_name&quot;</span><span class="p">:</span> <span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;creator&quot;</span><span class="p">:</span> <span class="s2">&quot;creator&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;principal_investigator&quot;</span><span class="p">:</span> <span class="s2">&quot;PI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;publisher_name&quot;</span><span class="p">:</span> <span class="s2">&quot;publisher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;publisher&quot;</span><span class="p">:</span> <span class="s2">&quot;publisher&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;contributor_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;contributor&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Step A: extract email &amp; URL buckets</span>
+    <span class="n">email_buckets</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">url_buckets</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">bucket_order</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cleaned</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_email&quot;</span><span class="p">):</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="p">]</span>
+            <span class="n">email_buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span>
+            <span class="n">bucket_order</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_url&quot;</span><span class="p">):</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="p">]</span>
+            <span class="n">url_buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span>
+            <span class="n">bucket_order</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Email buckets: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">email_buckets</span><span class="p">)</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;URL buckets: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url_buckets</span><span class="p">)</span>
+
+    <span class="c1"># Step B: extract names, roles, sources</span>
+    <span class="n">names</span><span class="p">,</span> <span class="n">roles</span><span class="p">,</span> <span class="n">sources</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cleaned</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">role_map</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+                <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">roles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">role_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">sources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Names: </span><span class="si">%s</span><span class="s2">; Roles: </span><span class="si">%s</span><span class="s2">; Sources: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">roles</span><span class="p">,</span> <span class="n">sources</span><span class="p">)</span>
+
+    <span class="c1"># Step C: build contributor fields</span>
+    <span class="k">if</span> <span class="n">names</span><span class="p">:</span>
+        <span class="c1"># C1: names + roles</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_role&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;contributor_role&quot;</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">roles</span><span class="p">))</span>
+        <span class="n">log_debug</span><span class="p">(</span>
+            <span class="s2">&quot;Set contributor_name=</span><span class="si">%r</span><span class="s2">, contributor_role=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_name&quot;</span><span class="p">],</span>
+            <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_role&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># C2: align emails one‑to‑one</span>
+        <span class="n">aligned_emails</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">email_copy</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">email_buckets</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="n">src</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_name&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">src</span>
+            <span class="n">ek</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">_email&quot;</span>
+            <span class="n">aligned_emails</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">email_copy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ek</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">email_copy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aligned_emails</span><span class="p">)</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Aligned contributor_email=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_email&quot;</span><span class="p">])</span>
+
+        <span class="c1"># C3: align URLs → contributor_id</span>
+        <span class="n">aligned_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">url_copy</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">url_buckets</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="n">src</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_name&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">src</span>
+            <span class="n">uk</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">_url&quot;</span>
+            <span class="n">aligned_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url_copy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uk</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">url_copy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uk</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">aligned_ids</span><span class="p">)</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Aligned contributor_id=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_id&quot;</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">bucket_order</span><span class="p">:</span>
+        <span class="c1"># Email-only (or URL-only) fallback</span>
+        <span class="c1"># Build flat lists preserving email/url order</span>
+        <span class="n">flat_emails</span><span class="p">,</span> <span class="n">flat_ids</span><span class="p">,</span> <span class="n">placeholder_roles</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">typ</span><span class="p">,</span> <span class="n">bk</span> <span class="ow">in</span> <span class="n">bucket_order</span><span class="p">:</span>
+            <span class="n">role</span> <span class="o">=</span> <span class="n">role_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bk</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">email_buckets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bk</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="n">flat_emails</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                    <span class="n">placeholder_roles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># typ == &quot;url&quot;</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">url_buckets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bk</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="n">flat_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="c1"># ensure a role slot for each URL too</span>
+                    <span class="n">placeholder_roles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder_roles</span><span class="p">))</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_role&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">placeholder_roles</span><span class="p">)</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flat_emails</span><span class="p">)</span>
+        <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flat_ids</span><span class="p">)</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Placeholder contributor_email=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_email&quot;</span><span class="p">])</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Placeholder contributor_id=</span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributor_id&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Step D: consolidate institution keys</span>
+    <span class="n">inst_vocab_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;national oceanography centre (southampton) (uk)&quot;</span><span class="p">:</span> <span class="s2">&quot;https://edmo.seadatanet.org/report/17&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;helmholtz centre for ocean research kiel (geomar)&quot;</span><span class="p">:</span> <span class="s2">&quot;https://edmo.seadatanet.org/report/2947&quot;</span><span class="p">,</span>
+        <span class="c1"># add more lower‐cased, normalized keys here...</span>
+    <span class="p">}</span>
+    <span class="c1"># Build normalized lookup (keys are already whitespace‑cleaned and casefolded)</span>
+    <span class="n">inst_vocab_norm</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span> <span class="n">url</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">inst_vocab_map</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">raw_key</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">inst_vocab_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">raw_key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\u00A0</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">raw_key</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">inst_vocab_norm</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+
+        <span class="n">insts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">inst_vocabs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">cleaned</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">attr_key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="s2">&quot;institution&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;publisher_institution&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;contributor_institution&quot;</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="n">raw_inst</span> <span class="o">=</span> <span class="n">cleaned</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">attr_key</span><span class="p">)</span>
+
+                <span class="c1"># apply any known corrections</span>
+                <span class="n">fixed</span> <span class="o">=</span> <span class="n">_INSTITUTION_CORRECTIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">raw_inst</span><span class="p">,</span> <span class="n">raw_inst</span><span class="p">)</span>
+
+                <span class="c1"># split on semicolons only (commas inside names are preserved)</span>
+                <span class="k">if</span> <span class="s2">&quot;;&quot;</span> <span class="ow">in</span> <span class="n">fixed</span><span class="p">:</span>
+                    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fixed</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fixed</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+
+                <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+                    <span class="c1"># normalize for lookup</span>
+                    <span class="n">lookup</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+                    <span class="c1"># try exact match</span>
+                    <span class="n">url</span> <span class="o">=</span> <span class="n">inst_vocab_norm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lookup</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># fallback: substring match</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">k_norm</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inst_vocab_norm</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">lookup</span> <span class="o">==</span> <span class="n">k_norm</span> <span class="ow">or</span> <span class="n">lookup</span> <span class="ow">in</span> <span class="n">k_norm</span><span class="p">:</span>
+                                <span class="n">url</span> <span class="o">=</span> <span class="n">v</span>
+                                <span class="k">break</span>
+
+                    <span class="n">insts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+                    <span class="n">inst_vocabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+                    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Matched institution </span><span class="si">%r</span><span class="s2"> → </span><span class="si">%r</span><span class="s2"> → </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">lookup</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">insts</span><span class="p">:</span>
+            <span class="c1"># dedupe institutions, preserving order</span>
+            <span class="n">unique_insts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">insts</span><span class="p">))</span>
+            <span class="c1"># align vocab list to those unique insts</span>
+            <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">unique_vocabs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">inst</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">insts</span><span class="p">,</span> <span class="n">inst_vocabs</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">inst</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+                    <span class="n">unique_vocabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+            <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributing_institutions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unique_insts</span><span class="p">)</span>
+            <span class="n">cleaned</span><span class="p">[</span><span class="s2">&quot;contributing_institutions_vocabulary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unique_vocabs</span><span class="p">)</span>
+            <span class="n">cleaned</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;contributing_institutions_role&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">cleaned</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;contributing_institutions_role_vocabulary&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Finished _consolidate_contributors: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cleaned</span>
+
+
+<div class="viewcode-block" id="merge_metadata_aliases">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.merge_metadata_aliases">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_metadata_aliases</span><span class="p">(</span><span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">preferred_keys</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Consolidate and rename metadata keys case‑insensitively (except featureType),</span>
+<span class="sd">    using preferred_keys to map aliases to canonical names.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    attrs : dict</span>
+<span class="sd">        Metadata dictionary with potential duplicates.</span>
+<span class="sd">    preferred_keys : dict</span>
+<span class="sd">        Mapping of lowercase alias keys to preferred canonical keys.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Metadata dictionary with duplicates merged and keys renamed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Preserve &#39;featureType&#39; exactly</span>
+        <span class="k">if</span> <span class="n">orig_key</span> <span class="o">==</span> <span class="s2">&quot;featureType&quot;</span><span class="p">:</span>
+            <span class="n">canonical</span> <span class="o">=</span> <span class="s2">&quot;featureType&quot;</span>
+        <span class="k">elif</span> <span class="n">orig_key</span> <span class="o">==</span> <span class="s2">&quot;Conventions&quot;</span><span class="p">:</span>
+            <span class="n">canonical</span> <span class="o">=</span> <span class="s2">&quot;Conventions&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">orig_key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="c1"># 1) if we have a mapping for this lowercase alias, rename</span>
+            <span class="k">if</span> <span class="n">low</span> <span class="ow">in</span> <span class="n">preferred_keys</span><span class="p">:</span>
+                <span class="n">canonical</span> <span class="o">=</span> <span class="n">preferred_keys</span><span class="p">[</span><span class="n">low</span><span class="p">]</span>
+            <span class="c1"># 2) otherwise use the lowercased key</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">canonical</span> <span class="o">=</span> <span class="n">low</span>
+
+        <span class="c1"># Log any renaming</span>
+        <span class="k">if</span> <span class="n">canonical</span> <span class="o">!=</span> <span class="n">orig_key</span><span class="p">:</span>
+            <span class="n">log_debug</span><span class="p">(</span><span class="s2">&quot;Renaming key &#39;</span><span class="si">%s</span><span class="s2">&#39; → &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">canonical</span><span class="p">)</span>
+
+        <span class="c1"># Merge duplicates by keeping the first or identical values</span>
+        <span class="k">if</span> <span class="n">canonical</span> <span class="ow">in</span> <span class="n">merged</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">merged</span><span class="p">[</span><span class="n">canonical</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">log_debug</span><span class="p">(</span>
+                    <span class="s2">&quot;Skipped duplicate (identical) key &#39;</span><span class="si">%s</span><span class="s2">&#39; → &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">orig_key</span><span class="p">,</span> <span class="n">canonical</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log_debug</span><span class="p">(</span>
+                    <span class="s2">&quot;Conflict for &#39;</span><span class="si">%s</span><span class="s2">&#39; from &#39;</span><span class="si">%s</span><span class="s2">&#39;; keeping first value&quot;</span><span class="p">,</span>
+                    <span class="n">canonical</span><span class="p">,</span>
+                    <span class="n">orig_key</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">merged</span><span class="p">[</span><span class="n">canonical</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">merged</span></div>
 
 
 
 <div class="viewcode-block" id="standardise_samba">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_samba">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standardise_samba</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise SAMBA dataset:</span>
-<span class="sd">    - Rename variables to standard names.</span>
-<span class="sd">    - Add variable-level metadata (units, description, etc.).</span>
-<span class="sd">    - Update global attributes.</span>
+    <span class="k">return</span> <span class="n">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">array_name</span><span class="o">=</span><span class="s2">&quot;samba&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="standardise_rapid">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_rapid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_rapid</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">array_name</span><span class="o">=</span><span class="s2">&quot;rapid&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="standardise_move">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_move">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_move</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">array_name</span><span class="o">=</span><span class="s2">&quot;move&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="standardise_osnap">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_osnap">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_osnap</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">array_name</span><span class="o">=</span><span class="s2">&quot;osnap&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="standardise_array">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_array">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">array_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise a mooring array dataset using YAML-based metadata.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ds : xr.Dataset</span>
-<span class="sd">        Raw SAMBA dataset loaded from read_samba().</span>
+<span class="sd">        Raw dataset loaded from a reader.</span>
 <span class="sd">    file_name : str</span>
-<span class="sd">        Original source file name, used to determine mapping and metadata.</span>
+<span class="sd">        Filename (e.g., &#39;moc_transports.nc&#39;) expected to match ds.attrs[&quot;source_file&quot;].</span>
+<span class="sd">    array_name : str</span>
+<span class="sd">        Name of the mooring array (e.g., &#39;samba&#39;, &#39;rapid&#39;, &#39;move&#39;, &#39;osnap&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    xr.Dataset</span>
-<span class="sd">        Standardised SAMBA dataset.</span>
+<span class="sd">        Standardised dataset with renamed variables and enriched metadata.</span>
 
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If file_name does not match ds.attrs[&quot;source_file&quot;].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Variable renaming and attributes</span>
-    <span class="n">variable_mapping</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Upper_Abyssal_Transport_Anomalies.txt&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;UPPER_TRANSPORT&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;ABYSSAL_TRANSPORT&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="s2">&quot;MOC_TotalAnomaly_and_constituents.asc&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;Total MOC anomaly (relative to record-length average of 14.7 Sv)&quot;</span><span class="p">:</span> <span class="s2">&quot;MOC&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;RELATIVE_MOC&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;BAROTROPIC_MOC&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EKMAN&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;WESTERN_DENSITY&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EASTERN_DENSITY&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;WESTERN_BOT_PRESSURE&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">:</span> <span class="s2">&quot;EASTERN_BOT_PRESSURE&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
+    <span class="c1"># 1) Validate source_file matches</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;source_file&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">src</span> <span class="ow">and</span> <span class="n">src</span> <span class="o">!=</span> <span class="n">file_name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file_name </span><span class="si">{</span><span class="n">file_name</span><span class="si">!r}</span><span class="s2"> ≠ ds.attrs[&#39;source_file&#39;] </span><span class="si">{</span><span class="n">src</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log_debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standardising </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">array_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 2) Collect new attrs from YAML</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">utilities</span><span class="o">.</span><span class="n">load_array_metadata</span><span class="p">(</span><span class="n">array_name</span><span class="p">)</span>
+    <span class="n">file_meta</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="c1"># Rename variables</span>
+    <span class="n">rename_dict</span> <span class="o">=</span> <span class="n">file_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variable_mapping&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">rename_dict</span><span class="p">)</span>
+
+    <span class="c1"># Apply per-variable metadata</span>
+    <span class="n">var_meta</span> <span class="o">=</span> <span class="n">file_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">for</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">attrs</span> <span class="ow">in</span> <span class="n">var_meta</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+
+    <span class="c1"># 3) Merge existing attrs + new global attrs + file-specific</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">combined</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>  <span class="c1"># original reader attrs</span>
+    <span class="n">combined</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="p">{}))</span>  <span class="c1"># array‑level</span>
+    <span class="n">combined</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;weblink&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;weblink&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">combined</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">file_meta</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;acknowledgement&quot;</span><span class="p">,</span> <span class="s2">&quot;data_product&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">file_meta</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 4) Clean up collisions &amp; override ds.attrs wholesale</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">clean_metadata</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+
+    <span class="c1"># 5) Normalize and add vocabularies</span>
+    <span class="n">normalizations</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;Mooring array&quot;</span><span class="p">:</span> <span class="s2">&quot;mooring&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;https://vocab.nerc.ac.uk/collection/L06/&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;featureType&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;timeSeries&quot;</span><span class="p">:</span> <span class="s2">&quot;timeSeries&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#_features_and_feature_types&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># add more fields here as needed</span>
     <span class="p">}</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">normalize_and_add_vocabulary</span><span class="p">(</span><span class="n">cleaned</span><span class="p">,</span> <span class="n">normalizations</span><span class="p">)</span>
 
-    <span class="n">variable_attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;UPPER_TRANSPORT&quot;</span><span class="p">:</span> <span class="s2">&quot;Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ABYSSAL_TRANSPORT&quot;</span><span class="p">:</span> <span class="s2">&quot;Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;MOC Total Anomaly (relative to record-length average of 17.3 Sv)&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;RELATIVE_MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;Relative (density gradient) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;BAROTROPIC_MOC&quot;</span><span class="p">:</span> <span class="s2">&quot;Reference (bottom pressure gradient) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EKMAN&quot;</span><span class="p">:</span> <span class="s2">&quot;Ekman (wind) contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WESTERN_DENSITY&quot;</span><span class="p">:</span> <span class="s2">&quot;Western density contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EASTERN_DENSITY&quot;</span><span class="p">:</span> <span class="s2">&quot;Eastern density contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;WESTERN_BOT_PRESSURE&quot;</span><span class="p">:</span> <span class="s2">&quot;Western bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;EASTERN_BOT_PRESSURE&quot;</span><span class="p">:</span> <span class="s2">&quot;Eastern bottom pressure contribution to the MOC anomaly&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;Sv&quot;</span>
-
-    <span class="c1"># Rename variables if mapping exists</span>
-    <span class="k">if</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">variable_mapping</span><span class="p">:</span>
-        <span class="n">rename_dict</span> <span class="o">=</span> <span class="n">variable_mapping</span><span class="p">[</span><span class="n">file_name</span><span class="p">]</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">rename_dict</span><span class="p">)</span>
-
-        <span class="c1"># Attach attributes to variables</span>
-        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">rename_dict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
-                <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                    <span class="p">{</span>
-                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-                        <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="n">units</span><span class="p">,</span>
-                        <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="n">variable_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-                        <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Transport Anomaly&quot;</span><span class="p">,</span>
-                    <span class="p">},</span>
-                <span class="p">)</span>
-
-    <span class="c1"># Global attributes clean-up</span>
-    <span class="n">global_attrs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;South Atlantic Meridional Overturning Circulation (SAMBA) standardised dataset&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;weblink&quot;</span><span class="p">:</span> <span class="s2">&quot;https://www.aoml.noaa.gov/phod/samoc&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;acknowledgement&quot;</span><span class="p">:</span> <span class="s2">&quot;SAMBA data were collected and made freely available by the SAMOC international project and contributing national programs.&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="c1"># Safe update of attributes</span>
-    <span class="n">utilities</span><span class="o">.</span><span class="n">safe_update_attrs</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">global_attrs</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
+    <span class="c1"># 6) Reorder metadata according</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">cleaned</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">reorder_metadata</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+    <span class="c1">#    ds = utilities.safe_update_attrs(ds, cleaned, overwrite=False)</span>
     <span class="k">return</span> <span class="n">ds</span></div>
 
 </pre></div>
