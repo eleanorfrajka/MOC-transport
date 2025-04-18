@@ -4,6 +4,7 @@ import numpy as np
 import xarray as xr
 
 from amocarray import logger
+from amocarray.logger import log_info, log_debug
 
 log = logger.log
 
@@ -73,68 +74,6 @@ unit_str_format = {
     "degrees_Celsius": "Celsius",
     "g/m^3": "g m-3",
 }
-
-
-# ------------------------------------------------------------------------------------------------------
-# Calculations for new variables
-# ------------------------------------------------------------------------------------------------------
-
-
-def split_by_unique_dims(ds: xr.Dataset) -> dict[tuple[str, ...], xr.Dataset]:
-    """Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.
-
-    Parameters
-    ----------
-    ds : xarray.Dataset
-        The input xarray dataset containing various variables.
-
-    Returns
-    -------
-    dict of tuple of str to xarray.Dataset
-        A dictionary where keys are tuples of unique dimensions, and values are xarray datasets
-        containing variables that share the same set of dimensions.
-
-    Examples
-    --------
-    >>> import xarray as xr
-    >>> data = xr.Dataset({
-    ...     'var1': (('x', 'y'), [[1, 2], [3, 4]]),
-    ...     'var2': (('x',), [5, 6]),
-    ...     'var3': (('y',), [7, 8])
-    ... })
-    >>> split_datasets = split_by_unique_dims(data)
-    >>> for dims, ds in split_datasets.items():
-    ...     print(f"Dimensions: {dims}")
-    ...     print(ds)
-    Dimensions: ('x', 'y')
-    <xarray.Dataset>
-    Dimensions:  (x: 2, y: 2)
-    Dimensions without coordinates: x, y
-    Data variables:
-        var1     (x, y) int64 1 2 3 4
-    Dimensions: ('x',)
-    <xarray.Dataset>
-    Dimensions:  (x: 2)
-    Dimensions without coordinates: x
-    Data variables:
-        var2     (x) int64 5 6
-    Dimensions: ('y',)
-    <xarray.Dataset>
-    Dimensions:  (y: 2)
-    Dimensions without coordinates: y
-    Data variables:
-        var3     (y) int64 7 8
-
-    """
-    unique_dims_datasets: dict[tuple[str, ...], xr.Dataset] = {}
-
-    for var_name, var_data in ds.data_vars.items():
-        dims = tuple(var_data.dims)
-        if dims not in unique_dims_datasets:
-            unique_dims_datasets[dims] = xr.Dataset()
-        unique_dims_datasets[dims][var_name] = var_data
-
-    return unique_dims_datasets
 
 
 def reformat_units_var(
@@ -207,71 +146,6 @@ def convert_units_var(
     except KeyError:
         print(f"No conversion information found for {current_unit} to {new_unit}")
         return var_values
-
-
-def convert_qc_flags(dsa: xr.Dataset, qc_name: str) -> xr.Dataset:
-    """Convert and update quality control (QC) flags in a dataset.
-
-    This function processes a QC variable in the given dataset by converting its
-    data type, updating its attributes, and linking it to the associated variable.
-    It assumes that the QC variable name ends with '_qc' and that the associated
-    variable has a `long_name` attribute.
-
-    Parameters
-    ----------
-    dsa : xarray.Dataset
-        The dataset containing the QC variable and the associated variable.
-    qc_name : str
-        The name of the QC variable to process.
-
-    Returns
-    -------
-    xarray.Dataset
-        The updated dataset with modified QC variable attributes and a link
-        between the QC variable and the associated variable.
-
-    Notes
-    -----
-    - The QC variable's data type is converted to `int8`.
-    - The `flag_meaning` attribute of the QC variable is updated to remove the
-      'QC_' prefix, if present.
-    - A `long_name` attribute is added to the QC variable, describing it as a
-      quality flag for the associated variable.
-    - The `standard_name` attribute of the QC variable is set to 'status_flag'.
-    - The `ancillary_variables` attribute of the associated variable is updated
-      to reference the QC variable.
-
-    Examples
-    --------
-    >>> import xarray as xr
-    >>> data = xr.Dataset({
-    ...     'temperature': (['time'], [15.0, 16.0, 14.5]),
-    ...     'temperature_qc': (['time'], ['1', '2', '1'], {'flag_meaning': 'QC_good QC_bad'})
-    ... })
-    >>> data['temperature'].attrs['long_name'] = 'Sea temperature'
-    >>> updated_data = convert_qc_flags(data, 'temperature_qc')
-    >>> updated_data['temperature_qc'].attrs
-    {'flag_meaning': 'good bad', 'long_name': 'Sea temperature quality flag', 'standard_name': 'status_flag'}
-    >>> updated_data['temperature'].attrs
-    {'long_name': 'Sea temperature', 'ancillary_variables': 'temperature_qc'}
-
-    """
-    var_name: str = qc_name[:-3]
-    if qc_name in list(dsa):
-        # Convert QC variable to int8
-        dsa[qc_name].values = dsa[qc_name].values.astype("int8")
-        # Remove 'QC_' prefix from flag_meaning attribute
-        if "flag_meaning" in dsa[qc_name].attrs:
-            flag_meaning: str = dsa[qc_name].attrs["flag_meaning"]
-            dsa[qc_name].attrs["flag_meaning"] = flag_meaning.replace("QC_", "")
-        # Add a long_name attribute to the QC variable
-        dsa[qc_name].attrs["long_name"] = (
-            dsa[var_name].attrs.get("long_name", "") + " quality flag"
-        )
-        dsa[qc_name].attrs["standard_name"] = "status_flag"
-        # Update ancillary_variables attribute of the associated variable
-        dsa[var_name].attrs["ancillary_variables"] = qc_name
-    return dsa
 
 
 def find_best_dtype(var_name: str, da: xr.DataArray) -> np.dtype:
@@ -356,7 +230,7 @@ def set_best_dtype(ds: xr.Dataset) -> xr.Dataset:
                 da.attrs[att] = np.array(da.attrs[att]).astype(new_dtype)
         if new_dtype == input_dtype:
             continue
-        _log.debug(f"{var_name} input dtype {input_dtype} change to {new_dtype}")
+        log_debug(f"{var_name} input dtype {input_dtype} change to {new_dtype}")
         da_new: xr.DataArray = da.astype(new_dtype)
         ds = ds.drop_vars(var_name)
         if "int" in str(new_dtype):
@@ -365,7 +239,7 @@ def set_best_dtype(ds: xr.Dataset) -> xr.Dataset:
             da_new.encoding["_FillValue"] = fill_val
         ds[var_name] = da_new
     bytes_out: int = ds.nbytes
-    _log.info(
+    log_info(
         f"Space saved by dtype downgrade: {int(100 * (bytes_in - bytes_out) / bytes_in)} %",
     )
     return ds
