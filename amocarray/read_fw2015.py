@@ -14,14 +14,14 @@ log = logger.log  # Use global logger
 
 # Default file list
 FW2015_DEFAULT_FILES = [
-    "FW2015_MOC_proxy.mat",
+    "MOCproxy_for_figshare_v1.mat",
 ]
-FW2015_TRANSPORT_FILES = ["FW2015_MOC_proxy.mat"]
+FW2015_TRANSPORT_FILES = ["MOCproxy_for_figshare_v1.mat"]
 
 # Mapping of filenames to download URLs
 FW2015_FILE_URLS = {
-    "FW2015_README.txt":"https://figshare.com/ndownloader/files/3369791?private_link=281b3e9c8abba860d553",
-    "FW2015_MOC_proxy.mat": "https://figshare.com/ndownloader/files/3369779",
+    "README.txt":"https://figshare.com/ndownloader/files/3369791?private_link=281b3e9c8abba860d553",
+    "MOCproxy_for_figshare_v1.mat": "https://figshare.com/ndownloader/files/3369779",
 }
 
 # General Metadata (global for FW2015)
@@ -36,7 +36,7 @@ FW2015_METADATA = {
 
 # File-specific metadata (placeholder, ready to extend)
 FW2015_FILE_METADATA = {
-    "FW2015_MOC_proxy.mat": {
+    "MOCproxy_for_figshare_v1.mat": {
         "data_product": "Time series of MOC",
     },
 }
@@ -119,6 +119,7 @@ def read_fw2015(
             log.info("Opening fw2015 file: %s", file_path)
             mat_data = scipy.io.loadmat(file_path, squeeze_me=True, struct_as_record=False)
             recon = mat_data.get("recon")
+            mocgrid = mat_data.get("mocgrid")
            
             time = recon.time # time in decimal years
             variables = {
@@ -127,6 +128,12 @@ def read_fw2015(
                 "H1UMO": recon.h1umo, 
                 "GS": recon.gs,
                 "UMOPROXY": recon.umoproxy,
+                "MOC_GRID": mocgrid.moc, 
+                "EK_GRID": mocgrid.ek,
+                "GS_GRID": mocgrid.gs,
+                "LNADW_GRID": mocgrid.lnadw,
+                "UMO_GRID": mocgrid.umo,
+                "UNADW_GRID": mocgrid.unadw,
                 } # add more variables if needed(see above)
 
             # Convert decimal years to datetime
@@ -138,6 +145,14 @@ def read_fw2015(
                 {name: ("TIME", np.asarray(values)) for name, values in variables.items()},
                 coords={"TIME": time},
             )
+
+            # add global attributes 
+            ds.attrs["created"] = recon.created
+            ds.attrs["url"] = recon.url
+            ds.attrs["paper"] = recon.paper
+            ds.attrs["version"] = recon.version
+
+
         except Exception as e:
             log.error("Failed to parse .mat file: %s: %s", file_path, e)
             raise ValueError(f"Failed to parse .mat file: {file_path}: {e}")
