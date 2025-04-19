@@ -10,6 +10,7 @@ from amocarray.read_move import read_move
 from amocarray.read_osnap import read_osnap
 from amocarray.read_rapid import read_rapid
 from amocarray.read_samba import read_samba
+from amocarray.read_fw2015 import read_fw2015
 
 log = logger.log
 
@@ -41,6 +42,7 @@ def _get_reader(array_name: str):
         "rapid": read_rapid,
         "osnap": read_osnap,
         "samba": read_samba,
+        "fw2015": read_fw2015
     }
     try:
         return readers[array_name.lower()]
@@ -109,6 +111,7 @@ def load_dataset(
         - 'rapid' : RAPID 26N array
         - 'osnap' : OSNAP array
         - 'samba' : SAMBA 34S array
+        - 'fw2015' : FW2015 array
     source : str, optional
         URL or local path to the data source.
         If None, the reader-specific default source will be used.
