@@ -259,12 +259,12 @@ def plot_monthly_anomalies(
     rapid_data: xr.DataArray,
     move_data: xr.DataArray,
     samba_data: xr.DataArray,
-    fw2015_data: xr.DataArray,
+   # fw2015_data: xr.DataArray,
     osnap_label: str,
     rapid_label: str,
     move_label: str,
     samba_label: str,
-    fw2015_label: str,
+    #fw2015_label: str,
 ) -> tuple[plt.Figure, list[plt.Axes]]:
     """Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
 
@@ -298,9 +298,11 @@ def plot_monthly_anomalies(
     rapid_data = rapid_data.resample(TIME="ME").mean()
     move_data = move_data.resample(TIME="ME").mean()
     samba_data = samba_data.resample(TIME="ME").mean()
-    fw2015_data = fw2015_data.resample(TIME="ME").mean()
-    fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True)
+    #fw2015_data = fw2015_data.resample(TIME="ME").mean()
+    
+    fig, axes = plt.subplots(4, 1, figsize=(5, 7), sharex=True)
 
+    #fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True) #for when fw2015 is addedin demo 
     # OSNAP
     axes[0].plot(osnap_data["TIME"], osnap_data, color="blue", label=osnap_label)
     axes[0].axhline(0, color="black", linestyle="--", linewidth=0.5)
@@ -334,14 +336,14 @@ def plot_monthly_anomalies(
     axes[3].legend()
     axes[3].grid(True, linestyle="--", alpha=0.5)
 
-    # FW2015
-    axes[4].plot(fw2015_data["TIME"], fw2015_data, color="orange", label=fw2015_label)
-    axes[4].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[4].set_title(fw2015_label)
-    axes[4].set_xlabel("Time")
-    axes[4].set_ylabel("Transport [Sv]")
-    axes[4].legend()
-    axes[4].grid(True, linestyle="--", alpha=0.5)
+    # FW2015 # for when fw2015 is added in demo
+    #axes[4].plot(fw2015_data["TIME"], fw2015_data, color="orange", label=fw2015_label)
+    #axes[4].axhline(0, color="black", linestyle="--", linewidth=0.5)
+    #axes[4].set_title(fw2015_label)
+    #axes[4].set_xlabel("Time")
+    #axes[4].set_ylabel("Transport [Sv]")
+    #axes[4].legend()
+    #axes[4].grid(True, linestyle="--", alpha=0.5)
     for ax in axes:
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
@@ -352,7 +354,7 @@ def plot_monthly_anomalies(
     axes[1].set_ylim([5, 25])  # RAPID
     axes[2].set_ylim([5, 25])  # MOVE
     axes[3].set_ylim([-10, 10])  # SAMBA
-    axes[4].set_ylim([12, 22])  # FW2015
+    #axes[4].set_ylim([12, 22])  # FW2015
 
     plt.tight_layout()
     return fig, axes
