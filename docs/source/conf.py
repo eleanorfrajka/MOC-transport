@@ -25,6 +25,12 @@ extensions = [
     "nbsphinx",
     "myst_parser",
 ]
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "html_image",
+    # add more if you use them
+]
 
 templates_path = ["_templates"]
 
@@ -32,6 +38,10 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 exclude_patterns = ["_build"]
+nitpick_ignore = []
+
+# Show orphan documents
+html_add_permalinks = "¶"
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 # add_function_parentheses = True
@@ -71,7 +81,13 @@ html_static_path = ["_static"]
 # html_context = {
 #    "css_files": ["_static/css/custom.css"],
 # }
+html_css_files = [
+    "css/custom.css",
+]
 
+html_theme_options = {
+    "body_max_width": "1000px",  # or "80%", "1200px", etc.
+}
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
 # html_last_updated_fmt = '%b %d, %Y'

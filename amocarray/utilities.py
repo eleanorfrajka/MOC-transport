@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
 from urllib.parse import urlparse
 import yaml
+import re
 
 
 import pandas as pd
@@ -60,9 +61,6 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
         return wrapper
 
     return decorator
-
-
-import re
 
 
 def normalize_whitespace(attrs: dict) -> dict:
