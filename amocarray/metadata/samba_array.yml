@@ -1,0 +1,96 @@
+metadata:
+  program: "SAMBA"
+  description: "SAMBA 34S transport estimates dataset"
+  project: "South Atlantic MOC Basin-wide Array (SAMBA)"
+  weblink: "https://www.aoml.noaa.gov/phod/samoc"
+  comment: >
+    Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    SAMBA data were collected and made freely available by the SAMOC international project and contributing national programs.
+  license: CC-BY 4.0
+  featureType: timeSeries
+  Conventions: CF-1.8, ACDD-1.3
+  time_coverage_start: '2001-06-01'
+  time_coverage_end: '2023-12-31'
+  platform_type: Mooring array
+
+files:
+  Upper_Abyssal_Transport_Anomalies.txt:
+    source_url: ftp://ftp.aoml.noaa.gov/phod/pub/SAM/2020_Kersale_etal_ScienceAdvances/
+    data_product: "Daily volume transport anomaly estimates for the upper and abyssal cells of the MOC"
+    acknowledgement: >
+      M. Kersalé et al., Highly variable upper and abyssal overturning cells in the South Atlantic.
+      Sci. Adv. 6, eaba7573 (2020). DOI: 10.1126/sciadv.aba7573
+    variable_mapping:
+      "Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)": UPPER_TRANSPORT
+      "Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)": ABYSSAL_TRANSPORT
+    variables:
+      UPPER_TRANSPORT:
+        long_name: "Transport_anomaly"
+        description: "Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)"
+        units: Sv
+        standard_name: Transport_anomaly
+      ABYSSAL_TRANSPORT:
+        long_name: "Transport_anomaly"
+        description: "Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)"
+        units: Sv
+        standard_name: Transport_anomaly
+
+  MOC_TotalAnomaly_and_constituents.asc:
+    source_url: https://www.aoml.noaa.gov/phod/SAMOC_international/documents/
+    data_product: "Daily travel time values, calibrated to a nominal pressure of 1000 dbar, and bottom pressures from the two PIES/CPIES moorings"
+    acknowledgement: >
+      Meinen, C. S., Speich, S., Piola, A. R., Ansorge, I., Campos, E., Kersalé, M., et al. (2018).
+      Meridional overturning circulation transport variability at 34.5°S during 2009–2017:
+      Baroclinic and barotropic flows and the dueling influence of the boundaries.
+      Geophysical Research Letters, 45, 4180–4188. https://doi.org/10.1029/2018GL077408
+    variable_mapping:
+      "Total MOC anomaly (relative to record-length average of 14.7 Sv)": MOC
+      "Relative (density gradient) contribution to the MOC anomaly": RELATIVE_MOC
+      "Reference (bottom pressure gradient) contribution to the MOC anomaly": BAROTROPIC_MOC
+      "Ekman (wind) contribution to the MOC anomaly": EKMAN
+      "Western density contribution to the MOC anomaly": WESTERN_DENSITY
+      "Eastern density contribution to the MOC anomaly": EASTERN_DENSITY
+      "Western bottom pressure contribution to the MOC anomaly": WESTERN_BOT_PRESSURE
+      "Eastern bottom pressure contribution to the MOC anomaly": EASTERN_BOT_PRESSURE
+    variables:
+      MOC:
+        long_name: "Transport_anomaly"
+        description: "MOC Total Anomaly (relative to record-length average of 14.7 Sv)"
+        units: Sv
+        standard_name: Transport_anomaly
+      RELATIVE_MOC:
+        long_name: "Transport_anomaly"
+        description: "Relative (density gradient) contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      BAROTROPIC_MOC:
+        long_name: "Transport_anomaly"
+        description: "Reference (bottom pressure gradient) contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      EKMAN:
+        long_name: "Transport_anomaly"
+        description: "Ekman (wind) contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      WESTERN_DENSITY:
+        long_name: "Transport_anomaly"
+        description: "Western density contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      EASTERN_DENSITY:
+        long_name: "Transport_anomaly"
+        description: "Eastern density contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      WESTERN_BOT_PRESSURE:
+        long_name: "Transport_anomaly"
+        description: "Western bottom pressure contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly
+      EASTERN_BOT_PRESSURE:
+        long_name: "Transport_anomaly"
+        description: "Eastern bottom pressure contribution to the MOC anomaly"
+        units: Sv
+        standard_name: Transport_anomaly

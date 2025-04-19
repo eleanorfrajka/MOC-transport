@@ -3,6 +3,9 @@ from functools import wraps
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
 from urllib.parse import urlparse
+import yaml
+import re
+
 
 import pandas as pd
 import requests
@@ -12,6 +15,7 @@ from amocarray import logger
 from amocarray.logger import log_debug
 
 log = logger.log
+from importlib import resources
 
 
 def get_project_root() -> Path:
@@ -57,6 +61,25 @@ def apply_defaults(default_source: str, default_files: List[str]) -> Callable:
         return wrapper
 
     return decorator
+
+
+def normalize_whitespace(attrs: dict) -> dict:
+    """
+    Replace non-breaking & other unusual whitespace in every string attr value
+    with a normal ASCII space, and collapse runs of whitespace down to one space.
+    """
+    ws_pattern = re.compile(r"\s+")
+    cleaned = {}
+    for k, v in attrs.items():
+        if isinstance(v, str):
+            # 1) replace non-breaking spaces with normal spaces
+            t = v.replace("\u00A0", " ")
+            # 2) collapse any runs of whitespace (tabs, newlines, NBSP, etc.) to a single space
+            t = ws_pattern.sub(" ", t).strip()
+            cleaned[k] = t
+        else:
+            cleaned[k] = v
+    return cleaned
 
 
 def resolve_file_path(
@@ -119,32 +142,33 @@ def resolve_file_path(
     )
 
 
-def safe_update_attrs(
-    ds: xr.Dataset,
-    new_attrs: Dict[str, str],
-    overwrite: bool = False,
-    verbose: bool = True,
-) -> xr.Dataset:
-    """Safely update attributes of an xarray Dataset without overwriting existing keys,
-    unless explicitly allowed.
+def load_array_metadata(array_name: str) -> dict:
+    """
+    Load metadata YAML for a given mooring array.
 
     Parameters
     ----------
-    ds : xr.Dataset
-        The xarray Dataset whose attributes will be updated.
-    new_attrs : dict of str
-        Dictionary of new attributes to add.
-    overwrite : bool, optional
-        If True, allow overwriting existing attributes. Defaults to False.
-    verbose : bool, optional
-        If True, emit a warning when skipping existing attributes. Defaults to True.
+    array_name : str
+        Name of the mooring array (e.g., 'samba').
 
     Returns
     -------
-    xr.Dataset
-        The dataset with updated attributes.
-
+    dict
+        Dictionary containing the parsed YAML metadata.
     """
+    try:
+        with (
+            resources.files("amocarray.metadata")
+            .joinpath(f"{array_name.lower()}_array.yml")
+            .open("r") as f
+        ):
+            return yaml.safe_load(f)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(
+            f"No metadata file found for array: {array_name}"
+        ) from e
+    except Exception as e:
+        raise RuntimeError(f"Error loading metadata for array {array_name}: {e}") from e
 
 
 def safe_update_attrs(
@@ -185,7 +209,70 @@ def safe_update_attrs(
 
     return ds
 
-    return ds
+
+# Validate the structure and required fields of an array-level metadata YAML.
+REQUIRED_GLOBAL_FIELDS = [
+    "project",
+    "weblink",
+    "time_coverage_start",
+    "time_coverage_end",
+]
+
+REQUIRED_VARIABLE_FIELDS = [
+    "units",
+    "standard_name",
+]
+
+
+def validate_array_yaml(array_name: str, verbose: bool = True) -> bool:
+    """
+    Validate the structure and required fields of an array-level metadata YAML.
+
+    Parameters
+    ----------
+    array_name : str
+        The array name (e.g., 'samba').
+    verbose : bool
+        If True, print detailed validation messages.
+
+    Returns
+    -------
+    bool
+        True if validation passes, False otherwise.
+    """
+    try:
+        meta = load_array_metadata(array_name)
+    except Exception as e:
+        if verbose:
+            print(f"Failed to load metadata for array '{array_name}': {e}")
+        return False
+
+    success = True
+
+    # Check required global metadata fields
+    global_meta = meta.get("metadata", {})
+    for field in REQUIRED_GLOBAL_FIELDS:
+        if field not in global_meta:
+            success = False
+            if verbose:
+                print(f"Missing required global metadata field: {field}")
+
+    # Check each file's variable definitions
+    for file_name, file_meta in meta.get("files", {}).items():
+        variables = file_meta.get("variables", {})
+        for var_name, var_attrs in variables.items():
+            for field in REQUIRED_VARIABLE_FIELDS:
+                if field not in var_attrs:
+                    success = False
+                    if verbose:
+                        print(
+                            f"Missing '{field}' for variable '{var_name}' in file '{file_name}'"
+                        )
+
+    if success and verbose:
+        print(f"Validation passed for array '{array_name}'.")
+
+    return success
 
 
 def _validate_dims(ds: xr.Dataset) -> None:

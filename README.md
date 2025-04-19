@@ -70,11 +70,12 @@ amocarray/
 
 ### Roadmap
 
-- [] Add test coverage for utilities and readers
-- [] Add dataset summary output at end of load_dataset()
-- [] Optional global logging helpers (disable_logging(), enable_logging())
-- [] Extend load_sample_dataset() to support all arrays
-- [] Metadata enrichment (source paths, processing dates)
+- [ ] Add test coverage for utilities and readers
+- [ ] Add dataset summary output at end of load_dataset()
+- [x] Optional global logging helpers (disable_logging(), enable_logging())
+- [ ] Extend load_sample_dataset() to support all arrays
+- [x] Metadata enrichment (source paths, processing dates)
+- [ ] Clarify separation between added metadata and original metadata
 
 
 ### Contributing

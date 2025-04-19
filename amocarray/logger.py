@@ -27,25 +27,25 @@ def disable_logging():
 def log_info(message, *args):
     """Log an info message, if logging is enabled."""
     if LOGGING_ENABLED:
-        log.info(message, *args)
+        log.info(message, *args, stacklevel=2)
 
 
 def log_warning(message, *args):
     """Log a warning message, if logging is enabled."""
     if LOGGING_ENABLED:
-        log.warning(message, *args)
+        log.warning(message, *args, stacklevel=2)
 
 
 def log_error(message, *args):
     """Log an error message, if logging is enabled."""
     if LOGGING_ENABLED:
-        log.error(message, *args)
+        log.error(message, *args, stacklevel=2)
 
 
 def log_debug(message, *args):
     """Log a debug message, if logging is enabled."""
     if LOGGING_ENABLED:
-        log.debug(message, *args)
+        log.debug(message, *args, stacklevel=2)
 
 
 def setup_logger(array_name: str, output_dir: str = "logs") -> None:
