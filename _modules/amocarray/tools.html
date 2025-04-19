@@ -8,6 +8,7 @@
   <title>amocarray.tools &mdash; amocarray v0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=1078e4cb" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -53,7 +54,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../format_AC1.html">AMOCarray Format AC1 – RST</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../demo-output.html">AMOCarray demo</a></li>
 </ul>
@@ -94,6 +99,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_info</span><span class="p">,</span> <span class="n">log_debug</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
@@ -166,71 +172,6 @@
     <span class="s2">&quot;degrees_Celsius&quot;</span><span class="p">:</span> <span class="s2">&quot;Celsius&quot;</span><span class="p">,</span>
     <span class="s2">&quot;g/m^3&quot;</span><span class="p">:</span> <span class="s2">&quot;g m-3&quot;</span><span class="p">,</span>
 <span class="p">}</span>
-
-
-<span class="c1"># ------------------------------------------------------------------------------------------------------</span>
-<span class="c1"># Calculations for new variables</span>
-<span class="c1"># ------------------------------------------------------------------------------------------------------</span>
-
-
-<div class="viewcode-block" id="split_by_unique_dims">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.tools.split_by_unique_dims">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">split_by_unique_dims</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    ds : xarray.Dataset</span>
-<span class="sd">        The input xarray dataset containing various variables.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dict of tuple of str to xarray.Dataset</span>
-<span class="sd">        A dictionary where keys are tuples of unique dimensions, and values are xarray datasets</span>
-<span class="sd">        containing variables that share the same set of dimensions.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import xarray as xr</span>
-<span class="sd">    &gt;&gt;&gt; data = xr.Dataset({</span>
-<span class="sd">    ...     &#39;var1&#39;: ((&#39;x&#39;, &#39;y&#39;), [[1, 2], [3, 4]]),</span>
-<span class="sd">    ...     &#39;var2&#39;: ((&#39;x&#39;,), [5, 6]),</span>
-<span class="sd">    ...     &#39;var3&#39;: ((&#39;y&#39;,), [7, 8])</span>
-<span class="sd">    ... })</span>
-<span class="sd">    &gt;&gt;&gt; split_datasets = split_by_unique_dims(data)</span>
-<span class="sd">    &gt;&gt;&gt; for dims, ds in split_datasets.items():</span>
-<span class="sd">    ...     print(f&quot;Dimensions: {dims}&quot;)</span>
-<span class="sd">    ...     print(ds)</span>
-<span class="sd">    Dimensions: (&#39;x&#39;, &#39;y&#39;)</span>
-<span class="sd">    &lt;xarray.Dataset&gt;</span>
-<span class="sd">    Dimensions:  (x: 2, y: 2)</span>
-<span class="sd">    Dimensions without coordinates: x, y</span>
-<span class="sd">    Data variables:</span>
-<span class="sd">        var1     (x, y) int64 1 2 3 4</span>
-<span class="sd">    Dimensions: (&#39;x&#39;,)</span>
-<span class="sd">    &lt;xarray.Dataset&gt;</span>
-<span class="sd">    Dimensions:  (x: 2)</span>
-<span class="sd">    Dimensions without coordinates: x</span>
-<span class="sd">    Data variables:</span>
-<span class="sd">        var2     (x) int64 5 6</span>
-<span class="sd">    Dimensions: (&#39;y&#39;,)</span>
-<span class="sd">    &lt;xarray.Dataset&gt;</span>
-<span class="sd">    Dimensions:  (y: 2)</span>
-<span class="sd">    Dimensions without coordinates: y</span>
-<span class="sd">    Data variables:</span>
-<span class="sd">        var3     (y) int64 7 8</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">unique_dims_datasets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">var_data</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">var_data</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dims</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_dims_datasets</span><span class="p">:</span>
-            <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-        <span class="n">unique_dims_datasets</span><span class="p">[</span><span class="n">dims</span><span class="p">][</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">var_data</span>
-
-    <span class="k">return</span> <span class="n">unique_dims_datasets</span></div>
-
 
 
 <div class="viewcode-block" id="reformat_units_var">
@@ -308,74 +249,6 @@
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No conversion information found for </span><span class="si">{</span><span class="n">current_unit</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">var_values</span></div>
-
-
-
-<div class="viewcode-block" id="convert_qc_flags">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.tools.convert_qc_flags">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">convert_qc_flags</span><span class="p">(</span><span class="n">dsa</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">qc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert and update quality control (QC) flags in a dataset.</span>
-
-<span class="sd">    This function processes a QC variable in the given dataset by converting its</span>
-<span class="sd">    data type, updating its attributes, and linking it to the associated variable.</span>
-<span class="sd">    It assumes that the QC variable name ends with &#39;_qc&#39; and that the associated</span>
-<span class="sd">    variable has a `long_name` attribute.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    dsa : xarray.Dataset</span>
-<span class="sd">        The dataset containing the QC variable and the associated variable.</span>
-<span class="sd">    qc_name : str</span>
-<span class="sd">        The name of the QC variable to process.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    xarray.Dataset</span>
-<span class="sd">        The updated dataset with modified QC variable attributes and a link</span>
-<span class="sd">        between the QC variable and the associated variable.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    - The QC variable&#39;s data type is converted to `int8`.</span>
-<span class="sd">    - The `flag_meaning` attribute of the QC variable is updated to remove the</span>
-<span class="sd">      &#39;QC_&#39; prefix, if present.</span>
-<span class="sd">    - A `long_name` attribute is added to the QC variable, describing it as a</span>
-<span class="sd">      quality flag for the associated variable.</span>
-<span class="sd">    - The `standard_name` attribute of the QC variable is set to &#39;status_flag&#39;.</span>
-<span class="sd">    - The `ancillary_variables` attribute of the associated variable is updated</span>
-<span class="sd">      to reference the QC variable.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import xarray as xr</span>
-<span class="sd">    &gt;&gt;&gt; data = xr.Dataset({</span>
-<span class="sd">    ...     &#39;temperature&#39;: ([&#39;time&#39;], [15.0, 16.0, 14.5]),</span>
-<span class="sd">    ...     &#39;temperature_qc&#39;: ([&#39;time&#39;], [&#39;1&#39;, &#39;2&#39;, &#39;1&#39;], {&#39;flag_meaning&#39;: &#39;QC_good QC_bad&#39;})</span>
-<span class="sd">    ... })</span>
-<span class="sd">    &gt;&gt;&gt; data[&#39;temperature&#39;].attrs[&#39;long_name&#39;] = &#39;Sea temperature&#39;</span>
-<span class="sd">    &gt;&gt;&gt; updated_data = convert_qc_flags(data, &#39;temperature_qc&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; updated_data[&#39;temperature_qc&#39;].attrs</span>
-<span class="sd">    {&#39;flag_meaning&#39;: &#39;good bad&#39;, &#39;long_name&#39;: &#39;Sea temperature quality flag&#39;, &#39;standard_name&#39;: &#39;status_flag&#39;}</span>
-<span class="sd">    &gt;&gt;&gt; updated_data[&#39;temperature&#39;].attrs</span>
-<span class="sd">    {&#39;long_name&#39;: &#39;Sea temperature&#39;, &#39;ancillary_variables&#39;: &#39;temperature_qc&#39;}</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">qc_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">qc_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dsa</span><span class="p">):</span>
-        <span class="c1"># Convert QC variable to int8</span>
-        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
-        <span class="c1"># Remove &#39;QC_&#39; prefix from flag_meaning attribute</span>
-        <span class="k">if</span> <span class="s2">&quot;flag_meaning&quot;</span> <span class="ow">in</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="n">flag_meaning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;flag_meaning&quot;</span><span class="p">]</span>
-            <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;flag_meaning&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flag_meaning</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;QC_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="c1"># Add a long_name attribute to the QC variable</span>
-        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;long_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long_name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; quality flag&quot;</span>
-        <span class="p">)</span>
-        <span class="n">dsa</span><span class="p">[</span><span class="n">qc_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;status_flag&quot;</span>
-        <span class="c1"># Update ancillary_variables attribute of the associated variable</span>
-        <span class="n">dsa</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;ancillary_variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qc_name</span>
-    <span class="k">return</span> <span class="n">dsa</span></div>
 
 
 
@@ -469,7 +342,7 @@
                 <span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">att</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_dtype</span> <span class="o">==</span> <span class="n">input_dtype</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> input dtype </span><span class="si">{</span><span class="n">input_dtype</span><span class="si">}</span><span class="s2"> change to </span><span class="si">{</span><span class="n">new_dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> input dtype </span><span class="si">{</span><span class="n">input_dtype</span><span class="si">}</span><span class="s2"> change to </span><span class="si">{</span><span class="n">new_dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">da_new</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">):</span>
@@ -478,7 +351,7 @@
             <span class="n">da_new</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s2">&quot;_FillValue&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_val</span>
         <span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_new</span>
     <span class="n">bytes_out</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">nbytes</span>
-    <span class="n">_log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+    <span class="n">log_info</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Space saved by dtype downgrade: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">bytes_in</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bytes_out</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">bytes_in</span><span class="p">)</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">ds</span></div>

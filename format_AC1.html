@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMOCarray Format AC1 – RST &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="AMOCarray demo" href="demo-output.html" />
+    <link rel="prev" title="Project Housekeeping Checklist" href="housekeeping.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AMOCarray Format AC1 – RST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-format">2. File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variables">3. Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#global-attributes">4. Global Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-attributes">5. Variable Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metadata-requirements">6. Metadata Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation-rules">7. Validation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">8. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conversion-tool">9. Conversion Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes">10. Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provenance-and-attribution">11. Provenance and Attribution</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AMOCarray Format AC1 – RST</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_AC1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="amocarray-format-ac1-rst">
+<h1>AMOCarray Format AC1 – RST<a class="headerlink" href="#amocarray-format-ac1-rst" title="Link to this heading"></a></h1>
+<p>This document defines the AC1 standard data format produced by the <code class="docutils literal notranslate"><span class="pre">amocarray.convert.to_AC1()</span></code> function.
+The AC1 format provides a unified, interoperable structure for mooring array datasets such as MOVE, RAPID, OSNAP, and SAMBA.</p>
+<section id="overview">
+<h2>1. Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The AC1 format ensures consistency, metadata clarity, and long-term interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets. It is based on <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> objects, compatible with NetCDF4, and adheres to CF conventions where applicable.</p>
+</section>
+<section id="file-format">
+<h2>2. File Format<a class="headerlink" href="#file-format" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>File type</strong>: NetCDF4</p></li>
+<li><p><strong>Data structure</strong>: <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></p></li>
+<li><p><strong>Dimensions</strong>:
+- <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (required)
+- <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> (optional)
+- <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (optional, where applicable)</p></li>
+<li><p><strong>Encoding</strong>:
+- Default: <code class="docutils literal notranslate"><span class="pre">float32</span></code> for data variables
+- Compression: Enabled if saved to NetCDF
+- Chunking: Optional, recommended for large datasets</p></li>
+</ul>
+</section>
+<section id="variables">
+<h2>3. Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Variables.  The requirement status (RS) is shown in the last column, where <strong>M</strong> is mandatory, <em>HD</em> is highly desirable, and <em>S</em> is suggested.</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 22.2%" />
+<col style="width: 27.8%" />
+<col style="width: 22.2%" />
+<col style="width: 22.2%" />
+<col style="width: 5.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TIME</p></td>
+<td><p>(TIME,)</p></td>
+<td><p>seconds since 1970-01-01</p></td>
+<td><p>Timestamps in UTC</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>LONGITUDE</p></td>
+<td><p>scalar or array</p></td>
+<td><p>degrees_east</p></td>
+<td><p>Mooring or array longitude</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>LATITUDE</p></td>
+<td><p>scalar or array</p></td>
+<td><p>degrees_north</p></td>
+<td><p>Mooring or array latitude</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-odd"><td><p>DEPTH</p></td>
+<td><p>optional</p></td>
+<td><p>m</p></td>
+<td><p>Depth levels if applicable</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>TEMPERATURE</p></td>
+<td><p>(TIME, …)</p></td>
+<td><p>degree_Celsius</p></td>
+<td><p>In situ or potential temperature</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-odd"><td><p>SALINITY</p></td>
+<td><p>(TIME, …)</p></td>
+<td><p>psu</p></td>
+<td><p>Practical or absolute salinity</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>TRANSPORT</p></td>
+<td><p>(TIME,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning transport estimate</p></td>
+<td><p>S</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="global-attributes">
+<h2>4. Global Attributes<a class="headerlink" href="#global-attributes" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Global Attributes</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 28.6%" />
+<col style="width: 35.7%" />
+<col style="width: 7.1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>title</p></td>
+<td><p>“RAPID-MOCHA Transport Time Series”</p></td>
+<td><p>Descriptive dataset title</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>platform</p></td>
+<td><p>“moorings”</p></td>
+<td><p>Type of platform</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>platform_vocabulary</p></td>
+<td><p>“<a class="reference external" href="https://vocab.nerc.ac.uk/collection/L06/current/">https://vocab.nerc.ac.uk/collection/L06/current/</a>”</p></td>
+<td><p>Controlled vocab for platform types</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>featureType</p></td>
+<td><p>“timeSeries”</p></td>
+<td><p>NetCDF featureType</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>id</p></td>
+<td><p>“RAPID_20231231_&lt;orig&gt;.nc”</p></td>
+<td><p>Unique file identifier</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>contributor_name</p></td>
+<td><p>“Dr. Jane Doe”</p></td>
+<td><p>Name of dataset PI</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>contributor_email</p></td>
+<td><p>“<a class="reference external" href="mailto:jane&#46;doe&#37;&#52;&#48;example&#46;org">jane<span>&#46;</span>doe<span>&#64;</span>example<span>&#46;</span>org</a>”</p></td>
+<td><p>Email of dataset PI</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>contributor_id</p></td>
+<td><p>“ORCID:0000-0002-1825-0097”</p></td>
+<td><p>Identifier (e.g., ORCID)</p></td>
+<td><p>HD</p></td>
+</tr>
+<tr class="row-even"><td><p>contributor_role</p></td>
+<td><p>“principalInvestigator”</p></td>
+<td><p>Role using controlled vocab</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>contributor_role_vocabulary</p></td>
+<td><p>“<a class="reference external" href="http://vocab.nerc.ac.uk/search_nvs/W08/">http://vocab.nerc.ac.uk/search_nvs/W08/</a>”</p></td>
+<td><p>Role vocab reference</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>contributing_institutions</p></td>
+<td><p>“University of Hamburg”</p></td>
+<td><p>Responsible org(s)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>contributing_institutions_vocabulary</p></td>
+<td><p>“<a class="reference external" href="https://ror.org/012tb2g32">https://ror.org/012tb2g32</a>”</p></td>
+<td><p>Institutional ID vocab (e.g. ROR, EDMO)</p></td>
+<td><p>HD</p></td>
+</tr>
+<tr class="row-even"><td><p>contributing_institutions_role</p></td>
+<td><p>“operator”</p></td>
+<td><p>Role of institution</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>contributing_institutions_role_vocabulary</p></td>
+<td><p>“<a class="reference external" href="https://vocab.nerc.ac.uk/collection/W08/current/">https://vocab.nerc.ac.uk/collection/W08/current/</a>”</p></td>
+<td><p>Vocabulary for institution roles</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>source_acknowledgement</p></td>
+<td><p>“…text…”</p></td>
+<td><p>Attribution to original dataset providers</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>source_doi</p></td>
+<td><p>“<a class="reference external" href="https://doi.org/">https://doi.org/</a>…”</p></td>
+<td><p>Semicolon-separated DOIs of original datasets</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>amocarray_version</p></td>
+<td><p>“0.2.1”</p></td>
+<td><p>Version of amocarray used</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>web_link</p></td>
+<td><p>“<a class="reference external" href="http://project.example.org">http://project.example.org</a>”</p></td>
+<td><p>Semicolon-separated URLs for more information</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-even"><td><p>start_date</p></td>
+<td><p>“20230301T000000”</p></td>
+<td><p>Overall dataset start time (UTC)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>date_created</p></td>
+<td><p>“20240419T130000”</p></td>
+<td><p>File creation time (UTC, zero-filled as needed)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variable-attributes">
+<h2>5. Variable Attributes<a class="headerlink" href="#variable-attributes" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Variable Attributes</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 23.5%" />
+<col style="width: 70.6%" />
+<col style="width: 5.9%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>long_name</p></td>
+<td><p>Descriptive name of the variable</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>standard_name</p></td>
+<td><p>CF-compliant standard name (if available)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>vocabulary</p></td>
+<td><p>Controlled vocabulary identifier</p></td>
+<td><p>HD</p></td>
+</tr>
+<tr class="row-odd"><td><p>_FillValue</p></td>
+<td><p>Fill value, same dtype as variable</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>units</p></td>
+<td><p>Physical units (e.g., m/s, degree_Celsius)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>coordinates</p></td>
+<td><p>Comma-separated coordinate list (e.g., “TIME, DEPTH”)</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="metadata-requirements">
+<h2>6. Metadata Requirements<a class="headerlink" href="#metadata-requirements" title="Link to this heading"></a></h2>
+<p>Metadata are provided as YAML files for each array. These define variable mappings, unit conversions, and attributes to attach during standardisation.</p>
+<p>Example YAML (osnap_array.yml):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">variables</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">temp</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TEMPERATURE</span>
+<span class="w">    </span><span class="nt">units</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">degree_Celsius</span>
+<span class="w">    </span><span class="nt">long_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In situ temperature</span>
+<span class="w">    </span><span class="nt">standard_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sea_water_temperature</span>
+
+<span class="w">  </span><span class="nt">sal</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SALINITY</span>
+<span class="w">    </span><span class="nt">units</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">g/kg</span>
+<span class="w">    </span><span class="nt">long_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Practical salinity</span>
+<span class="w">    </span><span class="nt">standard_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sea_water_practical_salinity</span>
+
+<span class="w">  </span><span class="nt">uvel</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">U</span>
+<span class="w">    </span><span class="nt">units</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">m/s</span>
+<span class="w">    </span><span class="nt">long_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Zonal velocity</span>
+<span class="w">    </span><span class="nt">standard_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eastward_sea_water_velocity</span>
+</pre></div>
+</div>
+</section>
+<section id="validation-rules">
+<h2>7. Validation Rules<a class="headerlink" href="#validation-rules" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>All datasets must include the TIME coordinate.</p></li>
+<li><p>At least one of: TEMPERATURE, SALINITY, TRANSPORT, U, V must be present.</p></li>
+<li><p>Global attribute array_name must match one of: [“move”, “rapid”, “osnap”, “samba”].</p></li>
+<li><p>File must pass CF-check where possible.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>8. Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p>YAML input: see metadata/osnap_array.yml</p>
+<p>Resulting NetCDF Header (excerpt):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dimensions:
+    TIME = 384
+    DEPTH = 4
+
+variables:
+    float32 TEMPERATURE(TIME, DEPTH)
+        long_name = &quot;In situ temperature&quot;
+        standard_name = &quot;sea_water_temperature&quot;
+        units = &quot;degree_Celsius&quot;
+    ...
+
+global attributes:
+    :title = &quot;OSNAP Array Transport Data&quot;
+    :institution = &quot;AWI / University of Hamburg&quot;
+    :array_name = &quot;osnap&quot;
+    :Conventions = &quot;CF-1.8&quot;
+</pre></div>
+</div>
+</section>
+<section id="conversion-tool">
+<h2>9. Conversion Tool<a class="headerlink" href="#conversion-tool" title="Link to this heading"></a></h2>
+<p>To produce AC1-compliant datasets from raw standardised inputs, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_AC1</span>
+<span class="n">ds_ac1</span> <span class="o">=</span> <span class="n">to_AC1</span><span class="p">(</span><span class="n">ds_std</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function:</p>
+<ul class="simple">
+<li><p>Validates standardised input</p></li>
+<li><p>Adds metadata from YAML</p></li>
+<li><p>Ensures output complies with AC1 format</p></li>
+</ul>
+</section>
+<section id="notes">
+<h2>10. Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Format is extensible for future variables or conventions</p></li>
+<li><p>Please cite amocarray and relevant data providers when using AC1-formatted datasets</p></li>
+</ul>
+</section>
+<section id="provenance-and-attribution">
+<h2>11. Provenance and Attribution<a class="headerlink" href="#provenance-and-attribution" title="Link to this heading"></a></h2>
+<p>To ensure transparency and appropriate credit to original data providers, the AC1 format includes structured global attributes for data provenance.</p>
+<p>Required Provenance Fields:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 66.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>source</p></td>
+<td><p>Semicolon-separated list of original dataset short names</p></td>
+</tr>
+<tr class="row-odd"><td><p>source_doi</p></td>
+<td><p>Semicolon-separated list of DOIs for original data</p></td>
+</tr>
+<tr class="row-even"><td><p>source_acknowledgement</p></td>
+<td><p>Semicolon-separated list of attribution statements</p></td>
+</tr>
+<tr class="row-odd"><td><p>history</p></td>
+<td><p>Auto-generated history log with timestamp and tool version</p></td>
+</tr>
+<tr class="row-even"><td><p>amocarray_version</p></td>
+<td><p>Version of amocarray used for conversion</p></td>
+</tr>
+<tr class="row-odd"><td><p>generated_doi</p></td>
+<td><p>DOI assigned to the converted AC1 dataset (optional)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>:source = &quot;OSNAP; SAMBA&quot;
+:source_doi = &quot;https://doi.org/10.35090/gatech/70342; https://doi.org/10.1029/2018GL077408&quot;
+:source_acknowledgement = &quot;OSNAP data were collected and made freely available by the OSNAP project and all the national programs that contribute to it (www.o-snap.org); M. Kersalé et al., Highly variable upper and abyssal overturning cells in the South Atlantic. Sci. Adv. 6, eaba7573 (2020). DOI: 10.1126/sciadv.aba7573&quot;
+:history = &quot;2025-04-19T13:42Z: Converted to AC1 using amocarray v0.2.1&quot;
+:amocarray_version = &quot;0.2.1&quot;
+:generated_doi = &quot;https://doi.org/10.xxxx/amocarray-ac1-2025&quot;
+</pre></div>
+</div>
+<p>YAML Integration (optional):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">citation</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">doi</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://doi.org/10.1029/2018GL077408&quot;</span>
+<span class="w">    </span><span class="nt">acknowledgement</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">      </span><span class="no">M. Kersalé et al., Highly variable upper and abyssal overturning cells in the South Atlantic.</span>
+<span class="w">      </span><span class="no">Sci. Adv. 6, eaba7573 (2020). DOI: 10.1126/sciadv.aba7573</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="housekeeping.html" class="btn btn-neutral float-left" title="Project Housekeeping Checklist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo-output.html" class="btn btn-neutral float-right" title="AMOCarray demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -2,7 +2,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-:parser: myst_parser.sphinx_ # this is the markdown parser
 
 Welcome to amocarray's documentation!
 ======================================
@@ -30,7 +29,13 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
 .. toctree::
    :maxdepth: 3
-   :caption: Users' guide
+   :caption: Common format
+
+   format_AC1
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Demo notebook
 
    demo-output.ipynb
 

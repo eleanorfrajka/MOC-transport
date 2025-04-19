@@ -9,6 +9,7 @@
   <title>Welcome to amocarray’s documentation! &mdash; amocarray v0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -55,7 +56,11 @@
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1 – RST</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
 </ul>
@@ -228,7 +233,26 @@
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1 – RST</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#overview">1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#file-format">2. File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#variables">3. Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#global-attributes">4. Global Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#variable-attributes">5. Variable Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#metadata-requirements">6. Metadata Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#validation-rules">7. Validation Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#examples">8. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#conversion-tool">9. Conversion Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#notes">10. Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="format_AC1.html#provenance-and-attribution">11. Provenance and Attribution</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="demo-output.html#Load-RAPID-26°N">Load RAPID 26°N</a></li>
@@ -275,14 +299,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="amocarray.html#tools">tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.convert_qc_flags"><code class="docutils literal notranslate"><span class="pre">convert_qc_flags()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.convert_units_var"><code class="docutils literal notranslate"><span class="pre">convert_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.find_best_dtype"><code class="docutils literal notranslate"><span class="pre">find_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.generate_reverse_conversions"><code class="docutils literal notranslate"><span class="pre">generate_reverse_conversions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.reformat_units_var"><code class="docutils literal notranslate"><span class="pre">reformat_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.set_best_dtype"><code class="docutils literal notranslate"><span class="pre">set_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.set_fill_value"><code class="docutils literal notranslate"><span class="pre">set_fill_value()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="amocarray.html#amocarray.tools.split_by_unique_dims"><code class="docutils literal notranslate"><span class="pre">split_by_unique_dims()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="amocarray.html#utilities">utilities</a><ul>

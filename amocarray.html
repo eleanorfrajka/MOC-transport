@@ -9,6 +9,7 @@
   <title>amocarray API &mdash; amocarray v0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -55,7 +56,11 @@
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Users' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1 – RST</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
 </ul>
@@ -100,14 +105,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tools">tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.convert_qc_flags"><code class="docutils literal notranslate"><span class="pre">convert_qc_flags()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.convert_units_var"><code class="docutils literal notranslate"><span class="pre">convert_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.find_best_dtype"><code class="docutils literal notranslate"><span class="pre">find_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.generate_reverse_conversions"><code class="docutils literal notranslate"><span class="pre">generate_reverse_conversions()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.reformat_units_var"><code class="docutils literal notranslate"><span class="pre">reformat_units_var()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.set_best_dtype"><code class="docutils literal notranslate"><span class="pre">set_best_dtype()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.set_fill_value"><code class="docutils literal notranslate"><span class="pre">set_fill_value()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#amocarray.tools.split_by_unique_dims"><code class="docutils literal notranslate"><span class="pre">split_by_unique_dims()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#utilities">utilities</a><ul>
@@ -650,56 +653,6 @@ attributes of unsupported types. See: <a class="reference external" href="https:
 <h2>tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
 <p>Helper functions for data manipulation, unit conversion, and clean-up.</p>
 <dl class="py function" id="module-amocarray.tools">
-<dt class="sig sig-object py" id="amocarray.tools.convert_qc_flags">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_qc_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#convert_qc_flags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_qc_flags" title="Link to this definition"></a></dt>
-<dd><p>Convert and update quality control (QC) flags in a dataset.</p>
-<p>This function processes a QC variable in the given dataset by converting its
-data type, updating its attributes, and linking it to the associated variable.
-It assumes that the QC variable name ends with ‘_qc’ and that the associated
-variable has a <cite>long_name</cite> attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dsa</strong> (<em>xarray.Dataset</em>) – The dataset containing the QC variable and the associated variable.</p></li>
-<li><p><strong>qc_name</strong> (<em>str</em>) – The name of the QC variable to process.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The updated dataset with modified QC variable attributes and a link
-between the QC variable and the associated variable.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>xarray.Dataset</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>The QC variable’s data type is converted to <cite>int8</cite>.</p></li>
-<li><p>The <cite>flag_meaning</cite> attribute of the QC variable is updated to remove the
-‘<a href="#id1"><span class="problematic" id="id2">QC_</span></a>’ prefix, if present.</p></li>
-<li><p>A <cite>long_name</cite> attribute is added to the QC variable, describing it as a
-quality flag for the associated variable.</p></li>
-<li><p>The <cite>standard_name</cite> attribute of the QC variable is set to ‘status_flag’.</p></li>
-<li><p>The <cite>ancillary_variables</cite> attribute of the associated variable is updated
-to reference the QC variable.</p></li>
-</ul>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">,</span> <span class="mf">14.5</span><span class="p">]),</span>
-<span class="gp">... </span>    <span class="s1">&#39;temperature_qc&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;flag_meaning&#39;</span><span class="p">:</span> <span class="s1">&#39;QC_good QC_bad&#39;</span><span class="p">})</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Sea temperature&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span> <span class="o">=</span> <span class="n">convert_qc_flags</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;temperature_qc&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span><span class="p">[</span><span class="s1">&#39;temperature_qc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-<span class="go">{&#39;flag_meaning&#39;: &#39;good bad&#39;, &#39;long_name&#39;: &#39;Sea temperature quality flag&#39;, &#39;standard_name&#39;: &#39;status_flag&#39;}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">updated_data</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-<span class="go">{&#39;long_name&#39;: &#39;Sea temperature&#39;, &#39;ancillary_variables&#39;: &#39;temperature_qc&#39;}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="amocarray.tools.convert_units_var">
 <span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">convert_units_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'Celsius':</span> <span class="pre">{'degrees_Celsius':</span> <span class="pre">1.0},</span> <span class="pre">'Pa':</span> <span class="pre">{'dbar':</span> <span class="pre">0.0001},</span> <span class="pre">'S/m':</span> <span class="pre">{'mS/cm':</span> <span class="pre">0.1},</span> <span class="pre">'Sv':</span> <span class="pre">{'Sverdrup':</span> <span class="pre">1.0},</span> <span class="pre">'Sverdrup':</span> <span class="pre">{'Sv':</span> <span class="pre">1},</span> <span class="pre">'cm':</span> <span class="pre">{'m':</span> <span class="pre">0.01},</span> <span class="pre">'cm</span> <span class="pre">s-1':</span> <span class="pre">{'m</span> <span class="pre">s-1':</span> <span class="pre">0.01},</span> <span class="pre">'cm/s':</span> <span class="pre">{'m/s':</span> <span class="pre">0.01},</span> <span class="pre">'dbar':</span> <span class="pre">{'Pa':</span> <span class="pre">10000,</span> <span class="pre">'kPa':</span> <span class="pre">10},</span> <span class="pre">'degrees_Celsius':</span> <span class="pre">{'Celsius':</span> <span class="pre">1},</span> <span class="pre">'g</span> <span class="pre">m-3':</span> <span class="pre">{'kg</span> <span class="pre">m-3':</span> <span class="pre">0.001},</span> <span class="pre">'kPa':</span> <span class="pre">{'dbar':</span> <span class="pre">0.1},</span> <span class="pre">'kg</span> <span class="pre">m-3':</span> <span class="pre">{'g</span> <span class="pre">m-3':</span> <span class="pre">1000.0},</span> <span class="pre">'km':</span> <span class="pre">{'m':</span> <span class="pre">1000.0},</span> <span class="pre">'m':</span> <span class="pre">{'cm':</span> <span class="pre">100,</span> <span class="pre">'km':</span> <span class="pre">0.001},</span> <span class="pre">'m</span> <span class="pre">s-1':</span> <span class="pre">{'cm</span> <span class="pre">s-1':</span> <span class="pre">100.0},</span> <span class="pre">'m/s':</span> <span class="pre">{'cm/s':</span> <span class="pre">100.0},</span> <span class="pre">'mS/cm':</span> <span class="pre">{'S/m':</span> <span class="pre">10.0}}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#convert_units_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.convert_units_var" title="Link to this definition"></a></dt>
 <dd><p>Converts variable values from one unit to another using a predefined conversion factor.</p>
@@ -830,55 +783,6 @@ the original unit string is returned.</p>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="amocarray.tools.split_by_unique_dims">
-<span class="sig-prename descclassname"><span class="pre">amocarray.tools.</span></span><span class="sig-name descname"><span class="pre">split_by_unique_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/tools.html#split_by_unique_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.tools.split_by_unique_dims" title="Link to this definition"></a></dt>
-<dd><p>Splits an xarray dataset into multiple datasets based on the unique set of dimensions of the variables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ds</strong> (<em>xarray.Dataset</em>) – The input xarray dataset containing various variables.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary where keys are tuples of unique dimensions, and values are xarray datasets
-containing variables that share the same set of dimensions.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict of tuple of str to xarray.Dataset</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s1">&#39;var1&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">),</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span>
-<span class="gp">... </span>    <span class="s1">&#39;var2&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,),</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span>
-<span class="gp">... </span>    <span class="s1">&#39;var3&#39;</span><span class="p">:</span> <span class="p">((</span><span class="s1">&#39;y&#39;</span><span class="p">,),</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">split_datasets</span> <span class="o">=</span> <span class="n">split_by_unique_dims</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">dims</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">split_datasets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensions: </span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-<span class="go">Dimensions: (&#39;x&#39;, &#39;y&#39;)</span>
-<span class="go">&lt;xarray.Dataset&gt;</span>
-<span class="go">Dimensions:  (x: 2, y: 2)</span>
-<span class="go">Dimensions without coordinates: x, y</span>
-<span class="go">Data variables:</span>
-<span class="go">    var1     (x, y) int64 1 2 3 4</span>
-<span class="go">Dimensions: (&#39;x&#39;,)</span>
-<span class="go">&lt;xarray.Dataset&gt;</span>
-<span class="go">Dimensions:  (x: 2)</span>
-<span class="go">Dimensions without coordinates: x</span>
-<span class="go">Data variables:</span>
-<span class="go">    var2     (x) int64 5 6</span>
-<span class="go">Dimensions: (&#39;y&#39;,)</span>
-<span class="go">&lt;xarray.Dataset&gt;</span>
-<span class="go">Dimensions:  (y: 2)</span>
-<span class="go">Dimensions without coordinates: y</span>
-<span class="go">Data variables:</span>
-<span class="go">    var3     (y) int64 7 8</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
