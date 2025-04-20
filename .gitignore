@@ -2,6 +2,8 @@ amocarray/_version.py
 setup.sh
 ts_gridded.nc
 data/download
+data/3369779  
+
 
 # VSCode settings
 .vscode/*
