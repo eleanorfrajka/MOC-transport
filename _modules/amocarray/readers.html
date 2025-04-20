@@ -105,6 +105,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_osnap</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_osnap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_fw2015</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_fw2015</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
@@ -136,6 +137,7 @@
         <span class="s2">&quot;rapid&quot;</span><span class="p">:</span> <span class="n">read_rapid</span><span class="p">,</span>
         <span class="s2">&quot;osnap&quot;</span><span class="p">:</span> <span class="n">read_osnap</span><span class="p">,</span>
         <span class="s2">&quot;samba&quot;</span><span class="p">:</span> <span class="n">read_samba</span><span class="p">,</span>
+        <span class="s2">&quot;fw2015&quot;</span><span class="p">:</span> <span class="n">read_fw2015</span>
     <span class="p">}</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
@@ -209,6 +211,7 @@
 <span class="sd">        - &#39;rapid&#39; : RAPID 26N array</span>
 <span class="sd">        - &#39;osnap&#39; : OSNAP array</span>
 <span class="sd">        - &#39;samba&#39; : SAMBA 34S array</span>
+<span class="sd">        - &#39;fw2015&#39; : FW2015 array</span>
 <span class="sd">    source : str, optional</span>
 <span class="sd">        URL or local path to the data source.</span>
 <span class="sd">        If None, the reader-specific default source will be used.</span>

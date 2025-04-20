@@ -86,6 +86,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.normalize_and_add_vocabulary"><code class="docutils literal notranslate"><span class="pre">normalize_and_add_vocabulary()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.reorder_metadata"><code class="docutils literal notranslate"><span class="pre">reorder_metadata()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_array"><code class="docutils literal notranslate"><span class="pre">standardise_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_fw2015"><code class="docutils literal notranslate"><span class="pre">standardise_fw2015()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_move"><code class="docutils literal notranslate"><span class="pre">standardise_move()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_osnap"><code class="docutils literal notranslate"><span class="pre">standardise_osnap()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_rapid"><code class="docutils literal notranslate"><span class="pre">standardise_rapid()</span></code></a></li>
@@ -174,7 +175,8 @@
 - ‘move’ : MOVE 16N array
 - ‘rapid’ : RAPID 26N array
 - ‘osnap’ : OSNAP array
-- ‘samba’ : SAMBA 34S array</p></li>
+- ‘samba’ : SAMBA 34S array
+- ‘fw2015’ : FW2015 array</p></li>
 <li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the data source.
 If None, the reader-specific default source will be used.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
@@ -461,6 +463,29 @@ Any attrs not in the spec list are appended at the end, in their original order.
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If file_name does not match ds.attrs[“source_file”].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.standardise.standardise_fw2015">
+<span class="sig-prename descclassname"><span class="pre">amocarray.standardise.</span></span><span class="sig-name descname"><span class="pre">standardise_fw2015</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/standardise.html#standardise_fw2015"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.standardise.standardise_fw2015" title="Link to this definition"></a></dt>
+<dd><p>Standardise FW2015 dataset:
+- Rename variables to standard names.
+- Add variable-level metadata (units, description, etc.).
+- Update global attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ds</strong> (<em>xr.Dataset</em>) – Raw FW2015 dataset loaded from read_fw2015().</p></li>
+<li><p><strong>file_name</strong> (<em>str</em>) – Original source file name, used to determine mapping and metadata.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Standardised FW2015 dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
