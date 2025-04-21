@@ -5,6 +5,10 @@ authors:
   given-names: Eleanor
   orcid: https://orcid.org/0000-0001-8773-7838
   affiliation: University of Hamburg, Bundesstraße 53, 20146 Hamburg, Germany
+- family-names: Schmitz
+  given-names: Isabelle
+  orcid: https://orcid.org/0009-0009-1369-1748
+  affiliation: University of Hamburg, Bundesstraße 53, 20146 Hamburg, Germany
 title: amocarray
 version: 0.0.2
 date-released: 2025-04-12
