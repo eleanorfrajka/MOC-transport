@@ -131,7 +131,9 @@ def resolve_file_path(
     if download_url:
         try:
             log.info("Downloading file from %s to %s", download_url, local_data_dir)
-            return download_file(download_url, local_data_dir, redownload=redownload, filename=file_name)
+            return download_file(
+                download_url, local_data_dir, redownload=redownload, filename=file_name
+            )
         except Exception as e:
             log.error("Failed to download %s: %s", download_url, e)
             raise FileNotFoundError(f"Failed to download {download_url}: {e}")
@@ -360,7 +362,7 @@ def download_file(
         If True, force re-download of the file even if it exists.
     filename : str, optional
         Optional filename to save the file as. If not given, uses the name from the URL.
-  
+
     Returns
     -------
     str

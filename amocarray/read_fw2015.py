@@ -20,7 +20,7 @@ FW2015_TRANSPORT_FILES = ["MOCproxy_for_figshare_v1.mat"]
 
 # Mapping of filenames to download URLs
 FW2015_FILE_URLS = {
-    "README.txt":"https://figshare.com/ndownloader/files/3369791?private_link=281b3e9c8abba860d553",
+    "README.txt": "https://figshare.com/ndownloader/files/3369791?private_link=281b3e9c8abba860d553",
     "MOCproxy_for_figshare_v1.mat": "https://figshare.com/ndownloader/files/3369779",
 }
 
@@ -31,7 +31,7 @@ FW2015_FILE_URLS = {
 FW2015_METADATA = {
     "project": "Estimating the Atlantic overturning at 26°N using satellite altimetry and cable measurements",
     "doi": "http://dx.doi.org/10.1002/2015GL063220",
-} 
+}
 
 
 # File-specific metadata (placeholder, ready to extend)
@@ -40,6 +40,7 @@ FW2015_FILE_METADATA = {
         "data_product": "Time series of MOC",
     },
 }
+
 
 @apply_defaults(None, FW2015_DEFAULT_FILES)
 def read_fw2015(
@@ -113,45 +114,51 @@ def read_fw2015(
         )
         # open dataset
 
-        # just included mocproxy, ekman and h1umo if other variables are needed let me know 
+        # just included mocproxy, ekman and h1umo if other variables are needed let me know
 
         try:
             log.info("Opening fw2015 file: %s", file_path)
-            mat_data = scipy.io.loadmat(file_path, squeeze_me=True, struct_as_record=False)
+            mat_data = scipy.io.loadmat(
+                file_path, squeeze_me=True, struct_as_record=False
+            )
             recon = mat_data.get("recon")
             mocgrid = mat_data.get("mocgrid")
-           
-            time = recon.time # time in decimal years
+
+            time = recon.time  # time in decimal years
             variables = {
                 "MOC": recon.mocproxy,
-                "EK": recon.ek, 
-                "H1UMO": recon.h1umo, 
+                "EK": recon.ek,
+                "H1UMO": recon.h1umo,
                 "GS": recon.gs,
                 "UMOPROXY": recon.umoproxy,
-                "MOC_GRID": mocgrid.moc, 
+                "MOC_GRID": mocgrid.moc,
                 "EK_GRID": mocgrid.ek,
                 "GS_GRID": mocgrid.gs,
                 "LNADW_GRID": mocgrid.lnadw,
                 "UMO_GRID": mocgrid.umo,
                 "UNADW_GRID": mocgrid.unadw,
-                } # add more variables if needed(see above)
+            }  # add more variables if needed(see above)
 
             # Convert decimal years to datetime
             time = np.asarray(time)
-            time = pd.to_datetime((time - 719529).astype("int"), origin="unix", unit="D")
+            time = pd.to_datetime(
+                (time - 719529).astype("int"), origin="unix", unit="D"
+            )
 
             # Build dataset
             ds = xr.Dataset(
-                {name: ("TIME", np.asarray(values)) for name, values in variables.items()},
+                {
+                    name: ("TIME", np.asarray(values))
+                    for name, values in variables.items()
+                },
                 coords={"TIME": time},
             )
 
-            # add global attributes 
+            # add global attributes
             ds.attrs["created"] = recon.created
             ds.attrs["url"] = recon.url
             ds.attrs["paper"] = recon.paper
             ds.attrs["version"] = recon.version
-
 
         except Exception as e:
             log.error("Failed to parse .mat file: %s: %s", file_path, e)
@@ -178,5 +185,3 @@ def read_fw2015(
 
     log.info("Successfully loaded %d FW2015 dataset(s)", len(datasets))
     return datasets
-
-

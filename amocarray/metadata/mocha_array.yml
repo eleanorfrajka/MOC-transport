@@ -16,7 +16,6 @@ metadata:
   contributor_email: bjohns@earth.miami.edu, , ben.moat@noc.ac.uk
   institution: University of Miami, University of Miami, National Oceanography Centre, National Oceanography Centre, National Oceanography Centre, NOAA AOML, NOAA AOML
   contributor_id: https://orcid.org/0000-0002-1093-7871, https://orcid.org/0000-0001-6051-5426, https://orcid.org/0000-0003-1740-1778, https://orcid.org/0000-0001-8676-7779, https://orcid.org/0000-0003-1338-3234, https://orcid.org/0000-0002-9290-0502, https://orcid.org/0000-0001-9824-6989
-  doi: https://doi.org/10.17604/3nfq-va20
 
 files:
   mocha_mht_data_ERA5_v2020.nc:
@@ -182,4 +181,3 @@ files:
         description: >
           corresponding hour of the measurements
         standard_name: "Hour"
-

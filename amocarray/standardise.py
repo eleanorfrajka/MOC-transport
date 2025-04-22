@@ -448,8 +448,10 @@ def standardise_move(ds: xr.Dataset, file_name: str) -> xr.Dataset:
 def standardise_osnap(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="osnap")
 
+
 def standardise_mocha(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="mocha")
+
 
 def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dataset:
     """Standardise a mooring array dataset using YAML-based metadata.
@@ -500,10 +502,14 @@ def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dat
                 if attr_value in ("", "n/a"):
                     ds[var_name].attrs.pop(attr_key, None)
                     log_debug(
-                        "Removed blank attribute '%s' from variable '%s'", attr_key, var_name
+                        "Removed blank attribute '%s' from variable '%s'",
+                        attr_key,
+                        var_name,
                     )
     # Remove any empty attributes from the dataset
-    for attr_key, attr_value in list(ds.attrs.items()):  # Iterate over a copy of the items
+    for attr_key, attr_value in list(
+        ds.attrs.items()
+    ):  # Iterate over a copy of the items
         if attr_value in ("", "n/a"):
             ds.attrs.pop(attr_key, None)
             log_debug("Removed blank attribute '%s' from dataset", attr_key)
@@ -565,4 +571,4 @@ def standardise_fw2015(ds: xr.Dataset, file_name: str) -> xr.Dataset:
         Standardised FW2015 dataset.
 
     """
-    return ds # Placeholder for future standardisation (not sure which information should be added)
+    return ds  # Placeholder for future standardisation (not sure which information should be added)

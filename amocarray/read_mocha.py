@@ -13,7 +13,12 @@ MOCHA_DEFAULT_SOURCE = "https://scholarship.miami.edu/view/fileRedirect?instCode
 MOCHA_DEFAULT_FILES = ["Johns_2023_mht_data_2020_ERA5.zip"]
 MOCHA_TRANSPORT_FILES = ["Johns_2023_mht_data_2020_ERA5.zip"]
 MOCHA_ZIP_CONTENTS = {
-    "Johns_2023_mht_data_2020_ERA5.zip": {"mocha_mht_data_ERA5_v2020.nc", "mocha_mht_data_ERA5_v2020.mat", "README_2020_ERA5.pdf", "README.txt"}
+    "Johns_2023_mht_data_2020_ERA5.zip": {
+        "mocha_mht_data_ERA5_v2020.nc",
+        "mocha_mht_data_ERA5_v2020.mat",
+        "README_2020_ERA5.pdf",
+        "README.txt",
+    }
 }
 
 # Mapping of filenames to download URLs
@@ -104,11 +109,13 @@ def read_mocha(
             redownload=redownload,
         )
 
-       # If the file is a zip, extract all contents
+        # If the file is a zip, extract all contents
         if file_path.suffix == ".zip":
             contents = MOCHA_ZIP_CONTENTS.get(file)
             if not contents:
-                raise ValueError(f"No internal file mapping provided for zip file: {file}")
+                raise ValueError(
+                    f"No internal file mapping provided for zip file: {file}"
+                )
 
             with zipfile.ZipFile(file_path, "r") as zip_ref:
                 for member in contents:
@@ -120,19 +127,25 @@ def read_mocha(
             # Look specifically for the .nc file to open
             nc_files = [f for f in contents if f.endswith(".nc")]
             if not nc_files:
-                raise FileNotFoundError(f"No NetCDF (.nc) file listed in zip contents for {file}")
+                raise FileNotFoundError(
+                    f"No NetCDF (.nc) file listed in zip contents for {file}"
+                )
 
             for nc_file in nc_files:
                 nc_path = local_data_dir / nc_file
                 if not nc_path.exists():
-                    raise FileNotFoundError(f"Expected NetCDF file not found: {nc_path}")
+                    raise FileNotFoundError(
+                        f"Expected NetCDF file not found: {nc_path}"
+                    )
 
                 log.info("Opening MOCHA dataset: %s", nc_path)
                 try:
                     ds = xr.open_dataset(nc_path)
                 except Exception as e:
                     log.error("Failed to open NetCDF file: %s: %s", nc_path, e)
-                    raise FileNotFoundError(f"Failed to open NetCDF file: {nc_path}: {e}")
+                    raise FileNotFoundError(
+                        f"Failed to open NetCDF file: {nc_path}: {e}"
+                    )
 
                 metadata = MOCHA_FILE_METADATA.get(nc_file, {})
                 utilities.safe_update_attrs(
