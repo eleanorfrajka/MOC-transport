@@ -1,0 +1,185 @@
+metadata:
+  program: RAPID
+  title: "Atlantic Meridional Overturning Circulation (AMOC) Heat Transport Time Series between April 2004 and December 2020 at 26.5°N"
+  weblink: http://mocha.rsmas.miami.edu/mocha
+  comment: Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    Data from the RAPID-MOCHA program are funded by the U.S. National Science Foundation and U.K. Natural Environment Research Council and are freely available at www.rapid.ac.uk/data/data-download and mocha.rsmas.miami.edu/mocha
+  license: ODC-By
+  doi:  https://doi.org/10.17604/3nfq-va20
+  featureType: timeSeries
+  time_coverage_start: "2004-04-01"
+  time_coverage_end: "2020-12-31"
+  Creation_date: "01-01-2023"
+  platform_type: Mooring array
+  contributor_name: William E. Johns, Shane Elipot, D. A. Smeed, B. Moat, B. King, D. L. Volkov, R. H. Smith
+  contributor_email: bjohns@earth.miami.edu, , ben.moat@noc.ac.uk
+  institution: University of Miami, University of Miami, National Oceanography Centre, National Oceanography Centre, National Oceanography Centre, NOAA AOML, NOAA AOML
+  contributor_id: https://orcid.org/0000-0002-1093-7871, https://orcid.org/0000-0001-6051-5426, https://orcid.org/0000-0003-1740-1778, https://orcid.org/0000-0001-8676-7779, https://orcid.org/0000-0003-1338-3234, https://orcid.org/0000-0002-9290-0502, https://orcid.org/0000-0001-9824-6989
+  doi: https://doi.org/10.17604/3nfq-va20
+
+files:
+  mocha_mht_data_ERA5_v2020.nc:
+    data_product: "MOCHA heat transport at 26.5°N"
+    variable_mapping:
+      time: TIME
+    variables:
+      Q_eddy:
+        long_name: "Heat transport"
+        description: >
+          interior gyre component due to spatially correlated v'T' variability across the interior, derived from an objective analysis of interior ARGO T/S data merged with the mooring T/S data from moorings, and smoothly merged into the EN4 climatology along 26.5°N below 2000m
+        units: W
+        standard_name: "Heat Transport"
+      Q_ek:
+        long_name: "Heat transport"
+        description: >
+          Ekman heat transports
+        units: W
+        standard_name: "Heat Transport"
+      Q_fc:
+        long_name: "Heat transport"
+        description: >
+          Florida Straits heat transports
+        units: W
+        standard_name: "Heat Transport"
+      Q_gyre:
+        long_name: "Heat transport"
+        description: >
+          Basinwide gyre heat transports, as classically defined (e.g. see Johns et al., 2011)
+        units: W
+        standard_name: "Heat Transport"
+      Q_int:
+        long_name: "Heat transport"
+        description: >
+          Heat transport for the rest of the interior to Africa (but only represents the contribution by the zonal mean v and T)
+        units: W
+        standard_name: "Heat Transport"
+      Q_mo:
+        long_name: "Heat transport"
+        description: >
+          The sum of all the three interior components between the Bahamas and Africa (Q_int + Q_wedge + Q_eddy)
+        units: W
+        standard_name: "Heat Transport"
+      Q_ot:
+        long_name: "Heat transport"
+        description: >
+          Basinwide overturning heat transports, as classically defined (e.g. see Johns et al., 2011)
+        units: W
+        standard_name: "Heat Transport"
+      Q_sum:
+        long_name: "Heat transport"
+        description: >
+          Net meridional heat transport
+        units: W
+        standard_name: "Heat Transport"
+      Q_wedge:
+        long_name: "Heat transport"
+        description: >
+          Heat transport for the "western boundary wedge" off Abaco
+        units: W
+        standard_name: "Heat Transport"
+      T_basin:
+        long_name: "Temperature"
+        description: >
+          time-varying basinwide mean potential temperature profile
+        units: degrees C
+        standard_name: "Temperature"
+      T_basin_mean:
+        long_name: "Temperature"
+        description: >
+          time-mean basinwide mean potential temperature profile
+        units: degrees C
+        standard_name: "Temperature"
+      T_fc_fwt:
+        long_name: "Temperature"
+        description: >
+          time-varying Florida Current flow-weighted potential temperature
+        units: degrees C
+        standard_name: "Temperature"
+      V_basin:
+        long_name: "Transport per unit depth"
+        description: >
+          time-varying basinwide mean transport profile
+        units: Sv/m
+        standard_name: "Transport per unit depth"
+      V_basin_mean:
+        long_name: "Transport per unit depth"
+        description: >
+          time-mean basinwide mean transport profile
+        units: Sv/m
+        standard_name: "Transport per unit depth"
+      V_fc:
+        long_name: "Transport per unit depth"
+        description: >
+          time-varying Florida Current transport profile
+        units: Sv/m
+        standard_name: "Transport per unit depth"
+      V_fc_mean:
+        long_name: "Transport per unit depth"
+        description: >
+          time-mean Florida Current transport profile
+        units: Sv/m
+        standard_name: "Transport per unit depth"
+      trans_ek:
+        long_name: "Transport"
+        description: >
+          time-varying Ekman transport (calculated from ERA-I winds)
+        units: Sv
+        standard_name: "Transport"
+      trans_fc:
+        long_name: "Transport"
+        description: >
+          time-varying Florida Current transport (from the cable)
+        units: Sv
+        standard_name: "Transport"
+      maxmoc:
+        long_name: "Transport"
+        description: >
+          time-varying maximum value of MOC streamfunction
+        units: Sv
+        standard_name: "Transport"
+      moc:
+        long_name: "Transport"
+        description: >
+          time-varying MOC streamfunction vs. depth
+        units: Sv
+        standard_name: "Transport"
+      z:
+        long_name: "Depth"
+        description: >
+          the depth array that corresponds to the profile variables
+        units: m
+        standard_name: "Depth"
+      time:
+        long_name: "Time"
+        description: >
+          time array that corresponds to the profile variables
+        units:  seconds since 1970-1-1 00:00:00 UTC
+        standard_name: "Time"
+      julian_day:
+        long_name: "Julian day"
+        description: >
+          julian days since 1950-1-1 00:00:00 UTC
+        units: days since 1950-1-1 00:00:00 UTC
+        standard_name: "Julian_day"
+      year:
+        long_name: "Year"
+        description: >
+          corresponding year of the measurements
+        standard_name: "Year"
+      month:
+        long_name: "Month"
+        description: >
+          corresponding month of the measurements
+        standard_name: "Month"
+      day:
+        long_name: "Day"
+        description: >
+          corresponding day of the measurements
+        standard_name: "Day"
+      hour:
+        long_name: "Hour"
+        description: >
+          corresponding hour of the measurements
+        standard_name: "Hour"
+

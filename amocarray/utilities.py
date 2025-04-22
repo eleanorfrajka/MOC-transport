@@ -131,7 +131,7 @@ def resolve_file_path(
     if download_url:
         try:
             log.info("Downloading file from %s to %s", download_url, local_data_dir)
-            return download_file(download_url, local_data_dir, redownload=redownload)
+            return download_file(download_url, local_data_dir, redownload=redownload, filename=file_name)
         except Exception as e:
             log.error("Failed to download %s: %s", download_url, e)
             raise FileNotFoundError(f"Failed to download {download_url}: {e}")
@@ -342,7 +342,12 @@ def _is_valid_file(path: str) -> bool:
     return Path(path).is_file() and path.endswith(".nc")
 
 
-def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
+def download_file(
+    url: str,
+    dest_folder: str,
+    redownload: bool = False,
+    filename: str = None,
+) -> str:
     """Download a file from HTTP(S) or FTP to the specified destination folder.
 
     Parameters
@@ -353,7 +358,9 @@ def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
         Local folder to save the downloaded file.
     redownload : bool, optional
         If True, force re-download of the file even if it exists.
-
+    filename : str, optional
+        Optional filename to save the file as. If not given, uses the name from the URL.
+  
     Returns
     -------
     str
@@ -368,7 +375,7 @@ def download_file(url: str, dest_folder: str, redownload: bool = False) -> str:
     dest_folder_path = Path(dest_folder)
     dest_folder_path.mkdir(parents=True, exist_ok=True)
 
-    local_filename = dest_folder_path / Path(url).name
+    local_filename = dest_folder_path / (filename or Path(url).name)
     if local_filename.exists() and not redownload:
         # File exists and redownload not requested
         return str(local_filename)
