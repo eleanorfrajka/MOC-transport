@@ -37,6 +37,7 @@ MOCHA_METADATA = {
 MOCHA_FILE_METADATA = {
     "mocha_mht_data_ERA5_v2020.nc": {
         "data_product": "MOCHA heat transport time series",
+        "project": "RAPID-MOCHA",
         # Add specific acknowledgments here if needed in future
     },
 }

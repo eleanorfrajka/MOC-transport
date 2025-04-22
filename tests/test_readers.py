@@ -36,6 +36,7 @@ def test_load_dataset_invalid_array():
         ("move", "TRANSPORT_TOTAL"),
         ("osnap", "MOC_ALL"),  # OSNAP should contain MOC
         ("fw2015", "MOC"),
+        ("mocha", "Q_eddy"),
     ],
 )
 def test_load_dataset(array_name, expected_var):

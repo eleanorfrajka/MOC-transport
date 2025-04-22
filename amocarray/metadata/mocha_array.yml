@@ -9,6 +9,7 @@ metadata:
   doi:  https://doi.org/10.17604/3nfq-va20
   featureType: timeSeries
   time_coverage_start: "2004-04-01"
+  project: RAPID-MOCHA
   time_coverage_end: "2020-12-31"
   Creation_date: "01-01-2023"
   platform_type: Mooring array
