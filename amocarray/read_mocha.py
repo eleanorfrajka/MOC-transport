@@ -111,6 +111,7 @@ def read_mocha(
         )
 
         # If the file is a zip, extract all contents
+        file_path = Path(file_path)
         if file_path.suffix == ".zip":
             contents = MOCHA_ZIP_CONTENTS.get(file)
             if not contents:
