@@ -11,6 +11,7 @@ from amocarray.read_osnap import read_osnap
 from amocarray.read_rapid import read_rapid
 from amocarray.read_samba import read_samba
 from amocarray.read_fw2015 import read_fw2015
+from amocarray.read_mocha import read_mocha
 
 log = logger.log
 
@@ -42,7 +43,8 @@ def _get_reader(array_name: str):
         "rapid": read_rapid,
         "osnap": read_osnap,
         "samba": read_samba,
-        "fw2015": read_fw2015
+        "fw2015": read_fw2015,
+        "mocha": read_mocha,
     }
     try:
         return readers[array_name.lower()]

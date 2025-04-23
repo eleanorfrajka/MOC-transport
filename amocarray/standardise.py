@@ -198,28 +198,6 @@ def clean_metadata(attrs: dict, preferred_keys: dict = None) -> dict:
 def _consolidate_contributors(cleaned: dict) -> dict:
     """
     Consolidate creators, PIs, publishers, and contributors into unified fields:
-    - contributor_name, contributor_role, contributor_email aligned one-to-one
-    - contributing_institutions, with placeholders for vocabularies/roles
-    """
-    log_debug("Starting _consolidate_contributors with attrs: %s", cleaned)
-
-    role_map = {
-        "creator_name": "creator",
-        "creator": "creator",
-        "principal_investigator": "PI",
-        "publisher_name": "publisher",
-        "publisher": "publisher",
-        "creator_url": "creator",
-        "publisher_url": "publisher",
-        "principal_investigaor_url": "PI",
-        "contributor_name": "",
-        "contributor": "",
-    }
-
-
-def _consolidate_contributors(cleaned: dict) -> dict:
-    """
-    Consolidate creators, PIs, publishers, and contributors into unified fields:
     - contributor_name, contributor_role, contributor_email, contributor_id aligned one-to-one
     - contributing_institutions, with placeholders for vocabularies/roles
     """
@@ -471,6 +449,10 @@ def standardise_osnap(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="osnap")
 
 
+def standardise_mocha(ds: xr.Dataset, file_name: str) -> xr.Dataset:
+    return standardise_array(ds, file_name, array_name="mocha")
+
+
 def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dataset:
     """Standardise a mooring array dataset using YAML-based metadata.
 
@@ -512,6 +494,25 @@ def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dat
     for var_name, attrs in var_meta.items():
         if var_name in ds.variables:
             ds[var_name].attrs.update(attrs)
+
+    # If any attributes are blank or value 'n/a', remove them
+    for var_name, attrs in list(var_meta.items()):
+        if var_name in ds.variables:
+            for attr_key, attr_value in attrs.items():
+                if attr_value in ("", "n/a"):
+                    ds[var_name].attrs.pop(attr_key, None)
+                    log_debug(
+                        "Removed blank attribute '%s' from variable '%s'",
+                        attr_key,
+                        var_name,
+                    )
+    # Remove any empty attributes from the dataset
+    for attr_key, attr_value in list(
+        ds.attrs.items()
+    ):  # Iterate over a copy of the items
+        if attr_value in ("", "n/a"):
+            ds.attrs.pop(attr_key, None)
+            log_debug("Removed blank attribute '%s' from dataset", attr_key)
 
     # 3) Merge existing attrs + new global attrs + file-specific
     combined = {}
@@ -570,4 +571,4 @@ def standardise_fw2015(ds: xr.Dataset, file_name: str) -> xr.Dataset:
         Standardised FW2015 dataset.
 
     """
-    return ds # Placeholder for future standardisation (not sure which information should be added)
+    return ds  # Placeholder for future standardisation (not sure which information should be added)
