@@ -106,6 +106,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_rapid</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_rapid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_samba</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_samba</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_fw2015</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_fw2015</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_mocha</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_mocha</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
@@ -137,7 +138,8 @@
         <span class="s2">&quot;rapid&quot;</span><span class="p">:</span> <span class="n">read_rapid</span><span class="p">,</span>
         <span class="s2">&quot;osnap&quot;</span><span class="p">:</span> <span class="n">read_osnap</span><span class="p">,</span>
         <span class="s2">&quot;samba&quot;</span><span class="p">:</span> <span class="n">read_samba</span><span class="p">,</span>
-        <span class="s2">&quot;fw2015&quot;</span><span class="p">:</span> <span class="n">read_fw2015</span>
+        <span class="s2">&quot;fw2015&quot;</span><span class="p">:</span> <span class="n">read_fw2015</span><span class="p">,</span>
+        <span class="s2">&quot;mocha&quot;</span><span class="p">:</span> <span class="n">read_mocha</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
