@@ -1,0 +1,76 @@
+metadata:
+  description: "Estimating the Atlantic overturning at 26°N using satellite altimetry and cable measurements"
+  weblink: "https://figshare.com/articles/dataset/MOCproxy_for_figshare_v1_0_mat/1463479?file=3369779"
+  comment: >
+    Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgement: >
+    Frajka-Williams, E. (2015), Estimating the Atlantic overturning at 26°N using satellite altimetry and cable measurements. Geophys. Res. Lett., 42, 3458–3464. doi: 10.1002/2015GL063220.
+  license: CC-BY 4.0
+  featureType: timeSeries
+  Conventions: CF-1.8, ACDD-1.3
+  time_coverage_start: '1993-01-15'
+  time_coverage_end: '2014-12-15'
+
+files:
+  MOCproxy_for_figshare_v1.0.mat:
+    source_url: "https://figshare.com/articles/dataset/MOCproxy_for_figshare_v1_0_mat/1463479?file=3369779"
+    data_product: "a proxy for the meridional overturning circulation at 26N, using sea level anomaly and cable measurements"
+    acknowledgement: >
+      Frajka-Williams, E. (2015), Estimating the Atlantic overturning at 26°N using satellite altimetry and cable measurements. Geophys. Res. Lett., 42, 3458–3464. doi: 10.1002/2015GL063220.
+    variable_mapping:
+      "time": time
+      "mocproxy": MOC_PROXY
+      "umoproxy": UMO_PROXY
+      "h1umo": SSHA
+      "gs": FLORIDA_CURRENT
+      "umo": UMO
+      "ek": EK
+      "moc": MOC
+      "lnadw": LNADW
+      "unadw": UNADW
+    variables:
+      MOC_PROXY:
+        long_name: "Overturning transport proxy"
+        description: "a proxy for the meridional overturning circulation at 26N, using sea level anomaly and cable measurements"
+        units: Sv
+        standard_name: Transport
+      UMO_PROXY:
+        long_name: "Upper mid-ocean transport proxy"
+        description: "a proxy for the upper mid-ocean transport based on the linear regression between recon.h1umo and mocgrid.umo"
+        units: Sv
+        standard_name: Transport
+      SSHA:
+        long_name: "Sea surface height anomaly near 28N, 70W"
+        description: "sea level anomaly from a spatially-smoothed and temporally filtered version of the AVISO mapped absolute dynamic topography product and selected near 28N, 70W in the Atlantic, at the point with the highest anticorrelation between the upper mid-ocean transport measured by the RAPID-MOCHA project and sea level anomaly"
+        units: cm
+        standard_name: Sea_surface_height_anomaly
+      FLORIDA_CURRENT:
+        long_name: "Florida Current transport"
+        description: "The strength of the Gulf Stream transport through the Florida Straits between Florida and Bahamas, as measured by a submarine telephone cable."
+        units: Sv
+        standard_name: Transport
+      UMO:
+        long_name: "Upper mid-ocean transport"
+        description: "The strength of the upper mid-ocean transport between the Bahamas and Africa at 26N, in the top (roughly) 1100 m of the ocean."
+        units: Sv
+        standard_name: Transport
+      EK:
+        long_name: "Ekman transport"
+        description: "Surface meridional (north-south) Ekman transport as estimated from ERA-Interim reanalysis winds."
+        units: Sv
+        standard_name: Transport
+      MOC:
+        long_name: "Overturning transport"
+        description: "The meridional overturning circulation at 26N or, the volume of water moving northward in the top (roughly) 1100 m of the ocean which is equal-and-opposite-to the volume of water moving southward below this depth."
+        units: Sv
+        standard_name: Transport
+      LNADW:
+        long_name: "Lower North Atlantic Deep Water transport"
+        description: "The lower North Atlantic Deep water transport or mid-ocean transport between the Bahamas and Africa and between the depth layers of 3000 m and 5000 m."
+        units: Sv
+        standard_name: Transport
+      UNADW:
+        long_name: "Upper North Atlantic Deep Water transport"
+        description: "The upper North Atlantic Deep water transport or mid-ocean transport between the Bahamas and Africa and between the depth layers of 1100 m and 3000 m."
+        units: Sv
+        standard_name: Transport

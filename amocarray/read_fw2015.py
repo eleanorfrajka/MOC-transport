@@ -26,8 +26,6 @@ FW2015_FILE_URLS = {
 
 # General Metadata (global for FW2015)
 
-# add more when desired, not sure which information should be included
-
 FW2015_METADATA = {
     "project": "Estimating the Atlantic overturning at 26°N using satellite altimetry and cable measurements",
     "doi": "http://dx.doi.org/10.1002/2015GL063220",
@@ -112,9 +110,8 @@ def read_fw2015(
             local_data_dir=local_data_dir,
             redownload=redownload,
         )
-        # open dataset
 
-        # just included mocproxy, ekman and h1umo if other variables are needed let me know
+        # open dataset
 
         try:
             log.info("Opening fw2015 file: %s", file_path)
@@ -125,19 +122,25 @@ def read_fw2015(
             mocgrid = mat_data.get("mocgrid")
 
             time = recon.time  # time in decimal years
+
+            # I was not sure when naming the variables if we were following some kind of convention
+            # Used all uppercase for consistency with other datasets
+            # maybe change MOC to MOC_PROXY fo consistency with UMO_PROXY?
+            # also optional: change H1UMO to SSHA or GS to FLORIDA_CURRENT, like in yaml file to be more straightforward
+
             variables = {
                 "MOC": recon.mocproxy,
                 "EK": recon.ek,
                 "H1UMO": recon.h1umo,
                 "GS": recon.gs,
-                "UMOPROXY": recon.umoproxy,
+                "UMO_PROXY": recon.umoproxy,
                 "MOC_GRID": mocgrid.moc,
                 "EK_GRID": mocgrid.ek,
                 "GS_GRID": mocgrid.gs,
                 "LNADW_GRID": mocgrid.lnadw,
                 "UMO_GRID": mocgrid.umo,
                 "UNADW_GRID": mocgrid.unadw,
-            }  # add more variables if needed(see above)
+            }
 
             # Convert decimal years to datetime
             time = np.asarray(time)
