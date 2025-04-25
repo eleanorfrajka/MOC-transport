@@ -123,13 +123,8 @@ def read_fw2015(
 
             time = recon.time  # time in decimal years
 
-            # I was not sure when naming the variables if we were following some kind of convention
-            # Used all uppercase for consistency with other datasets
-            # maybe change MOC to MOC_PROXY fo consistency with UMO_PROXY?
-            # also optional: change H1UMO to SSHA or GS to FLORIDA_CURRENT, like in yaml file to be more straightforward
-
             variables = {
-                "MOC": recon.mocproxy,
+                "MOC_PROXY": recon.mocproxy,
                 "EK": recon.ek,
                 "H1UMO": recon.h1umo,
                 "GS": recon.gs,

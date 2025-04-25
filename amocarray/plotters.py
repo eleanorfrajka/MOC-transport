@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import xarray as xr
+import numpy as np
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
 
@@ -254,6 +255,17 @@ def show_variables_by_dimension(
     return vars
 
 
+def align_monthly_to_raw_time(raw_time, monthly_time):
+    """
+    If all raw time entries are at 12:00:00, align monthly time to 12:00:00 too.
+    Otherwise return monthly time unchanged.
+    """
+    raw_hours = pd.to_datetime(raw_time.values).hour
+    if np.all(raw_hours == 12):
+        return monthly_time.dt.floor("D") + np.timedelta64(12, "h")
+    return monthly_time
+
+
 def plot_amoc_timeseries(
     data,
     varnames=None,
@@ -339,7 +351,14 @@ def plot_amoc_timeseries(
 
         # Plot monthly average if requested
         if resample_monthly:
-            da_monthly = da.resample(TIME="ME").mean()
+
+            da_monthly = da.resample(
+                {time_key: "1MS"}
+            ).mean()  # Resample to monthly (Month Start)
+            da_monthly[time_key] = align_monthly_to_raw_time(
+                da[time_key], da_monthly[time_key]
+            )  # Align time
+
             ax.plot(
                 da_monthly[time_key],
                 da_monthly,

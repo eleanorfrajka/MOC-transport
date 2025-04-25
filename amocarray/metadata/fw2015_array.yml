@@ -22,7 +22,7 @@ files:
       "mocproxy": MOC_PROXY
       "umoproxy": UMO_PROXY
       "h1umo": SSHA
-      "gs": FLORIDA_CURRENT
+      "gs": GS
       "umo": UMO
       "ek": EK
       "moc": MOC
@@ -44,8 +44,8 @@ files:
         description: "sea level anomaly from a spatially-smoothed and temporally filtered version of the AVISO mapped absolute dynamic topography product and selected near 28N, 70W in the Atlantic, at the point with the highest anticorrelation between the upper mid-ocean transport measured by the RAPID-MOCHA project and sea level anomaly"
         units: cm
         standard_name: Sea_surface_height_anomaly
-      FLORIDA_CURRENT:
-        long_name: "Florida Current transport"
+      GS:
+        long_name: "Gulf Stream transport"
         description: "The strength of the Gulf Stream transport through the Florida Straits between Florida and Bahamas, as measured by a submarine telephone cable."
         units: Sv
         standard_name: Transport
