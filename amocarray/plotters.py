@@ -255,15 +255,20 @@ def show_variables_by_dimension(
     return vars
 
 
-def align_monthly_to_raw_time(raw_time, monthly_time):
-    """
-    If all raw time entries are at 12:00:00, align monthly time to 12:00:00 too.
-    Otherwise return monthly time unchanged.
-    """
-    raw_hours = pd.to_datetime(raw_time.values).hour
-    if np.all(raw_hours == 12):
-        return monthly_time.dt.floor("D") + np.timedelta64(12, "h")
-    return monthly_time
+def monthly_resample(da: xr.DataArray) -> xr.DataArray:
+    """Resample to monthly mean if data is not already monthly."""
+    time_key = [c for c in da.coords if c.lower() == "time"]
+    if not time_key:
+        raise ValueError("No time coordinate found.")
+    time_key = time_key[0]
+
+    dt_days = np.nanmean(np.diff(da[time_key].values) / np.timedelta64(1, "D"))
+    if 20 <= dt_days <= 40:
+        # Already monthly -> just return as-is
+        return da
+    else:
+        # Higher resolution -> resample to monthly
+        return da.resample({time_key: "1MS"}).mean()
 
 
 def plot_amoc_timeseries(
@@ -352,12 +357,7 @@ def plot_amoc_timeseries(
         # Plot monthly average if requested
         if resample_monthly:
 
-            da_monthly = da.resample(
-                {time_key: "1MS"}
-            ).mean()  # Resample to monthly (Month Start)
-            da_monthly[time_key] = align_monthly_to_raw_time(
-                da[time_key], da_monthly[time_key]
-            )  # Align time
+            da_monthly = monthly_resample(da)
 
             ax.plot(
                 da_monthly[time_key],
@@ -433,11 +433,11 @@ def plot_monthly_anomalies(
 
     """
     # Resample each input dataset to monthly averages
-    osnap_data = osnap_data.resample(TIME="ME").mean()
-    rapid_data = rapid_data.resample(TIME="ME").mean()
-    move_data = move_data.resample(TIME="ME").mean()
-    samba_data = samba_data.resample(TIME="ME").mean()
-    fw2015_data = fw2015_data.resample(TIME="ME").mean()
+    osnap_data = monthly_resample(osnap_data)
+    rapid_data = monthly_resample(rapid_data)
+    move_data = monthly_resample(move_data)
+    samba_data = monthly_resample(samba_data)
+    fw2015_data = monthly_resample(fw2015_data)
 
     fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True)
 
