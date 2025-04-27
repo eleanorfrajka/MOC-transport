@@ -95,6 +95,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#plotters">plotters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.monthly_resample"><code class="docutils literal notranslate"><span class="pre">monthly_resample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.plot_amoc_timeseries"><code class="docutils literal notranslate"><span class="pre">plot_amoc_timeseries()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.plot_monthly_anomalies"><code class="docutils literal notranslate"><span class="pre">plot_monthly_anomalies()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_attributes"><code class="docutils literal notranslate"><span class="pre">show_attributes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.plotters.show_contents"><code class="docutils literal notranslate"><span class="pre">show_contents()</span></code></a></li>
@@ -453,7 +455,7 @@ Any attrs not in the spec list are appended at the end, in their original order.
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ds</strong> (<em>xr.Dataset</em>) – Raw dataset loaded from a reader.</p></li>
 <li><p><strong>file_name</strong> (<em>str</em>) – Filename (e.g., ‘moc_transports.nc’) expected to match ds.attrs[“source_file”].</p></li>
-<li><p><strong>array_name</strong> (<em>str</em>) – Name of the mooring array (e.g., ‘samba’, ‘rapid’, ‘move’, ‘osnap’).</p></li>
+<li><p><strong>array_name</strong> (<em>str</em>) – Name of the mooring array (e.g., ‘samba’, ‘rapid’, ‘move’, ‘osnap’, ‘fw2015’, ‘mocha’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -471,25 +473,7 @@ Any attrs not in the spec list are appended at the end, in their original order.
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.standardise.standardise_fw2015">
 <span class="sig-prename descclassname"><span class="pre">amocarray.standardise.</span></span><span class="sig-name descname"><span class="pre">standardise_fw2015</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/standardise.html#standardise_fw2015"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.standardise.standardise_fw2015" title="Link to this definition"></a></dt>
-<dd><p>Standardise FW2015 dataset:
-- Rename variables to standard names.
-- Add variable-level metadata (units, description, etc.).
-- Update global attributes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ds</strong> (<em>xr.Dataset</em>) – Raw FW2015 dataset loaded from read_fw2015().</p></li>
-<li><p><strong>file_name</strong> (<em>str</em>) – Original source file name, used to determine mapping and metadata.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Standardised FW2015 dataset.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>xr.Dataset</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.standardise.standardise_mocha">
@@ -521,8 +505,37 @@ Any attrs not in the spec list are appended at the end, in their original order.
 <h2>plotters<a class="headerlink" href="#plotters" title="Link to this heading"></a></h2>
 <p>Tools for visualising AMOC time series and transport data.</p>
 <dl class="py function" id="module-amocarray.plotters">
+<dt class="sig sig-object py" id="amocarray.plotters.monthly_resample">
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">monthly_resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">da</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataArray</span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#monthly_resample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.monthly_resample" title="Link to this definition"></a></dt>
+<dd><p>Resample to monthly mean if data is not already monthly.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.plotters.plot_amoc_timeseries">
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_amoc_timeseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AMOC</span> <span class="pre">Time</span> <span class="pre">Series'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_monthly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_amoc_timeseries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_amoc_timeseries" title="Link to this definition"></a></dt>
+<dd><p>Plot original and optionally monthly-averaged AMOC time series for one or more datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list</em><em> of </em><em>xarray.Dataset</em><em> or </em><em>xarray.DataArray</em>) – List of datasets or DataArrays to plot.</p></li>
+<li><p><strong>varnames</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – List of variable names to extract from each dataset. Not needed if DataArrays are passed.</p></li>
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Labels for the legend.</p></li>
+<li><p><strong>colors</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Colors for monthly-averaged plots.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Title of the plot.</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for the y-axis. If None, inferred from attributes.</p></li>
+<li><p><strong>time_limits</strong> (<em>tuple</em><em> of </em><em>str</em><em> or </em><em>pd.Timestamp</em><em>, </em><em>optional</em>) – X-axis time limits (start, end).</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em><em> of </em><em>float</em><em>, </em><em>optional</em>) – Y-axis limits (min, max).</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – Size of the figure.</p></li>
+<li><p><strong>resample_monthly</strong> (<em>bool</em>) – If True, monthly averages are computed and plotted.</p></li>
+<li><p><strong>plot_raw</strong> (<em>bool</em>) – If True, raw data is plotted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.plot_monthly_anomalies">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw2015_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw2015_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
 <dd><p>Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

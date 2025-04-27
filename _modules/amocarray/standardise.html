@@ -568,6 +568,13 @@
 
 
 
+<div class="viewcode-block" id="standardise_fw2015">
+<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_fw2015">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardise_fw2015</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">standardise_array</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">array_name</span><span class="o">=</span><span class="s2">&quot;fw2015&quot;</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="standardise_mocha">
 <a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_mocha">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">standardise_mocha</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
@@ -587,7 +594,7 @@
 <span class="sd">    file_name : str</span>
 <span class="sd">        Filename (e.g., &#39;moc_transports.nc&#39;) expected to match ds.attrs[&quot;source_file&quot;].</span>
 <span class="sd">    array_name : str</span>
-<span class="sd">        Name of the mooring array (e.g., &#39;samba&#39;, &#39;rapid&#39;, &#39;move&#39;, &#39;osnap&#39;).</span>
+<span class="sd">        Name of the mooring array (e.g., &#39;samba&#39;, &#39;rapid&#39;, &#39;move&#39;, &#39;osnap&#39;, &#39;fw2015&#39;, &#39;mocha&#39;).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -674,31 +681,6 @@
     <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">reorder_metadata</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
     <span class="c1">#    ds = utilities.safe_update_attrs(ds, cleaned, overwrite=False)</span>
     <span class="k">return</span> <span class="n">ds</span></div>
-
-
-
-<div class="viewcode-block" id="standardise_fw2015">
-<a class="viewcode-back" href="../../amocarray.html#amocarray.standardise.standardise_fw2015">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">standardise_fw2015</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Standardise FW2015 dataset:</span>
-<span class="sd">    - Rename variables to standard names.</span>
-<span class="sd">    - Add variable-level metadata (units, description, etc.).</span>
-<span class="sd">    - Update global attributes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    ds : xr.Dataset</span>
-<span class="sd">        Raw FW2015 dataset loaded from read_fw2015().</span>
-<span class="sd">    file_name : str</span>
-<span class="sd">        Original source file name, used to determine mapping and metadata.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    xr.Dataset</span>
-<span class="sd">        Standardised FW2015 dataset.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ds</span>  <span class="c1"># Placeholder for future standardisation (not sure which information should be added)</span></div>
 
 </pre></div>
 
