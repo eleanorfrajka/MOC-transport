@@ -449,6 +449,10 @@ def standardise_osnap(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="osnap")
 
 
+def standardise_fw2015(ds: xr.Dataset, file_name: str) -> xr.Dataset:
+    return standardise_array(ds, file_name, array_name="fw2015")
+
+
 def standardise_mocha(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="mocha")
 
@@ -463,7 +467,7 @@ def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dat
     file_name : str
         Filename (e.g., 'moc_transports.nc') expected to match ds.attrs["source_file"].
     array_name : str
-        Name of the mooring array (e.g., 'samba', 'rapid', 'move', 'osnap').
+        Name of the mooring array (e.g., 'samba', 'rapid', 'move', 'osnap', 'fw2015', 'mocha').
 
     Returns
     -------
@@ -550,25 +554,3 @@ def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dat
     ds.attrs = reorder_metadata(ds.attrs)
     #    ds = utilities.safe_update_attrs(ds, cleaned, overwrite=False)
     return ds
-
-
-def standardise_fw2015(ds: xr.Dataset, file_name: str) -> xr.Dataset:
-    """Standardise FW2015 dataset:
-    - Rename variables to standard names.
-    - Add variable-level metadata (units, description, etc.).
-    - Update global attributes.
-
-    Parameters
-    ----------
-    ds : xr.Dataset
-        Raw FW2015 dataset loaded from read_fw2015().
-    file_name : str
-        Original source file name, used to determine mapping and metadata.
-
-    Returns
-    -------
-    xr.Dataset
-        Standardised FW2015 dataset.
-
-    """
-    return ds  # Placeholder for future standardisation (not sure which information should be added)

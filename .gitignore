@@ -5,6 +5,8 @@ data/download
 data/3369779  
 data/3369779.mat
 data/mocha_mht_data_ERA5_v2020.nc
+#data/MOCproxy_for_figshare_v1.mat
+#data/OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc
 
 # VSCode settings
 .vscode/*

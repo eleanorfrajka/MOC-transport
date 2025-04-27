@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import xarray as xr
+import numpy as np
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
 
@@ -254,17 +255,155 @@ def show_variables_by_dimension(
     return vars
 
 
+def monthly_resample(da: xr.DataArray) -> xr.DataArray:
+    """Resample to monthly mean if data is not already monthly."""
+    time_key = [c for c in da.coords if c.lower() == "time"]
+    if not time_key:
+        raise ValueError("No time coordinate found.")
+    time_key = time_key[0]
+
+    dt_days = np.nanmean(np.diff(da[time_key].values) / np.timedelta64(1, "D"))
+    if 20 <= dt_days <= 40:
+        # Already monthly -> just return as-is
+        return da
+    else:
+        # Higher resolution -> resample to monthly
+        return da.resample({time_key: "1MS"}).mean()
+
+
+def plot_amoc_timeseries(
+    data,
+    varnames=None,
+    labels=None,
+    colors=None,
+    title="AMOC Time Series",
+    ylabel=None,
+    time_limits=None,
+    ylim=None,
+    figsize=(10, 3),
+    resample_monthly=True,
+    plot_raw=True,
+):
+    """
+    Plot original and optionally monthly-averaged AMOC time series for one or more datasets.
+
+    Parameters
+    ----------
+    data : list of xarray.Dataset or xarray.DataArray
+        List of datasets or DataArrays to plot.
+    varnames : list of str, optional
+        List of variable names to extract from each dataset. Not needed if DataArrays are passed.
+    labels : list of str, optional
+        Labels for the legend.
+    colors : list of str, optional
+        Colors for monthly-averaged plots.
+    title : str
+        Title of the plot.
+    ylabel : str, optional
+        Label for the y-axis. If None, inferred from attributes.
+    time_limits : tuple of str or pd.Timestamp, optional
+        X-axis time limits (start, end).
+    ylim : tuple of float, optional
+        Y-axis limits (min, max).
+    figsize : tuple
+        Size of the figure.
+    resample_monthly : bool
+        If True, monthly averages are computed and plotted.
+    plot_raw : bool
+        If True, raw data is plotted.
+    """
+    if not isinstance(data, list):
+        data = [data]
+
+    if varnames is None:
+        varnames = [None] * len(data)
+    if labels is None:
+        labels = [f"Dataset {i+1}" for i in range(len(data))]
+    if colors is None:
+        colors = ["red", "darkblue", "green", "purple", "orange"]
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    for i, item in enumerate(data):
+        label = labels[i]
+        color = colors[i % len(colors)]
+        var = varnames[i]
+
+        # Extract DataArray
+        if isinstance(item, xr.Dataset):
+            da = item[var]
+        else:
+            da = item
+
+        # Get time coordinate (case sensitive)
+        for coord in da.coords:
+            if coord.lower() == "time":
+                time_key = coord
+                break
+        else:
+            raise ValueError("No time coordinate found in dataset.")
+
+        # Plot original
+        if plot_raw:
+            ax.plot(
+                da[time_key],
+                da,
+                color="grey",
+                alpha=0.5,
+                linewidth=0.5,
+                label=f"{label} (raw)" if label else "Original",
+            )
+
+        # Plot monthly average if requested
+        if resample_monthly:
+
+            da_monthly = monthly_resample(da)
+
+            ax.plot(
+                da_monthly[time_key],
+                da_monthly,
+                color=color,
+                linewidth=1.5,
+                label=f"{label} Monthly Avg",
+            )
+
+        # Attempt to extract ylabel from metadata if not provided
+        if ylabel is None and "standard_name" in da.attrs and "units" in da.attrs:
+            ylabel = f"{da.attrs['standard_name']} [{da.attrs['units']}]"
+
+    # Horizontal zero line
+    ax.axhline(0, color="black", linestyle="--", linewidth=0.5)
+
+    # Styling
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.set_title(title)
+    ax.set_xlabel("Time")
+    ax.set_ylabel(ylabel if ylabel else "Transport [Sv]")
+    ax.legend()
+    ax.grid(True, linestyle="--", alpha=0.5)
+
+    # Limits
+    if time_limits:
+        ax.set_xlim(pd.Timestamp(time_limits[0]), pd.Timestamp(time_limits[1]))
+    if ylim:
+        ax.set_ylim(ylim)
+
+    plt.tight_layout()
+    plt.show()
+
+
 def plot_monthly_anomalies(
     osnap_data: xr.DataArray,
     rapid_data: xr.DataArray,
     move_data: xr.DataArray,
     samba_data: xr.DataArray,
-    # fw2015_data: xr.DataArray,
+    fw2015_data: xr.DataArray,
     osnap_label: str,
     rapid_label: str,
     move_label: str,
     samba_label: str,
-    # fw2015_label: str,
+    fw2015_label: str,
 ) -> tuple[plt.Figure, list[plt.Axes]]:
     """Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
 
@@ -294,15 +433,14 @@ def plot_monthly_anomalies(
 
     """
     # Resample each input dataset to monthly averages
-    osnap_data = osnap_data.resample(TIME="ME").mean()
-    rapid_data = rapid_data.resample(TIME="ME").mean()
-    move_data = move_data.resample(TIME="ME").mean()
-    samba_data = samba_data.resample(TIME="ME").mean()
-    # fw2015_data = fw2015_data.resample(TIME="ME").mean()
+    osnap_data = monthly_resample(osnap_data)
+    rapid_data = monthly_resample(rapid_data)
+    move_data = monthly_resample(move_data)
+    samba_data = monthly_resample(samba_data)
+    fw2015_data = monthly_resample(fw2015_data)
 
-    fig, axes = plt.subplots(4, 1, figsize=(5, 7), sharex=True)
+    fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True)
 
-    # fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True) #for when fw2015 is addedin demo
     # OSNAP
     axes[0].plot(osnap_data["TIME"], osnap_data, color="blue", label=osnap_label)
     axes[0].axhline(0, color="black", linestyle="--", linewidth=0.5)
@@ -336,14 +474,14 @@ def plot_monthly_anomalies(
     axes[3].legend()
     axes[3].grid(True, linestyle="--", alpha=0.5)
 
-    # FW2015 # for when fw2015 is added in demo
-    # axes[4].plot(fw2015_data["TIME"], fw2015_data, color="orange", label=fw2015_label)
-    # axes[4].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    # axes[4].set_title(fw2015_label)
-    # axes[4].set_xlabel("Time")
-    # axes[4].set_ylabel("Transport [Sv]")
-    # axes[4].legend()
-    # axes[4].grid(True, linestyle="--", alpha=0.5)
+    # FW2015
+    axes[4].plot(fw2015_data["TIME"], fw2015_data, color="orange", label=fw2015_label)
+    axes[4].axhline(0, color="black", linestyle="--", linewidth=0.5)
+    axes[4].set_title(fw2015_label)
+    axes[4].set_xlabel("Time")
+    axes[4].set_ylabel("Transport [Sv]")
+    axes[4].legend()
+    axes[4].grid(True, linestyle="--", alpha=0.5)
     for ax in axes:
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
@@ -354,7 +492,7 @@ def plot_monthly_anomalies(
     axes[1].set_ylim([5, 25])  # RAPID
     axes[2].set_ylim([5, 25])  # MOVE
     axes[3].set_ylim([-10, 10])  # SAMBA
-    # axes[4].set_ylim([12, 22])  # FW2015
+    axes[4].set_ylim([12, 22])  # FW2015
 
     plt.tight_layout()
     return fig, axes
