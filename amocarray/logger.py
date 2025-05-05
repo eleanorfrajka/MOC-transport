@@ -90,6 +90,6 @@ def setup_logger(array_name: str, output_dir: str = "logs") -> None:
         log.handlers.clear()
 
         log.addHandler(file_handler)
-        log.addHandler(console_handler)
+ #       log.addHandler(console_handler)
 
         log.info(f"Logger initialized for array: {array_name}, writing to {log_path}")

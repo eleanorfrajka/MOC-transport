@@ -347,7 +347,7 @@ def plot_monthly_anomalies(
     for ax in axes:
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
-        ax.set_xlim([pd.Timestamp("2000-01-01"), pd.Timestamp("2022-12-31")])
+        ax.set_xlim([pd.Timestamp("2000-01-01"), pd.Timestamp("2023-12-31")])
         ax.set_clip_on(False)
         ax.set_yticks(range(int(ax.get_ylim()[0]) + 1, int(ax.get_ylim()[1]) + 1, 5))
     axes[0].set_ylim([5, 25])  # OSNAP
