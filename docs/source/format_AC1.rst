@@ -9,6 +9,67 @@ The AC1 format provides a unified, interoperable structure for mooring array dat
 
 The AC1 format ensures consistency, metadata clarity, and long-term interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets. It is based on ``xarray.Dataset`` objects, compatible with NetCDF4, and adheres to CF conventions where applicable.
 
+0. Background
+-------------
+
+Individual observing arrays produce data in various formats.
+
+RAPID
+~~~~~
+
+For example, at 26°N, the RAPID array produces an AMOC transport time series (volume transport in depth space) which is a 1-dimensional time series with a single registered latitude (26.5) and no registered longitude.  It also provides profiles of temperature, salinity and dynamic height representing individual locations (single latitude, single nominal longitude) on a vertical grid of 20 dbar.  Several locations are provided, with names like WB, MAR_WEST, MAR_EAST, EB.  So there are N_PROF locations, with N_LEVELS and also TIME as dimensions. And the LATITUDE would be N_PROF (a small number, like 4, representing mooring locations)
+
+More recently, they have started providing a section of temperature, saliity and velocity which are then N_PROF, TIME and N_LEVELS, but now the N_PROF (and both LONGITUDE and LATITUDE) would be on a regular grid--or at least with more locations (longer N_PROF), though it's possible LATITUDE would be a single latitude (26.5).
+
+RAPID also provides layer transports which are single time series with names like t_therm10, t_aiw10, t_ud10, t_ld10, etc, which are between specified depth ranges.  These could be simply: TRANSPORT (N_LEVELS, TIME) with DEPTH_BOUND (N_LEVELS, 2) to give an upper and lower bound on the depths used to produce transport in layers?  It would also need something like TRANSPORT_NAME (N_LEVELS) of type string.
+
+OSNAP
+~~~~~
+
+At OSNAP, we have variables like MOC_ALL, MOC_EAST and MOC_WEST which are time series (TIME), but these could be represented as MOC (N_PROF, TIME) where instead of the three different variables, N_PROF=3.  This would be somewhat more difficult to communicate to the user, since LATITUDE and LONGITUDE are not single points per N_PROF but instead may represent end points of a section.
+
+Variables MOC_ALL_ERR are also provided, which could be translated to MOC_ERR (N_PROF, TIME) with LATITUDE (N_PROF) or LATITUDE_BOUND (N_PROF, 2).
+
+Heat fluxes also exist, as MHT_ALL, MHT_EAST and MHT_WEST, so these could be MHT (N_PROF, TIME).
+
+MOVE
+~~~~
+
+MOVE provides the TRANSPORT_TOTAL which corresponds to the MOC, but also things like transport_component_internal (TIME,), transport_component_internal_offset (TIME,), and transport_component_boundary (TIME,).  This would be similar to RAPID's version of "interior transport" and "western boundary wedge", but it's not so clear how to make these similarly named.
+
+
+SAMBA
+~~~~~
+
+SAMBA (Upper_Abyssal_Transport_Anomalies.txt) has two main variables which are (TIME,), named 'upper-cell volume transport anomaly' which suggests a quantity TRANSPORT_ANOMALY (N_LEVELS, TIME), where we would then have again a DEPTH_BOUND (N_LEVELS, 2).
+
+But the other SAMBA product (MOC_TotalAnomaly_and_constituents.asc) also has a "Total MOC anomaly" (MOC), a "Relative (density gradient) contribution" which is like MOVE's internal or RAPID's interior.  There is a "Reference (bottom pressure gradient) contribution" which is like MOVE's offset or RAPID's compensation.  An Ekman (all have this--will need an attribute with the source of the wind fields used), and also a separate **"Western density contribution"** and **"Eastern density contribution"** which are not available in the RAPID project, and are not the same idea as the OSNAP west and OSNAP east, but could suggest an (N_PROF=2, TIME) for west and east.
+
+FW2015
+~~~~~~
+
+This is a different beast but similar to RAPID in that it has components which represent transport for different segments of the array (like Gulf Stream, Ekman and upper-mid-ocean) where these sum to produce MOC.  This is *vaguely* like OSNAP east and OSNAP west, except I don't think those sum to produce the total overturning.  And Ekman could be part of a layer transport but here is has no depth reference.  Gulf Stream has longitude bounds and a single latitude (LATITUDE, LONGITUDE_BOUND) and limits over which the depths are represented (DEPTH_BOUND?) but no N_LEVELS.  It doesn't quite make sense to call the dimension N_PROF since these aren't profiles.  Maybe **N_COMPONENT**?
+
+MOCHA
+~~~~~
+
+The heat transports at RAPID-MOCHA are provided with N_LEVELS, TIME, and variables:
+- Q_eddy
+- Q_ek
+- Q_fc
+- Q_gyre
+- Q_int.
+Again, we have a situation where N_PROF isn't really appropriate.  &**N_COMPONENT**?  WE should double check that things called **N_COMPONENT** then somehow sum to produce a total?  Then we would have something like MHT_COMPONENT (N_COMPONENT, TIME) and MHT (TIME)
+
+But we also have things like:
+- T_basin (TIME, N_LEVELS)
+- T_basin_mean (N_LEVELS)
+- T_fc_fwt (TIME)
+- V_basin (TIME, N_LEVELS) --> is this identical to new RAPID velo sxn?
+- V_basin_mean (N_LEVELS)
+- V_fc (TIME, N_LEVELS)
+So this might be suggested as a TEMPERATURE (TIME, N_LEVELS) but unclear how to indicate that this is a zonal mean temperature as compared to the ones which are TEMPERATURE (N_PROF, TIME, N_LEVELS) for the full sections.
+
 2. File Format
 --------------
 
