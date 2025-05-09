@@ -31,6 +31,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :maxdepth: 3
    :caption: Common format
 
+   format_orig.rst
    format_AC1
 
 .. toctree::
