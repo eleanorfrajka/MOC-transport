@@ -17,18 +17,20 @@ This guide will help you set up your local development environment, understand t
 
 ## Table of Contents
 
-1. [Quickstart: First Contribution](#1-quickstart-first-contribution)
-2. [Project Overview](#2-project-overview)
-3. [Project Structure](#3-project-structure)
-4. [Setting Up Development Environment](#4-setting-up-development-environment)
-5. [Development Workflow](#5-development-workflow)
-6. [Ignoring Local Files: ](#6-ignoring-local-files-gitignore-vs-gitinfoexclude)[`.gitignore`](#6-ignoring-local-files-gitignore-vs-gitinfoexclude)[ vs ](#6-ignoring-local-files-gitignore-vs-gitinfoexclude)[`.git/info/exclude`](#6-ignoring-local-files-gitignore-vs-gitinfoexclude)
-7. [Commit Message Style Guide](#7-commit-message-style-guide)
-8. [Logging and Debugging](#8-logging-and-debugging)
-9. [Troubleshooting](#9-troubleshooting)
-10. [Further Resources](#10-further-resources)
+1. {ref}`Quickstart <quickstart>`
+2. {ref}`Project Overview <project-overview>`
+3. {ref}`Project Structure <project-structure>`
+4. {ref}`Setting Up Development Environment <dev-env>`
+5. {ref}`Development Workflow <dev-workflow>`
+6. {ref}`.gitignore vs .git/info/exclude <gitignore>`
+7. {ref}`Commit Message Style Guide <commits>`
+8. {ref}`Logging and Debugging <logging>`
+9. {ref}`Troubleshooting <troubleshooting>`
+10. {ref}`Further Resources <resources>`
 
 ---
+
+(quickstart)=
 
 ## 1. Quickstart: First Contribution
 
@@ -62,6 +64,8 @@ pre-commit run --all-files
 
 ---
 
+(project-overview)=
+
 ## 2. Project Overview
 
 `amocarray` is a Python package to process and analyse data from AMOC observing arrays.\
@@ -74,6 +78,8 @@ It is designed to support researchers and data users by providing tools to read,
 - High code quality and reproducibility
 
 ---
+
+(project-structure)=
 
 ## 3. Project Structure
 
@@ -125,6 +131,9 @@ amocarray/
 - `writers.py`: Data writing utilities.
 
 ---
+
+
+(dev-env)=
 
 ## 4. Setting Up Development Environment
 
@@ -181,6 +190,8 @@ make html
 
 ---
 
+(dev-workflow)=
+
 ## 5. Development Workflow
 
 ### Branching Model
@@ -205,6 +216,9 @@ git merge upstream/main
 ```
 
 ---
+
+
+(gitignore)=
 
 ## 6. Ignoring Local Files: `.gitignore` vs `.git/info/exclude`
 
@@ -245,6 +259,7 @@ You can edit `.git/info/exclude` manually at any time.
 - Use `.git/info/exclude` for personal, local excludes — no risk of accidentally committing changes to shared ignore patterns!
 
 ---
+(commits)=
 
 ## 7. Commit Message Style Guide
 
@@ -294,6 +309,8 @@ cleanup remove deprecated functions from tools.py
 When in doubt, keep your commits small and focused!
 
 ---
+
+(logging)=
 
 ## 8. Logging and Debugging
 
@@ -370,6 +387,8 @@ As `amocarray` expands, logs will play an increasing role in transparency and re
 
 ---
 
+(troubleshooting)=
+
 ## 9. Troubleshooting
 
 ### Pre-commit not running?
@@ -389,6 +408,8 @@ As `amocarray` expands, logs will play an increasing role in transparency and re
 > Fix all reported issues (linting, formatting, etc.) then try committing again.
 
 ---
+
+(resources)=
 
 ## 10. Further Resources
 
