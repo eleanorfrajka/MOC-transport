@@ -13,7 +13,7 @@ log = logger.log  # Use the global logger
 # Default list of RAPID data files
 RAPID_DEFAULT_SOURCE = "https://rapid.ac.uk/sites/default/files/rapid_data/"
 RAPID_TRANSPORT_FILES = ["moc_transports.nc"]
-RAPID_DEFAULT_FILES = ["moc_vertical.nc", "ts_gridded.nc", "moc_transports.nc"]
+RAPID_DEFAULT_FILES = ["moc_transports.nc", "moc_vertical.nc", "ts_gridded.nc", "2d_gridded.nc", "meridional_transports.nc"]
 
 # Inline metadata dictionary
 RAPID_METADATA = {
@@ -33,6 +33,9 @@ RAPID_FILE_METADATA = {
     },
     "ts_gridded.nc": {
         "data_product": "RAPID gridded temperature and salinity",
+    },
+    "2d_gridded.nc": {
+        "data_product": "RAPID 2D gridded temperature and salinity",
     },
 }
 # https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc
