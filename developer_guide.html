@@ -75,7 +75,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#ignoring-local-files-gitignore-vs-git-info-exclude">6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gitignore"><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#git-info-exclude"><code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#best-practice">Best Practice</a></li>
 </ul>
@@ -113,6 +113,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Common format</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1 – RST</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
@@ -165,21 +166,21 @@
 <section id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
-<li><p>Quickstart: First Contribution</p></li>
-<li><p>Project Overview</p></li>
-<li><p>Project Structure</p></li>
-<li><p>Setting Up Development Environment</p></li>
-<li><p>Development Workflow</p></li>
-<li><p>Ignoring Local Files: .gitignore vs .git/info/exclude</p></li>
-<li><p>Commit Message Style Guide</p></li>
-<li><p>Logging and Debugging</p></li>
-<li><p>Troubleshooting</p></li>
-<li><p>Further Resources</p></li>
+<li><p><a class="reference internal" href="#quickstart"><span class="std std-ref">Quickstart</span></a></p></li>
+<li><p><a class="reference internal" href="#project-overview"><span class="std std-ref">Project Overview</span></a></p></li>
+<li><p><a class="reference internal" href="#project-structure"><span class="std std-ref">Project Structure</span></a></p></li>
+<li><p><a class="reference internal" href="#dev-env"><span class="std std-ref">Setting Up Development Environment</span></a></p></li>
+<li><p><a class="reference internal" href="#dev-workflow"><span class="std std-ref">Development Workflow</span></a></p></li>
+<li><p><a class="reference internal" href="#gitignore"><span class="std std-ref">.gitignore vs .git/info/exclude</span></a></p></li>
+<li><p><a class="reference internal" href="#commits"><span class="std std-ref">Commit Message Style Guide</span></a></p></li>
+<li><p><a class="reference internal" href="#logging"><span class="std std-ref">Logging and Debugging</span></a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting"><span class="std std-ref">Troubleshooting</span></a></p></li>
+<li><p><a class="reference internal" href="#resources"><span class="std std-ref">Further Resources</span></a></p></li>
 </ol>
-</section>
 <hr class="docutils" />
+</section>
 <section id="quickstart-first-contribution">
-<h2>1. Quickstart: First Contribution<a class="headerlink" href="#quickstart-first-contribution" title="Link to this heading"></a></h2>
+<span id="quickstart"></span><h2>1. Quickstart: First Contribution<a class="headerlink" href="#quickstart-first-contribution" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>Fork the repository</p></li>
 <li><p>Clone the upstream repository:</p></li>
@@ -209,10 +210,10 @@ pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
 <li><p>Push to your fork</p></li>
 <li><p>Open a pull request 🚀</p></li>
 </ol>
-</section>
 <hr class="docutils" />
+</section>
 <section id="project-overview">
-<h2>2. Project Overview<a class="headerlink" href="#project-overview" title="Link to this heading"></a></h2>
+<span id="id1"></span><h2>2. Project Overview<a class="headerlink" href="#project-overview" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">amocarray</span></code> is a Python package to process and analyse data from AMOC observing arrays.<br />
 It is designed to support researchers and data users by providing tools to read, standardise, and work with multiple datasets.</p>
 <p><strong>Core goals:</strong></p>
@@ -221,10 +222,10 @@ It is designed to support researchers and data users by providing tools to read,
 <li><p>Easy integration of new data sources</p></li>
 <li><p>High code quality and reproducibility</p></li>
 </ul>
-</section>
 <hr class="docutils" />
+</section>
 <section id="project-structure">
-<h2>3. Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading"></a></h2>
+<span id="id2"></span><h2>3. Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>amocarray/
 ├──<span class="w"> </span>amocarray/<span class="w">               </span><span class="c1"># Core modules (readers, utilities, standardisation)</span>
 │<span class="w">   </span>├──<span class="w"> </span>readers.py<span class="w">           </span><span class="c1"># High-level interface for loading datasets</span>
@@ -274,11 +275,11 @@ It is designed to support researchers and data users by providing tools to read,
 <li><p><code class="docutils literal notranslate"><span class="pre">plotters.py</span></code>: Plotting utilities.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">writers.py</span></code>: Data writing utilities.</p></li>
 </ul>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="setting-up-development-environment">
-<h2>4. Setting Up Development Environment<a class="headerlink" href="#setting-up-development-environment" title="Link to this heading"></a></h2>
+<span id="dev-env"></span><h2>4. Setting Up Development Environment<a class="headerlink" href="#setting-up-development-environment" title="Link to this heading"></a></h2>
 <section id="step-1-clone-the-repository">
 <h3>Step 1: Clone the repository<a class="headerlink" href="#step-1-clone-the-repository" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AMOCcommunity/amocarray.git
@@ -325,11 +326,11 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 make<span class="w"> </span>html
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="development-workflow">
-<h2>5. Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading"></a></h2>
+<span id="dev-workflow"></span><h2>5. Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading"></a></h2>
 <section id="branching-model">
 <h3>Branching Model<a class="headerlink" href="#branching-model" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -353,14 +354,14 @@ git<span class="w"> </span>fetch<span class="w"> </span>upstream
 git<span class="w"> </span>merge<span class="w"> </span>upstream/main
 </pre></div>
 </div>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="ignoring-local-files-gitignore-vs-git-info-exclude">
-<h2>6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code><a class="headerlink" href="#ignoring-local-files-gitignore-vs-git-info-exclude" title="Link to this heading"></a></h2>
+<span id="gitignore"></span><h2>6. Ignoring Local Files: <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> vs <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code><a class="headerlink" href="#ignoring-local-files-gitignore-vs-git-info-exclude" title="Link to this heading"></a></h2>
 <p>When working with local files that should not be tracked by Git, you have two main options:</p>
-<section id="gitignore">
-<h3><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code><a class="headerlink" href="#gitignore" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code><a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Lives in the root of the repository.</p></li>
 <li><p>Changes are <strong>shared</strong> with all contributors.</p></li>
@@ -393,11 +394,11 @@ git<span class="w"> </span>merge<span class="w"> </span>upstream/main
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> for project-wide ignores.</p></li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code> for personal, local excludes — no risk of accidentally committing changes to shared ignore patterns!</p></li>
 </ul>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="commit-message-style-guide">
-<h2>7. Commit Message Style Guide<a class="headerlink" href="#commit-message-style-guide" title="Link to this heading"></a></h2>
+<span id="commits"></span><h2>7. Commit Message Style Guide<a class="headerlink" href="#commit-message-style-guide" title="Link to this heading"></a></h2>
 <p>We use clear, consistent commit messages to make our history readable and to support changelog automation in the future.</p>
 <section id="format">
 <h3>Format<a class="headerlink" href="#format" title="Link to this heading"></a></h3>
@@ -468,11 +469,11 @@ git<span class="w"> </span>merge<span class="w"> </span>upstream/main
 <li><p>✅ Helps reviewers quickly understand the purpose of commits</p></li>
 </ul>
 <p>When in doubt, keep your commits small and focused!</p>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="logging-and-debugging">
-<h2>8. Logging and Debugging<a class="headerlink" href="#logging-and-debugging" title="Link to this heading"></a></h2>
+<span id="logging"></span><h2>8. Logging and Debugging<a class="headerlink" href="#logging-and-debugging" title="Link to this heading"></a></h2>
 <p>With PR #25, structured logging has been introduced to <code class="docutils literal notranslate"><span class="pre">amocarray</span></code>.</p>
 <p>Logs track steps during data reading and, in the future, will also report changes during dataset standardisation.</p>
 <section id="how-logging-works">
@@ -537,11 +538,11 @@ git<span class="w"> </span>merge<span class="w"> </span>upstream/main
 <li><p>✅ Avoid excessive logging inside tight loops.</p></li>
 </ul>
 <p>As <code class="docutils literal notranslate"><span class="pre">amocarray</span></code> expands, logs will play an increasing role in transparency and reproducibility.</p>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="troubleshooting">
-<h2>9. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<span id="id4"></span><h2>9. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
 <section id="pre-commit-not-running">
 <h3>Pre-commit not running?<a class="headerlink" href="#pre-commit-not-running" title="Link to this heading"></a></h3>
 <blockquote>
@@ -572,11 +573,11 @@ git<span class="w"> </span>merge<span class="w"> </span>upstream/main
 <blockquote>
 <div><p>Fix all reported issues (linting, formatting, etc.) then try committing again.</p>
 </div></blockquote>
-</section>
-</section>
 <hr class="docutils" />
+</section>
+</section>
 <section id="further-resources">
-<h2>10. Further Resources<a class="headerlink" href="#further-resources" title="Link to this heading"></a></h2>
+<span id="resources"></span><h2>10. Further Resources<a class="headerlink" href="#further-resources" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://amoccommunity.github.io/amocarray/">amocarray User Documentation</a></p></li>
 <li><p><a class="reference external" href="https://github.com/OceanGlidersCommunity/ocean-gliders">OceanGliders Metadata Standards</a></p></li>
