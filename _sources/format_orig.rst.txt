@@ -41,7 +41,7 @@ Summary of RAPID files:
 
 - ``ts_gridded.nc``:
 
-  - ```pressure```: dimension `depth` (242,), units `dbar`, type float64
+  - ``pressure``: dimension `depth` (242,), units `dbar`, type float64
 
   - ``time``: dimension `time` (13779,), type datetime
 
@@ -79,36 +79,90 @@ Summary of RAPID files:
 
   - ``moc_mar_hc10``: (`time`,), units `Sv`, type float64, long name "overturning transport"
 
+- ``2d_gridded.nc``:
+
+  - ``time``: dimension `time` (689,), type datetime
+
+  - ``longitude``: dimension `longitude` (254,), type float64
+
+  - ``depth``: dimension `depth` (307,), type float64
+
+  - ``CT``: (`time`, `longitude`, `depth`), units `degC` ITS-90?
+
+  - ``SA``: same as CT, units g/kg.
+
+  - ``V_insitu``: (`time`, `longitude`, `depth`) Meridional velocity
+
+  - ``V_ekman``: Ekman velocity in m/s.
+
+  - ``V_net``: (`time`), net meridional velocity in m/s.
+
+- ``meridional_transports.nc``:
+
+  - ``time``: dimension `time` (689,), type datetime
+
+  - ``depth``: (307,)
+
+  - ``sigma0``: (631, ) potential density with reference pressure = 0
+
+  - ``amoc_depth``: (`time`,), maximum of streamfunction evaluated in depth coordinates.  Units Sv.
+
+  - ``amoc_sigma``: (`time`,), maximum of streamfunction evaluated in sigma coordinates.  Units Sv.
+
+  - ``heat_trans``: (`time`,) meridional (northward) heat transport, units PW.
+
+  - ``frwa_trans``: (`time`,) meridional freshwater transport, units Sv.
+
+  - ``press``: (depth,) pressure in dbar
+
+  - ``stream_depth``: (`time`, `depth`)` streamfunction evaluated in depth space. Units Sv.
+
+  - ``stream_sigma``: (`time`, `sigma0`) streamfunction evaluated in density space. Units Sv.
+
 
 Potential reformats:
 --------------------
 
 
-- **Key Products**:
+**Key Products**:
 
+- **Overturning:**
   - ``MOC``: time series (dimension: ``TIME``)
 
-  - ``TEMPERATURE``, ``SALINITY``: gridded profiles (``TIME``, ``N_PROF``, ``N_LEVELS``), and specifying what version of temperature/salinity.
+  - ``STREAMFUNCTION``: (``DEPTH``, ``TIME``) - this is the vertical profile of MOC (originally ``stream_function_mar`` in ``moc_vertical.nc``, note that this extends deeper than the depth grid in ``ts_gridded.nc`` due to the incorporation of an AABW profile).
 
-  - ``TEMPERATURE_FLAG``, ``SALINITY_FLAG``: (``TIME``, ``N_PROF``, ``N_LEVELS``),  With the attribute describing what the values mean
+- **Profiles:** ``TEMPERATURE``, ``SALINITY``, vertically gridded at mooring locations.
 
-  - ?? ``TRANSPORT_LAYER``: e.g. `t_therm10`, `t_aiw10`... layered transports.  These are single time series, but there are several which could be bundled with an ``N_LEVELS`` dimension.
+  - Dimensions: ``TIME``, ``N_PROF``, ``N_LEVELS`` (242,1)
 
-  - ?? ``TRANSPORT_COMPONENT``: e.g. `t_gs10`, `t_ek10`, `t_umo10`... these are also single time series, but could be bundled with an ``N_COMPONENT`` dimension.
+  - Coordinates: ``LATITUDE``, ``LONGITUDE`` (``N_PROF``=5,) - these would be the locations of the profiles, which are current in the "long name" for each of the ``TG_west``, ``TG_east``, ``TG_wb3``, ``TG_MARWEST``, ``TG_mareast``.  etc. ``TIME`` in datetime.  And ``PRESSURE`` (``N_LEVELS``,) - this is the depth grid in ``ts_gridded.nc``.
 
-- **Suggested Dimensions**:
+  - Variables: ``TEMPERATURE``, ``SALINITY``, ``TEMPERATURE_FLAG``, ``SALINITY_FLAG`` (``TIME``, ``N_PROF``, ``N_LEVELS``).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. "1=good, 2=bad, etc").
 
-  - ``TRANSPORT``: (``N_LEVELS``, ``TIME``)
+- **Gridded sections:** ``TEMPERATURE``, ``SALINITY``, ``VELOCITY``
 
-  - ``LATITUDE``: (``N_PROF``,) Corresponding to the locations in the long name of e.g. `TG_west` or `SG_wb3`
+  - Dimensions: ``TIME``, ``N_PROF``, ``N_LEVELS`` (13000, longitude grid, 242?)
 
-  - ``LONGITUDE``: (``N_PROF``,) Corresponding to the locations in the long name of e.g. `TG_west` or `SG_wb3`
+  - Coordinates: ``LATITUDE``, ``LONGITUDE`` (``N_PROF``=longitude grid,), ``TIME`` in datetime.  And ``PRESSURE`` (``N_LEVELS``,)
 
-  - ``PRESSURE``: (``N_LEVELS``,)
+  - Variables: ``TEMPERATURE``, ``SALINITY``, ``VELOCITY`` (``TIME``, ``N_PROF``, ``N_LEVELS``).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. "1=good, 2=bad, etc").
 
-  - ``DEPTH_BOUND``: (``N_LEVELS``, 2) - This ``N_LEVELS`` would not be the same as the ``N_LEVELS`` in the temperature/salinity profiles, but would be the depth bounds for the transport layers.
+- **Layer transports:**
 
-  - ``TRANSPORT_NAME``: (``N_LEVELS``, string)
+  - Dimensions: ``TIME``, ``N_LEVELS`` (13779, 5)
+
+  - Coordinates: ``LATITUDE``, ``LONGITUDE_BOUNDS`` (scalar, x2), ``TIME`` in datetime.  And ``DEPTH_BOUND`` (``N_LEVELS``, 2) - this would be the depth bounds for the transport layers.
+
+  - Variables: ``TRANSPORT`` (``TIME``, ``N_LEVELS``) - this would be the time series of transport in layers.  This would also have ``DEPTH_BOUND`` (``N_LEVELS``, 2) to give an upper and lower bound on the depths used to produce transport in layers.  It would also need something like ``TRANSPORT_NAME`` (``N_LEVELS``, string) to indicate what the layer is (e.g. `t_therm10`, `t_aiw10`, etc).
+
+- **Component transports:**
+
+  - Dimensions: ``TIME``, ``N_COMPONENT`` (13779, 5)
+
+  - Coordinates: ``LATITUDE``, ``LONGITUDE_BOUNDS`` (scalar, x2), ``TIME`` in datetime.  ``N_COMPONENT`` for the number of components.
+
+  - Variables: ``TRANSPORT`` (``TIME``, ``N_COMPONENT``) -  This would also have ``TRANSPORT_NAME`` (``N_COMPONENT``, string) to indicate what the component is (e.g. `t_gs10`, `t_ek10`, etc).  This would be similar to the layer transport but without the depth bounds.
+
 
 .. _array-osnap:
 
@@ -126,26 +180,73 @@ Heat fluxes also exist, as MHT_ALL, MHT_EAST and MHT_WEST, so these could be MHT
 Summary of OSNAP files:
 -----------------------
 
+- ``OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc``
 
+  - ``TIME``: dimension ``TIME`` (71,), type datetime
+
+  - ``MOC_ALL``: dimension ``TIME``, units `Sv`, long_name = "Total MOC", QC_indicatoris = "good data", processing_level = "data manually reviewed", comment = "maximum of the overturning streamfunction in sigma_theta coordinates", description = "Maximum overturning streamfunction across full OSNAP array", standard_name = "Transport_anomaly"
+
+  - ``MOC_ALL_ERR``: dimension ``TIME``, units `Sv`, long_name = "MOC uncertainty", comment = "Determined from a Monte Carlo analysis".  description ="Uncertainty in MOC_ALL", standard_name = "Transport_anomaly"
+
+  - ``MOC_EAST``: dimension ``TIME``, units `Sv`, long_name = "MOC east", QC_indicatoris = "good data", processing_level = "data manually reviewed", comment = "maximum of the overturning streamfunction in sigma_theta coordinates", description = "Overturning streamfunction at OSNAP East", standard_name = "Transport_anomaly"
+
+  - ``MHT_ALL``: dimension ``TIME``, units `PW`, long_name = "Heat transport", QC_indicatoris = "good data", processing_level = "data manually reviewed", description = "Meridional heat transport across full OSNAP array", standard_name = "Heat_transport"
+
+  - ``MFT_ALL``: dimension ``TIME``, units `Sv`, long_name = "Freshwater transport", QC_indicatoris = "good data", processing_level = "data manually reviewed", description = "Meridional freshwater transport across full OSNAP array", standard_name = "Freshwater_transport"
+
+- ``OSNAP_Streamfunction_201408_202006_2023.nc`` (71, sigma=481)
+
+  - ``TIME``: dimension ``TIME`` (71,), type datetime.  standard_name = "time", long_name = "Start date of each monthly period", axis = "T", processing_level = "data manually reviewed", units = "days since 1950-01-01", units = "dates since 1950-01-01", comment = "Start date of each month"
+
+  - ``LEVEL``: dimension ``LEVEL``  (481,), float64, ranging from 23.3 to 28.1. standard_name = "potential_density", long_name = "Sigma-theta levels", units = "kg m-3", processing_level = "data manually reviewed", description = "Potential density surfaces (\sigma\theta)"
+
+  - ``T_ALL``: dimension (``LEVEL``, ``TIME``), units `Sv`, long_name = "Streamfunction total", QC_indicatoris = "good data", processing_level = "data manually reviewed", comment = "Streamfunction in sigma_theta coordinates", description = "Streamfunction in \sigma\theta coordinates across full OSNAP", standard_name = "Transport"
+
+  - ``T_EAST``: dimension (``LEVEL``, ``TIME``), units `Sv`, long_name = "Streamfunction east", QC_indicatoris = "good data", processing_level = "data manually reviewed", comment = "Streamfunction in sigma_theta coordinates", description = "Streamfunction in \sigma\theta at OSNAP East", standard_name = "Transport"
+
+  - ``T_WEST``: dimension (``LEVEL``, ``TIME``), units `Sv`, long_name = "Streamfunction west", QC_indicatoris = "good data", processing_level = "data manually reviewed", comment = "Streamfunction in sigma_theta coordinates", description = "Streamfunction in \sigma\theta at OSNAP West", standard_name = "Transport"
+
+- ``OSNAP_Gridded_201408_202006_2023.nc``  (71, depth=199, 256)
+
+  - ``TIME``: dimension ``TIME`` (71,), type datetime.  standard_name = "time", long_name = "Start date of each monthly period", axis = "T", processing_level = "data manually reviewed", units = "days since 1950-01-01", units = "dates since 1950-01-01", comment = "Start date of each month"
+
+  - ``LATITUDE``: dimension ``LATITUDE`` (256,), type float32, standard_name = "latitude", long_name = "Latitude", units = "degrees_north", axis = "Y", description = "Latitude in degrees"
+
+  - ``LONGITUDE``: dimension ``LONGITUDE`` (256,), type float32, standard_name = "longitude", long_name = "Longitude", units = "degrees_east", axis = "X", description = "Longitude in degrees"
+
+  - ``DEPTH``: dimension ``DEPTH`` (199,), type float32, ranging from 15 to 3975, standard_name = "depth", long_name = "Depth", units = "m", positive = "down", axis = "Z", description = "Depth in meters"
+
+  - ``VELO``: dimension (``TIME``, ``DEPTH``, ``LONGITUDE``), float32, standard_name = "sea_water_velocity", long_name = "Velocity", units = "m s-1", QC_indicator = "good data", processing_level = "Data manually reviewed", description = "Cross-sectional velocity along OSNAP"
+
+  - ``TEMP``: dimension (``TIME``, ``DEPTH``, ``LONGITUDE``), float32, standard_name = "sea_water_temperature", long_name = "Temperature", units = "degC", QC_indicator = "good data", processing_level = "Data manually reviewed", description = "In-situ temperature along OSNAP"
+
+  - ``SAL``: dimension (``TIME``, ``DEPTH``, ``LONGITUDE``), float32, standard_name = "sea_water_practical_salinity", long_name = "Salinity", units = "psu", QC_indicator = "good data", processing_level = "Data manually reviewed", description = "Practical salinity along OSNAP"
 
 Potential reformats:
 --------------------
 
-- **Key Products**:
+- **Overturning:**
+  - ``MOC`` and ``MOC_ERR``: time series (dimension: ``TIME``, ``N_LOCATION``=3) where ``N_LOCATION``=3 (e.g. MOC_ALL, MOC_EAST, MOC_WEST)
 
-  - ``MOC_ALL``, ``MOC_EAST``, ``MOC_WEST``: time series (``TIME``)
+  - ``STREAMFUNCTION``: (``N_LEVELS``, ``TIME``, ``N_PROF``=3) - This would be from ``OSNAP_Streamfunction_201408_202006_2023.nc``and is the overturning streamfunction in sigma-theta coordinates.
 
-  - Error estimates: ``MOC_ALL_ERR``
+  - ``MHT`` and ``MHT_ERR``: same dimensions as ``MOC``
 
-  - Heat flux: ``MHT_ALL``, ``MHT_EAST``, ``MHT_WEST``
+  - ``MFT`` and ``MFT_ERR``: same dimensions as ``MOC``
 
-- **Suggested Reformats**:
+  - ``LATITUDE_BOUND``: (``N_LOCATION``, 3) - this would be the latitude bounds for the west, east and full.
 
-  - Collapse to: ``MOC`` (``N_PROF``, ``TIME``) where ``N_PROF``=3
+  - ``LONGITUDE_BOUND``: (``N_LOCATION``, 3) - this would be the longitude bounds for the west, east and full.
 
-  - ``LATITUDE_BOUND``: (``N_PROF``, 2) may be needed
 
-  - ``MOC_ERR`` (``N_PROF``, ``TIME``)
+- **Gridded sections:** ``TEMPERATURE``, ``SALINITY``, ``VELOCITY``
+
+  - Dimensions: ``TIME``, ``N_PROF``, ``N_LEVELS`` (71, depth=199, longitude=256)
+
+  - Coordinates: ``LATITUDE``, ``LONGITUDE`` (``N_PROF``=longitude grid,), ``TIME`` in datetime.  And ``DEPTH`` (``N_LEVELS``,)
+
+  - Variables: ``TEMPERATURE``, ``SALINITY``, ``VELOCITY`` (``TIME``, ``N_PROF``, ``N_LEVELS``).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. "1=good, 2=bad, etc").
+
 
 .. _array-move:
 
@@ -158,23 +259,33 @@ MOVE provides the TRANSPORT_TOTAL which corresponds to the MOC, but also things 
 Summary of MOVE files:
 ----------------------
 
-- **Key Products**:
+- ``OS_MOVE_TRANSPORTS.nc``: time coverage 2000-01-01 to 2018-06-30
 
-  - ``TRANSPORT_TOTAL``: equivalent to MOC (``TIME``,)
+  - ``TIME``: dimension ``TIME`` (6756,), type datetime
 
-  - Component breakdown:
+  - ``TRANSPORT_TOTAL``: dimension ``TIME``, units `Sverdrup`, valid_min -100.0, valid_max 100.0.  long_name = "Total ocean volume transport across the MOVE line between Guadeloupe and Researcher Ridge in the depth layer defined by pressures 1200 to 4950 dbar", "standard_name" = "ocean_volume_transport_across_line".
 
-    - ``transport_component_internal``
+  - ``transport_component_internal``: dimension ``TIME``, units `Sverdrup`, valid_min -100.0, valid_max 100.0.  long_name = "Internal component of ocean volume transport across the MOVE line".
 
-    - ``transport_component_internal_offset``
+  - ``transport_component_internal_offset``: dimension ``TIME``, units `Sverdrup`, valid_min -100.0, valid_max 100.0.  long_name = "Offset to be added to internal component of ocean volume transport across the MOVE line".
 
-    - ``transport_component_boundary``
+  - ``transport_component_boundary``: dimension ``TIME``, units `Sverdrup`, valid_min -100.0, valid_max 100.0.  long_name = "Boundary component of ocean volume transport across the MOVE line".
 
 - **Notes**: Similar in structure to RAPID layer decomposition but naming is inconsistent between RAPID and MOVE.
 
-
 Potential reformats:
 --------------------
+
+- **Overturning:**
+  - ``MOC``: time series (dimension: ``TIME``)
+
+- **Component transports:**
+
+  - Dimensions: ``TIME``, ``N_COMPONENT`` (13779, 3)
+
+  - Coordinates: ``LATITUDE``, ``LONGITUDE_BOUNDS`` (scalar, x2), ``TIME`` in datetime.  ``N_COMPONENT`` for the number of components.
+
+  - Variables: ``TRANSPORT`` (``TIME``, ``N_COMPONENT``) -  This would also have ``TRANSPORT_NAME`` (``N_COMPONENT``, string) to indicate what the component is (e.g. `transport_component_internal`, `transport_component_internal_offset`, `transport_component_boundary`, etc).
 
 
 .. _array-samba:
@@ -186,37 +297,60 @@ SAMBA (Upper_Abyssal_Transport_Anomalies.txt) has two main variables which are (
 
 But the other SAMBA product (MOC_TotalAnomaly_and_constituents.asc) also has a "Total MOC anomaly" (``MOC``), a "Relative (density gradient) contribution" which is like MOVE's internal or RAPID's interior.  There is a "Reference (bottom pressure gradient) contribution" which is like MOVE's offset or RAPID's compensation.  An Ekman (all have this--will need an attribute with the source of the wind fields used), and also a separate **"Western density contribution"** and **"Eastern density contribution"** which are not available in the RAPID project, and are not the same idea as the OSNAP west and OSNAP east, but could suggest an (``N_PROF``=2, ``TIME``) for west and east.
 
-Summary of MOVE files:
-----------------------
+Summary of SAMBA files:
+-----------------------
+
+- ``Upper_Abyssal_Transport_Anomalies.txt`` (``TIME``=1404)
+
+  - ``TIME``: dimension ``TIME`` (1404,), type datetime
+
+  - ``UPPER_TRANSPORT``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)", standard_name = "Transport_anomaly"
+
+  - ``ABYSSAL_TRANSPORT``:  dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)", standard_name = "Transport_anomaly"
 
 
+- ``MOC_TotalAnomaly_and_constituents.asc`` (``TIME``=2964)
+
+  - ``TIME``: dimension ``TIME`` (2964,), type datetime
+
+  - ``MOC``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="MOC Total Anomaly (relative to record-length average of 14.7 Sv)", standard_name = "Transport_anomaly"
+
+  - ``RELATIVE_MOC``: dimension ``TIME``, units `Sv`, long_name = "Relative (density gradient) contribution", description ="Relative (density gradient) contribution to MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``BAROTROPIC_MOC``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly",  description ="Reference (bottom pressure gradient) contribution to MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``EKMAN``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description = "Ekman (wind) contribution to the MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``WESTERN_DENSITY``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Western density contribution to the MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``EASTERN_DENSITY``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Eastern density contribution to the MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``WESTERN_BOT_PRESSURE``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Western bottom pressure contribution to the MOC anomaly", standard_name = "Transport_anomaly"
+
+  - ``EASTERN_BOT_PRESSURE``: dimension ``TIME``, units `Sv`, long_name = "Transport_anomaly", description ="Eastern bottom pressure contribution to the MOC anomaly", standard_name = "Transport_anomaly"
 
 Potential reformats:
 --------------------
 
-- **Files**:
+- **Overturning:**
 
-  - `Upper_Abyssal_Transport_Anomalies.txt`
+  - ``MOC``: time series (dimension: ``TIME``)
 
-    - ``TRANSPORT_ANOMALY`` (``N_LEVELS``, ``TIME``)`
+**Note:** Check the readme to see what the relationship is between the upper, abyssal and MOC transports.
 
-    - ``DEPTH_BOUND`` (``N_LEVELS``, 2)
 
-  - `MOC_TotalAnomaly_and_constituents.asc`
+- **Component transports:**
 
-    - ``MOC``, ``Relative...``, ``Reference...``, ``Ekman...``, ``Western...``, ``Eastern...``
+  - Dimensions: ``TIME``, ``N_COMPONENT`` (1404, 7)
 
-- **Suggested Dimensions**:
+  - Coordinates: ``LATITUDE``, ``LONGITUDE_BOUNDS`` (scalar, x2), ``TIME`` in datetime.  ``N_COMPONENT`` for the number of components.
 
-  - ``MOC_COMPONENT`` (``N_PROF``=2, ``TIME``) for East/West
+  - Variables: ``TRANSPORT`` (``TIME``, ``N_COMPONENT``) -  This would also have ``TRANSPORT_NAME`` (``N_COMPONENT``, string) to indicate what the component is (e.g. `RELATIVE_MOC`, `BAROTROPIC_MOC`, `EKMAN`, `WESTERN_DENSITY`, etc).
 
-  - Include metadata for Ekman wind source
+**Note:** It would be good to verify how these components should (or shouldn't) add up to the total transports.
+
 
 .. _array-fw2015:
-
-
-
-
 
 FW2015
 ~~~~~~
@@ -227,19 +361,33 @@ This is a different beast but similar to RAPID in that it has components which r
 Summary of FW2015 files:
 ------------------------
 
+- ``MOCproxy_for_figshare_v1.mat``
+
+  - ``TIME``: dimension ``TIME`` (264,), type datetime
+
+  - ``MOC_PROXY``: dimension ``TIME``, units `Sv`
+
+  - ``EK``: dimension ``TIME``, units `Sv`
+
+  - ``GS``: dimension ``TIME``, units `Sv`
+
+  - ``UMO_PROXY``: dimension ``TIME``, units `Sv`
 
 Potential reformats:
 --------------------
 
-- **Overview**: Like RAPID but decomposed into components such as Gulf Stream, Ekman, and Upper Mid-Ocean
+- **Overturning:**
 
-- **Dimensions**:
+  - ``MOC``: time series (dimension: ``TIME``)
 
-  - Possibly ``N_COMPONENT`` instead of ``N_PROF``
+- **Component transports:**
 
-  - ``LATITUDE``, ``LONGITUDE_BOUND``, and ``DEPTH_BOUND`` may be relevant
+  - Dimensions: ``TIME``, ``N_COMPONENT`` (1404, 7)
 
-- **Note**: Components sum to MOC unlike OSNAP_EAST/WEST
+  - Coordinates: ``LATITUDE``, ``LONGITUDE_BOUNDS`` (scalar, x2), ``TIME`` in datetime.  ``N_COMPONENT`` for the number of components.
+
+  - Variables: ``TRANSPORT`` (``TIME``, ``N_COMPONENT``) -  This would also have ``TRANSPORT_NAME`` (``N_COMPONENT``, string) to indicate what the component is (e.g. `EK`, `GS`, `LNADW`, `MOC`, `MOC_PROXY`, `UMO_GRID`, `UMO_PROXY`, `UNADW_GRID`, etc).  Note that some of these were just copies of what the RAPID time series was at the time.
+
 
 
 

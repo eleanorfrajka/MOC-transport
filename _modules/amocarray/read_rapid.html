@@ -57,7 +57,7 @@
 <p class="caption" role="heading"><span class="caption-text">Common format</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../format_orig.html">Array Format (Native / Original)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../format_AC1.html">AMOCarray Format AC1 – RST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../format_AC1.html">AMOCarray Format AC1</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
@@ -109,7 +109,13 @@
 <span class="c1"># Default list of RAPID data files</span>
 <span class="n">RAPID_DEFAULT_SOURCE</span> <span class="o">=</span> <span class="s2">&quot;https://rapid.ac.uk/sites/default/files/rapid_data/&quot;</span>
 <span class="n">RAPID_TRANSPORT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">]</span>
-<span class="n">RAPID_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;moc_vertical.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;ts_gridded.nc&quot;</span><span class="p">,</span> <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">]</span>
+<span class="n">RAPID_DEFAULT_FILES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;moc_transports.nc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;moc_vertical.nc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ts_gridded.nc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2d_gridded.nc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meridional_transports.nc&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="c1"># Inline metadata dictionary</span>
 <span class="n">RAPID_METADATA</span> <span class="o">=</span> <span class="p">{</span>
@@ -129,6 +135,9 @@
     <span class="p">},</span>
     <span class="s2">&quot;ts_gridded.nc&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;data_product&quot;</span><span class="p">:</span> <span class="s2">&quot;RAPID gridded temperature and salinity&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;2d_gridded.nc&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;data_product&quot;</span><span class="p">:</span> <span class="s2">&quot;RAPID 2D gridded temperature and salinity&quot;</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">}</span>
 <span class="c1"># https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc</span>
