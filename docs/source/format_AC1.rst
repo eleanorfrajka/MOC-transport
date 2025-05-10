@@ -1,5 +1,5 @@
-AMOCarray Format AC1 – RST
-=================================
+AMOCarray Format AC1
+====================
 
 This document defines the AC1 standard data format produced by the ``amocarray.convert.to_AC1()`` function.
 The AC1 format provides a unified, interoperable structure for mooring array datasets such as MOVE, RAPID, OSNAP, and SAMBA.
