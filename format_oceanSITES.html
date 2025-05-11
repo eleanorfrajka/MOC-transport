@@ -20,7 +20,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Converting to OceanSITES format" href="format_conversion.html" />
+    <link rel="prev" title="Array Format (Native / Original)" href="format_orig.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -62,8 +64,33 @@
 <li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Data format</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OceanSITES Format for AMOC Arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#file-naming">File naming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oceansites-gridded-and-derived-data">OceanSITES: Gridded and derived data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-naming-for-array-data-products">File naming for array data products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-types">Feature Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#global-metadata">Global Metadata</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discovery-and-identification">1. Discovery and Identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geo-spatial-temporal-metadata">2. Geo-spatial-temporal Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conventions">3. Conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#publication-information">4. Publication Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#provenance">5. Provenance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#dimension-and-definition">Dimension and definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coordinates">Coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#geophysical-variables">Geophysical variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flags-and-qc">Flags and QC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#amoc-array-data">AMOC array data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
 </ul>
@@ -960,7 +987,10 @@ make sense for the data product in question.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="format_orig.html" class="btn btn-neutral float-left" title="Array Format (Native / Original)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="format_conversion.html" class="btn btn-neutral float-right" title="Converting to OceanSITES format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
