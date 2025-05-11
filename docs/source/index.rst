@@ -32,6 +32,11 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :caption: Common format
 
    format_orig.rst
+   format_oceanSITES.rst
+   AC1_standard_names.rst
+   AC1_reference_vocabularies.rst
+   AC1_variables.rst
+   udunits_summary.rst
    format_AC1
 
 .. toctree::

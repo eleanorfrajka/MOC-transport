@@ -3,6 +3,8 @@ Array Format (Native / Original)
 
 This document describes some of the native data formats present in AMOC datasets provided by different observing arrays.
 
+In the logic of `amocarray`, we will first convert to an OceanSITES compatible format.  Documentation is outlined in the :doc:`OceanSITES format <format_oceanSITES>`.
+
 **Note:** This is a work in progress and not all arrays are fully described.  The goal is to provide a summary of the data formats and how they could be transformed into a common format.  The common format is not yet defined but will ideally be able to capture most if not all of the original data.
 
 
@@ -27,6 +29,10 @@ More recently, they have started providing a section of temperature, saliity and
 
 RAPID also provides layer transports which are single time series with names like t_therm10, t_aiw10, t_ud10, t_ld10, etc, which are between specified depth ranges.  These could be simply: ``TRANSPORT`` (``N_LEVELS``, ``TIME``) with ``DEPTH_BOUND`` (``N_LEVELS``, 2) to give an upper and lower bound on the depths used to produce transport in layers?  It would also need something like ``TRANSPORT_NAME`` (``N_LEVELS``) of type string.
 
+Check CF conventions for standard names: https://github.com/cf-convention/vocabularies/issues.  Note that **standard names** consist of lower-letters, digits and underscores, and begin with a letter. Upper case is not used.  See [here](https://cfconventions.org/Data/cf-standard-names/docs/guidelines.html).
+
+
+
 
 Summary of RAPID files:
 -----------------------
@@ -37,7 +43,10 @@ Summary of RAPID files:
 
   - ``time``: dimension ``time`` (13779,), type datetime
 
-  - ``stream_function_mar``: (```depth``, ``time``), units `Sv`, type float64
+  - ``stream_function_mar``: (``depth``, ``time``), units `Sv`, type float64
+
+  - **Convert to OceanSITES:** Here, we should change the dimension to all-caps ``DEPTH`` and ``TIME``.  Units on the streamfunction should be `sverdrup` to de-confliict with `Sv` for sievert. According to OceanSITES, the order of the variables should be  T, Z, Y, X, so the streamfunction should be (``TIME``, ``DEPTH``).  The filename should be something like ``OS_RAPID_YYYYMMDD-YYYYMMDD_DPR_moc_vertical.nc``. Here, we are using the ``OS`` prefix, ``RAPID`` as the PlatformCode, the date start and end for the DeploymentCode, and the data mode is ``DPR`` for derived product.  The additional text after is the original filename, ``moc_vertical.nc``.
+
 
 - ``ts_gridded.nc``:
 
@@ -56,6 +65,8 @@ Summary of RAPID files:
   - ``TG_east``: long name "Temperature east 26.99N/16.23W"
 
   - ``TG_west_flag``: (depth, time) with long name "Temperature west data FLAG" and units "data flag"
+
+- **Convert to OceanSITES:** Dimensions should be ``TIME`` and ``DEPTH``, where the coordinate name can be ``PRES`` for ``pressure``.  The featureType global attribute can be ``timeSeriesProfile``.
 
 - ``moc_transports.nc``:
 
