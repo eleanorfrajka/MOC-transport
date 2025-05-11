@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="AMOCarray Format AC1" href="format_AC1.html" />
-    <link rel="prev" title="Project Housekeeping Checklist" href="housekeeping.html" /> 
+    <link rel="next" title="Converting to OceanSITES format" href="format_conversion.html" />
+    <link rel="prev" title="Variable Names" href="AC1_variables.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,41 +57,47 @@
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Array Format (Native / Original)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#rapid">RAPID</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-rapid-files">Summary of RAPID files:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#osnap-original-data-format">OSNAP Original Data Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#osnap-moc-mht-mft-timeseries-201408-202006-2023-nc">OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#osnap-streamfunction-201408-202006-2023-nc">OSNAP_Streamfunction_201408_202006_2023.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#osnap-gridded-201408-202006-2023-nc">OSNAP_Gridded_201408_202006_2023.nc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rapid-original-data-format">RAPID Original Data Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#moc-vertical-nc">moc_vertical.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ts-gridded-nc">ts_gridded.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moc-transports-nc">moc_transports.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#d-gridded-nc">2d_gridded.nc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#meridional-transports-nc">meridional_transports.nc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#move-original-data-format">MOVE Original Data Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#os-move-transports-nc">OS_MOVE_TRANSPORTS.nc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#samba-original-data-format">SAMBA Original Data Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#upper-abyssal-transport-anomalies-txt">Upper_Abyssal_Transport_Anomalies.txt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moc-totalanomaly-and-constituents-asc">MOC_TotalAnomaly_and_constituents.asc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fw2015">FW2015</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mocha">MOCHA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary-of-mocha-files">Summary of MOCHA files:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#potential-reformats">Potential reformats:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#osnap">OSNAP</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-osnap-files">Summary of OSNAP files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Potential reformats:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#move">MOVE</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-move-files">Summary of MOVE files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">Potential reformats:</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#samba">SAMBA</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-samba-files">Summary of SAMBA files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">Potential reformats:</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#fw2015">FW2015</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-fw2015-files">Summary of FW2015 files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">Potential reformats:</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#mocha">MOCHA</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#summary-of-mocha-files">Summary of MOCHA files:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">Potential reformats:</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
@@ -131,292 +137,965 @@
   <section id="array-format-native-original">
 <h1>Array Format (Native / Original)<a class="headerlink" href="#array-format-native-original" title="Link to this heading"></a></h1>
 <p>This document describes some of the native data formats present in AMOC datasets provided by different observing arrays.</p>
+<p>In the logic of <cite>amocarray</cite>, we will first convert to an OceanSITES compatible format.  Documentation is outlined in the <a class="reference internal" href="format_oceanSITES.html"><span class="doc">OceanSITES format</span></a>.</p>
 <p><strong>Note:</strong> This is a work in progress and not all arrays are fully described.  The goal is to provide a summary of the data formats and how they could be transformed into a common format.  The common format is not yet defined but will ideally be able to capture most if not all of the original data.</p>
 <p><strong>Table of Contents</strong></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#array-rapid"><span class="std std-ref">RAPID</span></a></p></li>
-<li><p><a class="reference internal" href="#array-osnap"><span class="std std-ref">OSNAP</span></a></p></li>
-<li><p><a class="reference internal" href="#array-move"><span class="std std-ref">MOVE</span></a></p></li>
-<li><p><a class="reference internal" href="#array-samba"><span class="std std-ref">SAMBA</span></a></p></li>
+<li><p><a class="reference internal" href="format_orig_rapid.html#array-rapid"><span class="std std-ref">RAPID</span></a></p></li>
+<li><p><a class="reference internal" href="format_orig_osnap.html#array-osnap"><span class="std std-ref">OSNAP</span></a></p></li>
+<li><p><span class="xref std std-ref">MOVE</span></p></li>
+<li><p><a class="reference internal" href="format_orig_samba.html#array-samba"><span class="std std-ref">SAMBA</span></a></p></li>
 <li><p><a class="reference internal" href="#array-fw2015"><span class="std std-ref">FW2015</span></a></p></li>
 <li><p><a class="reference internal" href="#array-mocha"><span class="std std-ref">MOCHA</span></a></p></li>
 </ul>
-<section id="rapid">
-<span id="array-rapid"></span><h2>RAPID<a class="headerlink" href="#rapid" title="Link to this heading"></a></h2>
-<p>For example, at 26°N, the RAPID array produces an AMOC transport time series (volume transport in depth space) which is a 1-dimensional time series with a single registered latitude (26.5) and no registered longitude.  It also provides profiles of temperature, salinity and dynamic height representing individual locations (single latitude, single nominal longitude) on a vertical grid of 20 dbar.  Several locations are provided, with names like WB, MAR_WEST, MAR_EAST, EB.  So there are N_PROF locations, with N_LEVELS and also TIME as dimensions. And the LATITUDE would be <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code> (a small number, like 4, representing mooring locations)</p>
-<p>More recently, they have started providing a section of temperature, saliity and velocity which are then N_PROF, TIME and N_LEVELS, but now the <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code> (and both <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> and <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>) would be on a regular grid–or at least with more locations (longer N_PROF), though it’s possible LATITUDE would be a single latitude (26.5).</p>
-<p>RAPID also provides layer transports which are single time series with names like t_therm10, t_aiw10, t_ud10, t_ld10, etc, which are between specified depth ranges.  These could be simply: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) with <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) to give an upper and lower bound on the depths used to produce transport in layers?  It would also need something like <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) of type string.</p>
-<section id="summary-of-rapid-files">
-<h3>Summary of RAPID files:<a class="headerlink" href="#summary-of-rapid-files" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">moc_vertical.nc</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">depth</span></code> (307,), units <cite>m</cite>, type float64</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">time</span></code> (13779,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">stream_function_mar</span></code>: (<code class="docutils literal notranslate"><span class="pre">`depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code>), units <cite>Sv</cite>, type float64</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">pressure</span></code>: dimension <cite>depth</cite> (242,), units <cite>dbar</cite>, type float64</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: dimension <cite>time</cite> (13779,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TG_west</span></code>: (<cite>depth</cite>, <cite>time</cite>), units <cite>degC</cite>, type float64, long name “Temperature west 26.52N/76.74W”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SG_wb3`</span></code>: (<cite>depth</cite>, <cite>time</cite>), units <cite>psu</cite>, type float64, long name “Salinity WB3 26.50N/76.6W”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TG_marwest`</span></code>: long name “Temperature MAR west 24.52N/50.57W”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TG_mareast</span></code>: long name “Temperature MAR east 24.52N/41.21W`</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TG_east</span></code>: long name “Temperature east 26.99N/16.23W”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TG_west_flag</span></code>: (depth, time) with long name “Temperature west data FLAG” and units “data flag”</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">moc_transports.nc</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: dimension <cite>time</cite> (13779,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_therm10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “thermocline recirculation 0-800m”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_aiw10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “intermediate water 800-1100m”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_ud10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “upper NADW 1100-3000m”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_ld10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “lower NADW 3000-5000m”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_bw10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “AABW &gt;5000m”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_gs10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “Florida Straits transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_ek10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “Ekman transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">t_umo10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “upper Mid-Ocean transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">moc_mar_hc10</span></code>: (<cite>time</cite>,), units <cite>Sv</cite>, type float64, long name “overturning transport”</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">2d_gridded.nc</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: dimension <cite>time</cite> (689,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code>: dimension <cite>longitude</cite> (254,), type float64</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>: dimension <cite>depth</cite> (307,), type float64</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">CT</span></code>: (<cite>time</cite>, <cite>longitude</cite>, <cite>depth</cite>), units <cite>degC</cite> ITS-90?</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SA</span></code>: same as CT, units g/kg.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">V_insitu</span></code>: (<cite>time</cite>, <cite>longitude</cite>, <cite>depth</cite>) Meridional velocity</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">V_ekman</span></code>: Ekman velocity in m/s.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">V_net</span></code>: (<cite>time</cite>), net meridional velocity in m/s.</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">meridional_transports.nc</span></code>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: dimension <cite>time</cite> (689,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>: (307,)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">sigma0</span></code>: (631, ) potential density with reference pressure = 0</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">amoc_depth</span></code>: (<cite>time</cite>,), maximum of streamfunction evaluated in depth coordinates.  Units Sv.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">amoc_sigma</span></code>: (<cite>time</cite>,), maximum of streamfunction evaluated in sigma coordinates.  Units Sv.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">heat_trans</span></code>: (<cite>time</cite>,) meridional (northward) heat transport, units PW.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">frwa_trans</span></code>: (<cite>time</cite>,) meridional freshwater transport, units Sv.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">press</span></code>: (depth,) pressure in dbar</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">stream_depth</span></code>: (<cite>time</cite>, <cite>depth</cite>)` streamfunction evaluated in depth space. Units Sv.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">stream_sigma</span></code>: (<cite>time</cite>, <cite>sigma0</cite>) streamfunction evaluated in density space. Units Sv.</p></li>
-</ul>
-</li>
-</ul>
-</section>
-<section id="potential-reformats">
-<h3>Potential reformats:<a class="headerlink" href="#potential-reformats" title="Link to this heading"></a></h3>
-<p><strong>Key Products</strong>:</p>
-<ul class="simple">
-<li><p><strong>Overturning:</strong>
-- <code class="docutils literal notranslate"><span class="pre">MOC</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">STREAMFUNCTION</span></code>: (<code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) - this is the vertical profile of MOC (originally <code class="docutils literal notranslate"><span class="pre">stream_function_mar</span></code> in <code class="docutils literal notranslate"><span class="pre">moc_vertical.nc</span></code>, note that this extends deeper than the depth grid in <code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code> due to the incorporation of an AABW profile).</p></li>
-</ul>
-</li>
-<li><p><strong>Profiles:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, vertically gridded at mooring locations.</p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (242,1)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=5,)</span> <span class="pre">-</span> <span class="pre">these</span> <span class="pre">would</span> <span class="pre">be</span> <span class="pre">the</span> <span class="pre">locations</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">profiles,</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">current</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">&quot;long</span> <span class="pre">name&quot;</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">``TG_west</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_east</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_wb3</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_MARWEST</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_mareast</span></code>.  etc. <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,) - this is the depth grid in <code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code>.</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">TEMPERATURE_FLAG</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY_FLAG</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
-</ul>
-</li>
-<li><p><strong>Gridded sections:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (13000, longitude grid, 242?)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=longitude</span> <span class="pre">grid,),</span> <span class="pre">``TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,)</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
-</ul>
-</li>
-<li><p><strong>Layer transports:</strong></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (13779, 5)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) - this would be the depth bounds for the transport layers.</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) - this would be the time series of transport in layers.  This would also have <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) to give an upper and lower bound on the depths used to produce transport in layers.  It would also need something like <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, string) to indicate what the layer is (e.g. <cite>t_therm10</cite>, <cite>t_aiw10</cite>, etc).</p></li>
-</ul>
-</li>
-<li><p><strong>Component transports:</strong></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> (13779, 5)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> for the number of components.</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>) -  This would also have <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>, string) to indicate what the component is (e.g. <cite>t_gs10</cite>, <cite>t_ek10</cite>, etc).  This would be similar to the layer transport but without the depth bounds.</p></li>
-</ul>
-</li>
-</ul>
-</section>
-</section>
-<section id="osnap">
-<span id="array-osnap"></span><h2>OSNAP<a class="headerlink" href="#osnap" title="Link to this heading"></a></h2>
+<section id="osnap-original-data-format">
+<span id="array-osnap"></span><h2>OSNAP Original Data Format<a class="headerlink" href="#osnap-original-data-format" title="Link to this heading"></a></h2>
+<p>The OSNAP array provides multiple observational data products including time series of overturning and heat/freshwater transport, streamfunctions in density space, and gridded fields of velocity, temperature, and salinity.</p>
 <p>At OSNAP, we have variables like MOC_ALL, MOC_EAST and MOC_WEST which are time series (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>), but these could be represented as MOC (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) where instead of the three different variables, N_PROF=3.  This would be somewhat more difficult to communicate to the user, since LATITUDE and LONGITUDE are not single points per N_PROF but instead may represent end points of a section.</p>
 <p>Variables MOC_ALL_ERR are also provided, which could be translated to MOC_ERR (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) with LATITUDE (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>) or LATITUDE_BOUND (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, 2).</p>
 <p>Heat fluxes also exist, as MHT_ALL, MHT_EAST and MHT_WEST, so these could be MHT (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>).</p>
-<section id="summary-of-osnap-files">
-<h3>Summary of OSNAP files:<a class="headerlink" href="#summary-of-osnap-files" title="Link to this heading"></a></h3>
+<section id="osnap-moc-mht-mft-timeseries-201408-202006-2023-nc">
+<h3>OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc<a class="headerlink" href="#osnap-moc-mht-mft-timeseries-201408-202006-2023-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: <cite>Start date</cite> of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Total MOC</p></li>
+<li><p><strong>description</strong>: Maximum overturning streamfunction across full OSNAP array</p></li>
+<li><p><strong>comment</strong>: Maximum of the overturning streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL_ERR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: MOC uncertainty</p></li>
+<li><p><strong>description</strong>: Uncertainty in MOC_ALL</p></li>
+<li><p><strong>comment</strong>: Determined from a Monte Carlo analysis</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_EAST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: MOC east</p></li>
+<li><p><strong>description</strong>: Overturning streamfunction at OSNAP East</p></li>
+<li><p><strong>comment</strong>: Maximum of the overturning streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MHT_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>PW</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Heat_transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Heat transport</p></li>
+<li><p><strong>description</strong>: Meridional heat transport across full OSNAP array</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MFT_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Freshwater_transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Freshwater transport</p></li>
+<li><p><strong>description</strong>: Meridional freshwater transport across full OSNAP array</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osnap-streamfunction-201408-202006-2023-nc">
+<h3>OSNAP_Streamfunction_201408_202006_2023.nc<a class="headerlink" href="#osnap-streamfunction-201408-202006-2023-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: Start date of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></td>
+<td><p>(481,)</p></td>
+<td><p>kg m-3</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">potential_density</span></code></p></li>
+<li><p><strong>long_name</strong>: Sigma-theta levels</p></li>
+<li><p><strong>description</strong>: Potential density surfaces (sigmatheta)</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction total</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta coordinates across full OSNAP</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">T_EAST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction east</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta at OSNAP East</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_WEST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction west</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta at OSNAP West</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osnap-gridded-201408-202006-2023-nc">
+<h3>OSNAP_Gridded_201408_202006_2023.nc<a class="headerlink" href="#osnap-gridded-201408-202006-2023-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: Start date of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></p></td>
+<td><p>(256,)</p></td>
+<td><p>degrees_north</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">latitude</span></code></p></li>
+<li><p><strong>long_name</strong>: Latitude</p></li>
+<li><p><strong>description</strong>: Latitude in degrees</p></li>
+<li><p><strong>axis</strong>: Y</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(256,)</p></td>
+<td><p>degrees_east</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></li>
+<li><p><strong>long_name</strong>: Longitude</p></li>
+<li><p><strong>description</strong>: Longitude in degrees</p></li>
+<li><p><strong>axis</strong>: X</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
+<td><p>(199,)</p></td>
+<td><p>m</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></li>
+<li><p><strong>long_name</strong>: Depth</p></li>
+<li><p><strong>description</strong>: Depth in meters</p></li>
+<li><p><strong>positive</strong>: down</p></li>
+<li><p><strong>axis</strong>: Z</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VELO</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>m s-1</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_velocity</span></code></p></li>
+<li><p><strong>long_name</strong>: Velocity</p></li>
+<li><p><strong>description</strong>: Cross-sectional velocity along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TEMP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>degC</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_temperature</span></code></p></li>
+<li><p><strong>long_name</strong>: Temperature</p></li>
+<li><p><strong>description</strong>: In-situ temperature along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>psu</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_practical_salinity</span></code></p></li>
+<li><p><strong>long_name</strong>: Salinity</p></li>
+<li><p><strong>description</strong>: Practical salinity along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="rapid-original-data-format">
+<span id="array-rapid"></span><h2>RAPID Original Data Format<a class="headerlink" href="#rapid-original-data-format" title="Link to this heading"></a></h2>
+<p>The RAPID array at 26°N produces a range of observational and derived products:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc</span></code></p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (71,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Total MOC”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, comment = “maximum of the overturning streamfunction in sigma_theta coordinates”, description = “Maximum overturning streamfunction across full OSNAP array”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL_ERR</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “MOC uncertainty”, comment = “Determined from a Monte Carlo analysis”.  description =”Uncertainty in MOC_ALL”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC_EAST</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “MOC east”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, comment = “maximum of the overturning streamfunction in sigma_theta coordinates”, description = “Overturning streamfunction at OSNAP East”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MHT_ALL</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>PW</cite>, long_name = “Heat transport”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, description = “Meridional heat transport across full OSNAP array”, standard_name = “Heat_transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MFT_ALL</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Freshwater transport”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, description = “Meridional freshwater transport across full OSNAP array”, standard_name = “Freshwater_transport”</p></li>
+<li><p>1D time series of AMOC transport</p></li>
+<li><p>Time series profiles of temperature, salinity, and velocity at specific locations (moorings)</p></li>
+<li><p>Gridded sections of hydrographic and velocity fields</p></li>
+<li><p>Layer transport estimates based on defined vertical boundaries</p></li>
+<li><p>Streamfunction evaluations in depth or density space</p></li>
 </ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">OSNAP_Streamfunction_201408_202006_2023.nc</span></code> (71, sigma=481)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (71,), type datetime.  standard_name = “time”, long_name = “Start date of each monthly period”, axis = “T”, processing_level = “data manually reviewed”, units = “days since 1950-01-01”, units = “dates since 1950-01-01”, comment = “Start date of each month”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>  (481,), float64, ranging from 23.3 to 28.1. standard_name = “potential_density”, long_name = “Sigma-theta levels”, units = “kg m-3”, processing_level = “data manually reviewed”, description = “Potential density surfaces (sigmatheta)”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">T_ALL</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>), units <cite>Sv</cite>, long_name = “Streamfunction total”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, comment = “Streamfunction in sigma_theta coordinates”, description = “Streamfunction in sigmatheta coordinates across full OSNAP”, standard_name = “Transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">T_EAST</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>), units <cite>Sv</cite>, long_name = “Streamfunction east”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, comment = “Streamfunction in sigma_theta coordinates”, description = “Streamfunction in sigmatheta at OSNAP East”, standard_name = “Transport”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">T_WEST</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>), units <cite>Sv</cite>, long_name = “Streamfunction west”, QC_indicatoris = “good data”, processing_level = “data manually reviewed”, comment = “Streamfunction in sigma_theta coordinates”, description = “Streamfunction in sigmatheta at OSNAP West”, standard_name = “Transport”</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">OSNAP_Gridded_201408_202006_2023.nc</span></code>  (71, depth=199, 256)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (71,), type datetime.  standard_name = “time”, long_name = “Start date of each monthly period”, axis = “T”, processing_level = “data manually reviewed”, units = “days since 1950-01-01”, units = “dates since 1950-01-01”, comment = “Start date of each month”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code> (256,), type float32, standard_name = “latitude”, long_name = “Latitude”, units = “degrees_north”, axis = “Y”, description = “Latitude in degrees”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (256,), type float32, standard_name = “longitude”, long_name = “Longitude”, units = “degrees_east”, axis = “X”, description = “Longitude in degrees”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> (199,), type float32, ranging from 15 to 3975, standard_name = “depth”, long_name = “Depth”, units = “m”, positive = “down”, axis = “Z”, description = “Depth in meters”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">VELO</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code>), float32, standard_name = “sea_water_velocity”, long_name = “Velocity”, units = “m s-1”, QC_indicator = “good data”, processing_level = “Data manually reviewed”, description = “Cross-sectional velocity along OSNAP”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TEMP</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code>), float32, standard_name = “sea_water_temperature”, long_name = “Temperature”, units = “degC”, QC_indicator = “good data”, processing_level = “Data manually reviewed”, description = “In-situ temperature along OSNAP”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">SAL</span></code>: dimension (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code>), float32, standard_name = “sea_water_practical_salinity”, long_name = “Salinity”, units = “psu”, QC_indicator = “good data”, processing_level = “Data manually reviewed”, description = “Practical salinity along OSNAP”</p></li>
-</ul>
-</li>
-</ul>
+<section id="moc-vertical-nc">
+<h3>moc_vertical.nc<a class="headerlink" href="#moc-vertical-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Vertical coordinate in meters</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stream_function_mar</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(307, 13779)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction at 26°N</p></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="id1">
-<h3>Potential reformats:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Overturning:</strong>
-- <code class="docutils literal notranslate"><span class="pre">MOC</span></code> and <code class="docutils literal notranslate"><span class="pre">MOC_ERR</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <a href="#id2"><span class="problematic" id="id3">``</span></a>N_LOCATION``=3) where <a href="#id4"><span class="problematic" id="id5">``</span></a>N_LOCATION``=3 (e.g. MOC_ALL, MOC_EAST, MOC_WEST)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">STREAMFUNCTION</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <a href="#id6"><span class="problematic" id="id7">``</span></a>N_PROF``=3) - This would be from <a href="#id8"><span class="problematic" id="id9">``</span></a>OSNAP_Streamfunction_201408_202006_2023.nc``and is the overturning streamfunction in sigma-theta coordinates.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MHT</span></code> and <code class="docutils literal notranslate"><span class="pre">MHT_ERR</span></code>: same dimensions as <code class="docutils literal notranslate"><span class="pre">MOC</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MFT</span></code> and <code class="docutils literal notranslate"><span class="pre">MFT_ERR</span></code>: same dimensions as <code class="docutils literal notranslate"><span class="pre">MOC</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LATITUDE_BOUND</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LOCATION</span></code>, 3) - this would be the latitude bounds for the west, east and full.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUND</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LOCATION</span></code>, 3) - this would be the longitude bounds for the west, east and full.</p></li>
-</ul>
-</li>
-<li><p><strong>Gridded sections:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (71, depth=199, longitude=256)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=longitude</span> <span class="pre">grid,),</span> <span class="pre">``TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,)</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
-</ul>
-</li>
-</ul>
+<section id="ts-gridded-nc">
+<h3>ts_gridded.nc<a class="headerlink" href="#ts-gridded-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pressure</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(242,)</p></td>
+<td><p>dbar</p></td>
+<td><p>Pressure coordinate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_west</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature west 26.52N/76.74W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SG_wb3</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>psu</p></td>
+<td><p>Salinity WB3 26.50N/76.6W</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_marwest</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature MAR west 24.52N/50.57W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TG_mareast</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature MAR east 24.52N/41.21W</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_east</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature east 26.99N/16.23W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TG_west_flag</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>1</p></td>
+<td><p>Data quality flag for <code class="docutils literal notranslate"><span class="pre">TG_west</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="moc-transports-nc">
+<h3>moc_transports.nc<a class="headerlink" href="#moc-transports-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_therm10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Thermocline recirculation 0–800 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_aiw10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Intermediate water 800–1100 m</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_ud10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Upper NADW 1100–3000 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_ld10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Lower NADW 3000–5000 m</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_bw10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>AABW &gt;5000 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_gs10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Florida Straits transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_ek10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Ekman transport</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_umo10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Upper Mid-Ocean transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">moc_mar_hc10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning transport MOC index</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="d-gridded-nc">
+<h3>2d_gridded.nc<a class="headerlink" href="#d-gridded-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time (10-day intervals)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></td>
+<td><p>(254,)</p></td>
+<td><p>degrees_east</p></td>
+<td><p>Longitude coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Depth coordinate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>°C</p></td>
+<td><p>Conservative Temperature (ITS-90)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SA</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>g/kg</p></td>
+<td><p>Absolute Salinity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">V_insitu</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>m/s</p></td>
+<td><p>Meridional velocity</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">V_ekman</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>m/s</p></td>
+<td><p>Ekman velocity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">V_net</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>m/s</p></td>
+<td><p>Depth-integrated meridional velocity</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="meridional-transports-nc">
+<h3>meridional_transports.nc<a class="headerlink" href="#meridional-transports-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time (10-day intervals)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Depth coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p>(489,)</p></td>
+<td><p>kg/m³ – 1000</p></td>
+<td><p>Potential density anomaly (σ₀)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">amoc_depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Maximum overturning from depth-streamfunction</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">amoc_sigma</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Maximum overturning from density-streamfunction</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">heat_trans</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>PW</p></td>
+<td><p>Northward heat transport</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">frwa_trans</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Northward freshwater transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">press</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>dbar</p></td>
+<td><p>Pressure coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stream_depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 307)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction in depth space</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stream_sigma</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p>(689, 489?)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction in density space</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
-<section id="move">
-<span id="array-move"></span><h2>MOVE<a class="headerlink" href="#move" title="Link to this heading"></a></h2>
+<section id="move-original-data-format">
+<h2>MOVE Original Data Format<a class="headerlink" href="#move-original-data-format" title="Link to this heading"></a></h2>
 <p>MOVE provides the TRANSPORT_TOTAL which corresponds to the MOC, but also things like transport_component_internal (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>,), transport_component_internal_offset (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>,), and transport_component_boundary (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>,).  This would be similar to RAPID’s version of “interior transport” and “western boundary wedge”, but it’s not so clear how to make these similarly named.</p>
-<section id="summary-of-move-files">
-<h3>Summary of MOVE files:<a class="headerlink" href="#summary-of-move-files" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">OS_MOVE_TRANSPORTS.nc</span></code>: time coverage 2000-01-01 to 2018-06-30</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (6756,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TRANSPORT_TOTAL</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sverdrup</cite>, valid_min -100.0, valid_max 100.0.  long_name = “Total ocean volume transport across the MOVE line between Guadeloupe and Researcher Ridge in the depth layer defined by pressures 1200 to 4950 dbar”, “standard_name” = “ocean_volume_transport_across_line”.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">transport_component_internal</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sverdrup</cite>, valid_min -100.0, valid_max 100.0.  long_name = “Internal component of ocean volume transport across the MOVE line”.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">transport_component_internal_offset</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sverdrup</cite>, valid_min -100.0, valid_max 100.0.  long_name = “Offset to be added to internal component of ocean volume transport across the MOVE line”.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">transport_component_boundary</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sverdrup</cite>, valid_min -100.0, valid_max 100.0.  long_name = “Boundary component of ocean volume transport across the MOVE line”.</p></li>
+<section id="os-move-transports-nc">
+<h3>OS_MOVE_TRANSPORTS.nc<a class="headerlink" href="#os-move-transports-nc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id9" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(6756,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>type</strong>: datetime</p></li>
+<li><p><strong>time coverage</strong>: 2000-01-01 to 2018-06-30</p></li>
 </ul>
-</li>
-<li><p><strong>Notes</strong>: Similar in structure to RAPID layer decomposition but naming is inconsistent between RAPID and MOVE.</p></li>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TRANSPORT_TOTAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(6756,)</p></td>
+<td><p>Sverdrup</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">ocean_volume_transport_across_line</span></code></p></li>
+<li><p><strong>long_name</strong>: Total ocean volume transport across the MOVE line between Guadeloupe and Researcher Ridge in the depth layer defined by pressures 1200 to 4950 dbar</p></li>
+<li><p><strong>valid_min</strong>: -100.0</p></li>
+<li><p><strong>valid_max</strong>: 100.0</p></li>
 </ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transport_component_internal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(6756,)</p></td>
+<td><p>Sverdrup</p></td>
+<td><ul class="simple">
+<li><p><strong>long_name</strong>: Internal component of ocean volume transport across the MOVE line</p></li>
+<li><p><strong>valid_min</strong>: -100.0</p></li>
+<li><p><strong>valid_max</strong>: 100.0</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">transport_component_internal_offset</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(6756,)</p></td>
+<td><p>Sverdrup</p></td>
+<td><ul class="simple">
+<li><p><strong>long_name</strong>: Offset to be added to internal component of ocean volume transport across the MOVE line</p></li>
+<li><p><strong>valid_min</strong>: -100.0</p></li>
+<li><p><strong>valid_max</strong>: 100.0</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transport_component_boundary</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(6756,)</p></td>
+<td><p>Sverdrup</p></td>
+<td><ul class="simple">
+<li><p><strong>long_name</strong>: Boundary component of ocean volume transport across the MOVE line</p></li>
+<li><p><strong>valid_min</strong>: -100.0</p></li>
+<li><p><strong>valid_max</strong>: 100.0</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="id10">
-<h3>Potential reformats:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Overturning:</strong>
-- <code class="docutils literal notranslate"><span class="pre">MOC</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>)</p></li>
-<li><p><strong>Component transports:</strong></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> (13779, 3)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> for the number of components.</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>) -  This would also have <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>, string) to indicate what the component is (e.g. <cite>transport_component_internal</cite>, <cite>transport_component_internal_offset</cite>, <cite>transport_component_boundary</cite>, etc).</p></li>
-</ul>
-</li>
-</ul>
 </section>
+<section id="samba-original-data-format">
+<span id="array-samba"></span><h2>SAMBA Original Data Format<a class="headerlink" href="#samba-original-data-format" title="Link to this heading"></a></h2>
+<p>Note that the longer datasets (e.g., MOC_TotalAnomaly_and_constituents.asc) is from Meinen et al. (2018) and the shorter dataset (e.g., Upper_Abyssal_Transport_Anomalies.txt) is from Kersalé et al. (2020).</p>
+<section id="upper-abyssal-transport-anomalies-txt">
+<h3>Upper_Abyssal_Transport_Anomalies.txt<a class="headerlink" href="#upper-abyssal-transport-anomalies-txt" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text">Variables in Upper_Abyssal_Transport_Anomalies.txt</span><a class="headerlink" href="#id10" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(1404,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>type</strong>: datetime</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UPPER_TRANSPORT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(1404,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ABYSSAL_TRANSPORT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(1404,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="samba">
-<span id="array-samba"></span><h2>SAMBA<a class="headerlink" href="#samba" title="Link to this heading"></a></h2>
-<p>SAMBA (Upper_Abyssal_Transport_Anomalies.txt) has two main variables which are (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>,), named ‘upper-cell volume transport anomaly’ which suggests a quantity TRANSPORT_ANOMALY (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>), where we would then have again a DEPTH_BOUND (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2).</p>
-<p>But the other SAMBA product (MOC_TotalAnomaly_and_constituents.asc) also has a “Total MOC anomaly” (<code class="docutils literal notranslate"><span class="pre">MOC</span></code>), a “Relative (density gradient) contribution” which is like MOVE’s internal or RAPID’s interior.  There is a “Reference (bottom pressure gradient) contribution” which is like MOVE’s offset or RAPID’s compensation.  An Ekman (all have this–will need an attribute with the source of the wind fields used), and also a separate <strong>“Western density contribution”</strong> and <strong>“Eastern density contribution”</strong> which are not available in the RAPID project, and are not the same idea as the OSNAP west and OSNAP east, but could suggest an (<code class="docutils literal notranslate"><span class="pre">N_PROF``=2,</span> <span class="pre">``TIME</span></code>) for west and east.</p>
-<section id="summary-of-samba-files">
-<h3>Summary of SAMBA files:<a class="headerlink" href="#summary-of-samba-files" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Upper_Abyssal_Transport_Anomalies.txt</span></code> (<a href="#id11"><span class="problematic" id="id12">``</span></a>TIME``=1404)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (1404,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UPPER_TRANSPORT</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Upper-cell volume transport anomaly (relative to record-length average of 17.3 Sv)”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ABYSSAL_TRANSPORT</span></code>:  dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Abyssal-cell volume transport anomaly (relative to record-length average of 7.8 Sv)”, standard_name = “Transport_anomaly”</p></li>
+<section id="moc-totalanomaly-and-constituents-asc">
+<h3>MOC_TotalAnomaly_and_constituents.asc<a class="headerlink" href="#moc-totalanomaly-and-constituents-asc" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id11">
+<caption><span class="caption-text">Variables in MOC_TotalAnomaly_and_constituents.asc</span><a class="headerlink" href="#id11" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>type</strong>: datetime</p></li>
 </ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC_TotalAnomaly_and_constituents.asc</span></code> (<a href="#id13"><span class="problematic" id="id14">``</span></a>TIME``=2964)</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (2964,), type datetime</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”MOC Total Anomaly (relative to record-length average of 14.7 Sv)”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RELATIVE_MOC</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Relative (density gradient) contribution”, description =”Relative (density gradient) contribution to MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">BAROTROPIC_MOC</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”,  description =”Reference (bottom pressure gradient) contribution to MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EKMAN</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description = “Ekman (wind) contribution to the MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">WESTERN_DENSITY</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Western density contribution to the MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EASTERN_DENSITY</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Eastern density contribution to the MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">WESTERN_BOT_PRESSURE</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Western bottom pressure contribution to the MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EASTERN_BOT_PRESSURE</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite>, long_name = “Transport_anomaly”, description =”Eastern bottom pressure contribution to the MOC anomaly”, standard_name = “Transport_anomaly”</p></li>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MOC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: MOC Total Anomaly (relative to record-length average of 14.7 Sv)</p></li>
 </ul>
-</li>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RELATIVE_MOC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Relative (density gradient) contribution</p></li>
+<li><p><strong>description</strong>: Relative (density gradient) contribution to MOC anomaly</p></li>
 </ul>
-</section>
-<section id="id15">
-<h3>Potential reformats:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><strong>Overturning:</strong></p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">MOC</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>)</p></li>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BAROTROPIC_MOC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Reference (bottom pressure gradient) contribution to MOC anomaly</p></li>
 </ul>
-</li>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EKMAN</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Ekman (wind) contribution to the MOC anomaly</p></li>
 </ul>
-<p><strong>Note:</strong> Check the readme to see what the relationship is between the upper, abyssal and MOC transports.</p>
-<ul class="simple">
-<li><p><strong>Component transports:</strong></p>
-<ul>
-<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> (1404, 7)</p></li>
-<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> for the number of components.</p></li>
-<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>) -  This would also have <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>, string) to indicate what the component is (e.g. <cite>RELATIVE_MOC</cite>, <cite>BAROTROPIC_MOC</cite>, <cite>EKMAN</cite>, <cite>WESTERN_DENSITY</cite>, etc).</p></li>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">WESTERN_DENSITY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Western density contribution to the MOC anomaly</p></li>
 </ul>
-</li>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EASTERN_DENSITY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Eastern density contribution to the MOC anomaly</p></li>
 </ul>
-<p><strong>Note:</strong> It would be good to verify how these components should (or shouldn’t) add up to the total transports.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">WESTERN_BOT_PRESSURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Western bottom pressure contribution to the MOC anomaly</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EASTERN_BOT_PRESSURE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(2964,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Transport anomaly</p></li>
+<li><p><strong>description</strong>: Eastern bottom pressure contribution to the MOC anomaly</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="fw2015">
 <span id="array-fw2015"></span><h2>FW2015<a class="headerlink" href="#fw2015" title="Link to this heading"></a></h2>
 <p>This is a different beast but similar to RAPID in that it has components which represent transport for different segments of the array (like Gulf Stream, Ekman and upper-mid-ocean) where these sum to produce MOC.  This is <em>vaguely</em> like OSNAP east and OSNAP west, except I don’t think those sum to produce the total overturning.  And Ekman could be part of a layer transport but here is has no depth reference.  Gulf Stream has longitude bounds and a single latitude (<code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUND</span></code>) and limits over which the depths are represented (<code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code>?) but no N_LEVELS.  It doesn’t quite make sense to call the dimension N_PROF since these aren’t profiles.  Maybe <strong>N_COMPONENT</strong>?</p>
-<section id="summary-of-fw2015-files">
-<h3>Summary of FW2015 files:<a class="headerlink" href="#summary-of-fw2015-files" title="Link to this heading"></a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">MOCproxy_for_figshare_v1.mat</span></code></p>
-<ul>
+<p>Summary of FW2015 files:
+~~~~~~~~~~~~~~~~~~~~~~~~~~`
+- <code class="docutils literal notranslate"><span class="pre">MOCproxy_for_figshare_v1.mat</span></code></p>
+<blockquote>
+<div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (264,), type datetime</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MOC_PROXY</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EK</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GS</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">UMO_PROXY</span></code>: dimension <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, units <cite>Sv</cite></p></li>
 </ul>
-</li>
-</ul>
-</section>
-<section id="id16">
-<h3>Potential reformats:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+</div></blockquote>
+<p>Potential reformats:
+~~~~~~~~~~~~~~~~~~~~~~~~~~`</p>
 <ul class="simple">
 <li><p><strong>Overturning:</strong></p>
 <ul>
@@ -431,7 +1110,6 @@
 </ul>
 </li>
 </ul>
-</section>
 </section>
 <section id="mocha">
 <span id="array-mocha"></span><h2>MOCHA<a class="headerlink" href="#mocha" title="Link to this heading"></a></h2>
@@ -456,8 +1134,8 @@
 <li><p>V_fc (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>)</p></li>
 </ul>
 </section>
-<section id="id17">
-<h3>Potential reformats:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="potential-reformats">
+<h3>Potential reformats:<a class="headerlink" href="#potential-reformats" title="Link to this heading"></a></h3>
 <p>So this might be suggested as a TEMPERATURE (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) but unclear how to indicate that this is a zonal mean temperature as compared to the ones which are TEMPERATURE (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) for the full sections.</p>
 <ul class="simple">
 <li><p><strong>Heat Transport Components</strong>:</p>
@@ -482,8 +1160,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="housekeeping.html" class="btn btn-neutral float-left" title="Project Housekeeping Checklist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="format_AC1.html" class="btn btn-neutral float-right" title="AMOCarray Format AC1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="AC1_variables.html" class="btn btn-neutral float-left" title="Variable Names" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="format_conversion.html" class="btn btn-neutral float-right" title="Converting to OceanSITES format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

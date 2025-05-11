@@ -1,0 +1,687 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controlled Vocabularies &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Units Reference: for AC1" href="AC1_units.html" />
+    <link rel="prev" title="Project Housekeeping Checklist" href="housekeeping.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Controlled Vocabularies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coordinates">Coordinates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#latitude">latitude</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#longitude">longitude</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#temperature">Temperature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-conservative-temperature-ct">sea_water_conservative_temperature (CT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-temperature-temp">sea_water_temperature (TEMP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-potential-temperature-potemp">sea_water_potential_temperature (POTEMP)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#salinity">Salinity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-absolute-salinity-sa">sea_water_absolute_salinity (SA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-practical-salinity-psal">sea_water_practical_salinity (PSAL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-salinity-salin">sea_water_salinity (SALIN)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pressure">Pressure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-pressure-pres">sea_water_pressure (PRES)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-pressure-at-sea-floor-botpres">sea_water_pressure_at_sea_floor (BOTPRES)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reference-pressure-refpres">reference_pressure (REFPRES)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#density">Density</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-sigma-theta-sigma">sea_water_sigma_theta (SIGMA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-potential-density">sea_water_potential_density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sea-water-neutral-density-gamma-n">sea_water_neutral_density (GAMMA_N)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ocean-sigma-coordinate">ocean_sigma_coordinate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ocean-sigma-z-coordinate">ocean_sigma_z_coordinate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#velocity">Velocity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#baroclinic-northward-sea-water-velocity-vvel-rel">baroclinic_northward_sea_water_velocity (VVEL_REL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#barotropic-northward-sea-water-velocity-vvel-baro">barotropic_northward_sea_water_velocity (VVEL_BARO)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transport">Transport</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ocean-volume-transport-across-line-transport">ocean_volume_transport_across_line (TRANSPORT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ocean-meridional-overturning-streamfunction-moc">ocean_meridional_overturning_streamfunction (MOC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ocean-meridional-overturning-mass-streamfunction">ocean_meridional_overturning_mass_streamfunction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#freshwater-transport">Freshwater Transport</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-freshwater-transport-fwt">northward_ocean_freshwater_transport (FWT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-freshwater-transport-due-to-overturning-fwt-ov">northward_ocean_freshwater_transport_due_to_overturning (FWT_OV)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-freshwater-transport-due-to-gyre-fwt-gyre">northward_ocean_freshwater_transport_due_to_gyre (FWT_GYRE)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#heat-transport">Heat Transport</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-heat-transport-mht">northward_ocean_heat_transport (MHT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-heat-transport-due-to-gyre-mht-gyre">northward_ocean_heat_transport_due_to_gyre (MHT_GYRE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#northward-ocean-heat-transport-due-to-overturning-mht-ov">northward_ocean_heat_transport_due_to_overturning (MHT_OV)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Controlled Vocabularies</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/AC1_vocabularies.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="controlled-vocabularies">
+<h1>Controlled Vocabularies<a class="headerlink" href="#controlled-vocabularies" title="Link to this heading"></a></h1>
+<p>This is an analysis of what vocabularies might be useful for the AC1 datasets.</p>
+<p>A primary reference vocabulary is the “Climate and Forecast (CF) Standard Names” vocabulary, which is a controlled vocabulary for climate and forecast data. The CF standard names are used to describe the physical variables in the datasets.  See [<a class="reference external" href="http://vocab.nerc.ac.uk/standard_name/](http://vocab.nerc.ac.uk/standard_name/">http://vocab.nerc.ac.uk/standard_name/](http://vocab.nerc.ac.uk/standard_name/</a>).</p>
+<p>We also have the SeaDataNet Parameter Discovery Vocabulary, which is a controlled vocabulary for oceanographic parameters. The SeaDataNet vocabulary is used to describe the parameters in the datasets. See [<a class="reference external" href="http://vocab.nerc.ac.uk/collection/P02/current/](http://vocab.nerc.ac.uk/collection/P02/current/">http://vocab.nerc.ac.uk/collection/P02/current/](http://vocab.nerc.ac.uk/collection/P02/current/</a>).</p>
+<section id="coordinates">
+<h2>Coordinates<a class="headerlink" href="#coordinates" title="Link to this heading"></a></h2>
+<section id="latitude">
+<h3>latitude<a class="headerlink" href="#latitude" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Geographic latitude, positive northward.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>latitude</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>degree_north</cite></p></li>
+<li><p><strong>Vocabulary</strong>: [Insert NERC P07 Concept ID here]</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: [Insert URI here]</p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Optional — insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>lat</cite></p></li>
+<li><p><strong>Notes</strong>:
+- Used for geographic coordinates in regular and curvilinear grids.
+- In rotated grids, use <cite>grid_latitude</cite> instead.</p></li>
+</ul>
+</section>
+<section id="longitude">
+<h3>longitude<a class="headerlink" href="#longitude" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Geographic longitude, positive eastward.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>longitude</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>degree_east</cite></p></li>
+<li><p><strong>Vocabulary</strong>: [Insert NERC P07 Concept ID here]</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: [Insert URI here]</p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Optional — insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>lon</cite></p></li>
+<li><p><strong>Notes</strong>:
+- Used for geographic coordinates in regular and curvilinear grids.
+- In rotated grids, use <cite>grid_longitude</cite> instead.</p></li>
+</ul>
+</section>
+</section>
+<section id="temperature">
+<h2>Temperature<a class="headerlink" href="#temperature" title="Link to this heading"></a></h2>
+<p><strong>SeaDataNet Parameter Discovery Vocabulary (P02):</strong></p>
+<ul class="simple">
+<li><p><strong>Code:</strong> TEMP — Temperature of the water column</p></li>
+<li><p><strong>URI:</strong> <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P02/current/TEMP/">https://vocab.nerc.ac.uk/collection/P02/current/TEMP/</a></p></li>
+<li><p><strong>Definition:</strong> Includes temperature parameters at any depth in the water column (excluding the top few microns sampled by radiometers), encompassing both measured and calculated values like Conservative Temperature.</p></li>
+</ul>
+<section id="sea-water-conservative-temperature-ct">
+<h3>sea_water_conservative_temperature (CT)<a class="headerlink" href="#sea-water-conservative-temperature-ct" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Conservative Temperature following TEOS-10.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_conservative_temperature</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>degree_Celsius</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID IFEDAFIE</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/IFEDAFIE/">https://vocab.nerc.ac.uk/collection/P07/current/IFEDAFIE/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: similar to <cite>thetao</cite></p></li>
+<li><p><strong>Definition:</strong> Conservative Temperature is defined as part of the Thermodynamic Equation of Seawater 2010 (TEOS-10), and represents specific potential enthalpy divided by a fixed heat capacity value. It is a more accurate proxy for ocean heat content than potential temperature.</p></li>
+<li><p><strong>Notes</strong>:
+- Recommended for TEOS-10 compliance.
+- Derived from in-situ T, S, and P in most observational datasets.
+- Conservative Temperature is TEOS-10’s recommended replacement for potential temperature in climate-quality datasets.</p></li>
+</ul>
+</section>
+<section id="sea-water-temperature-temp">
+<h3>sea_water_temperature (TEMP)<a class="headerlink" href="#sea-water-temperature-temp" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: In-situ (measured) temperature of seawater.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_temperature</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>degree_Celsius</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0335</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/CFSN0335/">https://vocab.nerc.ac.uk/collection/P07/current/CFSN0335/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P02/current/TEMP/">https://vocab.nerc.ac.uk/collection/P02/current/TEMP/</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: similar to <cite>thetao</cite></p></li>
+<li><p><strong>Definition:</strong> The in situ temperature of sea water. This is the temperature a water parcel has at the location and depth of observation. To specify the depth, use a vertical coordinate variable.</p></li>
+<li><p><strong>Notes</strong>:
+- <cite>sea_water_temperature</cite> is commonly used for directly measured CTD temperatures and numerical model outputs.
+- When using historical data, be mindful of the temperature scale (IPTS-68, ITS-90, etc.).
+- It is strongly recommended that a variable with this standard name should have a units_metadata attribute, with one of the values “on-scale” or “difference”, whichever is appropriate for the data, because it is essential to know whether the temperature is on-scale (meaning relative to the origin of the scale indicated by the units) or refers to temperature differences (implying that the origin of the temperature scale is irrevelant), in order to convert the units correctly (cf. <a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html#temperature-units">https://cfconventions.org/cf-conventions/cf-conventions.html#temperature-units</a>).</p></li>
+</ul>
+</section>
+<section id="sea-water-potential-temperature-potemp">
+<h3>sea_water_potential_temperature (POTEMP)<a class="headerlink" href="#sea-water-potential-temperature-potemp" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Potential temperature referenced to the surface (0 dbar).</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_potential_temperature</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>degree_Celsius</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0329</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/CFSN0329/">https://vocab.nerc.ac.uk/collection/P07/current/CFSN0329/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: similar to <cite>thetao</cite></p></li>
+<li><p><strong>Notes</strong>:
+- Used where Conservative Temperature isn’t available.
+- Not equivalent to in-situ temperature.</p></li>
+</ul>
+</section>
+</section>
+<section id="salinity">
+<h2>Salinity<a class="headerlink" href="#salinity" title="Link to this heading"></a></h2>
+<p><strong>SeaDataNet Parameter Discovery Vocabulary (P02):</strong></p>
+<ul class="simple">
+<li><p><strong>Code:</strong> PSAL — Salinity of the water column</p></li>
+<li><p><strong>URI:</strong> <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P02/current/PSAL/">https://vocab.nerc.ac.uk/collection/P02/current/PSAL/</a></p></li>
+<li><p><strong>Definition:</strong> Parameters quantifying the concentration of sodium chloride in any body of water at any point between the bed and the atmosphere</p></li>
+</ul>
+<section id="sea-water-absolute-salinity-sa">
+<h3>sea_water_absolute_salinity (SA)<a class="headerlink" href="#sea-water-absolute-salinity-sa" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Absolute Salinity as defined in TEOS-10.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_absolute_salinity</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>g kg-1</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID JIBGDIEJ</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/JIBGDIEJ/">https://vocab.nerc.ac.uk/collection/P07/current/JIBGDIEJ/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not typically used (models output practical salinity)</p></li>
+<li><p><strong>Definition:</strong> Absolute Salinity, defined by TEOS-10, is the mass fraction of dissolved material in sea water. It is the salinity variable that yields the correct in situ density using the TEOS-10 equation of state, even when composition differs from the Reference Composition.</p></li>
+<li><p><strong>Notes</strong>:
+- Often computed from Practical Salinity using regional climatologies of the Absolute Salinity Anomaly.
+- Required for accurate density and heat content calculations under TEOS-10.
+- Required for calculating Conservative Temperature and density under TEOS-10.</p></li>
+</ul>
+</section>
+<section id="sea-water-practical-salinity-psal">
+<h3>sea_water_practical_salinity (PSAL)<a class="headerlink" href="#sea-water-practical-salinity-psal" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Practical Salinity calculated from conductivity, temperature, and pressure.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_practical_salinity</cite></p></li>
+<li><p><strong>Suggested Units</strong>: unitless (PSS-78)</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID IADIHDIJ</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/IADIHDIJ/">http://vocab.nerc.ac.uk/collection/P07/current/IADIHDIJ/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>so</cite></p></li>
+<li><p><strong>Definition:</strong> Practical Salinity (S_P) is derived from conductivity measurements and expressed on the Practical Salinity Scale of 1978 (PSS-78). It is dimensionless and does not represent mass concentration.</p></li>
+<li><p><strong>Notes</strong>:
+- This is the most commonly archived salinity value in observational datasets since 1978.
+- Should not be used for pre-1978 datasets or when salinity is determined via chlorinity.
+- Should be converted to Absolute Salinity for TEOS-10 consistency.</p></li>
+</ul>
+</section>
+<section id="sea-water-salinity-salin">
+<h3>sea_water_salinity (SALIN)<a class="headerlink" href="#sea-water-salinity-salin" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Generic salinity (unspecified type — practical, absolute, etc.).</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_salinity</cite></p></li>
+<li><p><strong>Suggested Units</strong>: unitless or <cite>g kg-1</cite> depending on context</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0331</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/CFSN0331/">https://vocab.nerc.ac.uk/collection/P07/current/CFSN0331/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: sometimes <cite>so</cite></p></li>
+<li><p><strong>Definition:</strong> A general term for the salt content of sea water, not tied to a specific measurement scale (e.g., PSS-78). Use only when the salinity type is unknown or does not conform to a defined standard.</p></li>
+<li><p><strong>Notes</strong>:
+- Use of this standard name is <strong>discouraged</strong> for post-1978 data when <cite>sea_water_practical_salinity</cite> is applicable
+- May appear in legacy datasets or when the methodology is uncertain.
+- Prefer <cite>sea_water_absolute_salinity</cite> or <cite>sea_water_practical_salinity</cite> where possible.</p></li>
+</ul>
+</section>
+</section>
+<section id="pressure">
+<h2>Pressure<a class="headerlink" href="#pressure" title="Link to this heading"></a></h2>
+<section id="sea-water-pressure-pres">
+<h3>sea_water_pressure (PRES)<a class="headerlink" href="#sea-water-pressure-pres" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Pressure in the water column relative to the sea surface.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_pressure</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>dbar</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0330</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/CFSN0330/">https://vocab.nerc.ac.uk/collection/P07/current/CFSN0330/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not typically output</p></li>
+<li><p><strong>Notes</strong>:
+- Often derived from depth using standard formulas or pressure sensor readings.
+- Needed for TEOS-10 calculations and vertical gridding.</p></li>
+</ul>
+</section>
+<section id="sea-water-pressure-at-sea-floor-botpres">
+<h3>sea_water_pressure_at_sea_floor (BOTPRES)<a class="headerlink" href="#sea-water-pressure-at-sea-floor-botpres" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Pressure at the seafloor; equivalent to full water column weight.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_pressure_at_sea_floor</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>dbar</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CF12N583</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CF12N583/">http://vocab.nerc.ac.uk/collection/P07/current/CF12N583/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed in <a class="reference external" href="https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02">https://vocab.seadatanet.org/v_bodc_vocab_v2/search.asp?lib=P02</a></p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not commonly used</p></li>
+<li><p><strong>Notes</strong>:
+- Common output from bottom pressure recorders (BPRs).
+- Useful for estimating barotropic transport variability.</p></li>
+</ul>
+</section>
+<section id="reference-pressure-refpres">
+<h3>reference_pressure (REFPRES)<a class="headerlink" href="#reference-pressure-refpres" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: A constant scalar pressure value used to define the reference state for potential temperature or density calculations.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>reference_pressure</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>Pa</cite> or <cite>dbar</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID 9334Z59K</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/9334Z59K/">http://vocab.nerc.ac.uk/collection/P07/current/9334Z59K/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Notes</strong>:
+- Required as a scalar coordinate in CF-compliant potential temperature or density fields.
+- Units are usually in pascals (Pa) for CF, but <cite>dbar</cite> is commonly used in oceanography for readability.</p></li>
+</ul>
+</section>
+</section>
+<section id="density">
+<h2>Density<a class="headerlink" href="#density" title="Link to this heading"></a></h2>
+<p><strong>SeaDataNet Parameter Discovery Vocabulary (P02):</strong></p>
+<ul class="simple">
+<li><p><strong>Code:</strong> DENS — Density of the water column</p></li>
+<li><p><strong>URI:</strong> <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P02/current/SIGT/">http://vocab.nerc.ac.uk/collection/P02/current/SIGT/</a></p></li>
+<li><p><strong>Definition:</strong> Absolute determinations of water column density plus parameters (generally expressed as density anomaly) derived from temperature and salinity</p></li>
+</ul>
+<section id="sea-water-sigma-theta-sigma">
+<h3>sea_water_sigma_theta (SIGMA)<a class="headerlink" href="#sea-water-sigma-theta-sigma" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Potential density anomaly (sigma-theta), referenced to 0 dbar.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_sigma_theta</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>kg m-3</cite> (anomaly: subtract 1000 from density)</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0333</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0333/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0333/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: See P02 DENS</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Definition:</strong> Potential density of sea water (density when moved adiabatically to a reference pressure), minus 1000 kg m⁻³. Commonly used to identify isopycnal surfaces. Reference pressure should be specified via a scalar coordinate with standard name <cite>reference_pressure</cite>.</p></li>
+<li><p><strong>Notes</strong>:
+- The sigma-theta value is dimensionally equivalent to density minus 1000.
+- Reference pressure should be specified via <cite>reference_pressure</cite>.</p></li>
+</ul>
+</section>
+<section id="sea-water-potential-density">
+<h3>sea_water_potential_density<a class="headerlink" href="#sea-water-potential-density" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Potential density referenced to sea surface (or other scalar pressure).</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_potential_density</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>kg m-3</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0395</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0395/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0395/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: See P02 DENS</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not typically used</p></li>
+<li><p><strong>Definition:</strong> The density a seawater parcel would have if moved adiabatically to a reference pressure, usually sea level pressure. Reference pressure should be specified using a <cite>reference_pressure</cite> scalar coordinate.</p></li>
+<li><dl class="simple">
+<dt><strong>Notes</strong>:</dt><dd><ul>
+<li><p>Subtract 1000 kg m⁻³ to obtain <cite>sigma_theta</cite>.</p></li>
+<li><p>Reference pressure must be declared as a scalar coordinate.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="sea-water-neutral-density-gamma-n">
+<h3>sea_water_neutral_density (GAMMA_N)<a class="headerlink" href="#sea-water-neutral-density-gamma-n" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Neutral density following the neutral tangent plane.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>sea_water_neutral_density</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>kg m-3</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID BBAH2105</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/BBAH2105/">http://vocab.nerc.ac.uk/collection/P07/current/BBAH2105/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: See P02 DENS</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>gamma_n</cite></p></li>
+<li><p><strong>Definition:</strong> Neutral density is a variable whose surfaces approximately follow the direction of no buoyant motion. Designed to represent the neutral tangent plane slope more closely than potential density.</p></li>
+<li><p><strong>Notes</strong>:
+- Follows slope of neutral tangent plane more closely than potential density.
+- See Jackett &amp; McDougall (1997) for reference formulation.</p></li>
+</ul>
+</section>
+<section id="ocean-sigma-coordinate">
+<h3>ocean_sigma_coordinate<a class="headerlink" href="#ocean-sigma-coordinate" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Parametric vertical coordinate used in terrain-following models.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>ocean_sigma_coordinate</cite></p></li>
+<li><p><strong>Suggested Units</strong>: unitless (coordinate index)</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0473</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0473/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0473/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Definition:</strong> A parametric vertical coordinate used primarily in terrain-following ocean models. Not to be confused with <cite>sea_water_sigma_theta</cite>, which is a density-related scalar field.</p></li>
+<li><dl class="simple">
+<dt><strong>Notes</strong>:</dt><dd><ul>
+<li><p>Typically defined by formulas relating model levels to depth using pressure, surface elevation, and  bottom depth.</p></li>
+<li><p>Not equivalent to <cite>sea_water_sigma_theta</cite>.</p></li>
+<li><p>See CF Conventions Appendix D for formula terms and guidance.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="ocean-sigma-z-coordinate">
+<h3>ocean_sigma_z_coordinate<a class="headerlink" href="#ocean-sigma-z-coordinate" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Hybrid sigma-z coordinate accounting for vertical stretching/compression.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>ocean_sigma_z_coordinate</cite></p></li>
+<li><p><strong>Suggested Units</strong>: unitless (coordinate index)</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID 3HWMM33G</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/3HWMM33G/">http://vocab.nerc.ac.uk/collection/P07/current/3HWMM33G/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not listed</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Definition:</strong> A variant of the sigma coordinate system that adjusts for local stretching/compression in the vertical axis (z-star or z-level hybrid coordinates). See Appendix D of the CF convention for information about parametric vertical coordinates.</p></li>
+<li><p><strong>Notes</strong>:
+- Used in ocean models employing z-star or hybrid vertical grids.
+- See CF Conventions Appendix D for coordinate formulation.</p></li>
+</ul>
+</section>
+</section>
+<section id="velocity">
+<h2>Velocity<a class="headerlink" href="#velocity" title="Link to this heading"></a></h2>
+<p><strong>SeaDataNet Parameter Discovery Vocabulary (P02):</strong></p>
+<ul class="simple">
+<li><p><strong>Code:</strong> RFVL — Horizontal velocity of the water column (currents)</p></li>
+<li><p><strong>URI:</strong> <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P02/current/RFVL/">https://vocab.nerc.ac.uk/collection/P02/current/RFVL/</a></p></li>
+<li><p><strong>Definition:</strong> Parameters expressing the velocity (including scalar speeds and directions) of water column horizontal movement, commonly termed Eulerian currents</p></li>
+</ul>
+<section id="baroclinic-northward-sea-water-velocity-vvel-rel">
+<h3>baroclinic_northward_sea_water_velocity (VVEL_REL)<a class="headerlink" href="#baroclinic-northward-sea-water-velocity-vvel-rel" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Northward component of the baroclinic velocity field.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>baroclinic_northward_sea_water_velocity</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m s-1</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0729</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0729/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0729/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: See P02 RFVL</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Definition:</strong> The northward component of the baroclinic part of the sea water velocity field. “Baroclinic” refers to the component of motion associated with density gradients (excluding the depth-averaged flow).</p></li>
+<li><p><strong>Notes</strong>:
+- Refers to the shear flow due to density stratification.
+- Computed as full velocity minus barotropic (depth-mean) component.</p></li>
+</ul>
+</section>
+<section id="barotropic-northward-sea-water-velocity-vvel-baro">
+<h3>barotropic_northward_sea_water_velocity (VVEL_BARO)<a class="headerlink" href="#barotropic-northward-sea-water-velocity-vvel-baro" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Depth-averaged northward sea water velocity (barotropic component).</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>barotropic_northward_sea_water_velocity</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m s-1</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0731</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0731/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0731/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: See P02 RFVL</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not applicable</p></li>
+<li><p><strong>Definition:</strong> The northward component of the depth-averaged sea water velocity. “Barotropic” denotes the vertically uniform component of flow.</p></li>
+<li><p><strong>Notes</strong>:
+- Represents vertically uniform component of flow.
+- Important for basin-scale transport diagnostics and section-integrated flow estimates.</p></li>
+</ul>
+</section>
+</section>
+<section id="transport">
+<h2>Transport<a class="headerlink" href="#transport" title="Link to this heading"></a></h2>
+<section id="ocean-volume-transport-across-line-transport">
+<h3>ocean_volume_transport_across_line (TRANSPORT)<a class="headerlink" href="#ocean-volume-transport-across-line-transport" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Volume transport across a specified line (e.g., a latitude section).</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>ocean_volume_transport_across_line</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m³ s⁻¹</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID W946809H</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/W946809H/">http://vocab.nerc.ac.uk/collection/P07/current/W946809H/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: [Optional]</p></li>
+<li><p><strong>Notes</strong>:
+- Represents the integral of normal velocity across a line or section.
+- Useful in mooring and model diagnostics.</p></li>
+</ul>
+</section>
+<section id="ocean-meridional-overturning-streamfunction-moc">
+<h3>ocean_meridional_overturning_streamfunction (MOC)<a class="headerlink" href="#ocean-meridional-overturning-streamfunction-moc" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Net vertical and meridional circulation of the ocean, excluding parameterized eddy components.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>ocean_meridional_overturning_streamfunction</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m³ s⁻¹</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0466</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/CFSN0466/">https://vocab.nerc.ac.uk/collection/P07/current/CFSN0466/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not available</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>msftmz</cite> or similar</p></li>
+<li><p><strong>Notes</strong>:
+- Derived from zonally integrated meridional velocity.
+- Distinct from <cite>ocean_meridional_overturning_mass_streamfunction</cite>, which includes all processes (resolved and parameterized).
+- Used in MOC diagnostics from models and arrays like RAPID, OSNAP.</p></li>
+</ul>
+</section>
+<section id="ocean-meridional-overturning-mass-streamfunction">
+<h3>ocean_meridional_overturning_mass_streamfunction<a class="headerlink" href="#ocean-meridional-overturning-mass-streamfunction" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Overturning streamfunction including all resolved and parameterized mass transport processes.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>ocean_meridional_overturning_mass_streamfunction</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>kg s⁻¹</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CF12N554</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CF12N554/">http://vocab.nerc.ac.uk/collection/P07/current/CF12N554/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: <cite>msftmm</cite> or similar</p></li>
+<li><p><strong>Notes</strong>:
+- Includes parameterized eddy transport.
+- Mass-based counterpart to volume streamfunction.</p></li>
+</ul>
+</section>
+</section>
+<section id="freshwater-transport">
+<h2>Freshwater Transport<a class="headerlink" href="#freshwater-transport" title="Link to this heading"></a></h2>
+<section id="northward-ocean-freshwater-transport-fwt">
+<h3>northward_ocean_freshwater_transport (FWT)<a class="headerlink" href="#northward-ocean-freshwater-transport-fwt" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Total northward transport of freshwater.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_freshwater_transport</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m³ s⁻¹</cite> (often presented as Sv freshwater equivalents)</p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0507</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0507/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0507/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not available</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not standardized</p></li>
+<li><p><strong>Definition:</strong> Meridional overturning streamfunction representing the net vertical and meridional circulation of the ocean, excluding the contribution from parameterized eddy velocities. This streamfunction is typically derived from the zonal integration of the meridional component of velocity.</p></li>
+<li><p><strong>Notes</strong>:
+- Includes contributions from overturning, gyre, and eddies.
+- Often derived from salinity and velocity sections or model integrations, expressed in Sverdrup equivalents adjusted for freshwater flux</p></li>
+</ul>
+</section>
+<section id="northward-ocean-freshwater-transport-due-to-overturning-fwt-ov">
+<h3>northward_ocean_freshwater_transport_due_to_overturning (FWT_OV)<a class="headerlink" href="#northward-ocean-freshwater-transport-due-to-overturning-fwt-ov" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Freshwater transport component associated with the overturning circulation.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_freshwater_transport_due_to_overturning</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m³ s⁻¹</cite> or <cite>Sv freshwater equivalent</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0482</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0482/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0482/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not available</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not standardized</p></li>
+<li><p><strong>Notes</strong>:
+- Computed using zonal mean salinity and baroclinic velocity.
+- Used in freshwater budget decompositions of the MOC, for the component associated with the overturning.
+- Often expressed in Sverdrup equivalents adjusted for freshwater flux.</p></li>
+</ul>
+</section>
+<section id="northward-ocean-freshwater-transport-due-to-gyre-fwt-gyre">
+<h3>northward_ocean_freshwater_transport_due_to_gyre (FWT_GYRE)<a class="headerlink" href="#northward-ocean-freshwater-transport-due-to-gyre-fwt-gyre" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Component of freshwater transport from horizontal gyre-scale circulation.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_freshwater_transport_due_to_gyre</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>m³ s⁻¹</cite> or <cite>Sv freshwater equivalent</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0510</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0510/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0510/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: Not available</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: Not standardized</p></li>
+<li><p><strong>Notes</strong>:
+- Computed using salinity and velocity anomalies relative to zonal mean.
+- Complements overturning and eddy components in MOC decomposition.</p></li>
+</ul>
+</section>
+</section>
+<section id="heat-transport">
+<h2>Heat Transport<a class="headerlink" href="#heat-transport" title="Link to this heading"></a></h2>
+<section id="northward-ocean-heat-transport-mht">
+<h3>northward_ocean_heat_transport (MHT)<a class="headerlink" href="#northward-ocean-heat-transport-mht" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Total northward heat transport by ocean, including seawater and sea ice.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_heat_transport</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>W</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0483</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0483/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0483/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: [Optional]</p></li>
+<li><p><strong>Notes</strong>:
+- Integrates advective transport of heat across latitude lines.
+- Useful for large-scale energy budget diagnostics.</p></li>
+</ul>
+</section>
+<section id="northward-ocean-heat-transport-due-to-gyre-mht-gyre">
+<h3>northward_ocean_heat_transport_due_to_gyre (MHT_GYRE)<a class="headerlink" href="#northward-ocean-heat-transport-due-to-gyre-mht-gyre" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Heat transport component from horizontal gyre circulation.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_heat_transport_due_to_gyre</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>W</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0486</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0486/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0486/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: [Optional]</p></li>
+<li><p><strong>Notes</strong>:
+- Derived from deviation of velocity and temperature from zonal means.
+- Excludes parameterized eddy contributions.</p></li>
+</ul>
+</section>
+<section id="northward-ocean-heat-transport-due-to-overturning-mht-ov">
+<h3>northward_ocean_heat_transport_due_to_overturning (MHT_OV)<a class="headerlink" href="#northward-ocean-heat-transport-due-to-overturning-mht-ov" title="Link to this heading"></a></h3>
+<p><strong>Description</strong>: Component of heat transport due to overturning circulation.</p>
+<ul class="simple">
+<li><p><strong>CF Standard Name</strong>: <cite>northward_ocean_heat_transport_due_to_overturning</cite></p></li>
+<li><p><strong>Suggested Units</strong>: <cite>W</cite></p></li>
+<li><p><strong>Vocabulary</strong>: NERC P07 Concept ID CFSN0487</p></li>
+<li><p><strong>Vocabulary (URI)</strong>: <a class="reference external" href="http://vocab.nerc.ac.uk/collection/P07/current/CFSN0487/">http://vocab.nerc.ac.uk/collection/P07/current/CFSN0487/</a></p></li>
+<li><p><strong>SeaDataNet Parameter</strong>: [Insert if applicable]</p></li>
+<li><p><strong>CMIP6 Variable Name</strong>: [Optional]</p></li>
+<li><p><strong>Notes</strong>:
+- Computed from zonal mean profiles.
+- Excludes eddy and gyre components.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="housekeeping.html" class="btn btn-neutral float-left" title="Project Housekeeping Checklist" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="AC1_units.html" class="btn btn-neutral float-right" title="Units Reference: for AC1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

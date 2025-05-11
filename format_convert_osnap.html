@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSNAP conversion thoughts &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OSNAP conversion thoughts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_convert_osnap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="osnap-conversion-thoughts">
+<span id="convert-osnap"></span><h1>OSNAP conversion thoughts<a class="headerlink" href="#osnap-conversion-thoughts" title="Link to this heading"></a></h1>
+<p>At OSNAP, we have variables like MOC_ALL, MOC_EAST and MOC_WEST which are time series (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>), but these could be represented as MOC (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) where instead of the three different variables, N_PROF=3.  This would be somewhat more difficult to communicate to the user, since LATITUDE and LONGITUDE are not single points per N_PROF but instead may represent end points of a section.</p>
+<p>Variables MOC_ALL_ERR are also provided, which could be translated to MOC_ERR (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) with LATITUDE (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>) or LATITUDE_BOUND (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, 2).</p>
+<p>Heat fluxes also exist, as MHT_ALL, MHT_EAST and MHT_WEST, so these could be MHT (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>).</p>
+<section id="potential-reformats">
+<h2>Potential reformats:<a class="headerlink" href="#potential-reformats" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Overturning:</strong>
+- <code class="docutils literal notranslate"><span class="pre">MOC</span></code> and <code class="docutils literal notranslate"><span class="pre">MOC_ERR</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <a href="#id1"><span class="problematic" id="id2">``</span></a>N_LOCATION``=3) where <a href="#id3"><span class="problematic" id="id4">``</span></a>N_LOCATION``=3 (e.g. MOC_ALL, MOC_EAST, MOC_WEST)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">STREAMFUNCTION</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <a href="#id5"><span class="problematic" id="id6">``</span></a>N_PROF``=3) - This would be from <a href="#id7"><span class="problematic" id="id8">``</span></a>OSNAP_Streamfunction_201408_202006_2023.nc``and is the overturning streamfunction in sigma-theta coordinates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MHT</span></code> and <code class="docutils literal notranslate"><span class="pre">MHT_ERR</span></code>: same dimensions as <code class="docutils literal notranslate"><span class="pre">MOC</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MFT</span></code> and <code class="docutils literal notranslate"><span class="pre">MFT_ERR</span></code>: same dimensions as <code class="docutils literal notranslate"><span class="pre">MOC</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LATITUDE_BOUND</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LOCATION</span></code>, 3) - this would be the latitude bounds for the west, east and full.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUND</span></code>: (<code class="docutils literal notranslate"><span class="pre">N_LOCATION</span></code>, 3) - this would be the longitude bounds for the west, east and full.</p></li>
+</ul>
+</li>
+<li><p><strong>Gridded sections:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code></p>
+<ul>
+<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (71, depth=199, longitude=256)</p></li>
+<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=longitude</span> <span class="pre">grid,),</span> <span class="pre">``TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,)</p></li>
+<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

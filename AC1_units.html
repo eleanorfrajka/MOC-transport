@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Units Reference: for AC1 &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Variable Names" href="AC1_variables.html" />
+    <link rel="prev" title="Controlled Vocabularies" href="AC1_vocabularies.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Units Reference: for AC1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mass-volume-units">Mass/Volume Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#length-units">Length Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temperature-units">Temperature Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conductivity-units">Conductivity Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pressure-units">Pressure Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#velocity-units">Velocity Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#angle-units-accepted-non-si">Angle Units (Accepted Non-SI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transport-units">Transport Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#energy-and-power-units">Energy and Power Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#surface-heat-flux-units">Surface Heat Flux Units</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-of-custom-conversions">Mapping of Custom Conversions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#si-unit-prefixes">SI Unit Prefixes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Units Reference: for AC1</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/AC1_units.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="units-reference-for-ac1">
+<h1>Units Reference: for AC1<a class="headerlink" href="#units-reference-for-ac1" title="Link to this heading"></a></h1>
+<p>This document summarizes unit definitions relevant to the <cite>amocarray</cite> project, based on <cite>udunits2-base.xml</cite>.</p>
+<p>Check out <a class="reference external" href="https://docs.unidata.ucar.edu/udunits/current/">udunits</a>.</p>
+<p>SI base units (XML) are <a class="reference external" href="https://docs.unidata.ucar.edu/udunits/current/udunits2-base.xml">here</a>.</p>
+<p>Derived units (XML) are <a class="reference external" href="https://docs.unidata.ucar.edu/udunits/current/udunits2-derived.xml">here</a>.</p>
+<p>Non-SI units including sverdrup, <strong>where apparently we cannot use Sv because it also means “sievert” in the SI unit-system</strong>.</p>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
+<section id="mass-volume-units">
+<h3>Mass/Volume Units<a class="headerlink" href="#mass-volume-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>gram_per_cubic_meter</p></td>
+<td><p>g/m³,
+g m-3</p></td>
+<td><p>0.001 kg/m³</p></td>
+</tr>
+<tr class="row-odd"><td><p>kilogram_per_cubic_meter</p></td>
+<td><p>kg/m³,
+<strong>kg m-3</strong></p></td>
+<td><p>base SI unit</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="length-units">
+<h3>Length Units<a class="headerlink" href="#length-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>meter</p></td>
+<td><p><strong>m</strong></p></td>
+<td><p>base SI unit</p></td>
+</tr>
+<tr class="row-odd"><td><p>centimeter</p></td>
+<td><p>cm</p></td>
+<td><p>0.01 m</p></td>
+</tr>
+<tr class="row-even"><td><p>kilometer</p></td>
+<td><p>km</p></td>
+<td><p>1000 m</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="temperature-units">
+<h3>Temperature Units<a class="headerlink" href="#temperature-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>degree_Celsius</p></td>
+<td><p>°C,
+<strong>Celsius</strong></p></td>
+<td><p>1 K offset by -273.15</p></td>
+</tr>
+<tr class="row-odd"><td><p>kelvin</p></td>
+<td><p>K</p></td>
+<td><p>base SI unit</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conductivity-units">
+<h3>Conductivity Units<a class="headerlink" href="#conductivity-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>siemens_per_meter</p></td>
+<td><p>S/m,
+<strong>S m-1</strong></p></td>
+<td><p>base SI unit</p></td>
+</tr>
+<tr class="row-odd"><td><p>millisiemens_per_centimeter</p></td>
+<td><p>mS/cm</p></td>
+<td><p>0.1 S/m</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pressure-units">
+<h3>Pressure Units<a class="headerlink" href="#pressure-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>decibar</p></td>
+<td><p><strong>dbar</strong></p></td>
+<td><p>10,000 Pa</p></td>
+</tr>
+<tr class="row-odd"><td><p>kilopascal</p></td>
+<td><p>kPa</p></td>
+<td><p>1,000 Pa</p></td>
+</tr>
+<tr class="row-even"><td><p>pascal</p></td>
+<td><p>Pa</p></td>
+<td><p>base SI pressure</p></td>
+</tr>
+<tr class="row-odd"><td><p>bar</p></td>
+<td><p>bar</p></td>
+<td><p>100,000 Pa</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="velocity-units">
+<h3>Velocity Units<a class="headerlink" href="#velocity-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>centimeter_per_second</p></td>
+<td><p>cm/s,
+cm s-1</p></td>
+<td><p>0.01 m/s</p></td>
+</tr>
+<tr class="row-odd"><td><p>meter_per_second</p></td>
+<td><p>m/s,
+<strong>m s-1</strong></p></td>
+<td><p>base SI unit</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="angle-units-accepted-non-si">
+<h3>Angle Units (Accepted Non-SI)<a class="headerlink" href="#angle-units-accepted-non-si" title="Link to this heading"></a></h3>
+<p>These units are accepted for use with SI and commonly used in geophysical data.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Conversion to radians</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>degree</p></td>
+<td><p>°,
+<strong>degrees</strong></p></td>
+<td><p>π / 180</p></td>
+</tr>
+<tr class="row-odd"><td><p>arcminute</p></td>
+<td><p>′</p></td>
+<td><p>(1/60) degree</p></td>
+</tr>
+<tr class="row-even"><td><p>arcsecond</p></td>
+<td><p>″</p></td>
+<td><p>(1/60) arcminute</p></td>
+</tr>
+</tbody>
+</table>
+<p>Notes:
+- Degrees are commonly used for geographic coordinates (latitude and longitude).
+- These are dimensionless units in the SI sense but critical for interpreting spatial data.</p>
+</section>
+<section id="transport-units">
+<h3>Transport Units<a class="headerlink" href="#transport-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sverdrup,
+<strong>Sverdrup</strong></p></td>
+<td><p>Sv*</p></td>
+<td><p>1e6 m³/s
+alias for Sv</p></td>
+</tr>
+<tr class="row-odd"><td><p>cubic_meter_per_second</p></td>
+<td><p>m³/s,
+<strong>m3 s-1</strong></p></td>
+<td><p>Ocean volume transport</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>*Not</strong> recommended since it conflicts with SI “sievert”.</p>
+</section>
+<section id="energy-and-power-units">
+<h3>Energy and Power Units<a class="headerlink" href="#energy-and-power-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>watt</p></td>
+<td><p>W</p></td>
+<td><p>J/s = kg·m²/s³</p></td>
+</tr>
+<tr class="row-odd"><td><p>kilowatt</p></td>
+<td><p>kW</p></td>
+<td><p>1000 W</p></td>
+</tr>
+<tr class="row-even"><td><p>megawatt</p></td>
+<td><p>MW</p></td>
+<td><p>1e6 W</p></td>
+</tr>
+<tr class="row-odd"><td><p>petawatt</p></td>
+<td><p><strong>PW</strong></p></td>
+<td><p>1e15 W</p></td>
+</tr>
+<tr class="row-even"><td><p>joule</p></td>
+<td><p>J</p></td>
+<td><p>N·m = kg·m²/s²</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>kilojoule</p></td>
+<td><p>kJ</p></td>
+<td><p>1000 J</p></td>
+</tr>
+<tr class="row-odd"><td><p>gigajoule</p></td>
+<td><p>GJ</p></td>
+<td><p>1e9 J</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="surface-heat-flux-units">
+<h3>Surface Heat Flux Units<a class="headerlink" href="#surface-heat-flux-units" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Definition</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>watt_per_square_meter</p></td>
+<td><p>W/m²,
+<strong>W m-2</strong></p></td>
+<td><p>Heat flux density</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="mapping-of-custom-conversions">
+<h2>Mapping of Custom Conversions<a class="headerlink" href="#mapping-of-custom-conversions" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Original Unit</p></th>
+<th class="head"><p>Canonical Unit</p></th>
+<th class="head"><p>Factor</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>cm/s, cm s-1</p></td>
+<td><p>m s-1</p></td>
+<td><p>0.01</p></td>
+<td><p>Velocity</p></td>
+</tr>
+<tr class="row-odd"><td><p>S/m</p></td>
+<td><p>mS cm-1</p></td>
+<td><p>0.1</p></td>
+<td><p>Conductivity</p></td>
+</tr>
+<tr class="row-even"><td><p>dbar</p></td>
+<td><p>Pa, kPa</p></td>
+<td><p>10000, 10</p></td>
+<td><p>Pressure</p></td>
+</tr>
+<tr class="row-odd"><td><p>degrees_Celsius</p></td>
+<td><p>Celsius</p></td>
+<td><p>1</p></td>
+<td><p>Temperature</p></td>
+</tr>
+<tr class="row-even"><td><p>m</p></td>
+<td><p>cm, km</p></td>
+<td><p>100, 0.001</p></td>
+<td><p>Length</p></td>
+</tr>
+<tr class="row-odd"><td><p>g m-3</p></td>
+<td><p>kg m-3</p></td>
+<td><p>0.001</p></td>
+<td><p>Density</p></td>
+</tr>
+<tr class="row-even"><td><p>Sverdrup</p></td>
+<td><p>Sv*</p></td>
+<td><p>1</p></td>
+<td><p>Transport</p></td>
+</tr>
+<tr class="row-odd"><td><p>W, J</p></td>
+<td><p>watt, joule</p></td>
+<td><p>base units</p></td>
+<td><p>Energy and Power</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>*Not</strong> recommended since it conflicts with SI “sievert”.</p>
+</section>
+<section id="si-unit-prefixes">
+<h2>SI Unit Prefixes<a class="headerlink" href="#si-unit-prefixes" title="Link to this heading"></a></h2>
+<p>Standard prefixes supported by UDUNITS-2 for scaling base and derived units.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Prefix</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Factor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>yotta
+zetta
+exa
+peta
+tera
+giga
+mega
+kilo
+hecto
+deca
+deci
+centi
+milli
+micro
+nano
+pico
+femto
+atto
+zepto
+yocto</p></td>
+<td><p>Y
+Z
+E
+P
+T
+G
+M
+k
+h
+da
+d
+c
+m
+µ (u)
+n
+p
+f
+a
+z
+y</p></td>
+<td><p>1e24
+1e21
+1e18
+1e15
+1e12
+1e9
+1e6
+1e3
+1e2
+1e1
+1e-1
+1e-2
+1e-3
+1e-6
+1e-9
+1e-12
+1e-15
+1e-18
+1e-21
+1e-24</p></td>
+</tr>
+</tbody>
+</table>
+<p>Notes:
+- Prefixes can be applied to compatible base/derived units (e.g., kW, cm, µS/cm).
+- <cite>µ</cite> is often typed as <cite>u</cite> in ASCII-only environments.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="AC1_vocabularies.html" class="btn btn-neutral float-left" title="Controlled Vocabularies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="AC1_variables.html" class="btn btn-neutral float-right" title="Variable Names" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

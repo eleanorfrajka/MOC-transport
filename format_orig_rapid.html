@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAPID Original Data Format &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RAPID Original Data Format</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_orig_rapid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rapid-original-data-format">
+<span id="array-rapid"></span><h1>RAPID Original Data Format<a class="headerlink" href="#rapid-original-data-format" title="Link to this heading"></a></h1>
+<p>The RAPID array at 26°N produces a range of observational and derived products:</p>
+<ul class="simple">
+<li><p>1D time series of AMOC transport</p></li>
+<li><p>Time series profiles of temperature, salinity, and velocity at specific locations (moorings)</p></li>
+<li><p>Gridded sections of hydrographic and velocity fields</p></li>
+<li><p>Layer transport estimates based on defined vertical boundaries</p></li>
+<li><p>Streamfunction evaluations in depth or density space</p></li>
+</ul>
+<section id="moc-vertical-nc">
+<h2>moc_vertical.nc<a class="headerlink" href="#moc-vertical-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Vertical coordinate in meters</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stream_function_mar</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(307, 13779)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction at 26°N</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ts-gridded-nc">
+<h2>ts_gridded.nc<a class="headerlink" href="#ts-gridded-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pressure</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(242,)</p></td>
+<td><p>dbar</p></td>
+<td><p>Pressure coordinate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_west</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature west 26.52N/76.74W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SG_wb3</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>psu</p></td>
+<td><p>Salinity WB3 26.50N/76.6W</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_marwest</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature MAR west 24.52N/50.57W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TG_mareast</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature MAR east 24.52N/41.21W</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TG_east</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>°C</p></td>
+<td><p>Temperature east 26.99N/16.23W</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TG_west_flag</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(242, 13779)</p></td>
+<td><p>1</p></td>
+<td><p>Data quality flag for <code class="docutils literal notranslate"><span class="pre">TG_west</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="moc-transports-nc">
+<h2>moc_transports.nc<a class="headerlink" href="#moc-transports-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time coordinate, 12-hour intervals</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_therm10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Thermocline recirculation 0–800 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_aiw10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Intermediate water 800–1100 m</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_ud10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Upper NADW 1100–3000 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_ld10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Lower NADW 3000–5000 m</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_bw10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>AABW &gt;5000 m</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_gs10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Florida Straits transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">t_ek10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Ekman transport</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t_umo10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Upper Mid-Ocean transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">moc_mar_hc10</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(13779,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning transport MOC index</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="d-gridded-nc">
+<h2>2d_gridded.nc<a class="headerlink" href="#d-gridded-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time (10-day intervals)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></td>
+<td><p>(254,)</p></td>
+<td><p>degrees_east</p></td>
+<td><p>Longitude coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Depth coordinate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>°C</p></td>
+<td><p>Conservative Temperature (ITS-90)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SA</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>g/kg</p></td>
+<td><p>Absolute Salinity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">V_insitu</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>m/s</p></td>
+<td><p>Meridional velocity</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">V_ekman</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 254, 307)</p></td>
+<td><p>m/s</p></td>
+<td><p>Ekman velocity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">V_net</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>m/s</p></td>
+<td><p>Depth-integrated meridional velocity</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="meridional-transports-nc">
+<h2>meridional_transports.nc<a class="headerlink" href="#meridional-transports-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 12.9%" />
+<col style="width: 23.7%" />
+<col style="width: 15.1%" />
+<col style="width: 10.8%" />
+<col style="width: 37.6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>datetime</p></td>
+<td><p>Time (10-day intervals)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>m</p></td>
+<td><p>Depth coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p>(489,)</p></td>
+<td><p>kg/m³ – 1000</p></td>
+<td><p>Potential density anomaly (σ₀)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">amoc_depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Maximum overturning from depth-streamfunction</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">amoc_sigma</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Maximum overturning from density-streamfunction</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">heat_trans</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>PW</p></td>
+<td><p>Northward heat transport</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">frwa_trans</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code></p></td>
+<td><p>(689,)</p></td>
+<td><p>Sv</p></td>
+<td><p>Northward freshwater transport</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">press</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(307,)</p></td>
+<td><p>dbar</p></td>
+<td><p>Pressure coordinate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stream_depth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>(689, 307)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction in depth space</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stream_sigma</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">sigma0</span></code></p></td>
+<td><p>(689, 489?)</p></td>
+<td><p>Sv</p></td>
+<td><p>Overturning streamfunction in density space</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

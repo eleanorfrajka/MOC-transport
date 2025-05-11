@@ -1,0 +1,988 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OceanSITES Format for AMOC Arrays &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OceanSITES Format for AMOC Arrays</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_oceanSITES.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="oceansites-format-for-amoc-arrays">
+<h1>OceanSITES Format for AMOC Arrays<a class="headerlink" href="#oceansites-format-for-amoc-arrays" title="Link to this heading"></a></h1>
+<p>This document describes how RAPID, MOVE, OSNAP, and SAMBA array products are mapped into OceanSITES-compliant NetCDF structures within the <cite>amocarray</cite> package. It summarizes conventions from the OceanSITES format reference manual (v1.4, from 2020) and describes decisions for AMOC-specific implementation.</p>
+<section id="file-naming">
+<h2>File naming<a class="headerlink" href="#file-naming" title="Link to this heading"></a></h2>
+<p>According to OceanSITES, the filenaming convention is: <cite>OS_[PlatformCode]_[DeploymentCode]_[DataMode]_[PARTX].nc</cite>, when applied to individual instrument deployments.</p>
+<section id="oceansites-gridded-and-derived-data">
+<h3>OceanSITES: Gridded and derived data<a class="headerlink" href="#oceansites-gridded-and-derived-data" title="Link to this heading"></a></h3>
+<p>OceanSITES says a number of higher-level data products can be created:</p>
+<ul class="simple">
+<li><p><strong>merged:</strong> A “long time series” version that may concatenate multiple deployments (some homogenization).  Not used in <cite>amocarray</cite>.</p></li>
+<li><p><strong>gridded (GRD):</strong> A “gridded” version which interpolates to a space-time grid different from native instrumental resolution (this is what OSNAP and RAPID provide for their TEMPERATURE and SALINITY fields)</p></li>
+<li><p><strong>derived (DPR):</strong> A “derived” data product (e.g., the “overturning circulation” or “meridional heat transport”)</p></li>
+</ul>
+</section>
+<section id="file-naming-for-array-data-products">
+<h3>File naming for array data products<a class="headerlink" href="#file-naming-for-array-data-products" title="Link to this heading"></a></h3>
+<p><cite>OS_[PSPANCode]_[StartEndCode]_ [ContentType]_[PARTX].nc</cite></p>
+<ul>
+<li><p><cite>PSPANCode</cite>: the <cite>[PlatformCode]</cite> can be replaced with an appropriate choice of site, project, array or network which can be taken from the global attributes of the underlying source data.  For <cite>amocarray</cite>, we will use the <cite>array</cite> global attribute (should be e.g. RAPID, OSNAP, MOVE, SAMBA, 11South).</p></li>
+<li><p><cite>StartEndCode</cite>: the <cite>[DeploymentCode]</cite> can be replaced with a time range that is appropriate for the data in the file.  For <cite>amocarray</cite>, this will be the time range of the data in the file. Preferred format is e.g. “20050301-20190831” to indicate data from March 2005 through August 2019.</p></li>
+<li><p><cite>ContentType</cite>: the <cite>[DataMode]</cite> can be replaced with a three-letter code that describes the content of the file (distinguished from the deployment files, which have a one-letter code here), one of:</p>
+<ul class="simple">
+<li><p>LTS (not used in <cite>amocarray</cite>): The data are “long time series” data that are essentially at the native instrumental resolution in space and time. The primary difference from the deployment-by-deployment files is that a single file contains merged data from multiple deployments.</p></li>
+<li><p>GRD: The data are “gridded”, meaning that some sort of binning, averaging, interpolating has been done to format the data onto a space-time grid that is different from the native resolution, and more than a simple concatenation like the “LTS” option.  This is what OSNAP and RAPID provide for their TEMPERATURE and SALINITY fields.</p></li>
+<li><p>DPR: The data are a “derived product”, which means that there are data that were derived from multiple sites or some other higher-order processing that the data provider distinguishes from the lower-level data. This is the case for the overturning transports and component transports and streamfunctions.</p></li>
+</ul>
+</li>
+<li><p>[PARTX] - An optional user-defined field for additional identification or explanation of data. For gridded data, this could include the record interval as subfields of ISO 8601 (PnYnMnDTnHnMnS), e.g. P1M for monthly data, T30M for 30 minutes, T1H for hourly.  For <cite>amocarray</cite>, this will be a short code corresponding to the types of data in the file:</p>
+<ul class="simple">
+<li><p>RAPID (PSPANCode = RAPID):
+- <cite>ts_gridded.nc</cite> has individual locations with timeSeriesProfile.  The <cite>PARTX</cite> for OceanSITES will be <cite>gridded_mooring</cite>, and ContentType = GRD.
+- <cite>moc_vertial.nc</cite> and <cite>moc_transports.nc</cite> have the streamfunction, and time series of component transports at 12-hour intervals.  The <cite>PARTX</cite> for OceanSITES will combine both and this will be <cite>transports_T12H.nc</cite>, and ContentType = DPR.
+- <cite>2d_gridded.nc</cite> has the 2D gridded data.  The <cite>PARTX</cite> for OceanSITES will be <cite>sections_T10D</cite> for monthly, and ContentType = GRD.
+- <cite>meridional_transports.nc</cite> has the MOC transport in depth and sigma coordinates, as well as MHT and MFT on a 10-day grid. The <cite>PARTX</cite> for OceanSITES will be <cite>transports_T10D.nc</cite>, and ContentType = DPR.</p></li>
+<li><p>OSNAP (PSPANCode = OSNAP):
+- <cite>OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc</cite> has the MOC, MHT and MFT on a monthly grid. <cite>OSNAP_Streamfunction_*nc</cite> has the streamfunction for west, east and all on a monthly and sigma grid.  The <cite>PARTX</cite> for OceanSITES will be <cite>transports_T1M.nc</cite>, with ContentType = DPR.
+- <cite>OSNAP_2D_Gridded_Temperature_Salinity_Velocity_201408_202006.nc</cite> has the 2D gridded data for TEMP, SAL and VELO on TIME, LONGITUDE, LATITUDE and DEPTH.  The <cite>PARTX</cite> for OceanSITES will be <cite>sections_T1M.nc</cite>, with ContentType = GRD.</p></li>
+<li><p>MOVE (PSPANCode = MOVE):
+- <cite>OS_MOVE_TRANSPORTS.nc</cite> has the total transport in a layer 1200-4950 dbar, the internal, offset and boundary transports.  The <cite>PARTX</cite> for OceanSITES will be <cite>transports_T1M.nc</cite>, with ContentType = DPR.</p></li>
+<li><p>SAMBA (PSPANCode = SAMBA):
+- <cite>Upper_Abyssal_Transport_Anomalies.txt</cite> has the upper and abyssal transport anomalies. The <cite>PARTX</cite> for OceanSITES will be <cite>Kersale_transports_T1M.nc</cite>, with ContentType = DPR.
+- <cite>MOC_TotalAnomaly_and_constituents.asc</cite> has the MOC total anomaly and constituents/components. The <cite>PARTX</cite> for OceanSITES will be <cite>Meinen_transports_T1M.nc</cite>, with ContentType = DPR.</p></li>
+</ul>
+<p>Unclear whether to call “Meinen” the “2site” and “Kersale” the “9site”.</p>
+</li>
+</ul>
+</section>
+<section id="feature-types">
+<h3>Feature Types<a class="headerlink" href="#feature-types" title="Link to this heading"></a></h3>
+<p>The following OceanSITES featureTypes are used:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature Type</p></th>
+<th class="head"><p>Used For</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">timeSeries</span></code></p></td>
+<td><p>MOC, MHT, MFT, Ekman</p></td>
+<td><p>1D time series at a single or derived location</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">timeSeriesProfile</span></code></p></td>
+<td><p>T/S profiles at fixed mooring locations</p></td>
+<td><p>Includes depth and time as dimensions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">timeSeriesProfile</span></code></p></td>
+<td><p>Interpolated sections from OSNAP, RAPID, SAMBA</p></td>
+<td><p>Regular grids in depth/longitude or density/longitude</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">timeSeriesProfile</span></code></p></td>
+<td><p>Streamfunction, MOC decompositions</p></td>
+<td><p>Derived products, not raw observations</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="global-metadata">
+<h2>Global Metadata<a class="headerlink" href="#global-metadata" title="Link to this heading"></a></h2>
+<p>The following global attributes are recommended for OceanSITES-compliant NetCDF files. The <code class="docutils literal notranslate"><span class="pre">RS</span></code> column indicates the requirement status:</p>
+<ul class="simple">
+<li><p><strong>M</strong> = Mandatory (required for compliance or by GDAC)</p></li>
+<li><p><em>HD</em> = Highly Desired (strongly recommended)</p></li>
+<li><p><em>S</em> = Suggested (optional but useful)</p></li>
+<li><p>Unidata Attribute Convention for Data Discovery (ACDD).  See [here](<a class="reference external" href="https://www.esipfed.org/what-is-acdd/">https://www.esipfed.org/what-is-acdd/</a>).</p></li>
+<li><p>Additional metadata attributes from the deployment-by-deployment files (as</p></li>
+</ul>
+<p>specified earlier in this document) are possible and welcome, as long as they
+make sense for the data product in question.</p>
+<section id="discovery-and-identification">
+<h3>1. Discovery and Identification<a class="headerlink" href="#discovery-and-identification" title="Link to this heading"></a></h3>
+<p>The following global attributes are recommended for inclusion in all OceanSITES-compliant NetCDF files. This table includes both required and suggested metadata fields relevant for data discovery, attribution, and catalog integration.</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Global Attributes for Discovery and Identification</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">site_code</span></code></p></td>
+<td><p>Name of the OceanSITES site. Technically, site codes should be approved by the OceanSITES Project Office to avoid duplication.</p></td>
+<td><dl class="simple">
+<dt><strong>one of:</strong></dt><dd><ul class="simple">
+<li><p>“RAPID”</p></li>
+<li><p>“MOVE”</p></li>
+<li><p>“OSNAP”</p></li>
+<li><p>“SAMBA”</p></li>
+<li><p>or “”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">data_mode</span></code></p></td>
+<td><p>Indicates if data are real-time (<code class="docutils literal notranslate"><span class="pre">R</span></code>), provisional (<code class="docutils literal notranslate"><span class="pre">P</span></code>), or delayed-mode (<code class="docutils literal notranslate"><span class="pre">D</span></code>).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D</span></code></p></td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">title</span></code></p></td>
+<td><p>Short, human-readable phrase or sentence describing the dataset.</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“Ocean transports at 26°N”</p></li>
+<li><p>“Hydrographic sections data at 26°N”</p></li>
+<li><p>“Oceanographic section data at OSNAP line”</p></li>
+<li><p>“Ocean transports at MOVE 16°N line”</p></li>
+<li><p>“Ocean transports at SAMBA 34.5°S line”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>HD</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">theme</span></code></p></td>
+<td><p>List of OceanSITES theme areas to which this dataset belongs (comma separated, see reference manual for options). <em>Omitted for datasets not derived from moored observations.</em></p></td>
+<td><p><strong>ex.:</strong> “Transport Moored Arrays”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">naming_authority</span></code></p></td>
+<td><p>A unique name that identifies the institution or organisation who provided the id.  ACDD-1.3 recommends using reverse-DNS naming.</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“OceanSITES”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">array</span></code></p></td>
+<td><p>OceanSITES array grouping based on scientific rationale. Note that this will be part of the <code class="docutils literal notranslate"><span class="pre">id</span></code> and filename.</p></td>
+<td><p><strong>ex.:</strong> “RAPID”</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">id</span></code></p></td>
+<td><p>Unique dataset ID (often filename without <cite>.nc</cite>, which would be “OS_&lt;array&gt;_&lt;YYYYMMDD&gt;-&lt;YYYYMMDD&gt;_&lt;GRD/DPR&gt;_&lt;PARTX&gt;” where &lt;array&gt; is one of “RAPID”, “MOVE”, etc, the datestrings are the start and end dates of the dataset, GRD for gridded data, DPR for derived products, and the PARTX is some unique combination of “transports_T1M” or “sections_T10D” or similar).</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“OS_RAPID_20040401-20230211_DPR_transports_T10D”</p></li>
+<li><p>“OS_OSNAP_20140801-20200601_GRD_sections_T1M”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary</span></code></p></td>
+<td><p>Longer free-format text describing the dataset. This attribute should allow data discovery for a human reader. A paragraph of up to 100 words is appropriate. (ACDD)</p></td>
+<td><p>“Oceanographic mooring data from the RAPID array at 26°N in the Atlantic since 2004.  Measured properties: temperature, salinity at 20 dbar intervals and 10-day intervals.”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">source</span></code></p></td>
+<td><p>Use a term from the <a class="reference external" href="https://vocab.nerc.ac.uk/collection/L06/current/">SeaVoX Platform Categories vocabulary (L06)</a> list, usually one of the following: “moored surface buoy”, “subsurface mooring”, ”ship” (CF)</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“subsurface mooring”</p></li>
+<li><p>“orbiting satellite”</p></li>
+<li><p>“drifting subsurface profiling float”</p></li>
+<li><p>“autonomous underwater vehicle”</p></li>
+<li><p>“coastal structure”</p></li>
+<li><p>“fixed benthic node”</p></li>
+<li><p>“research vessel” or “ship”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>HD</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">principal_investigator</span></code></p></td>
+<td><p>Name of the person responsible for the scientific project.  Multiple PIs are separated by commas.</p></td>
+<td><p><strong>ex.:</strong> “Alice Juarez, John Smith”</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">principal_investigator_email</span></code></p></td>
+<td><p>Email address of the PI.</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="mailto:ajuarez&#37;&#52;&#48;whoi&#46;edu">ajuarez<span>&#64;</span>whoi<span>&#46;</span>edu</a>, <a class="reference external" href="mailto:john&#46;smith&#37;&#52;&#48;noc&#46;ac&#46;uk">john<span>&#46;</span>smith<span>&#64;</span>noc<span>&#46;</span>ac<span>&#46;</span>uk</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">principal_investigator_id</span></code></p></td>
+<td><p>ORCiD or other persistent ID for the PI.</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="https://orcid.org/0000-0001-5044-7079">https://orcid.org/0000-0001-5044-7079</a>, “</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">creator_name</span></code></p></td>
+<td><p>Name of the person (or group) who created the dataset.  Multiple creators are separated by commas.</p></td>
+<td><p><strong>ex.:</strong> “Alice Juarez”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">creator_email</span></code></p></td>
+<td><p>Email address of the creator.</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="mailto:ajuarez&#37;&#52;&#48;whoi&#46;edu">ajuarez<span>&#64;</span>whoi<span>&#46;</span>edu</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">creator_id</span></code></p></td>
+<td><p>ORCiD or other persistent ID for the creator.</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="https://orcid.org/0000-0001-5044-7079">https://orcid.org/0000-0001-5044-7079</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">creator_type</span></code></p></td>
+<td><p>Describes the creator entity: <code class="docutils literal notranslate"><span class="pre">person</span></code>, <code class="docutils literal notranslate"><span class="pre">group</span></code>, <code class="docutils literal notranslate"><span class="pre">institution</span></code>, or <code class="docutils literal notranslate"><span class="pre">position</span></code>.</p></td>
+<td><p><strong>ex.:</strong> “institution”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">creator_institution</span></code></p></td>
+<td><p>Institution associated with the creator.</p></td>
+<td><p><strong>ex.:</strong> “WHOI”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">keywords_vocabulary</span></code></p></td>
+<td><p>Vocabulary source for keywords. E.g. <a class="reference external" href="https://gcmd.earthdata.nasa.gov/KeywordViewer/">GCMD Science Keywords</a>.</p></td>
+<td><p><strong>ex.:</strong> “GCMD Science Keywords”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">keywords</span></code></p></td>
+<td><p>Provide comma-separated list of terms that will aid in discovery of the dataset. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> “EARTH SCIENCE &gt; Oceans &gt; Ocean Circulation &gt; Thermohaline Circulation”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">comment</span></code></p></td>
+<td><p>Miscellaneous information about the data or methods used to produce it. Any free-format text is appropriate. (CF)</p></td>
+<td><p><strong>ex.:</strong> “Preliminary version; subject to revision”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">platform_code</span></code></p></td>
+<td><p>A unique platform code.  This code is either assigned by the site PI (see principal_investigator) or by the data provider.</p></td>
+<td><p>Note that this is required for OceanSITES for GDAC, but it is not implemented in the current version of the <cite>amocarray</cite> package.</p></td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">principal_investigator_url</span></code></p></td>
+<td><p>Web URL for the PI.</p></td>
+<td><p>“<a class="reference external" href="https://whoi.edu/profile/ajuarez">https://whoi.edu/profile/ajuarez</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">creator_url</span></code></p></td>
+<td><p>Web profile for the creator.</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="https://whoi.edu/profile/ajuarez">https://whoi.edu/profile/ajuarez</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">network</span></code></p></td>
+<td><p>A grouping of sites based on common shore-based logistics, funding, or infrastructure.</p></td>
+<td><p><strong>ex.:</strong> “EuroSITES”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="geo-spatial-temporal-metadata">
+<h3>2. Geo-spatial-temporal Metadata<a class="headerlink" href="#geo-spatial-temporal-metadata" title="Link to this heading"></a></h3>
+<p>The following attributes are recommended for inclusion in all OceanSITES-compliant NetCDF files. This table includes both required and suggested metadata fields relevant for data discovery, attribution, and catalog integration.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Geo-spatial-temporal Metadata</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sea_area</span></code></p></td>
+<td><p>Geographical coverage. <a class="reference external" href="https://vocab.nerc.ac.uk/collection/C19/current/">SeaVox Water Body Gazetteer vocabulary (C19)</a></p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“North Atlantic Ocean”</p></li>
+<li><p>“South Atlantic Ocean”</p></li>
+<li><p>“Arctic Ocean”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lat_min</span></code></p></td>
+<td><p>The southernmost latitude, a value between -90 and 90 degrees; may be string or numeric. (ACDD, GDAC)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> geospatial_lat_min = 20.0</p></li>
+<li><p><strong>format:</strong> decimal degree</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lat_max</span></code></p></td>
+<td><p>The northernmost latitude, a value between -90 and 90 degrees; may be string or numeric. (ACDD, GDAC)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> geospatial_lat_max = 20.0</p></li>
+<li><p><strong>format:</strong> decimal degree</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lat_units</span></code></p></td>
+<td><p>Must conform to <a class="reference external" href="https://www.unidata.ucar.edu/software/udunits/">udunits</a>. If not specified then ”degree_north” is assumed. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> geospatial_lat_units =  “degrees_north”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lon_min</span></code></p></td>
+<td><p>The westernmost longitude, a value between -180 and 180 degrees. (ACDD, GDAC)</p></td>
+<td><p><strong>ex.:</strong> geospatial_lon_min = -80.0</p></td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lon_max</span></code></p></td>
+<td><p>The easternmost longitude, a value between -180 and 180 degrees. (ACDD, GDAC)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> geospatial_lon_max = 20.0</p></li>
+<li><p><strong>format:</strong> decimal degree</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_lon_units</span></code></p></td>
+<td><p>Must conform to <a class="reference external" href="https://www.unidata.ucar.edu/software/udunits/">udunits</a>. If not specified then ”degree_east” is assumed. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> geospatial_lon_units = “degrees_east”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_vertical_min</span></code></p></td>
+<td><p>The minimum depth or height of the data, a value between -10000 and 10000 meters. Describes the numerically smaller vertical limit. (ACDD)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> geospatial_vertical_min = 0.0</p></li>
+<li><p><strong>format:</strong> meter depth</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_vertical_max</span></code></p></td>
+<td><p>The maximum depth or height of the data, a value between -10000 and 10000 meters. Describes the numerically larger vertical limit. (ACDD)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> geospatial_vertical_max = 0.0</p></li>
+<li><p><strong>format:</strong> meter depth</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_vertical_positive</span></code></p></td>
+<td><p>Indicates which direction is positive; “up” means that z represents height, while a value of “down” means that z represents pressure or depth. If not specified then “down” is assumed. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> geospatial_vertical_positive = “down”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">geospatial_vertical_units</span></code></p></td>
+<td><p>Units of depth, pressure, or height. If not specified then “meter” is assumed. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> geospatial_vertical_units = “m”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time_coverage_start</span></code></p></td>
+<td><p>Datetime of the first measurement in this dataset in ISO 8601 format. (ACDD)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> time_coverage_start = “2004-01-01T00:00:00Z”</p></li>
+<li><p><strong>format:</strong> formatted string, ISO 8601</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_coverage_end</span></code></p></td>
+<td><p>Datetime of the last measurement in this dataset in ISO 8601 format. (ACDD)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> time_coverage_end = “2023-01-01T00:00:00Z”</p></li>
+<li><p><strong>format:</strong> formatted string, ISO 8601</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong> (for GDAC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time_coverage_duration</span></code></p></td>
+<td><p>Use ISO 8601 ‘duration’ convention (ACDD)</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“P415D” (415 days)</p></li>
+<li><p>“P1Y” (1 year)</p></li>
+<li><p>“P1Y2M” (1 year, 2 months)</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_coverage_resolution</span></code></p></td>
+<td><p>The time interval between records: Use ISO 8601 (PnYnMnDTnHnMnS). (ACDD)</p></td>
+<td><ul class="simple">
+<li><p><strong>ex.:</strong> time_coverage_resolution = “P1D” (1 day)</p></li>
+<li><p><strong>format:</strong> formatted string, ISO 8601</p></li>
+</ul>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">featureType</span></code></p></td>
+<td><p>for files using the Discrete Sampling Geometry, available in CF-1.5 and later. See CF documents. For OceanSITES, this should be one of: <code class="docutils literal notranslate"><span class="pre">timeSeries</span></code>, <code class="docutils literal notranslate"><span class="pre">timeSeriesProfile</span></code>, <code class="docutils literal notranslate"><span class="pre">trajectory</span></code>.</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“timeSeries”</p></li>
+<li><p>“timeSeriesProfile”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>M</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">data_type</span></code></p></td>
+<td><p>From Reference table 1: OceanSITES specific. (GDAC)</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>”OceanSITES time-series data”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>M</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conventions">
+<h3>3. Conventions<a class="headerlink" href="#conventions" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Conventions used</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">format_version</span></code></p></td>
+<td><p>OceanSITES format version</p></td>
+<td><p><strong>ex.:</strong>  1.4</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Conventions</span></code></p></td>
+<td><p>Name of the conventions used in the dataset.</p></td>
+<td><p><strong>ex.:</strong> “CF-1.7, OceanSITES-1.4, ACDD-1.2”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="publication-information">
+<h3>4. Publication Information<a class="headerlink" href="#publication-information" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Publication information</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">publisher_name</span></code></p></td>
+<td><p>Name of the person responsible for metadata and formatting</p></td>
+<td><p><strong>ex.:</strong> <a class="reference external" href="http://github.com/AMOCcommunity/amocarray">http://github.com/AMOCcommunity/amocarray</a></p></td>
+<td><p><strong>S</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">publisher_url</span></code></p></td>
+<td><p>Web address of the institution or data publisher</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="http://github.com/AMOCcommunity/amocarray">http://github.com/AMOCcommunity/amocarray</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>Published or web-based references that describe the data or methods used to produce it. Include a reference to OceanSITES and a project-specific reference if appropriate.</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>”<a class="reference external" href="http://www.oceansites.org">http://www.oceansites.org</a>, <a class="reference external" href="http://www.noc.soton.ac.uk/animate/index.php">http://www.noc.soton.ac.uk/animate/index.php</a>”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">license</span></code></p></td>
+<td><p>A statement describing the data distribution policy; it may be a project- or DAC-specific statement, but must allow free use of data. OceanSITES has adopted the CLIVAR data policy, which explicitly calls for free and unrestricted data exchange. Details at: <a class="reference external" href="http://www.clivar.org/resources/data/data-policy">http://www.clivar.org/resources/data/data-policy</a> (ACDD)</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“Follows CLIVAR (Climate Varibility and Predictability) standards, cf. <a class="reference external" href="http://www.clivar.org/resources/data/data-policy">http://www.clivar.org/resources/data/data-policy</a>. Data available free of charge. User assumes all risk for use of data. User must display citation in any publication or product using data. User must contact PI prior to any commercial use of data.”</p></li>
+<li><p>“CC-BY-4.0”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">citation</span></code></p></td>
+<td><p>The citation to be used in publications using the dataset; should include a reference to OceanSITES, the name of the PI, the site name, platform code, data access date, time, and URL, and, if available, the DOI of the dataset.</p></td>
+<td><p><strong>ex.:</strong> “These data were collected and made freely available by the OceanSITES program and the national programs that contribute to it.”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">acknowledgement</span></code></p></td>
+<td><p>A place to acknowledge various types of support for the project that produced this data. (ACDD)</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>acknowledgement=”Principal funding for the NTAS experiment is provided by the US NOAA Climate Observation Division.”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="provenance">
+<h3>5. Provenance<a class="headerlink" href="#provenance" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">Provenance</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute Name</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">date_created</span></code></p></td>
+<td><p>The date on which the this file was created. Version date and time for the data contained in the file. See note on time format below. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> date_created =”2016-04-11T08:35:00Z”</p></td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">date_modified</span></code></p></td>
+<td><p>The date on which this file was last modified. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> date_modified =”2016-04-11T08:35:00Z”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">history</span></code></p></td>
+<td><p>Provides an audit trail for modifications to the original data. It should contain a separate line for each modification, with each line beginning with a timestamp, and including user name, modification name, and modification arguments. The time stamp should follow the format outlined in the note on time formats below. (NUG)</p></td>
+<td><p><strong>ex.:</strong> history= “2012-04-11T08:35:00Z data collected, A. Meyer;</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">processing_level</span></code></p></td>
+<td><p>Level of processing and quality control applied to data. Preferred values are listed in reference table 3.</p></td>
+<td><p>processing_level = ”Data verified against model or other contextual information” (OceanSITES specific)</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">QC_indicator</span></code></p></td>
+<td><p>A value valid for the whole dataset</p></td>
+<td><dl class="simple">
+<dt><strong>ex.:</strong></dt><dd><ul class="simple">
+<li><p>“unknown” (no QC done, no known problems)</p></li>
+<li><p>“excellent” (no known problems, all important QC done)</p></li>
+<li><p>“probably good” (validation phase)</p></li>
+<li><p>“mixed” (some problems, see variable attributes)</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contributor_name</span></code></p></td>
+<td><p>A semi-colon-separated list of names of any individuals or institutions that contributed to the collection, editing or publication of the data in the file. (ACDD)</p></td>
+<td><p><strong>ex.:</strong> “Alice Juarez; John Smith”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contributor_role</span></code></p></td>
+<td><p>The roles of any individuals or institutions that contributed to the creation of this data, separated by semi-colons (ACDD)</p></td>
+<td><p><strong>ex.:</strong> “data collector; data editor”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contributor_email</span></code></p></td>
+<td><p>The email addresses of any individuals or institutions that contributed to the creation of this data, separated by semi-colons (ACDD)</p></td>
+<td><p><strong>ex.:</strong> “<a class="reference external" href="mailto:alicejuarez&#37;&#52;&#48;whoi&#46;edu">alicejuarez<span>&#64;</span>whoi<span>&#46;</span>edu</a>; <a class="reference external" href="mailto:johnsmith&#37;&#52;&#48;noc&#46;ac&#46;uk">johnsmith<span>&#64;</span>noc<span>&#46;</span>ac<span>&#46;</span>uk</a>”</p></td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="dimension-and-definition">
+<h2>Dimension and definition<a class="headerlink" href="#dimension-and-definition" title="Link to this heading"></a></h2>
+<p>OceanSITES recommends coordinates with an “axis” attribute defining that they represent the X, Y, Z or T axis (which should appear in the relative order T, Z, Y, X). Here, they use the naming: <cite>TIME</cite>, <cite>LATITUDE</cite>, <cite>LONGITUDE</cite>, and <cite>DEPTH</cite>.   (<strong>Note: this departs from OSNAP data files</strong>).  Apparently in OceanSITES, “depth” is strongly preferred over “pressure”.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dimension</p></th>
+<th class="head"><p>Definition</p></th>
+<th class="head"><p>Comment</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>unlimited, axis=”T”</p></td>
+<td><p>Time coordinate in days since 1950-01-01</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></td>
+<td><p>vertical, axis=”Z”</p></td>
+<td><p>Positive downward, in meters</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>horizontal, axis=”Y”, axis=”X”</p></td>
+<td><p>In degrees north/east</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="coordinates">
+<h2>Coordinates<a class="headerlink" href="#coordinates" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.5%" />
+<col style="width: 61.0%" />
+<col style="width: 8.5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Coordinate name</p></th>
+<th class="head"><p>Coordinate attributes</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">TIME</span></code></dt><dd><ul class="simple">
+<li><p>data type: double (datetime64[ns])</p></li>
+<li><p>dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><ul class="simple">
+<li><p>long_name = “Time elapsed since 1970-01-01T00:00:00Z”</p></li>
+<li><p>calendar = “gregorian”;</p></li>
+<li><p>units = “seconds since 1970-01-01T00:00:00Z”;</p></li>
+<li><p>axis = “T”</p></li>
+</ul>
+</td>
+<td><p><strong>M</strong></p></td>
+</tr>
+<tr class="row-odd"><td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> or <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> or <code class="docutils literal notranslate"><span class="pre">SIGMA</span></code></dt><dd><ul class="simple">
+<li><p>data type: double (float32)</p></li>
+<li><p>dimension: <code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><ul class="simple">
+<li><p>long_name = “Depth below surface of the water body”</p></li>
+<li><p>standard_name = “depth” or “sea_water_pressure” or “sea_water_sigma_theta”</p></li>
+<li><p>positive = “down” or “down” or “down”</p></li>
+<li><p>units = “m” or “dbar” or “kg m-3”</p></li>
+<li><p>valid_min = 0.0 or 0.0 or 0.0</p></li>
+<li><p>valid_max = 10000.0 or 10000.0 or 50.0</p></li>
+<li><p>axis = “Z”</p></li>
+</ul>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-even"><td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></dt><dd><ul class="simple">
+<li><p>data type: double (float32)</p></li>
+<li><p>dimension: <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><ul class="simple">
+<li><p>long_name = “Longitude”</p></li>
+<li><p>standard_name = “longitude”</p></li>
+<li><p>units = “degrees_east”</p></li>
+<li><p>valid_min = -180.0</p></li>
+<li><p>valid_max = 180.0</p></li>
+<li><p>axis = “X”</p></li>
+</ul>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+<tr class="row-odd"><td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></dt><dd><ul class="simple">
+<li><p>data type: double (float32)</p></li>
+<li><p>dimension: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><ul class="simple">
+<li><p>long_name = “Latitude”</p></li>
+<li><p>standard_name = “latitude”</p></li>
+<li><p>units = “degrees_north”</p></li>
+<li><p>valid_min = -90.0</p></li>
+<li><p>valid_max = 90.0</p></li>
+<li><p>axis = “Y”</p></li>
+</ul>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+<p>For Time, by default, it represents the <em>center of the data sample or averaging period</em>.  This is not consistent with OSNAP native format.</p>
+</section>
+<section id="geophysical-variables">
+<h2>Geophysical variables<a class="headerlink" href="#geophysical-variables" title="Link to this heading"></a></h2>
+<p>All variables must follow CF and OceanSITES standard_name rules (lowercase, underscores, no capitals).</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">standard_name</span></code> where defined; otherwise, include descriptive <code class="docutils literal notranslate"><span class="pre">long_name</span></code> and appropriate <code class="docutils literal notranslate"><span class="pre">units</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.2%" />
+<col style="width: 42.6%" />
+<col style="width: 29.8%" />
+<col style="width: 7.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>VARIABLE NAME</p></th>
+<th class="head"><p>variable attributes</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>RS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;PARAM&gt;</span></code></dt><dd><ul class="simple">
+<li><p>data type: float</p></li>
+<li><p>dimensions: (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><ul class="simple">
+<li><p>&lt;PARAM&gt;:long_name = “&lt;X&gt;”</p></li>
+<li><p>&lt;PARAM&gt;:standard_name = “&lt;X&gt;”</p></li>
+<li><p>&lt;PARAM&gt;:vocabulary = “”;</p></li>
+<li><p>&lt;PARAM&gt;:_FillValue = &lt;X&gt;</p></li>
+<li><p>&lt;PARAM&gt;:units = “&lt;X&gt;”</p></li>
+<li><p>&lt;PARAM&gt;:ancillary_variables = “&lt;PARAM&gt;_QC”;</p></li>
+<li><p>&lt;PARAM&gt;:coordinates = “TIME, LEVEL, LONGITUDE”</p></li>
+</ul>
+</td>
+<td><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CT(TIME,</span> <span class="pre">LEVEL,</span> <span class="pre">LONGITUDE)</span></code></dt><dd><ul class="simple">
+<li><p>long_name = “Conservative temperature”</p></li>
+<li><p>standard_name = “sea_water_conservative_temperature”</p></li>
+<li><p>vocabulary = “<a class="reference external" href="https://vocab.nerc.ac.uk/collection/P07/current/IFEDAFIE/">https://vocab.nerc.ac.uk/collection/P07/current/IFEDAFIE/</a>”</p></li>
+<li><p>units = “degree_Celsius”</p></li>
+<li><p>valid_min = -2.0</p></li>
+<li><p>valid_max = 35.0</p></li>
+<li><p>_FillValue = NaNf</p></li>
+<li><p>coordinates = “TIME, LEVEL, LONGITUDE”</p></li>
+</ul>
+</dd>
+</dl>
+</td>
+<td><p><em>S</em></p></td>
+</tr>
+</tbody>
+</table>
+<section id="flags-and-qc">
+<h3>Flags and QC<a class="headerlink" href="#flags-and-qc" title="Link to this heading"></a></h3>
+<p>For Flags, these are indicated as <strong>&lt;PARAM&gt;_QC</strong> with standard values “flag_values” = 0, 1, 2, 3, 4, 7, 8, 9 and “flag_meanings” = “unknown good_data probably_good_data potentially_correctable_bad_data bad_data nominal_value interpolated_value missing_value” (attribute to the variable) defined.  There is also an optional <strong>&lt;PARAM&gt;_UNCERTAINTY</strong> with “technique_title” as “Title of the document that describes the technique that was applied to estimate the uncertainty of the data”.  I’m not sure whether either of these applies to the “_FLAG” for RAPID or the “_ERR” for OSNAP.  But OSNAP does have the “QC_indicator” and “Processing_level”.  QC_indicator is OceanSITES specific (see table 2) and “processing_level” is table 3.</p>
+<p>The QC_indicator (ref table 2) are used in the &lt;PARAM&gt;_QC variable to describe the quality of each measurement.  I’m not sure this is how OSNAP uses it.  Processing level options applied to all measurements of a variable and are given as an overall indicator in the attributes of each variable:</p>
+<ul class="simple">
+<li><p>Raw instrument data</p></li>
+<li><p>Instrument data that has been converted to geophysical values</p></li>
+<li><p>Post-recovery calibrations have been applied</p></li>
+<li><p>Data has been scaled using contextual information</p></li>
+<li><p>Known bad data has been replaced with null values</p></li>
+<li><p>Known bad data has been replaced with values based on surrounding</p></li>
+</ul>
+<p>data</p>
+<ul class="simple">
+<li><p>Ranges applied, bad data flagged</p></li>
+<li><p>Data interpolated</p></li>
+<li><p>Data manually reviewed</p></li>
+<li><p>Data verified against model or other contextual information</p></li>
+<li><p>Other QC process applied</p></li>
+</ul>
+</section>
+</section>
+<section id="amoc-array-data">
+<h2>AMOC array data<a class="headerlink" href="#amoc-array-data" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>RAPID data files use dimensions of <cite>depth</cite> and <cite>time</cite> but coordinates of <cite>pressure</cite> in the 12-hourly data.  In the 10-day data, it is <cite>time</cite>, <cite>longitude</cite>, and <cite>depth</cite> and also <cite>sigma0</cite> for dimensions, with coordinates of <cite>pressure</cite> and <cite>sigma0</cite>.(<strong>Verify this</strong>).  Dimension orders do not follow CF conventions so arrays will need to be rotated.  Axis is not specified (needs to be added).</p></li>
+<li><p>OSNAP data files use dimensions of <cite>TIME</cite>, <cite>LEVEL</cite>, <cite>LATITUDE</cite> and <cite>LONGITUDE</cite> and sometimes also <cite>DEPTH</cite>.  Axis is specified.  The order of dimensions is consistent with OceanSITES.  Standard names are missing for some variables (e.g., the T_ALL and <cite>sea_water_velocity</cite> doesn’t seem to be an option in CF.  Probably because we need a version like <cite>sea_water_velocity_across_line</cite>.)  We can use <cite>ocean_meridional_overturning_streamfunction</cite> for the streamfunction, and perhaps <cite>ocean_volume_transport_across_line</cite> which is in CF conventions and is what MOVE uses.</p></li>
+<li><p>MOVE data files use dimensions of <cite>TIME</cite> only.   Standard names are missing for some variables (e.g., the <cite>transport_component_internal</cite> and <cite>transport_component_internal_offset</cite> and <cite>transport_component_boundary</cite>).  CF standard names does have <cite>baroclinic_northward_sea_water_velocity</cite> so perhaps we can use <cite>baroclinic_transport_across_line</cite>.</p></li>
+<li><p>SAMBA data files are also in <cite>TIME</cite> only.  Standard names are everywhere <cite>Transport_anomaly</cite>. CF conventions allows adding <cite>_anomaly</cite> but then it should be something like <cite>ocean_volume_transport_anomaly_across_line</cite> or something similar.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<p>Relevant references:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ocean-ops.org/oceansites/data/index.html">OceanSITES data format</a></p></li>
+<li><p><a class="reference external" href="https://www.ocean-ops.org/oceansites/docs/oceansites_data_format_reference_manual.pdf">OceanSITES data format reference manual</a>, but additionally attempts to specify vocabularies. Note, if the link to the pdf is broken, here is a version downloaded in 2025: <a class="reference download internal" download="" href="_downloads/1dbb84d3ab8d3815a7eb1a490587e153/oceansites_data_format_reference_manual.pdf"><code class="xref download docutils literal notranslate"><span class="pre">oceansites_data_format_reference_manual.pdf</span></code></a> which describes OceanSITES version 1.4.</p></li>
+<li><p><a class="reference external" href="https://docs.unidata.ucar.edu/udunits/current/">UDUNITS-2</a>, or the local extract <a class="reference internal" href="AC1_units.html"><span class="doc">AC1_units</span></a></p></li>
+<li><p>Vocabularies are primarily CF standard names. See <a class="reference internal" href="AC1_standard_names.html"><span class="doc">AC1_standard_names</span></a>.</p></li>
+<li><p>CF conventions has a number of relevant sections, including:</p>
+<ul>
+<li><p><a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html">CF conventions</a></p></li>
+<li><p><a class="reference external" href="https://cfconventions.org/cf-conventions/cf-standard-names.html">CF standard names</a></p></li>
+<li><p><a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html#units">CF units</a></p></li>
+<li><p><a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html#coordinate-reference-system">CF coordinate reference system</a></p></li>
+<li><p><a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html#discrete-sampling-geometries">CF discrete sampling geometries</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

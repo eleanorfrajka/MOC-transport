@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSNAP Original Data Format &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OSNAP Original Data Format</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_orig_osnap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="osnap-original-data-format">
+<span id="array-osnap"></span><h1>OSNAP Original Data Format<a class="headerlink" href="#osnap-original-data-format" title="Link to this heading"></a></h1>
+<p>The OSNAP array provides multiple observational data products including time series of overturning and heat/freshwater transport, streamfunctions in density space, and gridded fields of velocity, temperature, and salinity.</p>
+<p>At OSNAP, we have variables like MOC_ALL, MOC_EAST and MOC_WEST which are time series (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>), but these could be represented as MOC (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) where instead of the three different variables, N_PROF=3.  This would be somewhat more difficult to communicate to the user, since LATITUDE and LONGITUDE are not single points per N_PROF but instead may represent end points of a section.</p>
+<p>Variables MOC_ALL_ERR are also provided, which could be translated to MOC_ERR (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) with LATITUDE (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>) or LATITUDE_BOUND (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, 2).</p>
+<p>Heat fluxes also exist, as MHT_ALL, MHT_EAST and MHT_WEST, so these could be MHT (<code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>).</p>
+<section id="osnap-moc-mht-mft-timeseries-201408-202006-2023-nc">
+<h2>OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc<a class="headerlink" href="#osnap-moc-mht-mft-timeseries-201408-202006-2023-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: <cite>Start date</cite> of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: Total MOC</p></li>
+<li><p><strong>description</strong>: Maximum overturning streamfunction across full OSNAP array</p></li>
+<li><p><strong>comment</strong>: Maximum of the overturning streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_ALL_ERR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: MOC uncertainty</p></li>
+<li><p><strong>description</strong>: Uncertainty in MOC_ALL</p></li>
+<li><p><strong>comment</strong>: Determined from a Monte Carlo analysis</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MOC_EAST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport_anomaly</span></code></p></li>
+<li><p><strong>long_name</strong>: MOC east</p></li>
+<li><p><strong>description</strong>: Overturning streamfunction at OSNAP East</p></li>
+<li><p><strong>comment</strong>: Maximum of the overturning streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MHT_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>PW</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Heat_transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Heat transport</p></li>
+<li><p><strong>description</strong>: Meridional heat transport across full OSNAP array</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MFT_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Freshwater_transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Freshwater transport</p></li>
+<li><p><strong>description</strong>: Meridional freshwater transport across full OSNAP array</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osnap-streamfunction-201408-202006-2023-nc">
+<h2>OSNAP_Streamfunction_201408_202006_2023.nc<a class="headerlink" href="#osnap-streamfunction-201408-202006-2023-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: Start date of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code></p></td>
+<td><p>(481,)</p></td>
+<td><p>kg m-3</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">potential_density</span></code></p></li>
+<li><p><strong>long_name</strong>: Sigma-theta levels</p></li>
+<li><p><strong>description</strong>: Potential density surfaces (sigmatheta)</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction total</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta coordinates across full OSNAP</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">T_EAST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction east</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta at OSNAP East</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_WEST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(481, 71)</p></td>
+<td><p>Sv</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">Transport</span></code></p></li>
+<li><p><strong>long_name</strong>: Streamfunction west</p></li>
+<li><p><strong>description</strong>: Streamfunction in sigmatheta at OSNAP West</p></li>
+<li><p><strong>comment</strong>: Streamfunction in sigma_theta coordinates</p></li>
+<li><p><strong>QC_indicatoris</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="osnap-gridded-201408-202006-2023-nc">
+<h2>OSNAP_Gridded_201408_202006_2023.nc<a class="headerlink" href="#osnap-gridded-201408-202006-2023-nc" title="Link to this heading"></a></h2>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Variables</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 9.4%" />
+<col style="width: 17.2%" />
+<col style="width: 10.9%" />
+<col style="width: 7.8%" />
+<col style="width: 54.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Dimensions</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>(71,)</p></td>
+<td><p>datetime</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">time</span></code></p></li>
+<li><p><strong>long_name</strong>: Start date of each monthly period</p></li>
+<li><p><strong>units</strong>: days since 1950-01-01</p></li>
+<li><p><strong>comment</strong>: Start date of each month</p></li>
+<li><p><strong>processing_level</strong>: data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code></p></td>
+<td><p>(256,)</p></td>
+<td><p>degrees_north</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">latitude</span></code></p></li>
+<li><p><strong>long_name</strong>: Latitude</p></li>
+<li><p><strong>description</strong>: Latitude in degrees</p></li>
+<li><p><strong>axis</strong>: Y</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(256,)</p></td>
+<td><p>degrees_east</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></li>
+<li><p><strong>long_name</strong>: Longitude</p></li>
+<li><p><strong>description</strong>: Longitude in degrees</p></li>
+<li><p><strong>axis</strong>: X</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
+<td><p>(199,)</p></td>
+<td><p>m</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">depth</span></code></p></li>
+<li><p><strong>long_name</strong>: Depth</p></li>
+<li><p><strong>description</strong>: Depth in meters</p></li>
+<li><p><strong>positive</strong>: down</p></li>
+<li><p><strong>axis</strong>: Z</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VELO</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>m s-1</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_velocity</span></code></p></li>
+<li><p><strong>long_name</strong>: Velocity</p></li>
+<li><p><strong>description</strong>: Cross-sectional velocity along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TEMP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>degC</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_temperature</span></code></p></li>
+<li><p><strong>long_name</strong>: Temperature</p></li>
+<li><p><strong>description</strong>: In-situ temperature along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SAL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code></p></td>
+<td><p>(71, 199, 256)</p></td>
+<td><p>psu</p></td>
+<td><ul class="simple">
+<li><p><strong>standard_name</strong>: <code class="docutils literal notranslate"><span class="pre">sea_water_practical_salinity</span></code></p></li>
+<li><p><strong>long_name</strong>: Salinity</p></li>
+<li><p><strong>description</strong>: Practical salinity along OSNAP</p></li>
+<li><p><strong>QC_indicator</strong>: good data</p></li>
+<li><p><strong>processing_level</strong>: Data manually reviewed</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

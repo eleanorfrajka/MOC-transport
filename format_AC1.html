@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="AMOCarray demo" href="demo-output.html" />
-    <link rel="prev" title="Array Format (Native / Original)" href="format_orig.html" /> 
+    <link rel="prev" title="Converting to OceanSITES format" href="format_conversion.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -57,9 +57,16 @@
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Common format</span></p>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">AMOCarray Format AC1</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">1. Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#file-format">2. File Format</a></li>
@@ -111,11 +118,12 @@
              
   <section id="amocarray-format-ac1">
 <h1>AMOCarray Format AC1<a class="headerlink" href="#amocarray-format-ac1" title="Link to this heading"></a></h1>
-<p>This document defines the AC1 standard data format produced by the <code class="docutils literal notranslate"><span class="pre">amocarray.convert.to_AC1()</span></code> function.
-The AC1 format provides a unified, interoperable structure for mooring array datasets such as MOVE, RAPID, OSNAP, and SAMBA.</p>
+<p>This document defines the AC1 standard data format produced by the <code class="docutils literal notranslate"><span class="pre">amocarray.convert.to_AC1()</span></code> function.  This format is designed to provide consistency between moored estimates of overturning transport, as from the RAPID, OSNAP, MOVE and SAMBA arrays.</p>
 <section id="overview">
 <h2>1. Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
-<p>The AC1 format ensures consistency, metadata clarity, and long-term interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets. It is based on <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> objects, compatible with NetCDF4, and adheres to CF conventions where applicable.</p>
+<p>The AC1 format improves the interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets.  It uses NetCDF (Network Common Data Format) where the software is based on <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> objects.  It is derived from the OceanSITES data format [see here](<a class="reference external" href="https://www.ocean-ops.org/oceansites/data/index.html">https://www.ocean-ops.org/oceansites/data/index.html</a>) or [<a class="reference external" href="https://www.ocean-ops.org/oceansites/docs/oceansites_data_format_reference_manual.pdf](oceansites_data_format_reference_manual.pdf">https://www.ocean-ops.org/oceansites/docs/oceansites_data_format_reference_manual.pdf](oceansites_data_format_reference_manual.pdf</a>), but additionally attempts to specify vocabularies.</p>
+<p>Note, if the link to the pdf is broken, here is a version downloaded in 2025 [oceansites_data_format_reference_manual.pdf](oceansites_data_format_reference_manual.pdf) which describes OceanSITES version 1.4.</p>
+<p>See [oceanSITES format](format_oceanSITES.rst) for some information about how oceanSITES format applies to the datasets collated with <cite>amocarray</cite>.</p>
 </section>
 <section id="file-format">
 <h2>2. File Format<a class="headerlink" href="#file-format" title="Link to this heading"></a></h2>
@@ -123,14 +131,20 @@ The AC1 format provides a unified, interoperable structure for mooring array dat
 <li><p><strong>File type</strong>: NetCDF4</p></li>
 <li><p><strong>Data structure</strong>: <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></p></li>
 <li><p><strong>Dimensions</strong>:
+- <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> (optional)
+- <code class="docutils literal notranslate"><span class="pre">TIME</span></code>
+- <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (for vertical)
+- <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code> (for a location)</p></li>
+<li><p><strong>Coordinates</strong>:
 - <code class="docutils literal notranslate"><span class="pre">TIME</span></code> (required)
-- <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> (optional)
+- <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> or <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (optional)
 - <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (optional, where applicable)</p></li>
 <li><p><strong>Encoding</strong>:
 - Default: <code class="docutils literal notranslate"><span class="pre">float32</span></code> for data variables
 - Compression: Enabled if saved to NetCDF
 - Chunking: Optional, recommended for large datasets</p></li>
 </ul>
+<p>Note that CF-conventions (<a class="reference external" href="https://cfconventions.org/cf-conventions/cf-conventions.html#dimensions">https://cfconventions.org/cf-conventions/cf-conventions.html#dimensions</a>) <em>recommends</em> that data with the “interpretions of date or time <cite>T</cite>, height or depth <cite>Z</cite>, latitude <cite>Y</cite>, and longitude <cite>X</cite> be used in the relative order <cite>T</cite>, then <cite>Z</cite>, then <cite>Y</cite>, then <cite>X</cite>.  All other dimensions should, whenever possible, be placed to the left of the spatiotemporal dimensions.</p>
 </section>
 <section id="variables">
 <h2>3. Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
@@ -159,19 +173,19 @@ The AC1 format provides a unified, interoperable structure for mooring array dat
 <td><p><strong>M</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p>LONGITUDE</p></td>
-<td><p>scalar or array</p></td>
+<td><p>scalar or (N_PROF,)</p></td>
 <td><p>degrees_east</p></td>
 <td><p>Mooring or array longitude</p></td>
 <td><p>S</p></td>
 </tr>
 <tr class="row-even"><td><p>LATITUDE</p></td>
-<td><p>scalar or array</p></td>
+<td><p>scalar or (N_PROF,)</p></td>
 <td><p>degrees_north</p></td>
 <td><p>Mooring or array latitude</p></td>
 <td><p>S</p></td>
 </tr>
-<tr class="row-odd"><td><p>DEPTH</p></td>
-<td><p>optional</p></td>
+<tr class="row-odd"><td><p>DEPTH or PRESSURE</p></td>
+<td><p>(N_LEVELS,)</p></td>
 <td><p>m</p></td>
 <td><p>Depth levels if applicable</p></td>
 <td><p>S</p></td>
@@ -499,7 +513,7 @@ global attributes:
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="format_orig.html" class="btn btn-neutral float-left" title="Array Format (Native / Original)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="format_conversion.html" class="btn btn-neutral float-left" title="Converting to OceanSITES format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="demo-output.html" class="btn btn-neutral float-right" title="AMOCarray demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

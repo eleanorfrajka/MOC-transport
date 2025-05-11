@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAPID conversion thoughts &mdash; amocarray v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1078e4cb" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8b92e751"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            amocarray
+              <img src="_static/logo.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Data format</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="format_orig.html">Array Format (Native / Original)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">amocarray</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">RAPID conversion thoughts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format_convert_rapid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rapid-conversion-thoughts">
+<span id="convert-rapid"></span><h1>RAPID conversion thoughts<a class="headerlink" href="#rapid-conversion-thoughts" title="Link to this heading"></a></h1>
+<p>For example, at 26°N, the RAPID array produces an AMOC transport time series (volume transport in depth space) which is a 1-dimensional time series with a single registered latitude (26.5) and no registered longitude.  It also provides profiles of temperature, salinity and dynamic height representing individual locations (single latitude, single nominal longitude) on a vertical grid of 20 dbar.  Several locations are provided, with names like WB, MAR_WEST, MAR_EAST, EB.  So there are N_PROF locations, with N_LEVELS and also TIME as dimensions. And the LATITUDE would be <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code> (a small number, like 4, representing mooring locations)</p>
+<p>More recently, they have started providing a section of temperature, saliity and velocity which are then N_PROF, TIME and N_LEVELS, but now the <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code> (and both <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> and <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>) would be on a regular grid–or at least with more locations (longer N_PROF), though it’s possible LATITUDE would be a single latitude (26.5).</p>
+<p>RAPID also provides layer transports which are single time series with names like t_therm10, t_aiw10, t_ud10, t_ld10, etc, which are between specified depth ranges.  These could be simply: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) with <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) to give an upper and lower bound on the depths used to produce transport in layers?  It would also need something like <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) of type string.</p>
+<p>Check CF conventions for standard names: <a class="reference external" href="https://github.com/cf-convention/vocabularies/issues">https://github.com/cf-convention/vocabularies/issues</a>.  Note that <strong>standard names</strong> consist of lower-letters, digits and underscores, and begin with a letter. Upper case is not used.  See [here](<a class="reference external" href="https://cfconventions.org/Data/cf-standard-names/docs/guidelines.html">https://cfconventions.org/Data/cf-standard-names/docs/guidelines.html</a>).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">moc_vertical.nc</span></code>:</p>
+<ul>
+<li><p><strong>Convert to OceanSITES:</strong> Here, we should change the dimension to all-caps <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code> and <code class="docutils literal notranslate"><span class="pre">TIME</span></code>.  Units on the streamfunction should be <cite>sverdrup</cite> to de-confliict with <cite>Sv</cite> for sievert. According to OceanSITES, the order of the variables should be  T, Z, Y, X, so the streamfunction should be (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>).  The filename should be something like <code class="docutils literal notranslate"><span class="pre">OS_RAPID_YYYYMMDD-YYYYMMDD_DPR_moc_vertical.nc</span></code>. Here, we are using the <code class="docutils literal notranslate"><span class="pre">OS</span></code> prefix, <code class="docutils literal notranslate"><span class="pre">RAPID</span></code> as the PlatformCode, the date start and end for the DeploymentCode, and the data mode is <code class="docutils literal notranslate"><span class="pre">DPR</span></code> for derived product.  The additional text after is the original filename, <code class="docutils literal notranslate"><span class="pre">moc_vertical.nc</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code>:</p></li>
+<li><p><strong>Convert to OceanSITES:</strong> Dimensions should be <code class="docutils literal notranslate"><span class="pre">TIME</span></code> and <code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, where the coordinate name can be <code class="docutils literal notranslate"><span class="pre">PRES</span></code> for <code class="docutils literal notranslate"><span class="pre">pressure</span></code>.  The featureType global attribute can be <code class="docutils literal notranslate"><span class="pre">timeSeriesProfile</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moc_transports.nc</span></code>:</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meridional_transports.nc</span></code>:</p></li>
+</ul>
+<section id="potential-reformats">
+<h2>Potential reformats:<a class="headerlink" href="#potential-reformats" title="Link to this heading"></a></h2>
+<p><strong>Key Products</strong>:</p>
+<ul class="simple">
+<li><p><strong>Overturning:</strong>
+- <code class="docutils literal notranslate"><span class="pre">MOC</span></code>: time series (dimension: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">STREAMFUNCTION</span></code>: (<code class="docutils literal notranslate"><span class="pre">DEPTH</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME</span></code>) - this is the vertical profile of MOC (originally <code class="docutils literal notranslate"><span class="pre">stream_function_mar</span></code> in <code class="docutils literal notranslate"><span class="pre">moc_vertical.nc</span></code>, note that this extends deeper than the depth grid in <code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code> due to the incorporation of an AABW profile).</p></li>
+</ul>
+</li>
+<li><p><strong>Profiles:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, vertically gridded at mooring locations.</p>
+<ul>
+<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (242,1)</p></li>
+<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=5,)</span> <span class="pre">-</span> <span class="pre">these</span> <span class="pre">would</span> <span class="pre">be</span> <span class="pre">the</span> <span class="pre">locations</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">profiles,</span> <span class="pre">which</span> <span class="pre">are</span> <span class="pre">current</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">&quot;long</span> <span class="pre">name&quot;</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">``TG_west</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_east</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_wb3</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_MARWEST</span></code>, <code class="docutils literal notranslate"><span class="pre">TG_mareast</span></code>.  etc. <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,) - this is the depth grid in <code class="docutils literal notranslate"><span class="pre">ts_gridded.nc</span></code>.</p></li>
+<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">TEMPERATURE_FLAG</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY_FLAG</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
+</ul>
+</li>
+<li><p><strong>Gridded sections:</strong> <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code></p>
+<ul>
+<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (13000, longitude grid, 242?)</p></li>
+<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_PROF``=longitude</span> <span class="pre">grid,),</span> <span class="pre">``TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">PRESSURE</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>,)</p></li>
+<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TEMPERATURE</span></code>, <code class="docutils literal notranslate"><span class="pre">SALINITY</span></code>, <code class="docutils literal notranslate"><span class="pre">VELOCITY</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_PROF</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>).  Attributes would specify units and the version of temperature/salinity.   and specifying what version of temperature/salinity.   The flags would have an attribute describing what the values mean (e.g. “1=good, 2=bad, etc”).</p></li>
+</ul>
+</li>
+<li><p><strong>Layer transports:</strong></p>
+<ul>
+<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code> (13779, 5)</p></li>
+<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  And <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) - this would be the depth bounds for the transport layers.</p></li>
+<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>) - this would be the time series of transport in layers.  This would also have <code class="docutils literal notranslate"><span class="pre">DEPTH_BOUND</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, 2) to give an upper and lower bound on the depths used to produce transport in layers.  It would also need something like <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_LEVELS</span></code>, string) to indicate what the layer is (e.g. <cite>t_therm10</cite>, <cite>t_aiw10</cite>, etc).</p></li>
+</ul>
+</li>
+<li><p><strong>Component transports:</strong></p>
+<ul>
+<li><p>Dimensions: <code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> (13779, 5)</p></li>
+<li><p>Coordinates: <code class="docutils literal notranslate"><span class="pre">LATITUDE</span></code>, <code class="docutils literal notranslate"><span class="pre">LONGITUDE_BOUNDS</span></code> (scalar, x2), <code class="docutils literal notranslate"><span class="pre">TIME</span></code> in datetime.  <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code> for the number of components.</p></li>
+<li><p>Variables: <code class="docutils literal notranslate"><span class="pre">TRANSPORT</span></code> (<code class="docutils literal notranslate"><span class="pre">TIME</span></code>, <code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>) -  This would also have <code class="docutils literal notranslate"><span class="pre">TRANSPORT_NAME</span></code> (<code class="docutils literal notranslate"><span class="pre">N_COMPONENT</span></code>, string) to indicate what the component is (e.g. <cite>t_gs10</cite>, <cite>t_ek10</cite>, etc).  This would be similar to the layer transport but without the depth bounds.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Eleanor Frajka-Williams, FirstName LastName.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
