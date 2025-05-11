@@ -1,13 +1,17 @@
 AMOCarray Format AC1
 ====================
 
-This document defines the AC1 standard data format produced by the ``amocarray.convert.to_AC1()`` function.
-The AC1 format provides a unified, interoperable structure for mooring array datasets such as MOVE, RAPID, OSNAP, and SAMBA.
+This document defines the AC1 standard data format produced by the ``amocarray.convert.to_AC1()`` function.  This format is designed to provide consistency between moored estimates of overturning transport, as from the RAPID, OSNAP, MOVE and SAMBA arrays.
 
 1. Overview
 -----------
 
-The AC1 format ensures consistency, metadata clarity, and long-term interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets. It is based on ``xarray.Dataset`` objects, compatible with NetCDF4, and adheres to CF conventions where applicable.
+The AC1 format improves the interoperability for Atlantic Meridional Overturning Circulation (AMOC) mooring array datasets.  It uses NetCDF (Network Common Data Format) where the software is based on ``xarray.Dataset`` objects.  It is derived from the OceanSITES data format [see here](https://www.ocean-ops.org/oceansites/data/index.html) or [https://www.ocean-ops.org/oceansites/docs/oceansites_data_format_reference_manual.pdf](oceansites_data_format_reference_manual.pdf), but additionally attempts to specify vocabularies.
+
+Note, if the link to the pdf is broken, here is a version downloaded in 2025 [oceansites_data_format_reference_manual.pdf](oceansites_data_format_reference_manual.pdf) which describes OceanSITES version 1.4.
+
+See [oceanSITES format](format_oceanSITES.rst) for some information about how oceanSITES format applies to the datasets collated with `amocarray`.
+
 
 2. File Format
 --------------
@@ -15,13 +19,20 @@ The AC1 format ensures consistency, metadata clarity, and long-term interoperabi
 - **File type**: NetCDF4
 - **Data structure**: ``xarray.Dataset``
 - **Dimensions**:
+  - ``N_COMPONENT`` (optional)
+  - ``TIME``
+  - ``N_LEVELS`` (for vertical)
+  - ``N_PROF`` (for a location)
+- **Coordinates**:
   - ``TIME`` (required)
-  - ``DEPTH`` (optional)
+  - ``DEPTH`` or ``PRESSURE`` (optional)
   - ``LATITUDE``, ``LONGITUDE`` (optional, where applicable)
 - **Encoding**:
   - Default: ``float32`` for data variables
   - Compression: Enabled if saved to NetCDF
   - Chunking: Optional, recommended for large datasets
+
+Note that CF-conventions (https://cfconventions.org/cf-conventions/cf-conventions.html#dimensions) *recommends* that data with the "interpretions of date or time `T`, height or depth `Z`, latitude `Y`, and longitude `X` be used in the relative order `T`, then `Z`, then `Y`, then `X`.  All other dimensions should, whenever possible, be placed to the left of the spatiotemporal dimensions.
 
 3. Variables
 ------------
@@ -41,17 +52,17 @@ The AC1 format ensures consistency, metadata clarity, and long-term interoperabi
      - Timestamps in UTC
      - **M**
    * - LONGITUDE
-     - scalar or array
+     - scalar or (N_PROF,)
      - degrees_east
      - Mooring or array longitude
      - S
    * - LATITUDE
-     - scalar or array
+     - scalar or (N_PROF,)
      - degrees_north
      - Mooring or array latitude
      - S
-   * - DEPTH
-     - optional
+   * - DEPTH or PRESSURE
+     - (N_LEVELS,)
      - m
      - Depth levels if applicable
      - S
