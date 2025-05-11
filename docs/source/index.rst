@@ -31,7 +31,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :maxdepth: 3
    :caption: Vocabularies
 
-   AC1_reference_vocabularies
+   AC1_vocabularies
    AC1_units
    AC1_variables
 
