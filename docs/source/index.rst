@@ -40,7 +40,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    :caption: Data format
 
    format_orig
-   format_oceanSites
+   format_oceanSITES
    format_conversion
    format_AC1
 
