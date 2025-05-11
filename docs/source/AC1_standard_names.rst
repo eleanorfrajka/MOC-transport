@@ -1,6 +1,6 @@
 
-AC1 Vocabulary: CF Standard Names
-=================================
+CF Standard Names
+=================
 
 This document summarizes selected CF standard names used in the AC1 dataset for describing seawater properties and meridional transports.
 

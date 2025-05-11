@@ -1,12 +1,11 @@
-Naming Variables in xarray Datasets
-===================================
+Variable Names
+===============
 
 There is no single universal standard that mandates variable names in an ``xarray.Dataset`` or CF conventions.  Therefore, the standard_name and vocabulary are critically important for interoperability.
 
 
 
-CMIP6 Variable Mapping by Category
-==================================
+**CMIP6 Variable Mapping by Category**
 
 This table maps CF standard names to CMIP6 variable names, organized by category.
 These short names are typically used in CMIP6 NetCDF output and should be matched to your xarray variables
