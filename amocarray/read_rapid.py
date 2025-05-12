@@ -43,11 +43,15 @@ RAPID_FILE_METADATA = {
     "2d_gridded.nc": {
         "data_product": "RAPID 2D gridded temperature and salinity",
     },
+    "meridional_transports.nc": {
+        "data_product": "RAPID meridional transport time series",
+    },
 }
 # https://rapid.ac.uk/sites/default/files/rapid_data/ts_gridded.nc
 # https://rapid.ac.uk/sites/default/files/rapid_data/moc_vertical.nc
 # https://rapid.ac.uk/sites/default/files/rapid_data/moc_transports.nc
-
+# https://rapid.ac.uk/sites/default/files/rapid_data/2d_gridded.nc
+# https://rapid.ac.uk/sites/default/files/rapid_data/meridional_transports.nc
 
 @apply_defaults(RAPID_DEFAULT_SOURCE, RAPID_DEFAULT_FILES)
 def read_rapid(
