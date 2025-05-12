@@ -2,9 +2,10 @@ amocarray/_version.py
 setup.sh
 ts_gridded.nc
 data/download
-data/3369779  
+data/3369779
 data/3369779.mat
 data/mocha_mht_data_ERA5_v2020.nc
+2d_gridded.nc
 #data/MOCproxy_for_figshare_v1.mat
 #data/OSNAP_MOC_MHT_MFT_TimeSeries_201408_202006_2023.nc
 
