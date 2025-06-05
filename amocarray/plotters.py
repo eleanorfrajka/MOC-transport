@@ -262,13 +262,26 @@ def monthly_resample(da: xr.DataArray) -> xr.DataArray:
         raise ValueError("No time coordinate found.")
     time_key = time_key[0]
 
-    dt_days = np.nanmean(np.diff(da[time_key].values) / np.timedelta64(1, "D"))
+    # Extract time values and check spacing
+    time_values = da[time_key].values
+    dt_days = np.nanmean(np.diff(time_values) / np.timedelta64(1, "D"))
     if 20 <= dt_days <= 40:
-        # Already monthly -> just return as-is
-        return da
-    else:
-        # Higher resolution -> resample to monthly
-        return da.resample({time_key: "1MS"}).mean()
+        return da  # Already monthly
+
+    # Drop NaT timestamps
+    mask_valid_time = ~np.isnat(time_values)
+    da = da.isel({time_key: mask_valid_time})
+
+    # Drop duplicate timestamps (keep first)
+    _, unique_indices = np.unique(da[time_key].values, return_index=True)
+    da = da.isel({time_key: np.sort(unique_indices)})
+
+    # Ensure strictly increasing time
+    da = da.sortby(time_key)
+
+    # Now resample
+    return da.resample({time_key: "1MS"}).mean()
+
 
 
 def plot_amoc_timeseries(
