@@ -176,11 +176,15 @@ def _summarise_datasets(datasets: list, array_name: str):
         # Time coverage
         time_var = ds.get("TIME")
         if time_var is not None:
-            time_start = pd.to_datetime(time_var.values[0]).strftime("%Y-%m-%d")
-            time_end = pd.to_datetime(time_var.values[-1]).strftime("%Y-%m-%d")
-            summary_lines.append(f"  Time coverage: {time_start} to {time_end}")
-        else:
-            summary_lines.append("  Time coverage: TIME variable not found")
+            time_clean = pd.to_datetime(time_var.values)
+            time_clean = time_clean[~pd.isna(time_clean)]
+
+            if len(time_clean) > 0:
+                time_start = time_clean[0].strftime("%Y-%m-%d")
+                time_end = time_clean[-1].strftime("%Y-%m-%d")
+                summary_lines.append(f"  Time coverage: {time_start} to {time_end}")
+            else:
+                summary_lines.append("  Time coverage: no valid time values found")
 
         # Dimensions
         summary_lines.append("  Dimensions:")
