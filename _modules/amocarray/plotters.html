@@ -380,13 +380,26 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No time coordinate found.&quot;</span><span class="p">)</span>
     <span class="n">time_key</span> <span class="o">=</span> <span class="n">time_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="n">dt_days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="n">time_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span>
+    <span class="c1"># Extract time values and check spacing</span>
+    <span class="n">time_values</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="n">time_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">dt_days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">time_values</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="mi">20</span> <span class="o">&lt;=</span> <span class="n">dt_days</span> <span class="o">&lt;=</span> <span class="mi">40</span><span class="p">:</span>
-        <span class="c1"># Already monthly -&gt; just return as-is</span>
-        <span class="k">return</span> <span class="n">da</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Higher resolution -&gt; resample to monthly</span>
-        <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">resample</span><span class="p">({</span><span class="n">time_key</span><span class="p">:</span> <span class="s2">&quot;1MS&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">da</span>  <span class="c1"># Already monthly</span>
+
+    <span class="c1"># Drop NaT timestamps</span>
+    <span class="n">mask_valid_time</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnat</span><span class="p">(</span><span class="n">time_values</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">time_key</span><span class="p">:</span> <span class="n">mask_valid_time</span><span class="p">})</span>
+
+    <span class="c1"># Drop duplicate timestamps (keep first)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">unique_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">da</span><span class="p">[</span><span class="n">time_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">time_key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">unique_indices</span><span class="p">)})</span>
+
+    <span class="c1"># Ensure strictly increasing time</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">time_key</span><span class="p">)</span>
+
+    <span class="c1"># Now resample</span>
+    <span class="k">return</span> <span class="n">da</span><span class="o">.</span><span class="n">resample</span><span class="p">({</span><span class="n">time_key</span><span class="p">:</span> <span class="s2">&quot;1MS&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+
 
 
 
