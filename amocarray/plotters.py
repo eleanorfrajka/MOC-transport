@@ -482,7 +482,6 @@ def plot_monthly_anomalies(
     axes[3].plot(samba_data["TIME"], samba_data, color="purple", label=samba_label)
     axes[3].axhline(0, color="black", linestyle="--", linewidth=0.5)
     axes[3].set_title(samba_label)
-    axes[3].set_xlabel("Time")
     axes[3].set_ylabel("Transport [Sv]")
     axes[3].legend()
     axes[3].grid(True, linestyle="--", alpha=0.5)
