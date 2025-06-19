@@ -457,6 +457,14 @@ def standardise_mocha(ds: xr.Dataset, file_name: str) -> xr.Dataset:
     return standardise_array(ds, file_name, array_name="mocha")
 
 
+def standardise_41n(ds: xr.Dataset, file_name: str) -> xr.Dataset:
+    return standardise_array(ds, file_name, array_name="41n")
+
+
+def standardise_dso(ds: xr.Dataset, file_name: str) -> xr.Dataset:
+    return standardise_array(ds, file_name, array_name="dso")
+
+
 def standardise_array(ds: xr.Dataset, file_name: str, array_name: str) -> xr.Dataset:
     """Standardise a mooring array dataset using YAML-based metadata.
 
