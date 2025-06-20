@@ -34,7 +34,7 @@ A41N_FILE_METADATA = {
         "data_product": "Transport time series of Ekman volume, Northward geostrophc, Meridional Overturning volume and Meridional Overturning Heat",
     },
     "trans_Argo_ERA5.nc": {
-        "data_product": "Time series of geostrophic tran    sport as a function of latitude, longitude, depth and time, for the upper 2000 m for latitudes near 41 N and time series of Ekman Transport and Overturning Transport",
+        "data_product": "Time series of geostrophic transport as a function of latitude, longitude, depth and time, for the upper 2000 m for latitudes near 41 N and time series of Ekman Transport and Overturning Transport",
     },
     "Q_ARGO_obs_dens_2000depth_ERA5.nc": {
         "data_product": "Time series of heat transport based on various assumptions about the temperature of the ocean for depths below 2000m",
@@ -74,7 +74,7 @@ def read_41n(
         If no source is provided for a file and no default URL mapping is found.
     FileNotFoundError                                                   If the file cannot be downloaded or does not exist locally.
     """
-    log.info("Starting to read OSNAP dataset")  # Ensure file_list has a default
+    log.info("Starting to read 41N dataset")  # Ensure file_list has a default
     if file_list is None:
         file_list = A41N_DEFAULT_FILES
     if transport_only:
