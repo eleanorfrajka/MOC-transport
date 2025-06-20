@@ -1,0 +1,46 @@
+metadata:
+  program: "41N"
+  description: "41N transport estimates dataset"
+  project: "Atlantic Meridional Overturning Circulation Near 41N from Altimetry and Argo Observations"
+  weblink: https://zenodo.org/records/14681441
+  comment: Dataset accessed and processed via http://github.com/AMOCcommunity/amocarray
+  acknowledgment: >
+    These data were collected and made freely available by the International Argo Program and the national programs that contribute to it.  (https://argo.ucsd.edu,  https://www.ocean-ops.org).  The Argo Program is part of the Global Ocean Observing System.
+  license:
+  featureType: timeSeries
+  Convections: CF-1.8, ACDD-1.3
+  time_coverage_start: '2002-02-15'
+  time_coverage_end: '2024-12-16'
+  platform_type: Argo floats
+
+files:
+  hobbs_willis_amoc41N_tseries.txt:
+    source_url: https://zenodo.org/records/14681441
+    data_product: "Atlantic Meridional Overturning Circulation Near 41N from Altimetry and Argo Observations"
+    acknowledgement:
+    variable_mapping:
+      "Ekman Volume Transport (Sverdrups)": EKMAN
+      "Northward Geostrophic Transport (Sverdrups)": V_GEOS
+      "Meridional Overturning Volume Transport (Sverdrups)": MOT
+      "Meridional Overturning Heat Transport (PetaWatts)": MOHT
+    variables:
+      EKMAN:
+        long_name: "Ekman transport"
+        description: "Ekman Volume Transport"
+        units: Sv
+        standard_name: Transport
+      V_GEOS:
+        long_name: "Northward Geostrophic Transport"
+        description: "Northward Geostrophic Transport"
+        units: Sv
+        standard_name: Transport
+      MOT:
+        long_name: "Meridional Overturning Transport"
+        description: "Meridional Overturning Volume Transport"
+        units: Sv
+        standard_name: Transport
+      MOHT:
+        long_name: "Meridional Heat Transport"
+        description: "Meridional Overturning Heat Transport"
+        units: PW
+        standard_name: Heat_transport
