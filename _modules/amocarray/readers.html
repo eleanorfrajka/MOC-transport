@@ -117,6 +117,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_fw2015</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_fw2015</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_mocha</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_mocha</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_41n</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_41n</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">amocarray.read_dso</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_dso</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">log</span>
 
@@ -151,6 +152,7 @@
         <span class="s2">&quot;fw2015&quot;</span><span class="p">:</span> <span class="n">read_fw2015</span><span class="p">,</span>
         <span class="s2">&quot;mocha&quot;</span><span class="p">:</span> <span class="n">read_mocha</span><span class="p">,</span>
         <span class="s2">&quot;41n&quot;</span><span class="p">:</span> <span class="n">read_41n</span><span class="p">,</span>
+        <span class="s2">&quot;dso&quot;</span><span class="p">:</span> <span class="n">read_dso</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">array_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
@@ -226,6 +228,7 @@
 <span class="sd">        - &#39;samba&#39; : SAMBA 34S array</span>
 <span class="sd">        - &#39;fw2015&#39; : FW2015 array</span>
 <span class="sd">        - &#39;41n&#39; : 41N array</span>
+<span class="sd">        - &#39;dso&#39; : DSO array</span>
 <span class="sd">    source : str, optional</span>
 <span class="sd">        URL or local path to the data source.</span>
 <span class="sd">        If None, the reader-specific default source will be used.</span>
