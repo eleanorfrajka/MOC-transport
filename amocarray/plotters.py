@@ -405,106 +405,48 @@ def plot_amoc_timeseries(
     plt.tight_layout()
     plt.show()
 
-
-def plot_monthly_anomalies(
-    osnap_data: xr.DataArray,
-    rapid_data: xr.DataArray,
-    move_data: xr.DataArray,
-    samba_data: xr.DataArray,
-    fw2015_data: xr.DataArray,
-    osnap_label: str,
-    rapid_label: str,
-    move_label: str,
-    samba_label: str,
-    fw2015_label: str,
-) -> tuple[plt.Figure, list[plt.Axes]]:
-    """Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).
-
-    Parameters
-    ----------
-    osnap_data : xarray.DataArray
-        Monthly anomalies for OSNAP.
-    rapid_data : xarray.DataArray
-        Monthly anomalies for RAPID.
-    move_data : xarray.DataArray
-        Monthly anomalies for MOVE.
-    samba_data : xarray.DataArray
-        Monthly anomalies for SAMBA.
-    osnap_label : str
-        Label for OSNAP plot.
-    rapid_label : str
-        Label for RAPID plot.
-    move_label : str
-        Label for MOVE plot.
-    samba_label : str
-        Label for SAMBA plot.
-
-    Returns
-    -------
-    tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]
-        The figure and axes objects of the generated plot.
+def plot_monthly_anomalies(**kwargs) -> tuple[plt.Figure, list[plt.Axes]]:
 
     """
-    # Resample each input dataset to monthly averages
-    osnap_data = monthly_resample(osnap_data)
-    rapid_data = monthly_resample(rapid_data)
-    move_data = monthly_resample(move_data)
-    samba_data = monthly_resample(samba_data)
-    fw2015_data = monthly_resample(fw2015_data)
+    Plot the monthly anomalies for various datasets.
+    Pass keyword arguments in the form: `label_name_data`, `label_name_label`.
+    For example:
+        osnap_data = standardOSNAP[0]["MOC_all"], osnap_label = "OSNAP"
+        ...
+    """
 
-    fig, axes = plt.subplots(5, 1, figsize=(6, 9), sharex=True)
+    color_cycle = [
+        "blue", "red", "green", "purple",
+        "orange", "darkblue", "darkred", "darkgreen"
+    ]
 
-    # OSNAP
-    axes[0].plot(osnap_data["TIME"], osnap_data, color="blue", label=osnap_label)
-    axes[0].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[0].set_title(osnap_label)
-    axes[0].set_ylabel("Transport [Sv]")
-    axes[0].legend()
-    axes[0].grid(True, linestyle="--", alpha=0.5)
+    # Extract and sort data/labels by name to ensure consistent ordering
+    names = ["osnap", "rapid", "move", "samba", "fw2015", "mocha", "fortyone", "dso"]
+    datasets = [monthly_resample(kwargs[f"{name}_data"]) for name in names]
+    labels = [kwargs[f"{name}_label"] for name in names]
 
-    # RAPID
-    axes[1].plot(rapid_data["TIME"], rapid_data, color="red", label=rapid_label)
-    axes[1].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[1].set_title(rapid_label)
-    axes[1].set_ylabel("Transport [Sv]")
-    axes[1].legend()
-    axes[1].grid(True, linestyle="--", alpha=0.5)
+    fig, axes = plt.subplots(len(datasets), 1, figsize=(10, 16), sharex=True)
 
-    # MOVE
-    axes[2].plot(move_data["TIME"], move_data, color="green", label=move_label)
-    axes[2].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[2].set_title(move_label)
-    axes[2].set_ylabel("Transport [Sv]")
-    axes[2].legend()
-    axes[2].grid(True, linestyle="--", alpha=0.5)
+    for i, (data, label, color) in enumerate(zip(datasets, labels, color_cycle)):
+        time = data["TIME"]
+        axes[i].plot(time, data, color=color, label=label)
+        axes[i].axhline(0, color="black", linestyle="--", linewidth=0.5)
+        axes[i].set_title(label)
+        axes[i].set_ylabel("Transport [Sv]")
+        axes[i].legend()
+        axes[i].grid(True, linestyle="--", alpha=0.5)
+        
+        # Dynamic ylim 
+        ymin = float(data.min()) - 1
+        ymax = float(data.max()) + 1
+        axes[i].set_ylim([ymin, ymax])
 
-    # SAMBA
-    axes[3].plot(samba_data["TIME"], samba_data, color="purple", label=samba_label)
-    axes[3].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[3].set_title(samba_label)
-    axes[3].set_ylabel("Transport [Sv]")
-    axes[3].legend()
-    axes[3].grid(True, linestyle="--", alpha=0.5)
+        # Style choices
+        axes[i].spines["top"].set_visible(False)
+        axes[i].spines["right"].set_visible(False)
+        axes[i].set_xlim([pd.Timestamp("2000-01-01"), pd.Timestamp("2023-12-31")])
+        axes[i].set_clip_on(False)
 
-    # FW2015
-    axes[4].plot(fw2015_data["TIME"], fw2015_data, color="orange", label=fw2015_label)
-    axes[4].axhline(0, color="black", linestyle="--", linewidth=0.5)
-    axes[4].set_title(fw2015_label)
-    axes[4].set_xlabel("Time")
-    axes[4].set_ylabel("Transport [Sv]")
-    axes[4].legend()
-    axes[4].grid(True, linestyle="--", alpha=0.5)
-    for ax in axes:
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
-        ax.set_xlim([pd.Timestamp("2000-01-01"), pd.Timestamp("2023-12-31")])
-        ax.set_clip_on(False)
-        ax.set_yticks(range(int(ax.get_ylim()[0]) + 1, int(ax.get_ylim()[1]) + 1, 5))
-    axes[0].set_ylim([5, 25])  # OSNAP
-    axes[1].set_ylim([5, 25])  # RAPID
-    axes[2].set_ylim([5, 25])  # MOVE
-    axes[3].set_ylim([-10, 10])  # SAMBA
-    axes[4].set_ylim([12, 22])  # FW2015
-
+    axes[-1].set_xlabel("Time")
     plt.tight_layout()
     return fig, axes
