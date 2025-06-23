@@ -558,28 +558,14 @@ Any attrs not in the spec list are appended at the end, in their original order.
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.plotters.plot_monthly_anomalies">
-<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">osnap_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw2015_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">osnap_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rapid_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samba_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw2015_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
-<dd><p>Plot the monthly anomalies for OSNAP, RAPID, MOVE, and SAMBA on 4 axes (top to bottom).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>osnap_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for OSNAP.</p></li>
-<li><p><strong>rapid_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for RAPID.</p></li>
-<li><p><strong>move_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for MOVE.</p></li>
-<li><p><strong>samba_data</strong> (<em>xarray.DataArray</em>) – Monthly anomalies for SAMBA.</p></li>
-<li><p><strong>osnap_label</strong> (<em>str</em>) – Label for OSNAP plot.</p></li>
-<li><p><strong>rapid_label</strong> (<em>str</em>) – Label for RAPID plot.</p></li>
-<li><p><strong>move_label</strong> (<em>str</em>) – Label for MOVE plot.</p></li>
-<li><p><strong>samba_label</strong> (<em>str</em>) – Label for SAMBA plot.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The figure and axes objects of the generated plot.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[matplotlib.figure.Figure, list[matplotlib.axes._axes.Axes]]</p>
-</dd>
-</dl>
+<span class="sig-prename descclassname"><span class="pre">amocarray.plotters.</span></span><span class="sig-name descname"><span class="pre">plot_monthly_anomalies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/amocarray/plotters.html#plot_monthly_anomalies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.plotters.plot_monthly_anomalies" title="Link to this definition"></a></dt>
+<dd><p>Plot the monthly anomalies for various datasets.
+Pass keyword arguments in the form: <cite>label_name_data</cite>, <cite>label_name_label</cite>.
+For example:</p>
+<blockquote>
+<div><p>osnap_data = standardOSNAP[0][“MOC_all”], osnap_label = “OSNAP”
+…</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py function">
