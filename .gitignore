@@ -5,6 +5,10 @@ data/download
 data/3369779
 data/3369779.mat
 data/mocha_mht_data_ERA5_v2020.nc
+
+data/Q_ARGO_obs_dens_2000depth_ERA5.nc
+data/trans_ARGO_ERA5.nc
+
 data/2d_gridded.nc
 data/Johns_2023_mht_data_2020_ERA5.zip
 data/mocha_mht_data_ERA5_v2020.mat
