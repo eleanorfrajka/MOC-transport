@@ -94,6 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.merge_metadata_aliases"><code class="docutils literal notranslate"><span class="pre">merge_metadata_aliases()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.normalize_and_add_vocabulary"><code class="docutils literal notranslate"><span class="pre">normalize_and_add_vocabulary()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.reorder_metadata"><code class="docutils literal notranslate"><span class="pre">reorder_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_41n"><code class="docutils literal notranslate"><span class="pre">standardise_41n()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_array"><code class="docutils literal notranslate"><span class="pre">standardise_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_fw2015"><code class="docutils literal notranslate"><span class="pre">standardise_fw2015()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#amocarray.standardise.standardise_mocha"><code class="docutils literal notranslate"><span class="pre">standardise_mocha()</span></code></a></li>
@@ -188,7 +189,8 @@
 - ‘rapid’ : RAPID 26N array
 - ‘osnap’ : OSNAP array
 - ‘samba’ : SAMBA 34S array
-- ‘fw2015’ : FW2015 array</p></li>
+- ‘fw2015’ : FW2015 array
+- ‘41n’ : 41N array</p></li>
 <li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – URL or local path to the data source.
 If None, the reader-specific default source will be used.</p></li>
 <li><p><strong>file_list</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filename or list of filenames to process.
@@ -454,6 +456,11 @@ using preferred_keys to map aliases to canonical names.</p>
 <dd><p>Return a new dict with keys ordered according to the OG1.0 global‐attribute list.
 Any attrs not in the spec list are appended at the end, in their original order.</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="amocarray.standardise.standardise_41n">
+<span class="sig-prename descclassname"><span class="pre">amocarray.standardise.</span></span><span class="sig-name descname"><span class="pre">standardise_41n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="_modules/amocarray/standardise.html#standardise_41n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#amocarray.standardise.standardise_41n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="amocarray.standardise.standardise_array">
