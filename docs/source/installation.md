@@ -18,7 +18,7 @@ cd amocarray
 pip install -r requirements-dev.txt
 pip install -e .
 ```
-This installs amocarray locally.  The `-e` ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.  The `requirements-dev.txt` includes more python packages which are needed development, including to build this documentation page, run tests, or run linting (formatting checks on your code).
+This installs amocarray locally.  The `-e` ensures that any edits you make in the files will be picked up by scripts that import functions from glidertest.  The `requirements-dev.txt` includes more python packages which are needed for development, including to build this documentation page, run tests, or run linting (formatting checks on your code).
 
 You can run the example jupyter notebook by launching jupyterlab with `jupyter-lab` and navigating to the `notebooks` directory, or in VS Code or another python GUI.
 
