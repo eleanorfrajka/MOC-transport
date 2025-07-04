@@ -283,7 +283,6 @@ def monthly_resample(da: xr.DataArray) -> xr.DataArray:
     return da.resample({time_key: "1MS"}).mean()
 
 
-
 def plot_amoc_timeseries(
     data,
     varnames=None,
@@ -393,7 +392,7 @@ def plot_amoc_timeseries(
     ax.set_title(title)
     ax.set_xlabel("Time")
     ax.set_ylabel(ylabel if ylabel else "Transport [Sv]")
-    ax.legend()
+    ax.legend(loc="best")
     ax.grid(True, linestyle="--", alpha=0.5)
 
     # Limits
@@ -403,10 +402,11 @@ def plot_amoc_timeseries(
         ax.set_ylim(ylim)
 
     plt.tight_layout()
-    plt.show()
+    #    plt.show()
+    return fig, ax
+
 
 def plot_monthly_anomalies(**kwargs) -> tuple[plt.Figure, list[plt.Axes]]:
-
     """
     Plot the monthly anomalies for various datasets.
     Pass keyword arguments in the form: `label_name_data`, `label_name_label`.
@@ -416,12 +416,18 @@ def plot_monthly_anomalies(**kwargs) -> tuple[plt.Figure, list[plt.Axes]]:
     """
 
     color_cycle = [
-        "blue", "red", "green", "purple",
-        "orange", "darkblue", "darkred", "darkgreen"
+        "blue",
+        "red",
+        "green",
+        "purple",
+        "orange",
+        "darkblue",
+        "darkred",
+        "darkgreen",
     ]
 
     # Extract and sort data/labels by name to ensure consistent ordering
-    names = ["osnap", "rapid", "move", "samba", "fw2015", "mocha", "fortyone", "dso"]
+    names = [  "dso", "osnap", "fortyone", "rapid", "fw2015", "move", "samba"]
     datasets = [monthly_resample(kwargs[f"{name}_data"]) for name in names]
     labels = [kwargs[f"{name}_label"] for name in names]
 
@@ -435,8 +441,8 @@ def plot_monthly_anomalies(**kwargs) -> tuple[plt.Figure, list[plt.Axes]]:
         axes[i].set_ylabel("Transport [Sv]")
         axes[i].legend()
         axes[i].grid(True, linestyle="--", alpha=0.5)
-        
-        # Dynamic ylim 
+
+        # Dynamic ylim
         ymin = float(data.min()) - 1
         ymax = float(data.max()) + 1
         axes[i].set_ylim([ymin, ymax])
