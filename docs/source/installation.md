@@ -18,13 +18,16 @@ cd amocarray
 pip install -r requirements-dev.txt
 pip install -e .
 ```
-This installs amocarray locally.  The `-e` ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.
+This installs amocarray locally.  The `-e` ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.  The `requirements-dev.txt` includes more python packages which are needed development, including to build this documentation page, run tests, or run linting (formatting checks on your code).
 
 You can run the example jupyter notebook by launching jupyterlab with `jupyter-lab` and navigating to the `notebooks` directory, or in VS Code or another python GUI.
 
-All new functions should include tests.  You can run tests locally and generate a coverage reporrt with:
+All new functions should include tests.  You can run tests locally and generate a coverage report with:
 ```sh
 pytest --cov=amocarray --cov-report term-missing tests/
 ```
+This tells you what lines of a module (e.g., `amocarray/readers.py`) are not run through during the existing tests (located in `tests/`).
 
 Try to ensure that all the lines of your contribution are covered in the tests.
+
+See also the [Developers Guide](developer_guide.md) for coding conventions used here (e.g., style of comments at the top of a function), the automatic "GitHub Actions" which are triggered when you make a pull request,  and an example workflow to use Git to collaborate on code.

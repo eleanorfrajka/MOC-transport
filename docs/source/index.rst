@@ -17,23 +17,14 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
    installation.md
 
-.. toctree::
-   :maxdepth: 3
-   :caption: Developers' guide
-
-   developer_guide.md
-   gitcollab.md
-   actions.md
-   conventions.md
-   housekeeping.md
 
 .. toctree::
    :maxdepth: 3
-   :caption: Vocabularies
+   :caption: Demo notebook
 
-   AC1_vocabularies
-   AC1_units
-   AC1_variables
+   demo-output.ipynb
+
+
 
 .. toctree::
    :maxdepth: 3
@@ -46,17 +37,23 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
 .. toctree::
    :maxdepth: 3
-   :caption: Demo notebook
-
-   demo-output.ipynb
-
-
-.. toctree::
-   :maxdepth: 3
    :caption: Help and reference
 
    GitHub Repo <http://github.com/AMOCcommunity/amocarray>
    amocarray
+   AC1_vocabularies
+   AC1_units
+   AC1_variables
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Developers' guide
+
+   developer_guide.md
+   gitcollab.md
+   actions.md
+   conventions.md
+   housekeeping.md
 
 Indices and tables
 ==================
