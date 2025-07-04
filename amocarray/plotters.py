@@ -402,7 +402,6 @@ def plot_amoc_timeseries(
         ax.set_ylim(ylim)
 
     plt.tight_layout()
-    #    plt.show()
     return fig, ax
 
 
