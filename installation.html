@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Developer Guide for amocarray" href="developer_guide.html" />
+    <link rel="next" title="AMOCarray demo" href="demo-output.html" />
     <link rel="prev" title="Welcome to amocarray’s documentation!" href="index.html" /> 
 </head>
 
@@ -52,19 +52,9 @@
 </ul>
 </li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Vocabularies</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Data format</span></p>
 <ul>
@@ -73,14 +63,21 @@
 <li class="toctree-l1"><a class="reference internal" href="format_conversion.html">Converting to OceanSITES format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="format_AC1.html">AMOCarray Format AC1</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Demo notebook</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="demo-output.html">AMOCarray demo</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Help and reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="http://github.com/AMOCcommunity/amocarray">GitHub Repo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amocarray.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">amocarray</span> <span class="pre">API</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_vocabularies.html">Controlled Vocabularies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_units.html">Units Reference: for AC1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AC1_variables.html">Variable Names</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developers' guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer Guide for <code class="docutils literal notranslate"><span class="pre">amocarray</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitcollab.html">Collaborating with git: Basic workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Extra GitHub features: Actions &amp; Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Project Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="housekeeping.html">Project Housekeeping Checklist</a></li>
 </ul>
 
         </div>
@@ -126,13 +123,15 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>This installs amocarray locally.  The <code class="docutils literal notranslate"><span class="pre">-e</span></code> ensures that any edits you make in the files will be picked up by scripts that impport functions from glidertest.</p>
+<p>This installs amocarray locally.  The <code class="docutils literal notranslate"><span class="pre">-e</span></code> ensures that any edits you make in the files will be picked up by scripts that import functions from glidertest.  The <code class="docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code> includes more python packages which are needed for development, including to build this documentation page, run tests, or run linting (formatting checks on your code).</p>
 <p>You can run the example jupyter notebook by launching jupyterlab with <code class="docutils literal notranslate"><span class="pre">jupyter-lab</span></code> and navigating to the <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> directory, or in VS Code or another python GUI.</p>
-<p>All new functions should include tests.  You can run tests locally and generate a coverage reporrt with:</p>
+<p>All new functions should include tests.  You can run tests locally and generate a coverage report with:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>--cov<span class="o">=</span>amocarray<span class="w"> </span>--cov-report<span class="w"> </span>term-missing<span class="w"> </span>tests/
 </pre></div>
 </div>
+<p>This tells you what lines of a module (e.g., <code class="docutils literal notranslate"><span class="pre">amocarray/readers.py</span></code>) are not run through during the existing tests (located in <code class="docutils literal notranslate"><span class="pre">tests/</span></code>).</p>
 <p>Try to ensure that all the lines of your contribution are covered in the tests.</p>
+<p>See also the <a class="reference internal" href="developer_guide.html"><span class="std std-doc">Developers Guide</span></a> for coding conventions used here (e.g., style of comments at the top of a function), the automatic “GitHub Actions” which are triggered when you make a pull request,  and an example workflow to use Git to collaborate on code.</p>
 </section>
 </section>
 
@@ -141,7 +140,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to amocarray’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="developer_guide.html" class="btn btn-neutral float-right" title="Developer Guide for amocarray" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo-output.html" class="btn btn-neutral float-right" title="AMOCarray demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

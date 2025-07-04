@@ -12,10 +12,38 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Getting started
 
    installation.md
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Demo notebook
+
+   demo-output.ipynb
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Data format
+
+   format_orig
+   format_oceanSITES
+   format_conversion
+   format_AC1
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Help and reference
+
+   GitHub Repo <http://github.com/AMOCcommunity/amocarray>
+   amocarray
+   AC1_vocabularies
+   AC1_units
+   AC1_variables
 
 .. toctree::
    :maxdepth: 3
@@ -26,37 +54,6 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    actions.md
    conventions.md
    housekeeping.md
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Vocabularies
-
-   AC1_vocabularies
-   AC1_units
-   AC1_variables
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Data format
-
-   format_orig
-   format_oceanSITES
-   format_conversion
-   format_AC1
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Demo notebook
-
-   demo-output.ipynb
-
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Help and reference
-
-   GitHub Repo <http://github.com/AMOCcommunity/amocarray>
-   amocarray
 
 Indices and tables
 ==================
