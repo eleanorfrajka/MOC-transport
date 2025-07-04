@@ -12,14 +12,14 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Getting started
 
    installation.md
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Demo notebook
 
    demo-output.ipynb
@@ -27,7 +27,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Data format
 
    format_orig
@@ -36,7 +36,7 @@ For recommendations or bug reports, please visit https://github.com/AMOCcommunit
    format_AC1
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Help and reference
 
    GitHub Repo <http://github.com/AMOCcommunity/amocarray>
